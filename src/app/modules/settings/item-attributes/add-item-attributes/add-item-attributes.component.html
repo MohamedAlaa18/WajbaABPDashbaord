@@ -11,8 +11,8 @@
 
       <div class="row mb-3">
         <div class="col-md-6">
-          <label for="branchName" class="form-label">Name <span class="text-danger">*</span></label>
-          <input type="text" id="branchName" formControlName="name" class="form-control bg-white">
+          <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+          <input type="text" id="name" formControlName="name" class="form-control bg-white">
           <div *ngIf="itemAttributeForm.get('name')?.touched && itemAttributeForm.get('name')?.invalid"
             class="text-danger">
             <small *ngIf="itemAttributeForm.get('name')?.errors?.['required']">Name is required.</small>

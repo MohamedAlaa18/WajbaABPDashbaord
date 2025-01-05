@@ -11,14 +11,21 @@ function configureRoutes(routesService: RoutesService) {
       {
         path: '/',
         name: '::Menu:Home',
-        iconClass: 'fas fa-home',
+        iconClass: 'fa fa-home',
         order: 1,
         layout: eLayoutType.application,
       },
       {
         path: '/settings',
         name: 'Settings',
-        iconClass: 'fas fa-cog',
+        iconClass: 'fa fa-cog',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/items',
+        name: 'items',
+        iconClass: 'fa fa-clipboard-list',
         order: 2,
         layout: eLayoutType.application,
       },

@@ -10,10 +10,9 @@
     <form [formGroup]="itemCategoryForm" (ngSubmit)="submitForm()" class="p-3">
       <div class="row mb-3">
         <div class="col-md-12">
-          <label for="branchName" class="form-label">Name <span class="text-danger">*</span></label>
-          <input type="text" id="branchName" formControlName="name" class="form-control bg-white">
-          <div *ngIf="itemCategoryForm.get('name')?.touched && itemCategoryForm.get('name')?.invalid"
-            class="text-danger">
+          <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+          <input type="text" id="name" formControlName="name" class="form-control bg-white">
+          <div *ngIf="itemCategoryForm.get('name')?.touched && itemCategoryForm.get('name')?.invalid" class="text-danger">
             <small *ngIf="itemCategoryForm.get('name')?.errors?.['required']">Name is required.</small>
           </div>
         </div>
@@ -21,10 +20,9 @@
 
       <div class="row mb-3">
         <div class="col-md-6 mb-3">
-          <label for="branchImage" class="form-label">Image <span class="text-danger">*</span></label>
-          <input type="file" id="branchImage" formControlName="image" class="form-control bg-white">
-          <div *ngIf="itemCategoryForm.get('image')?.touched && itemCategoryForm.get('image')?.invalid"
-            class="text-danger">
+          <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
+          <input type="file" id="image" formControlName="image" class="form-control bg-white">
+          <div *ngIf="itemCategoryForm.get('image')?.touched && itemCategoryForm.get('image')?.invalid" class="text-danger">
             <small *ngIf="itemCategoryForm.get('image')?.errors?.['required']">Image is required.</small>
           </div>
         </div>
@@ -46,8 +44,8 @@
 
       <div class="row mb-3">
         <div class="col-md-12">
-          <label for="branchDescription" class="form-label">Description <span class="text-danger">*</span></label>
-          <textarea id="branchDescription" formControlName="description" class="form-control bg-white"
+          <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+          <textarea id="description" formControlName="description" class="form-control bg-white"
             rows="3"></textarea>
           <div *ngIf="itemCategoryForm.get('description')?.touched && itemCategoryForm.get('description')?.invalid"
             class="text-danger">

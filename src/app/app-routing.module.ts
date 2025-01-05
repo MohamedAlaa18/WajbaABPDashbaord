@@ -4,13 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    // pathMatch: 'full',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
   },
   {
     path: 'settings',
-    // pathMatch: 'full',
     loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule),
+  },
+  {
+    path: 'items',
+    loadChildren: () => import('./modules/items/items.module').then(m => m.ItemsModule),
   },
   {
     path: 'account',

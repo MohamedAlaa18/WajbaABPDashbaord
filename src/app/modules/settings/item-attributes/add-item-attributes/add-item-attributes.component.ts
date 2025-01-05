@@ -14,7 +14,7 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 })
 export class AddItemAttributesComponent {
   @Input() isOpen: boolean = false;
-  @Input() attribute: CreateUpdateItemAttributeDto | null = null;
+  @Input() itemAttribute: CreateUpdateItemAttributeDto | null = null;
   @Output() close = new EventEmitter<void>();
 
   itemAttributeForm: FormGroup;
@@ -32,24 +32,24 @@ export class AddItemAttributesComponent {
   }
 
   ngOnInit(): void {
-    if (this.attribute) {
-      this.populateForm(this.attribute);
+    if (this.itemAttribute) {
+      this.populateForm(this.itemAttribute);
     }
   }
 
-  populateForm(attribute: CreateUpdateItemAttributeDto) {
+  populateForm(itemAttribute: CreateUpdateItemAttributeDto) {
     this.itemAttributeForm.patchValue({
-      // id: attribute.id,
-      // name: attribute.name,
-      // email: attribute.email,
-      // city: attribute.city,
-      // state: attribute.state,
-      // phone: attribute.phone,
-      // zipCode: attribute.zipCode,
-      // address: attribute.address,
-      // status: attribute.status === 1 ? 'active' : 'inactive',
-      // longitude: attribute.longitude || '',
-      // latitude: attribute.latitude || '',
+      // id: itemAttribute.id,
+      // name: itemAttribute.name,
+      // email: itemAttribute.email,
+      // city: itemAttribute.city,
+      // state: itemAttribute.state,
+      // phone: itemAttribute.phone,
+      // zipCode: itemAttribute.zipCode,
+      // address: itemAttribute.address,
+      // status: itemAttribute.status === 1 ? 'active' : 'inactive',
+      // longitude: itemAttribute.longitude || '',
+      // latitude: itemAttribute.latitude || '',
     });
   }
 
@@ -71,30 +71,30 @@ export class AddItemAttributesComponent {
 
       console.log(formValue);
 
-      if (this.attribute) {
-        // Update existing attribute
+      if (this.itemAttribute) {
+        // Update existing itemAttribute
         // this.itemAttributeService.update(formValue as CreateUpdateItemAttributeDto)
         //   .subscribe(
         //     response => {
         //       // Handle successful response
-        //       console.log('attribute updated successfully:', response);
+        //       console.log('itemAttribute updated successfully:', response);
         //     },
         //     error => {
         //       // Handle error response
-        //       console.error('Error updating attribute:', error);
+        //       console.error('Error updating itemAttribute:', error);
         //     }
         //   );
       } else {
-        // Create a new attribute
+        // Create a new itemAttribute
         this.itemAttributeService.create(formValue as CreateUpdateItemAttributeDto)
           .subscribe(
             response => {
               // Handle successful response
-              console.log('attribute created successfully:', response);
+              console.log('Item attribute created successfully:', response);
             },
             error => {
               // Handle error response
-              console.error('Error creating attribute:', error);
+              console.error('Error creating Item attribute:', error);
             }
           );
       }

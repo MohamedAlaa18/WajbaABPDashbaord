@@ -19,7 +19,7 @@ import { AddItemAttributesComponent } from '../add-item-attributes/add-item-attr
   styleUrl: './item-attributes.component.scss'
 })
 export class ItemAttributesComponent {
-  attributes: CreateUpdateItemAttributeDto[] = [];
+  itemAttributes: CreateUpdateItemAttributeDto[] = [];
   isAddMode = true;
 
   columns = [
@@ -49,11 +49,11 @@ export class ItemAttributesComponent {
   ) { }
 
   ngOnInit(): void {
-    this.loadAttributes();
+    this.loadItemAttributes();
   }
 
-  // Load all attributes
-  loadAttributes(): void {
+  // Load all item attributes
+  loadItemAttributes(): void {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
       skipCount: 0,
@@ -63,15 +63,15 @@ export class ItemAttributesComponent {
     this.itemAttributeService.getList(defaultInput).subscribe({
       next: (response) => {
         console.log(response)
-        // this.attributes = response.data.items;
+        // this.itemAttributes = response.data.items;
       },
       error: (err) => {
-        console.error('Error loading attributes:', err);
+        console.error('Error loading item attributes:', err);
       },
     });
   }
 
-  openAddEditModal(attribute?: CreateUpdateItemAttributeDto): void {
+  openAddEditModal(itemAttribute?: CreateUpdateItemAttributeDto): void {
     const modalRef = this.modalService.open(AddItemAttributesComponent, {
       size: 'lg',
       centered: true,
@@ -79,7 +79,7 @@ export class ItemAttributesComponent {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.attribute = attribute || null;
+    modalRef.componentInstance.itemAttribute = itemAttribute || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -88,7 +88,7 @@ export class ItemAttributesComponent {
     modalRef.result
       .then((result) => {
         if (result === 'saved') {
-          this.loadAttributes();
+          this.loadItemAttributes();
         }
       })
       .catch((reason) => {
@@ -96,7 +96,7 @@ export class ItemAttributesComponent {
       });
   }
 
-  openConfirmDeleteModal(attributeId: number, attributeName: string): void {
+  openConfirmDeleteModal(itemAttributeId: number, itemAttributeName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -104,12 +104,12 @@ export class ItemAttributesComponent {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = attributeId;
-    modalRef.componentInstance.name = attributeName;
+    modalRef.componentInstance.id = itemAttributeId;
+    modalRef.componentInstance.name = itemAttributeName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteAttribute(id); // Call the delete method with the attribute ID
+      this.deleteItemAttribute(id); // Call the delete method with the item attribute ID
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -117,14 +117,14 @@ export class ItemAttributesComponent {
     });
   }
 
-  deleteAttribute(id: number): void {
+  deleteItemAttribute(id: number): void {
     this.itemAttributeService.delete(id).subscribe({
       next: () => {
         // this.attributes = this.attributes.filter((attribute) => attribute.id !== id);
         this.modalService.dismissAll(); // Close all modals
       },
       error: (err) => {
-        console.error('Error deleting attribute:', err);
+        console.error('Error deleting item attribute:', err);
       },
     });
   }
