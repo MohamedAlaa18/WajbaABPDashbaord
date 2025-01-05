@@ -8,7 +8,6 @@ const routes: Routes = [
   { path: ':id', component: BranchDetailsComponent }, // Matches '/settings/branches/:id'
 ];
 
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

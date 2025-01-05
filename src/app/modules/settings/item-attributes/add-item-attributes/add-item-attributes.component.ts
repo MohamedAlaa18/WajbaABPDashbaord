@@ -14,7 +14,7 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 })
 export class AddItemAttributesComponent {
   @Input() isOpen: boolean = false;
-  @Input() branch: CreateUpdateItemAttributeDto | null = null;
+  @Input() itemAttribute: CreateUpdateItemAttributeDto | null = null;
   @Output() close = new EventEmitter<void>();
 
   itemAttributeForm: FormGroup;
@@ -32,24 +32,24 @@ export class AddItemAttributesComponent {
   }
 
   ngOnInit(): void {
-    if (this.branch) {
-      this.populateForm(this.branch);
+    if (this.itemAttribute) {
+      this.populateForm(this.itemAttribute);
     }
   }
 
-  populateForm(branch: CreateUpdateItemAttributeDto) {
+  populateForm(itemAttribute: CreateUpdateItemAttributeDto) {
     this.itemAttributeForm.patchValue({
-      // id: branch.id,
-      // name: branch.name,
-      // email: branch.email,
-      // city: branch.city,
-      // state: branch.state,
-      // phone: branch.phone,
-      // zipCode: branch.zipCode,
-      // address: branch.address,
-      // status: branch.status === 1 ? 'active' : 'inactive',
-      // longitude: branch.longitude || '',
-      // latitude: branch.latitude || '',
+      // id: itemAttribute.id,
+      // name: itemAttribute.name,
+      // email: itemAttribute.email,
+      // city: itemAttribute.city,
+      // state: itemAttribute.state,
+      // phone: itemAttribute.phone,
+      // zipCode: itemAttribute.zipCode,
+      // address: itemAttribute.address,
+      // status: itemAttribute.status === 1 ? 'active' : 'inactive',
+      // longitude: itemAttribute.longitude || '',
+      // latitude: itemAttribute.latitude || '',
     });
   }
 
@@ -71,30 +71,30 @@ export class AddItemAttributesComponent {
 
       console.log(formValue);
 
-      if (this.branch) {
-        // Update existing branch
+      if (this.itemAttribute) {
+        // Update existing itemAttribute
         // this.itemAttributeService.update(formValue as CreateUpdateItemAttributeDto)
         //   .subscribe(
         //     response => {
         //       // Handle successful response
-        //       console.log('Branch updated successfully:', response);
+        //       console.log('itemAttribute updated successfully:', response);
         //     },
         //     error => {
         //       // Handle error response
-        //       console.error('Error updating branch:', error);
+        //       console.error('Error updating itemAttribute:', error);
         //     }
         //   );
       } else {
-        // Create a new branch
+        // Create a new itemAttribute
         this.itemAttributeService.create(formValue as CreateUpdateItemAttributeDto)
           .subscribe(
             response => {
               // Handle successful response
-              console.log('Branch created successfully:', response);
+              console.log('Item attribute created successfully:', response);
             },
             error => {
               // Handle error response
-              console.error('Error creating branch:', error);
+              console.error('Error creating Item attribute:', error);
             }
           );
       }

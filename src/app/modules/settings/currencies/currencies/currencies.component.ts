@@ -46,7 +46,7 @@ export class CurrenciesComponent {
     {
       icon: 'assets/images/delete.svg',
       tooltip: 'Delete',
-      show: (row: any) => row.status === 1, // Show only for active branches
+      show: (row: any) => row.status === 1, // Show only for active currencies
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     },
   ];
@@ -81,7 +81,7 @@ export class CurrenciesComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  openAddEditModal(branch?: UpadteCurrency): void {
+  openAddEditModal(currency?: UpadteCurrency): void {
     const modalRef = this.modalService.open(AddCurrenciesComponent, {
       size: 'lg',
       centered: true,
@@ -89,7 +89,7 @@ export class CurrenciesComponent {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.branch = branch || null;
+    modalRef.componentInstance.currency = currency || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -106,7 +106,7 @@ export class CurrenciesComponent {
       });
   }
 
-  openConfirmDeleteModal(branchId: number, branchName: string): void {
+  openConfirmDeleteModal(currencyId: number, currencyName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -114,12 +114,12 @@ export class CurrenciesComponent {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = branchId;
-    modalRef.componentInstance.name = branchName;
+    modalRef.componentInstance.id = currencyId;
+    modalRef.componentInstance.name = currencyName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteCurrency(id); // Call the delete method with the branch ID
+      this.deleteCurrency(id); // Call the delete method with the currency ID
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {

@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AddItemCategoriesComponent {
   @Input() isOpen: boolean = false;
-  @Input() branch: UpdateBranchDto | null = null;
+  @Input() itemCategory: UpdateBranchDto | null = null;
   @Output() close = new EventEmitter<void>();
 
   itemCategoryForm: FormGroup;
@@ -34,24 +34,24 @@ export class AddItemCategoriesComponent {
   }
 
   ngOnInit(): void {
-    if (this.branch) {
-      this.populateForm(this.branch);
+    if (this.itemCategory) {
+      this.populateForm(this.itemCategory);
     }
   }
 
-  populateForm(branch: UpdateBranchDto) {
+  populateForm(itemCategory: UpdateBranchDto) {
     this.itemCategoryForm.patchValue({
-      id: branch.id,
-      name: branch.name,
-      email: branch.email,
-      city: branch.city,
-      state: branch.state,
-      phone: branch.phone,
-      zipCode: branch.zipCode,
-      address: branch.address,
-      status: branch.status === 1 ? 'active' : 'inactive',
-      longitude: branch.longitude || '',
-      latitude: branch.latitude || '',
+      id: itemCategory.id,
+      name: itemCategory.name,
+      email: itemCategory.email,
+      city: itemCategory.city,
+      state: itemCategory.state,
+      phone: itemCategory.phone,
+      zipCode: itemCategory.zipCode,
+      address: itemCategory.address,
+      status: itemCategory.status === 1 ? 'active' : 'inactive',
+      longitude: itemCategory.longitude || '',
+      latitude: itemCategory.latitude || '',
     });
   }
 
@@ -73,30 +73,30 @@ export class AddItemCategoriesComponent {
 
       console.log(formValue);
 
-      if (this.branch) {
-        // Update existing branch
+      if (this.itemCategory) {
+        // Update existing item category
         this.branchService.update(formValue as UpdateBranchDto)
           .subscribe(
             response => {
               // Handle successful response
-              console.log('Branch updated successfully:', response);
+              console.log('Item category updated successfully:', response);
             },
             error => {
               // Handle error response
-              console.error('Error updating branch:', error);
+              console.error('Error updating item category:', error);
             }
           );
       } else {
-        // Create a new branch
+        // Create a new item category
         this.branchService.create(formValue as CreateBranchDto)
           .subscribe(
             response => {
               // Handle successful response
-              console.log('Branch created successfully:', response);
+              console.log('Item category created successfully:', response);
             },
             error => {
               // Handle error response
-              console.error('Error creating branch:', error);
+              console.error('Error creating item category:', error);
             }
           );
       }

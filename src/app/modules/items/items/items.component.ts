@@ -1,32 +1,32 @@
-import { Component } from '@angular/core';
-import { TableComponent } from 'src/app/shared/table/table.component';
-import { SettingsSidebarComponent } from '../../settings-sidebar/settings-sidebar.component';
-import { IconsComponent } from 'src/app/shared/icons/icons.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UpdateBranchDto } from '@proxy/dtos/branch-contract';
-import { BranchService } from '@proxy/controllers';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import { AddItemCategoriesComponent } from '../add-item-categories/add-item-categories.component';
+import { Router } from '@angular/router';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
+import { IconsComponent } from 'src/app/shared/icons/icons.component';
+import { SettingsSidebarComponent } from '../../settings/settings-sidebar/settings-sidebar.component';
+import { TableComponent } from 'src/app/shared/table/table.component';
+import { AddItemsComponent } from '../add-items/add-items.component';
+import { ItemService } from '@proxy/controllers';
+import { CreateItemDto } from '@proxy/dtos/items-dtos';
 
 @Component({
-  selector: 'app-item-categories',
+  selector: 'app-items',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent],
-  templateUrl: './item-categories.component.html',
-  styleUrl: './item-categories.component.scss'
+  templateUrl: './items.component.html',
+  styleUrl: './items.component.scss'
 })
-export class ItemCategoriesComponent {
-  itemCategories: UpdateBranchDto[] = [];
+export class ItemsComponent implements OnInit {
+  items: CreateItemDto[] = [];
   isAddMode = true;
 
   columns = [
     { field: 'name', header: 'Name' },
     { field: 'status', header: 'Status' },
-    { field: 'action', header: 'Action' },
+    // { field: 'action', header: 'Action' },
   ];
 
   actions = [
@@ -40,54 +40,54 @@ export class ItemCategoriesComponent {
       icon: 'assets/images/view.svg',
       tooltip: 'View',
       show: (row: any) => true,
-      callback: (row: any) => this.openItemCategoryDetailsAndNavigate(row),
+      callback: (row: any) => this.openItemDetailsAndNavigate(row),
     },
     {
       icon: 'assets/images/delete.svg',
       tooltip: 'Delete',
-      show: (row: any) => row.status === 1,
+      show: (row: any) => row.status === 1, // Show only for active items
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     },
   ];
 
   constructor(
     private modalService: NgbModal,
-    private branchService: BranchService,
+    private itemService: ItemService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.loadItemCategories();
+    this.loadItems();
   }
 
-  // Load all item categories
-  loadItemCategories(): void {
+  // Load all items
+  loadItems(): void {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
       skipCount: 0,
       maxResultCount: 10
     };
 
-    this.branchService.getList(defaultInput).subscribe({
+    this.itemService.getList(defaultInput).subscribe({
       next: (response) => {
         console.log(response)
-        this.itemCategories = response.data.items;
+        this.items = response.data.items;
       },
       error: (err) => {
-        console.error('Error loading item categories:', err);
+        console.error('Error loading items:', err);
       },
     });
   }
 
-  openAddEditModal(itemCategory?: UpdateBranchDto): void {
-    const modalRef = this.modalService.open(AddItemCategoriesComponent, {
+  openAddEditModal(item?: CreateItemDto): void {
+    const modalRef = this.modalService.open(AddItemsComponent, {
       size: 'lg',
       centered: true,
       backdrop: 'static',
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.itemCategory = itemCategory || null;
+    modalRef.componentInstance.item = item || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -96,7 +96,7 @@ export class ItemCategoriesComponent {
     modalRef.result
       .then((result) => {
         if (result === 'saved') {
-          this.loadItemCategories();
+          this.loadItems();
         }
       })
       .catch((reason) => {
@@ -104,7 +104,7 @@ export class ItemCategoriesComponent {
       });
   }
 
-  openConfirmDeleteModal(itemCategoryId: number, itemCategoryName: string): void {
+  openConfirmDeleteModal(itemId: number, itemName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -112,12 +112,12 @@ export class ItemCategoriesComponent {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = itemCategoryId;
-    modalRef.componentInstance.name = itemCategoryName;
+    modalRef.componentInstance.id = itemId;
+    modalRef.componentInstance.name = itemName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteItemCategory(id); // Call the delete method with the item category ID
+      this.deleteItem(id); // Call the delete method with the item ID
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -125,19 +125,20 @@ export class ItemCategoriesComponent {
     });
   }
 
-  deleteItemCategory(id: number): void {
-    this.branchService.delete(id).subscribe({
+
+  deleteItem(id: number): void {
+    this.itemService.delete(id).subscribe({
       next: () => {
-        this.itemCategories = this.itemCategories.filter((itemCategory) => itemCategory.id !== id);
+        this.items = this.items.filter((item) => item.id !== id);
         this.modalService.dismissAll(); // Close all modals
       },
       error: (err) => {
-        console.error('Error deleting item category:', err);
+        console.error('Error deleting item:', err);
       },
     });
   }
 
-  openItemCategoryDetailsAndNavigate(itemCategory: UpdateBranchDto) {
-    this.router.navigate(['/settings/item-categories', itemCategory.id]);
+  openItemDetailsAndNavigate(item: CreateItemDto) {
+    this.router.navigate(['/items', item.id]);
   }
 }

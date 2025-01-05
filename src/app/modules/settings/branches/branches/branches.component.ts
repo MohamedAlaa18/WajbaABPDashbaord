@@ -22,14 +22,10 @@ import { TableComponent } from "../../../../shared/table/table.component";
 export class BranchesComponent implements OnInit {
   branches: UpdateBranchDto[] = [];
   isAddMode = true;
-  selectedBranch: any = null;
-  pageSize = 10; // Default page size
-  pageNumber = 0; // Default page number
 
   columns = [
     { field: 'name', header: 'Name' },
     { field: 'status', header: 'Status' },
-    // { field: 'action', header: 'Action' },
   ];
 
   actions = [
@@ -65,13 +61,13 @@ export class BranchesComponent implements OnInit {
 
   // Load all branches
   loadBranches(): void {
-    const request: PagedAndSortedResultRequestDto = {
-      skipCount: this.pageNumber * this.pageSize,
-      maxResultCount: this.pageSize,
-      sorting: 'name', // Default sorting field
+    const defaultInput: PagedAndSortedResultRequestDto = {
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
     };
 
-    this.branchService.getList(request).subscribe({
+    this.branchService.getList(defaultInput).subscribe({
       next: (response) => {
         console.log(response)
         this.branches = response.data.items;

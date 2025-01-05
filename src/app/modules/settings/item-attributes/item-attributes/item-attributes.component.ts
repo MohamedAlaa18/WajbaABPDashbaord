@@ -21,11 +21,8 @@ import { AddItemAttributesComponent } from '../add-item-attributes/add-item-attr
   styleUrl: './item-attributes.component.scss'
 })
 export class ItemAttributesComponent {
-  attributes: CreateUpdateItemAttributeDto[] = [];
+  itemAttributes: CreateUpdateItemAttributeDto[] = [];
   isAddMode = true;
-  selectedBranch: any = null;
-  pageSize = 10; // Default page size
-  pageNumber = 0; // Default page number
 
   columns = [
     { field: 'name', header: 'Name' },
@@ -55,29 +52,29 @@ export class ItemAttributesComponent {
   ) { }
 
   ngOnInit(): void {
-    this.loadBranches();
+    this.loadItemAttributes();
   }
 
-  // Load all branches
-  loadBranches(): void {
-    const request: PagedAndSortedResultRequestDto = {
-      skipCount: this.pageNumber * this.pageSize,
-      maxResultCount: this.pageSize,
-      sorting: 'name', // Default sorting field
+  // Load all item attributes
+  loadItemAttributes(): void {
+    const defaultInput: PagedAndSortedResultRequestDto = {
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
     };
 
-    this.branchService.getList(request).subscribe({
+    this.branchService.getList(defaultInput).subscribe({
       next: (response) => {
         console.log(response)
-        this.attributes = response.data.items;
+        this.itemAttributes = response.data.items;
       },
       error: (err) => {
-        console.error('Error loading branches:', err);
+        console.error('Error loading item attributes:', err);
       },
     });
   }
 
-  openAddEditModal(branch?: UpdateBranchDto): void {
+  openAddEditModal(itemAttribute?: UpdateBranchDto): void {
     const modalRef = this.modalService.open(AddItemAttributesComponent, {
       size: 'lg',
       centered: true,
@@ -85,7 +82,7 @@ export class ItemAttributesComponent {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.branch = branch || null;
+    modalRef.componentInstance.itemAttribute = itemAttribute || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -94,7 +91,7 @@ export class ItemAttributesComponent {
     modalRef.result
       .then((result) => {
         if (result === 'saved') {
-          this.loadBranches();
+          this.loadItemAttributes();
         }
       })
       .catch((reason) => {
@@ -102,7 +99,7 @@ export class ItemAttributesComponent {
       });
   }
 
-  openConfirmDeleteModal(branchId: number, branchName: string): void {
+  openConfirmDeleteModal(itemAttributeId: number, itemAttributeName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -110,12 +107,12 @@ export class ItemAttributesComponent {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = branchId;
-    modalRef.componentInstance.name = branchName;
+    modalRef.componentInstance.id = itemAttributeId;
+    modalRef.componentInstance.name = itemAttributeName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteBranch(id); // Call the delete method with the branch ID
+      this.deleteItemAttribute(id); // Call the delete method with the item attribute ID
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -123,14 +120,14 @@ export class ItemAttributesComponent {
     });
   }
 
-  deleteBranch(id: number): void {
+  deleteItemAttribute(id: number): void {
     this.branchService.delete(id).subscribe({
       next: () => {
         // this.attributes = this.attributes.filter((attribute) => attribute.id !== id);
         this.modalService.dismissAll(); // Close all modals
       },
       error: (err) => {
-        console.error('Error deleting branch:', err);
+        console.error('Error deleting item attribute:', err);
       },
     });
   }
