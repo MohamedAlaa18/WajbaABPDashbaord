@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OTPService } from '@proxy/controllers';
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
@@ -13,7 +13,7 @@ import { UpdateOtpDto } from '@proxy/dtos/otpcontract';
   templateUrl: './otp.component.html',
   styleUrl: './otp.component.scss'
 })
-export class OTPComponent {
+export class OTPComponent implements OnInit{
   otpForm: FormGroup;
 
   // Define arrays for dynamic options
@@ -26,30 +26,29 @@ export class OTPComponent {
   otpLengths = [4, 6, 8];
   otpExpireTimes = [5, 8, 10];
 
-  constructor(private fb: FormBuilder, private otpService: OTPService) {
+  constructor(
+    private fb: FormBuilder,
+    private otpService: OTPService
+  ) {
     this.otpForm = this.fb.group({
-      id: [null],
-      orderType: ['', Validators.required],
-      otpLength: ['', Validators.required],
-      otpExpireTime: ['', Validators.required]
+      type: ['', Validators.required],
+      digitLimit: ['', Validators.required],
+      expiryTimeInMinutes: ['', Validators.required]
     });
   }
 
-  loadCurrencies(): void {
-    const defaultInput: PagedAndSortedResultRequestDto = {
-      sorting: '',
-      skipCount: 0,
-      maxResultCount: 10
-    };
+  ngOnInit(): void {
+    this.loadOTP();
+  }
 
-    this.otpService.getAllByDto(defaultInput).subscribe({
+  loadOTP(): void {
+    this.otpService.getAll().subscribe({
       next: (response) => {
         console.log(response);
         this.otpForm.patchValue({
-          id: response.data.id,
-          orderType: response.data.type,
-          otpLength: response.data.digitLimit,
-          otpExpireTime: response.data.expiryTimeInMinutes,
+          type: response.data.type,
+          digitLimit: response.data.digitLimit,
+          expiryTimeInMinutes: response.data.expiryTimeInMinutes,
         });
       },
       error: (error) => {
@@ -61,12 +60,12 @@ export class OTPComponent {
   onSubmit() {
     if (this.otpForm.valid) {
       let formValue = this.otpForm.value as UpdateOtpDto;
-
+console.log(formValue)
       // Call the OTP service to send the data
       this.otpService.update(formValue).subscribe({
         next: (response) => {
           console.log('OTP sent successfully:', response);
-          this.otpForm.reset();
+          // this.otpForm.reset();
         },
         error: (error) => {
           console.error('Error sending OTP:', error);

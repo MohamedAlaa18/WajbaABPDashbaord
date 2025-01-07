@@ -1,12 +1,10 @@
 import type { Status } from '../../enums/status.enum';
-import type { EntityDto } from '@abp/ng.core';
 
-export interface CreateUpdateItemAttributeDto {
+export interface CreateItemAttributeDto {
   name: string;
   status: Status;
 }
 
-export interface ItemAttributeDto extends EntityDto<number> {
-  name?: string;
-  status: Status;
+export interface UpdateItemAttributeDto extends CreateItemAttributeDto {
+  id: number;
 }

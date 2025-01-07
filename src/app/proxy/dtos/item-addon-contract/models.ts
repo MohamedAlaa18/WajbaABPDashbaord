@@ -4,10 +4,3 @@ export interface CreateUpdateItemAddonDto {
   additionalPrice: number;
   itemId: number;
 }
-
-export interface ItemAddonDto {
-  id: number;
-  addonName?: string;
-  additionalPrice: number;
-  itemId: number;
-}

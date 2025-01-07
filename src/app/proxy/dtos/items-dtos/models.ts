@@ -1,8 +1,7 @@
 import type { IFormFile } from '../../microsoft/asp-net-core/http/models';
-import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateItemDto {
-  id: number;
   name: string;
   imageUrl: IFormFile;
   price: number;
@@ -29,4 +28,20 @@ export interface GetItemInput extends PagedAndSortedResultRequestDto {
   maxTaxValue?: number;
   branchId?: number;
   itemId?: number;
+}
+
+export interface ItemDto extends FullAuditedEntityDto<number> {
+  id: number;
+  name?: string;
+  description?: string;
+  note?: string;
+  status?: string;
+  isFeatured: boolean;
+  imageUrl?: string;
+  price: number;
+  taxValue?: number;
+  categoryId: number;
+  categoryName?: string;
+  itemType?: string;
+  isDeleted: boolean;
 }

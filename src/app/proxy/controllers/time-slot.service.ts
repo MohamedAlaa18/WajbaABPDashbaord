@@ -21,7 +21,7 @@ export class TimeSlotService {
   seedData = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
-      url: '/api/TimeSlot/seed',
+      url: '/api/TimeSlot',
     },
     { apiName: this.apiName,...config });
   

@@ -7,7 +7,6 @@ export interface CreateUpdateOTPDto {
 }
 
 export interface UpdateOtpDto {
-  id: number;
   type: OTPType;
   digitLimit: number;
   expiryTimeInMinutes: number;

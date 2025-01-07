@@ -7,10 +7,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SettingsSidebarComponent } from "../../settings-sidebar/settings-sidebar.component";
 import { TableComponent } from "../../../../shared/table/table.component";
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
-import { CreateUpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
 import { AddTaxesComponent } from '../add-taxes/add-taxes.component';
 import { ItemTaxService } from '@proxy/controllers';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import { UpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
 
 @Component({
   selector: 'app-taxes',
@@ -22,8 +22,8 @@ import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 export class TaxesComponent {
   isModalOpen: boolean = false;
   isMenuOpen: boolean = false;
-  taxes: CreateUpdateItemTaxDto[] = [];
-  selectedCurrency: CreateUpdateItemTaxDto | null = null;
+  taxes: UpdateItemTaxDto[] = [];
+  selectedCurrency: UpdateItemTaxDto | null = null;
 
   isConfirmDeleteModalOpen: boolean = false;
   currencyToDeleteId!: number;
@@ -50,7 +50,6 @@ export class TaxesComponent {
     },
   ];
 
-
   constructor(
     private itemTaxService: ItemTaxService,
     private afterActionService: AfterActionService,
@@ -70,7 +69,7 @@ export class TaxesComponent {
 
     this.itemTaxService.getList(defaultInput).subscribe((response: any) => {
       if (response) {
-        this.taxes = response.data;
+        // this.taxes = response.data;
         console.log("tax : " + response.data)
       } else {
         console.error('The response is not an array:', response);
@@ -85,7 +84,7 @@ export class TaxesComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  openAddEditModal(tax?: CreateUpdateItemTaxDto): void {
+  openAddEditModal(tax?: UpdateItemTaxDto): void {
     const modalRef = this.modalService.open(AddTaxesComponent, {
       size: 'lg',
       centered: true,

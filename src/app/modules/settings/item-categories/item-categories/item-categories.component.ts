@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { AddItemCategoriesComponent } from '../add-item-categories/add-item-categories.component';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
+import { GetCategoryInput } from '@proxy/dtos/categories';
 
 @Component({
   selector: 'app-item-categories',
@@ -26,7 +27,6 @@ export class ItemCategoriesComponent {
   columns = [
     { field: 'name', header: 'Name' },
     { field: 'status', header: 'Status' },
-    { field: 'action', header: 'Action' },
   ];
 
   actions = [
@@ -62,9 +62,9 @@ export class ItemCategoriesComponent {
 
   // Load all item categories
   loadItemCategories(): void {
-    const defaultInput: PagedAndSortedResultRequestDto = {
-      sorting: '',
-      skipCount: 0,
+    const defaultInput: GetCategoryInput = {
+      name: '',
+      branchId: 0,
       maxResultCount: 10
     };
 

@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CurrenciesService, ItemTaxService } from '@proxy/controllers';
+import { ItemTaxService } from '@proxy/controllers';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from "../../../../shared/icons/icons.component";
-import { CreateUpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
+import { UpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
 
 @Component({
   selector: 'app-add-taxes',
@@ -16,7 +16,7 @@ import { CreateUpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
 })
 export class AddTaxesComponent implements OnInit {
   @Input() isOpen: boolean = false;
-  @Input() tax: CreateUpdateItemTaxDto | null = null;
+  @Input() tax: UpdateItemTaxDto | null = null;
   @Output() close = new EventEmitter<void>();
 
   taxForm: FormGroup;
@@ -31,7 +31,7 @@ export class AddTaxesComponent implements OnInit {
       name: ['', Validators.required],
       code: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       taxRate: ['', [Validators.required, Validators.min(0)]],
-      status: ['active', Validators.required],
+      status: [1, Validators.required],
     });
   }
 
@@ -41,7 +41,7 @@ export class AddTaxesComponent implements OnInit {
     }
   }
 
-  populateForm(tax: CreateUpdateItemTaxDto) {
+  populateForm(tax: UpdateItemTaxDto) {
     this.taxForm.patchValue({
       name: tax.name,
       code: tax.code,
@@ -64,25 +64,25 @@ export class AddTaxesComponent implements OnInit {
 
       if (this.tax) {
         // Ensure formValue has the 'id' property for update
-        // const updatePayload: CreateUpdateItemTaxDto = {
-        //   ...formValue,
-        //   id: this.tax.id // Assign the `id` from the current currency
-        // };
+        const updatePayload: UpdateItemTaxDto = {
+          ...formValue,
+          id: this.tax.id // Assign the `id` from the current currency
+        };
 
-        // this.itemTaxService.update(updatePayload)
-        //   .subscribe(
-        //     response => {
-        //       console.log('Currency updated:', response);
-        //       this.closeModal();
-        //       this.afterActionService.reloadCurrentRoute();
-        //     },
-        //     error => {
-        //       console.error('Error updating currency:', error);
-        //     }
-        //   );
+        this.itemTaxService.update(updatePayload)
+          .subscribe(
+            response => {
+              console.log('Currency updated:', response);
+              this.closeModal();
+              this.afterActionService.reloadCurrentRoute();
+            },
+            error => {
+              console.error('Error updating currency:', error);
+            }
+          );
       } else {
         // Create new currency
-        const createPayload: CreateUpdateItemTaxDto = {
+        const createPayload: UpdateItemTaxDto = {
           ...formValue
         };
 

@@ -1,6 +1,6 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateUpdateOrderSetupDto, GetOrderSetupInput } from '../dtos/order-setup-contract/models';
+import type { CreateUpdateOrderSetupDto, GetOrderSetupInput, UpdateOrderSetupDto } from '../dtos/order-setup-contract/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -44,10 +44,10 @@ export class OrderSetupService {
     { apiName: this.apiName,...config });
   
 
-  update = (id: number, input: CreateUpdateOrderSetupDto, config?: Partial<Rest.Config>) =>
+  update = (input: UpdateOrderSetupDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: `/api/OrderSetup/${id}`,
+      url: '/api/OrderSetup',
       body: input,
     },
     { apiName: this.apiName,...config });

@@ -1398,7 +1398,7 @@
               "uniqueName": "GetCategoryItemsdtoByBranchid",
               "name": "GetCategoryItemsdto",
               "httpMethod": "GET",
-              "url": "api/Category/getcategoryItems",
+              "url": "api/Category/getcategoryItems{branchid}",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -1419,8 +1419,10 @@
                   "typeSimple": "number",
                   "isOptional": false,
                   "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
+                  "constraintTypes": [
+                    "IntRouteConstraint"
+                  ],
+                  "bindingSourceId": "Path",
                   "descriptorName": ""
                 }
               ],
@@ -2807,6 +2809,32 @@
             }
           }
         },
+        "Wajba.Controllers.HomeController": {
+          "controllerName": "Home",
+          "controllerGroupName": null,
+          "isRemoteService": false,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Wajba.Controllers.HomeController",
+          "interfaces": [],
+          "actions": {
+            "Index": {
+              "uniqueName": "Index",
+              "name": "Index",
+              "httpMethod": "GET",
+              "url": "api/Home",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.HomeController"
+            }
+          }
+        },
         "Wajba.Controllers.ItemAddonController": {
           "controllerName": "ItemAddon",
           "controllerGroupName": null,
@@ -3127,8 +3155,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.ItemAttributes.ItemAttributeDto>",
-                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.ItemAttributes.ItemAttributeDto>"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemAttributeController"
@@ -3164,8 +3192,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Wajba.Dtos.ItemAttributes.ItemAttributeDto",
-                "typeSimple": "Wajba.Dtos.ItemAttributes.ItemAttributeDto"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemAttributeController"
@@ -3179,9 +3207,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto",
-                  "typeSimple": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto",
+                  "typeAsString": "Wajba.Dtos.ItemAttributes.CreateItemAttributeDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.ItemAttributes.CreateItemAttributeDto",
+                  "typeSimple": "Wajba.Dtos.ItemAttributes.CreateItemAttributeDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -3191,8 +3219,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto",
-                  "typeSimple": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto",
+                  "type": "Wajba.Dtos.ItemAttributes.CreateItemAttributeDto",
+                  "typeSimple": "Wajba.Dtos.ItemAttributes.CreateItemAttributeDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -3201,55 +3229,35 @@
                 }
               ],
               "returnValue": {
-                "type": "Wajba.Dtos.ItemAttributes.ItemAttributeDto",
-                "typeSimple": "Wajba.Dtos.ItemAttributes.ItemAttributeDto"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemAttributeController"
             },
-            "UpdateAsyncByIdAndInput": {
-              "uniqueName": "UpdateAsyncByIdAndInput",
+            "UpdateAsyncByInput": {
+              "uniqueName": "UpdateAsyncByInput",
               "name": "UpdateAsync",
               "httpMethod": "PUT",
-              "url": "api/ItemAttribute/{id}",
+              "url": "api/ItemAttribute",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto",
-                  "typeSimple": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto",
+                  "typeAsString": "Wajba.Dtos.ItemAttributes.UpdateItemAttributeDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.ItemAttributes.UpdateItemAttributeDto",
+                  "typeSimple": "Wajba.Dtos.ItemAttributes.UpdateItemAttributeDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto",
-                  "typeSimple": "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto",
+                  "type": "Wajba.Dtos.ItemAttributes.UpdateItemAttributeDto",
+                  "typeSimple": "Wajba.Dtos.ItemAttributes.UpdateItemAttributeDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -3258,8 +3266,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Wajba.Dtos.ItemAttributes.ItemAttributeDto",
-                "typeSimple": "Wajba.Dtos.ItemAttributes.ItemAttributeDto"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemAttributeController"
@@ -3295,8 +3303,8 @@
                 }
               ],
               "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemAttributeController"
@@ -3312,6 +3320,117 @@
           "type": "Wajba.Controllers.ItemController",
           "interfaces": [],
           "actions": {
+            "GetItemsByCategoryByCategoryId": {
+              "uniqueName": "GetItemsByCategoryByCategoryId",
+              "name": "GetItemsByCategory",
+              "httpMethod": "GET",
+              "url": "api/Item/by-category/{categoryId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "categoryId",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "categoryId",
+                  "name": "categoryId",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<Wajba.Dtos.ItemsDtos.ItemDto>",
+                "typeSimple": "[Wajba.Dtos.ItemsDtos.ItemDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ItemController"
+            },
+            "GetItemsByBranchByBranchId": {
+              "uniqueName": "GetItemsByBranchByBranchId",
+              "name": "GetItemsByBranch",
+              "httpMethod": "GET",
+              "url": "api/Item/by-branch/{branchId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "branchId",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "branchId",
+                  "name": "branchId",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<Wajba.Dtos.ItemsDtos.ItemDto>",
+                "typeSimple": "[Wajba.Dtos.ItemsDtos.ItemDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ItemController"
+            },
+            "GetItemWithDetailsById": {
+              "uniqueName": "GetItemWithDetailsById",
+              "name": "GetItemWithDetails",
+              "httpMethod": "GET",
+              "url": "api/Item/{id}/details",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Wajba.Dtos.ItemsDtos.ItemDto",
+                "typeSimple": "Wajba.Dtos.ItemsDtos.ItemDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ItemController"
+            },
             "CreateAsyncByInput": {
               "uniqueName": "CreateAsyncByInput",
               "name": "CreateAsync",
@@ -3473,7 +3592,7 @@
               "uniqueName": "UpdateAsyncByIdAndInput",
               "name": "UpdateAsync",
               "httpMethod": "PUT",
-              "url": "api/Item/{id}",
+              "url": "api/Item",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -3502,8 +3621,8 @@
                   "typeSimple": "number",
                   "isOptional": false,
                   "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
                   "descriptorName": ""
                 },
                 {
@@ -4247,8 +4366,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.ItemTaxContract.ItemTaxDto>",
-                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.ItemTaxContract.ItemTaxDto>"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemTaxController"
@@ -4284,8 +4403,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Wajba.Dtos.ItemTaxContract.ItemTaxDto",
-                "typeSimple": "Wajba.Dtos.ItemTaxContract.ItemTaxDto"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemTaxController"
@@ -4299,9 +4418,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto",
-                  "typeSimple": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto",
+                  "typeAsString": "Wajba.Dtos.ItemTaxContract.CreateItemTaxDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.ItemTaxContract.CreateItemTaxDto",
+                  "typeSimple": "Wajba.Dtos.ItemTaxContract.CreateItemTaxDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -4311,8 +4430,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto",
-                  "typeSimple": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto",
+                  "type": "Wajba.Dtos.ItemTaxContract.CreateItemTaxDto",
+                  "typeSimple": "Wajba.Dtos.ItemTaxContract.CreateItemTaxDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -4321,55 +4440,35 @@
                 }
               ],
               "returnValue": {
-                "type": "Wajba.Dtos.ItemTaxContract.ItemTaxDto",
-                "typeSimple": "Wajba.Dtos.ItemTaxContract.ItemTaxDto"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemTaxController"
             },
-            "UpdateAsyncByIdAndInput": {
-              "uniqueName": "UpdateAsyncByIdAndInput",
+            "UpdateAsyncByInput": {
+              "uniqueName": "UpdateAsyncByInput",
               "name": "UpdateAsync",
               "httpMethod": "PUT",
-              "url": "api/ItemTax/{id}",
+              "url": "api/ItemTax",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto",
-                  "typeSimple": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto",
+                  "typeAsString": "Wajba.Dtos.ItemTaxContract.UpdateItemTaxDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.ItemTaxContract.UpdateItemTaxDto",
+                  "typeSimple": "Wajba.Dtos.ItemTaxContract.UpdateItemTaxDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto",
-                  "typeSimple": "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto",
+                  "type": "Wajba.Dtos.ItemTaxContract.UpdateItemTaxDto",
+                  "typeSimple": "Wajba.Dtos.ItemTaxContract.UpdateItemTaxDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -4378,8 +4477,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Wajba.Dtos.ItemTaxContract.ItemTaxDto",
-                "typeSimple": "Wajba.Dtos.ItemTaxContract.ItemTaxDto"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemTaxController"
@@ -4415,8 +4514,8 @@
                 }
               ],
               "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemTaxController"
@@ -4983,6 +5082,442 @@
             }
           }
         },
+        "Wajba.Controllers.NotificationController": {
+          "controllerName": "Notification",
+          "controllerGroupName": null,
+          "isRemoteService": false,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Wajba.Controllers.NotificationController",
+          "interfaces": [],
+          "actions": {
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/Notification",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.NotificationContract.CreateNotificationDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.NotificationContract.CreateNotificationDto",
+                  "typeSimple": "Wajba.Dtos.NotificationContract.CreateNotificationDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBasePublicVapidKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseAPIKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseProjectId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseAuthDomain",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseStorageBucket",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseMessageSenderId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseAppId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseMeasurementId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "ImageUrl",
+                  "jsonName": null,
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "FormFile",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.NotificationController"
+            },
+            "UpdateAsyncByInput": {
+              "uniqueName": "UpdateAsyncByInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/Notification",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.NotificationContract.UpdateNotificationDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.NotificationContract.UpdateNotificationDto",
+                  "typeSimple": "Wajba.Dtos.NotificationContract.UpdateNotificationDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBasePublicVapidKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseAPIKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseProjectId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseAuthDomain",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseStorageBucket",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseMessageSenderId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseAppId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "FireBaseMeasurementId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "ImageUrl",
+                  "jsonName": null,
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "FormFile",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.NotificationController"
+            },
+            "GetByIdAsyncById": {
+              "uniqueName": "GetByIdAsyncById",
+              "name": "GetByIdAsync",
+              "httpMethod": "GET",
+              "url": "api/Notification/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.NotificationController"
+            },
+            "GetAllAsyncByInput": {
+              "uniqueName": "GetAllAsyncByInput",
+              "name": "GetAllAsync",
+              "httpMethod": "GET",
+              "url": "api/Notification",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.NotificationContract.GetNotificationInput, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.NotificationContract.GetNotificationInput",
+                  "typeSimple": "Wajba.Dtos.NotificationContract.GetNotificationInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.NotificationController"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/Notification/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.NotificationController"
+            }
+          }
+        },
         "Wajba.Controllers.OfferController": {
           "controllerName": "Offer",
           "controllerGroupName": null,
@@ -5461,49 +5996,29 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.OrderSetupController"
             },
-            "UpdateAsyncByIdAndInput": {
-              "uniqueName": "UpdateAsyncByIdAndInput",
+            "UpdateAsyncByInput": {
+              "uniqueName": "UpdateAsyncByInput",
               "name": "UpdateAsync",
               "httpMethod": "PUT",
-              "url": "api/OrderSetup/{id}",
+              "url": "api/OrderSetup",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto",
-                  "typeSimple": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto",
+                  "typeAsString": "Wajba.Dtos.OrderSetupContract.UpdateOrderSetupDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.OrderSetupContract.UpdateOrderSetupDto",
+                  "typeSimple": "Wajba.Dtos.OrderSetupContract.UpdateOrderSetupDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto",
-                  "typeSimple": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto",
+                  "type": "Wajba.Dtos.OrderSetupContract.UpdateOrderSetupDto",
+                  "typeSimple": "Wajba.Dtos.OrderSetupContract.UpdateOrderSetupDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -5713,73 +6228,14 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.OTPController"
             },
-            "GetAllByDto": {
-              "uniqueName": "GetAllByDto",
+            "GetAll": {
+              "uniqueName": "GetAll",
               "name": "GetAll",
               "httpMethod": "GET",
               "url": "api/OTP",
               "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "dto",
-                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
-                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
-                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "dto",
-                  "name": "dto",
-                  "jsonName": null,
-                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
-                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Controllers.OTPController"
-            },
-            "GetAsyncById": {
-              "uniqueName": "GetAsyncById",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/OTP/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
+              "parametersOnMethod": [],
+              "parameters": [],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -5824,11 +6280,195 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.OTPController"
             },
-            "DeleteAsyncById": {
-              "uniqueName": "DeleteAsyncById",
+            "DeleteAsync": {
+              "uniqueName": "DeleteAsync",
               "name": "DeleteAsync",
               "httpMethod": "DELETE",
-              "url": "api/OTP/{id}",
+              "url": "api/OTP",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.OTPController"
+            }
+          }
+        },
+        "Wajba.Controllers.PopularItemController": {
+          "controllerName": "PopularItem",
+          "controllerGroupName": null,
+          "isRemoteService": false,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Wajba.Controllers.PopularItemController",
+          "interfaces": [],
+          "actions": {
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/PopularItem",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.PopularItemstoday.CreatePopularitem, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.PopularItemstoday.CreatePopularitem",
+                  "typeSimple": "Wajba.Dtos.PopularItemstoday.CreatePopularitem",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Name",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Status",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "ImgFile",
+                  "jsonName": null,
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "FormFile",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "preprice",
+                  "jsonName": null,
+                  "type": "System.Decimal",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "currentprice",
+                  "jsonName": null,
+                  "type": "System.Decimal",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Description",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "BranchId",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.PopularItemController"
+            },
+            "GetAsyncByInput": {
+              "uniqueName": "GetAsyncByInput",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/PopularItem",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.PopularItemstoday.GetPopulariteminput, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.PopularItemstoday.GetPopulariteminput",
+                  "typeSimple": "Wajba.Dtos.PopularItemstoday.GetPopulariteminput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.PopularItemstoday.GetPopulariteminput",
+                  "typeSimple": "Wajba.Dtos.PopularItemstoday.GetPopulariteminput",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.PopularItemController"
+            },
+            "GetByIdAsyncById": {
+              "uniqueName": "GetByIdAsyncById",
+              "name": "GetByIdAsync",
+              "httpMethod": "GET",
+              "url": "api/PopularItem/{id}",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -5859,7 +6499,177 @@
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
-              "implementFrom": "Wajba.Controllers.OTPController"
+              "implementFrom": "Wajba.Controllers.PopularItemController"
+            },
+            "UpdateAsyncByInput": {
+              "uniqueName": "UpdateAsyncByInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/PopularItem",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.PopularItemstoday.UpdatePopularItemdto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.PopularItemstoday.UpdatePopularItemdto",
+                  "typeSimple": "Wajba.Dtos.PopularItemstoday.UpdatePopularItemdto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "ItemId",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Name",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Status",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "ImgFile",
+                  "jsonName": null,
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "FormFile",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "preprice",
+                  "jsonName": null,
+                  "type": "System.Decimal",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "currentprice",
+                  "jsonName": null,
+                  "type": "System.Decimal",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Description",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "BranchId",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.PopularItemController"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/PopularItem",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.PopularItemController"
             }
           }
         },
@@ -6086,21 +6896,50 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ThemeController"
             },
-            "UpdateAsyncByIdAndBrowserTabIconUrlAndFooterLogoUrlAndLogoUrl": {
-              "uniqueName": "UpdateAsyncByIdAndBrowserTabIconUrlAndFooterLogoUrlAndLogoUrl",
-              "name": "UpdateAsync",
-              "httpMethod": "PUT",
-              "url": "api/Theme/{id}",
+            "UploadBase64ImageByModel": {
+              "uniqueName": "UploadBase64ImageByModel",
+              "name": "UploadBase64Image",
+              "httpMethod": "POST",
+              "url": "api/Theme/upload-base64",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
+                  "name": "model",
+                  "typeAsString": "Wajba.Dtos.ThemesContract.Base64ImageModel, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.ThemesContract.Base64ImageModel",
+                  "typeSimple": "Wajba.Dtos.ThemesContract.Base64ImageModel",
                   "isOptional": false,
                   "defaultValue": null
-                },
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "model",
+                  "name": "model",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.ThemesContract.Base64ImageModel",
+                  "typeSimple": "Wajba.Dtos.ThemesContract.Base64ImageModel",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ThemeController"
+            },
+            "UpdateAsyncByBrowserTabIconUrlAndFooterLogoUrlAndLogoUrl": {
+              "uniqueName": "UpdateAsyncByBrowserTabIconUrlAndFooterLogoUrlAndLogoUrl",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/Theme",
+              "supportedVersions": [],
+              "parametersOnMethod": [
                 {
                   "name": "BrowserTabIconUrl",
                   "typeAsString": "Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features",
@@ -6127,18 +6966,6 @@
                 }
               ],
               "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
                 {
                   "nameOnMethod": "BrowserTabIconUrl",
                   "name": "BrowserTabIconUrl",
@@ -6183,33 +7010,33 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ThemeController"
             },
-            "GetByIdAsyncById": {
-              "uniqueName": "GetByIdAsyncById",
-              "name": "GetByIdAsync",
-              "httpMethod": "GET",
-              "url": "api/Theme/{id}",
+            "UpdateBrowserTabIconUrlByBrowserTabIconUrl": {
+              "uniqueName": "UpdateBrowserTabIconUrlByBrowserTabIconUrl",
+              "name": "UpdateBrowserTabIconUrl",
+              "httpMethod": "PUT",
+              "url": "api/Theme/UpdateBrowserTabIconUrl",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
+                  "name": "BrowserTabIconUrl",
+                  "typeAsString": "Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features",
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "id",
-                  "name": "id",
+                  "nameOnMethod": "BrowserTabIconUrl",
+                  "name": "BrowserTabIconUrl",
                   "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
                   "isOptional": false,
                   "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
+                  "constraintTypes": null,
+                  "bindingSourceId": "FormFile",
                   "descriptorName": ""
                 }
               ],
@@ -6220,72 +7047,88 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ThemeController"
             },
-            "GetListAsyncByInput": {
-              "uniqueName": "GetListAsyncByInput",
-              "name": "GetListAsync",
+            "UpdateLogoUrlasyncByBrowserTabIconUrl": {
+              "uniqueName": "UpdateLogoUrlasyncByBrowserTabIconUrl",
+              "name": "UpdateLogoUrlasync",
+              "httpMethod": "PUT",
+              "url": "api/Theme/UpdateLogoUrl",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "BrowserTabIconUrl",
+                  "typeAsString": "Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features",
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "BrowserTabIconUrl",
+                  "name": "BrowserTabIconUrl",
+                  "jsonName": null,
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "FormFile",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ThemeController"
+            },
+            "UpdateFooterLogoUrlasyncByBrowserTabIconUrl": {
+              "uniqueName": "UpdateFooterLogoUrlasyncByBrowserTabIconUrl",
+              "name": "UpdateFooterLogoUrlasync",
+              "httpMethod": "PUT",
+              "url": "api/Theme/UpdateFooterLogoUrl",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "BrowserTabIconUrl",
+                  "typeAsString": "Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features",
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "BrowserTabIconUrl",
+                  "name": "BrowserTabIconUrl",
+                  "jsonName": null,
+                  "type": "Microsoft.AspNetCore.Http.IFormFile",
+                  "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "FormFile",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ThemeController"
+            },
+            "GetByIdAsync": {
+              "uniqueName": "GetByIdAsync",
+              "name": "GetByIdAsync",
               "httpMethod": "GET",
               "url": "api/Theme",
               "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.ThemesContract.GetThemeInput, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ThemesContract.GetThemeInput",
-                  "typeSimple": "Wajba.Dtos.ThemesContract.GetThemeInput",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "Filter",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "Sorting",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "SkipCount",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "MaxResultCount",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": "input"
-                }
-              ],
+              "parametersOnMethod": [],
+              "parameters": [],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -6293,36 +7136,14 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ThemeController"
             },
-            "DeleteAsyncById": {
-              "uniqueName": "DeleteAsyncById",
+            "DeleteAsync": {
+              "uniqueName": "DeleteAsync",
               "name": "DeleteAsync",
               "httpMethod": "DELETE",
-              "url": "api/Theme/{id}",
+              "url": "api/Theme",
               "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
+              "parametersOnMethod": [],
+              "parameters": [],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -6345,7 +7166,7 @@
               "uniqueName": "SeedData",
               "name": "SeedData",
               "httpMethod": "POST",
-              "url": "api/TimeSlot/seed",
+              "url": "api/TimeSlot",
               "supportedVersions": [],
               "parametersOnMethod": [],
               "parameters": [],
@@ -6407,1170 +7228,6 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.TimeSlotController"
-            }
-          }
-        },
-        "Wajba.Controllers.UserController": {
-          "controllerName": "User",
-          "controllerGroupName": null,
-          "isRemoteService": false,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Wajba.Controllers.UserController",
-          "interfaces": [],
-          "actions": {
-            "LogInByLogInDto": {
-              "uniqueName": "LogInByLogInDto",
-              "name": "LogIn",
-              "httpMethod": "POST",
-              "url": "api/User/LogIn",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "LogInDto",
-                  "typeAsString": "Wajba.Dtos.UserDTO.LogInDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.UserDTO.LogInDto",
-                  "typeSimple": "Wajba.Dtos.UserDTO.LogInDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "LogInDto",
-                  "name": "LogInDto",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.UserDTO.LogInDto",
-                  "typeSimple": "Wajba.Dtos.UserDTO.LogInDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Controllers.UserController"
-            }
-          }
-        },
-        "Wajba.ItemAddonService.ItemAddonAppService": {
-          "controllerName": "ItemAddon",
-          "controllerGroupName": "ItemAddon",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Wajba.ItemAddonService.ItemAddonAppService",
-          "interfaces": [
-            {
-              "type": "Wajba.Dtos.ItemAddonContract.IItemAddonAppService",
-              "name": "IItemAddonAppService",
-              "methods": [
-                {
-                  "name": "GetByItemIdAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "itemId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<Wajba.Dtos.ItemAddonContract.ItemAddonDto>",
-                    "typeSimple": "[Wajba.Dtos.ItemAddonContract.ItemAddonDto]"
-                  }
-                },
-                {
-                  "name": "GetByIdAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "id",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Wajba.Dtos.ItemAddonContract.ItemAddonDto",
-                    "typeSimple": "Wajba.Dtos.ItemAddonContract.ItemAddonDto"
-                  }
-                },
-                {
-                  "name": "CreateAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "input",
-                      "typeAsString": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto, Wajba.Application.Contracts",
-                      "type": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                      "typeSimple": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Wajba.Dtos.ItemAddonContract.ItemAddonDto",
-                    "typeSimple": "Wajba.Dtos.ItemAddonContract.ItemAddonDto"
-                  }
-                },
-                {
-                  "name": "UpdateForSpecificItemAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "itemId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "addonId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "input",
-                      "typeAsString": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto, Wajba.Application.Contracts",
-                      "type": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                      "typeSimple": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Wajba.Dtos.ItemAddonContract.ItemAddonDto",
-                    "typeSimple": "Wajba.Dtos.ItemAddonContract.ItemAddonDto"
-                  }
-                },
-                {
-                  "name": "DeleteForSpecificItemAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "itemId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "addonId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetByItemIdAsyncByItemId": {
-              "uniqueName": "GetByItemIdAsyncByItemId",
-              "name": "GetByItemIdAsync",
-              "httpMethod": "GET",
-              "url": "api/app/item-addon/by-item-id/{itemId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "itemId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "itemId",
-                  "name": "itemId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<Wajba.Dtos.ItemAddonContract.ItemAddonDto>",
-                "typeSimple": "[Wajba.Dtos.ItemAddonContract.ItemAddonDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemAddonContract.IItemAddonAppService"
-            },
-            "GetByIdAsyncById": {
-              "uniqueName": "GetByIdAsyncById",
-              "name": "GetByIdAsync",
-              "httpMethod": "GET",
-              "url": "api/app/item-addon/{id}/by-id",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.ItemAddonContract.ItemAddonDto",
-                "typeSimple": "Wajba.Dtos.ItemAddonContract.ItemAddonDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemAddonContract.IItemAddonAppService"
-            },
-            "CreateAsyncByInput": {
-              "uniqueName": "CreateAsyncByInput",
-              "name": "CreateAsync",
-              "httpMethod": "POST",
-              "url": "api/app/item-addon",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                  "typeSimple": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                  "typeSimple": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.ItemAddonContract.ItemAddonDto",
-                "typeSimple": "Wajba.Dtos.ItemAddonContract.ItemAddonDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemAddonContract.IItemAddonAppService"
-            },
-            "UpdateForSpecificItemAsyncByItemIdAndAddonIdAndInput": {
-              "uniqueName": "UpdateForSpecificItemAsyncByItemIdAndAddonIdAndInput",
-              "name": "UpdateForSpecificItemAsync",
-              "httpMethod": "PUT",
-              "url": "api/app/item-addon/for-specific-item",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "itemId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "addonId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                  "typeSimple": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "itemId",
-                  "name": "itemId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "addonId",
-                  "name": "addonId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                  "typeSimple": "Wajba.Dtos.ItemAddonContract.CreateUpdateItemAddonDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.ItemAddonContract.ItemAddonDto",
-                "typeSimple": "Wajba.Dtos.ItemAddonContract.ItemAddonDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemAddonContract.IItemAddonAppService"
-            },
-            "DeleteForSpecificItemAsyncByItemIdAndAddonId": {
-              "uniqueName": "DeleteForSpecificItemAsyncByItemIdAndAddonId",
-              "name": "DeleteForSpecificItemAsync",
-              "httpMethod": "DELETE",
-              "url": "api/app/item-addon/for-specific-item",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "itemId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "addonId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "itemId",
-                  "name": "itemId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "addonId",
-                  "name": "addonId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemAddonContract.IItemAddonAppService"
-            }
-          }
-        },
-        "Wajba.ItemExtraService.ItemExtraAppService": {
-          "controllerName": "ItemExtra",
-          "controllerGroupName": "ItemExtra",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Wajba.ItemExtraService.ItemExtraAppService",
-          "interfaces": [
-            {
-              "type": "Wajba.Dtos.ItemExtraContract.IItemExtraAppService",
-              "name": "IItemExtraAppService",
-              "methods": [
-                {
-                  "name": "GetAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "id",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Wajba.Dtos.ItemExtraContract.ItemExtraDto",
-                    "typeSimple": "Wajba.Dtos.ItemExtraContract.ItemExtraDto"
-                  }
-                },
-                {
-                  "name": "GetListByItemIdAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "itemId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<Wajba.Dtos.ItemExtraContract.ItemExtraDto>",
-                    "typeSimple": "[Wajba.Dtos.ItemExtraContract.ItemExtraDto]"
-                  }
-                },
-                {
-                  "name": "CreateAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "input",
-                      "typeAsString": "Wajba.Dtos.ItemExtraContract.CreateItemExtraDto, Wajba.Application.Contracts",
-                      "type": "Wajba.Dtos.ItemExtraContract.CreateItemExtraDto",
-                      "typeSimple": "Wajba.Dtos.ItemExtraContract.CreateItemExtraDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Wajba.Dtos.ItemExtraContract.ItemExtraDto",
-                    "typeSimple": "Wajba.Dtos.ItemExtraContract.ItemExtraDto"
-                  }
-                },
-                {
-                  "name": "UpdateForSpecificItemAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "itemId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "extraId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "input",
-                      "typeAsString": "Wajba.Dtos.ItemExtraContract.UpdateItemExtraDto, Wajba.Application.Contracts",
-                      "type": "Wajba.Dtos.ItemExtraContract.UpdateItemExtraDto",
-                      "typeSimple": "Wajba.Dtos.ItemExtraContract.UpdateItemExtraDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Wajba.Dtos.ItemExtraContract.ItemExtraDto",
-                    "typeSimple": "Wajba.Dtos.ItemExtraContract.ItemExtraDto"
-                  }
-                },
-                {
-                  "name": "DeleteAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "itemId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "extraId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetAsyncById": {
-              "uniqueName": "GetAsyncById",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/app/item-extra/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.ItemExtraContract.ItemExtraDto",
-                "typeSimple": "Wajba.Dtos.ItemExtraContract.ItemExtraDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemExtraContract.IItemExtraAppService"
-            },
-            "GetListByItemIdAsyncByItemId": {
-              "uniqueName": "GetListByItemIdAsyncByItemId",
-              "name": "GetListByItemIdAsync",
-              "httpMethod": "GET",
-              "url": "api/app/item-extra/by-item-id/{itemId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "itemId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "itemId",
-                  "name": "itemId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<Wajba.Dtos.ItemExtraContract.ItemExtraDto>",
-                "typeSimple": "[Wajba.Dtos.ItemExtraContract.ItemExtraDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemExtraContract.IItemExtraAppService"
-            },
-            "CreateAsyncByInput": {
-              "uniqueName": "CreateAsyncByInput",
-              "name": "CreateAsync",
-              "httpMethod": "POST",
-              "url": "api/app/item-extra",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemExtraContract.CreateItemExtraDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemExtraContract.CreateItemExtraDto",
-                  "typeSimple": "Wajba.Dtos.ItemExtraContract.CreateItemExtraDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.ItemExtraContract.CreateItemExtraDto",
-                  "typeSimple": "Wajba.Dtos.ItemExtraContract.CreateItemExtraDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.ItemExtraContract.ItemExtraDto",
-                "typeSimple": "Wajba.Dtos.ItemExtraContract.ItemExtraDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemExtraContract.IItemExtraAppService"
-            },
-            "UpdateForSpecificItemAsyncByItemIdAndExtraIdAndInput": {
-              "uniqueName": "UpdateForSpecificItemAsyncByItemIdAndExtraIdAndInput",
-              "name": "UpdateForSpecificItemAsync",
-              "httpMethod": "PUT",
-              "url": "api/app/item-extra/for-specific-item",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "itemId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "extraId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemExtraContract.UpdateItemExtraDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemExtraContract.UpdateItemExtraDto",
-                  "typeSimple": "Wajba.Dtos.ItemExtraContract.UpdateItemExtraDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "itemId",
-                  "name": "itemId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "extraId",
-                  "name": "extraId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.ItemExtraContract.UpdateItemExtraDto",
-                  "typeSimple": "Wajba.Dtos.ItemExtraContract.UpdateItemExtraDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.ItemExtraContract.ItemExtraDto",
-                "typeSimple": "Wajba.Dtos.ItemExtraContract.ItemExtraDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemExtraContract.IItemExtraAppService"
-            },
-            "DeleteAsyncByItemIdAndExtraId": {
-              "uniqueName": "DeleteAsyncByItemIdAndExtraId",
-              "name": "DeleteAsync",
-              "httpMethod": "DELETE",
-              "url": "api/app/item-extra",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "itemId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "extraId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "itemId",
-                  "name": "itemId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "extraId",
-                  "name": "extraId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemExtraContract.IItemExtraAppService"
-            }
-          }
-        },
-        "Wajba.ItemVariationService.ItemVariationAppService": {
-          "controllerName": "ItemVariation",
-          "controllerGroupName": "ItemVariation",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Wajba.ItemVariationService.ItemVariationAppService",
-          "interfaces": [
-            {
-              "type": "Wajba.Dtos.ItemVariationContract.IItemVariationAppService",
-              "name": "IItemVariationAppService",
-              "methods": [
-                {
-                  "name": "GetAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "id",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Wajba.Dtos.ItemVariationContract.ItemVariationDto",
-                    "typeSimple": "Wajba.Dtos.ItemVariationContract.ItemVariationDto"
-                  }
-                },
-                {
-                  "name": "GetListByItemIdAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "itemId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<Wajba.Dtos.ItemVariationContract.ItemVariationDto>",
-                    "typeSimple": "[Wajba.Dtos.ItemVariationContract.ItemVariationDto]"
-                  }
-                },
-                {
-                  "name": "CreateAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "input",
-                      "typeAsString": "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto, Wajba.Application.Contracts",
-                      "type": "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto",
-                      "typeSimple": "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Wajba.Dtos.ItemVariationContract.ItemVariationDto",
-                    "typeSimple": "Wajba.Dtos.ItemVariationContract.ItemVariationDto"
-                  }
-                },
-                {
-                  "name": "UpdateForSpecificItemAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "itemId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "variationId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "input",
-                      "typeAsString": "Wajba.Dtos.ItemVariationContract.UpdateItemVariationDto, Wajba.Application.Contracts",
-                      "type": "Wajba.Dtos.ItemVariationContract.UpdateItemVariationDto",
-                      "typeSimple": "Wajba.Dtos.ItemVariationContract.UpdateItemVariationDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Wajba.Dtos.ItemVariationContract.ItemVariationDto",
-                    "typeSimple": "Wajba.Dtos.ItemVariationContract.ItemVariationDto"
-                  }
-                },
-                {
-                  "name": "DeleteForSpecificItemAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "itemId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "variationId",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetAsyncById": {
-              "uniqueName": "GetAsyncById",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/app/item-variation/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.ItemVariationContract.ItemVariationDto",
-                "typeSimple": "Wajba.Dtos.ItemVariationContract.ItemVariationDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemVariationContract.IItemVariationAppService"
-            },
-            "GetListByItemIdAsyncByItemId": {
-              "uniqueName": "GetListByItemIdAsyncByItemId",
-              "name": "GetListByItemIdAsync",
-              "httpMethod": "GET",
-              "url": "api/app/item-variation/by-item-id/{itemId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "itemId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "itemId",
-                  "name": "itemId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<Wajba.Dtos.ItemVariationContract.ItemVariationDto>",
-                "typeSimple": "[Wajba.Dtos.ItemVariationContract.ItemVariationDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemVariationContract.IItemVariationAppService"
-            },
-            "CreateAsyncByInput": {
-              "uniqueName": "CreateAsyncByInput",
-              "name": "CreateAsync",
-              "httpMethod": "POST",
-              "url": "api/app/item-variation",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto",
-                  "typeSimple": "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto",
-                  "typeSimple": "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.ItemVariationContract.ItemVariationDto",
-                "typeSimple": "Wajba.Dtos.ItemVariationContract.ItemVariationDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemVariationContract.IItemVariationAppService"
-            },
-            "UpdateForSpecificItemAsyncByItemIdAndVariationIdAndInput": {
-              "uniqueName": "UpdateForSpecificItemAsyncByItemIdAndVariationIdAndInput",
-              "name": "UpdateForSpecificItemAsync",
-              "httpMethod": "PUT",
-              "url": "api/app/item-variation/for-specific-item",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "itemId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "variationId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.ItemVariationContract.UpdateItemVariationDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ItemVariationContract.UpdateItemVariationDto",
-                  "typeSimple": "Wajba.Dtos.ItemVariationContract.UpdateItemVariationDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "itemId",
-                  "name": "itemId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "variationId",
-                  "name": "variationId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.ItemVariationContract.UpdateItemVariationDto",
-                  "typeSimple": "Wajba.Dtos.ItemVariationContract.UpdateItemVariationDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.ItemVariationContract.ItemVariationDto",
-                "typeSimple": "Wajba.Dtos.ItemVariationContract.ItemVariationDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemVariationContract.IItemVariationAppService"
-            },
-            "DeleteForSpecificItemAsyncByItemIdAndVariationId": {
-              "uniqueName": "DeleteForSpecificItemAsyncByItemIdAndVariationId",
-              "name": "DeleteForSpecificItemAsync",
-              "httpMethod": "DELETE",
-              "url": "api/app/item-variation/for-specific-item",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "itemId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "variationId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "itemId",
-                  "name": "itemId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "variationId",
-                  "name": "variationId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Dtos.ItemVariationContract.IItemVariationAppService"
             }
           }
         }
@@ -10300,6 +9957,14 @@
         }
       ]
     },
+    "Microsoft.AspNetCore.Mvc.ActionResult": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": []
+    },
     "Microsoft.AspNetCore.Mvc.IActionResult": {
       "baseType": null,
       "isEnum": false,
@@ -10841,6 +10506,76 @@
         }
       ]
     },
+    "Volo.Abp.Application.Dtos.AuditedEntityDto<T0>": {
+      "baseType": "Volo.Abp.Application.Dtos.CreationAuditedEntityDto<TPrimaryKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TPrimaryKey"
+      ],
+      "properties": [
+        {
+          "name": "LastModificationTime",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LastModifierId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Volo.Abp.Application.Dtos.CreationAuditedEntityDto<T0>": {
+      "baseType": "Volo.Abp.Application.Dtos.EntityDto<TPrimaryKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TPrimaryKey"
+      ],
+      "properties": [
+        {
+          "name": "CreationTime",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CreatorId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Volo.Abp.Application.Dtos.EntityDto": {
       "baseType": null,
       "isEnum": false,
@@ -11103,6 +10838,53 @@
           "maxLength": null,
           "minimum": "0",
           "maximum": "2147483647",
+          "regex": null
+        }
+      ]
+    },
+    "Volo.Abp.Application.Dtos.FullAuditedEntityDto<T0>": {
+      "baseType": "Volo.Abp.Application.Dtos.AuditedEntityDto<TPrimaryKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TPrimaryKey"
+      ],
+      "properties": [
+        {
+          "name": "IsDeleted",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeleterId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeletionTime",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
           "regex": null
         }
       ]
@@ -17170,64 +16952,7 @@
         }
       ]
     },
-    "Wajba.Dtos.ItemAddonContract.ItemAddonDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "AddonName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "AdditionalPrice",
-          "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ItemId",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "Wajba.Dtos.ItemAttributes.CreateUpdateItemAttributeDto": {
+    "Wajba.Dtos.ItemAttributes.CreateItemAttributeDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -17260,30 +16985,18 @@
         }
       ]
     },
-    "Wajba.Dtos.ItemAttributes.ItemAttributeDto": {
-      "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Int32>",
+    "Wajba.Dtos.ItemAttributes.UpdateItemAttributeDto": {
+      "baseType": "Wajba.Dtos.ItemAttributes.CreateItemAttributeDto",
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
       "genericArguments": null,
       "properties": [
         {
-          "name": "Name",
+          "name": "id",
           "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Status",
-          "jsonName": null,
-          "type": "Wajba.Enums.Status",
-          "typeSimple": "Wajba.Enums.Status",
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -17300,75 +17013,6 @@
       "enumValues": null,
       "genericArguments": null,
       "properties": [
-        {
-          "name": "Name",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Status",
-          "jsonName": null,
-          "type": "Wajba.Enums.Status",
-          "typeSimple": "Wajba.Enums.Status",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "AdditionalPrice",
-          "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ItemId",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "Wajba.Dtos.ItemExtraContract.ItemExtraDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
         {
           "name": "Name",
           "jsonName": null,
@@ -17721,13 +17365,25 @@
         }
       ]
     },
-    "Wajba.Dtos.ItemTaxContract.CreateUpdateItemTaxDto": {
-      "baseType": null,
+    "Wajba.Dtos.ItemsDtos.ItemDto": {
+      "baseType": "Volo.Abp.Application.Dtos.FullAuditedEntityDto<System.Int32>",
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
       "genericArguments": null,
       "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
         {
           "name": "Name",
           "jsonName": null,
@@ -17741,109 +17397,7 @@
           "regex": null
         },
         {
-          "name": "Code",
-          "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "TaxRate",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Status",
-          "jsonName": null,
-          "type": "Wajba.Enums.Status",
-          "typeSimple": "Wajba.Enums.Status",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "Wajba.Dtos.ItemTaxContract.ItemTaxDto": {
-      "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Int32>",
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Name",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Code",
-          "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "TaxRate",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Status",
-          "jsonName": null,
-          "type": "Wajba.Enums.Status",
-          "typeSimple": "Wajba.Enums.Status",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Name",
+          "name": "Description",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
@@ -17867,10 +17421,10 @@
           "regex": null
         },
         {
-          "name": "Status",
+          "name": "status",
           "jsonName": null,
-          "type": "Wajba.Enums.Status",
-          "typeSimple": "Wajba.Enums.Status",
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -17879,7 +17433,31 @@
           "regex": null
         },
         {
-          "name": "AdditionalPrice",
+          "name": "IsFeatured",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "imageUrl",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Price",
           "jsonName": null,
           "type": "System.Decimal",
           "typeSimple": "number",
@@ -17891,7 +17469,19 @@
           "regex": null
         },
         {
-          "name": "ItemAttributesId",
+          "name": "TaxValue",
+          "jsonName": null,
+          "type": "System.Decimal?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CategoryId",
           "jsonName": null,
           "type": "System.Int32",
           "typeSimple": "number",
@@ -17903,10 +17493,34 @@
           "regex": null
         },
         {
-          "name": "ItemId",
+          "name": "CategoryName",
           "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ItemType",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsDeleted",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -17916,8 +17530,65 @@
         }
       ]
     },
-    "Wajba.Dtos.ItemVariationContract.ItemVariationDto": {
+    "Wajba.Dtos.ItemTaxContract.CreateItemTaxDto": {
       "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Code",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TaxRate",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "Wajba.Enums.Status",
+          "typeSimple": "Wajba.Enums.Status",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.ItemTaxContract.UpdateItemTaxDto": {
+      "baseType": "Wajba.Dtos.ItemTaxContract.CreateItemTaxDto",
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
@@ -17934,7 +17605,16 @@
           "minimum": null,
           "maximum": null,
           "regex": null
-        },
+        }
+      ]
+    },
+    "Wajba.Dtos.ItemVariationContract.CreateItemVariationDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
         {
           "name": "Name",
           "jsonName": null,
@@ -18151,6 +17831,273 @@
         }
       ]
     },
+    "Wajba.Dtos.NotificationContract.CreateNotificationDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "FireBasePublicVapidKey",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseAPIKey",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseProjectId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseAuthDomain",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseStorageBucket",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseMessageSenderId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseAppId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseMeasurementId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ImageUrl",
+          "jsonName": null,
+          "type": "Microsoft.AspNetCore.Http.IFormFile",
+          "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.NotificationContract.GetNotificationInput": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Filter",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.NotificationContract.UpdateNotificationDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBasePublicVapidKey",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseAPIKey",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseProjectId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseAuthDomain",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseStorageBucket",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseMessageSenderId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseAppId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FireBaseMeasurementId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ImageUrl",
+          "jsonName": null,
+          "type": "Microsoft.AspNetCore.Http.IFormFile",
+          "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto": {
       "baseType": null,
       "isEnum": false,
@@ -18301,6 +18248,135 @@
         }
       ]
     },
+    "Wajba.Dtos.OrderSetupContract.UpdateOrderSetupDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "FoodPreparationTime",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ScheduleOrderSlotDuration",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FreeDeliveryKilometer",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BasicDeliveryCharge",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ChargePerKilo",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsTakeawayEnabled",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsDeliveryEnabled",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Ontime",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Warning",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DelayTime",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.OTPContract.CreateUpdateOTPDto": {
       "baseType": null,
       "isEnum": false,
@@ -18354,18 +18430,6 @@
       "genericArguments": null,
       "properties": [
         {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
           "name": "Type",
           "jsonName": null,
           "type": "Wajba.Enums.OTPType",
@@ -18391,6 +18455,140 @@
         },
         {
           "name": "ExpiryTimeInMinutes",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.PopularItemstoday.CreatePopularitem": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ImgFile",
+          "jsonName": null,
+          "type": "Microsoft.AspNetCore.Http.IFormFile",
+          "typeSimple": "Microsoft.AspNetCore.Http.IFormFile",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "preprice",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "currentprice",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BranchId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.PopularItemstoday.GetPopulariteminput": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": []
+    },
+    "Wajba.Dtos.PopularItemstoday.UpdatePopularItemdto": {
+      "baseType": "Wajba.Dtos.PopularItemstoday.CreatePopularitem",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "ItemId",
           "jsonName": null,
           "type": "System.Int32",
           "typeSimple": "number",
@@ -18556,15 +18754,27 @@
         }
       ]
     },
-    "Wajba.Dtos.ThemesContract.GetThemeInput": {
-      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+    "Wajba.Dtos.ThemesContract.Base64ImageModel": {
+      "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Int32>",
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
       "genericArguments": null,
       "properties": [
         {
-          "name": "Filter",
+          "name": "FileName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Base64Content",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
@@ -18646,39 +18856,6 @@
           "jsonName": null,
           "type": "[Wajba.Dtos.TimeSlotsContract.TimeSlotUpdateDetailDto]",
           "typeSimple": "[Wajba.Dtos.TimeSlotsContract.TimeSlotUpdateDetailDto]",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "Wajba.Dtos.UserDTO.LogInDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Phone",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Password",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

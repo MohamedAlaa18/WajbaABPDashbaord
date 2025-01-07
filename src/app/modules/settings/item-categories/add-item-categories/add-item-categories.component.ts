@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryService } from '@proxy/controllers';
-import { CreateBranchDto } from '@proxy/dtos/branch-contract';
 import { IconsComponent } from "../../../../shared/icons/icons.component";
 import { CommonModule } from '@angular/common';
 import { CreateUpdateCategoryDto, UpdateCategory } from '@proxy/dtos/categories';
@@ -30,7 +29,7 @@ export class AddItemCategoriesComponent {
       name: ['', Validators.required],
       image: [null, Validators.required],
       description: ['', Validators.required],
-      status: [1],
+      status: [2],
     });
   }
 
@@ -57,17 +56,25 @@ export class AddItemCategoriesComponent {
   submitForm() {
     if (this.itemCategoryForm.valid) {
       // Declare the formValue outside the if-else block
-      let formValue: CreateBranchDto | UpdateCategory;
+      let formValue: CreateUpdateCategoryDto | UpdateCategory;
+
+      // Ensure status is valid (either 1 or 2)
+      const status = this.itemCategoryForm.value.status;
+      if (![1, 2].includes(status)) {
+        console.error('Invalid status value');
+        return;
+      }
 
       // Determine whether it's an update or create operation
       if (this.itemCategoryForm.value.id) {
         formValue = this.itemCategoryForm.value as UpdateCategory;
       } else {
-        formValue = this.itemCategoryForm.value as CreateBranchDto;
+        formValue = this.itemCategoryForm.value as CreateUpdateCategoryDto;
       }
 
       console.log(formValue);
 
+      // Make sure to send the formValue in the request body, not as query params
       if (this.itemCategory) {
         // Update existing Item Category
         this.categoryService.update(formValue as UpdateCategory)
@@ -75,6 +82,7 @@ export class AddItemCategoriesComponent {
             response => {
               // Handle successful response
               console.log('Item Category updated successfully:', response);
+              this.closeModal();
             },
             error => {
               // Handle error response
@@ -82,12 +90,13 @@ export class AddItemCategoriesComponent {
             }
           );
       } else {
-        // Create a new branch
+        // Create a new Item Category
         this.categoryService.create(formValue as CreateUpdateCategoryDto)
           .subscribe(
             response => {
               // Handle successful response
               console.log('Item Category created successfully:', response);
+              this.closeModal();
             },
             error => {
               // Handle error response

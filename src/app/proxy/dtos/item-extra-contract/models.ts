@@ -7,13 +7,5 @@ export interface CreateItemExtraDto {
   itemId: number;
 }
 
-export interface ItemExtraDto {
-  id: number;
-  name?: string;
-  status: Status;
-  additionalPrice: number;
-  itemId: number;
-}
-
 export interface UpdateItemExtraDto extends CreateItemExtraDto {
 }

@@ -5,6 +5,9 @@ import { FaqService } from '@proxy/controllers';
 import { IconsComponent } from "../../../shared/icons/icons.component";
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-faqs',
@@ -20,7 +23,9 @@ export class FAQsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private faqsService: FaqService
+    private faqsService: FaqService,
+    private modalService: NgbModal,
+    private afterActionService: AfterActionService,
   ) {
     this.questionAnswerForm = this.fb.group({
       questions: this.fb.array([])
@@ -37,16 +42,17 @@ export class FAQsComponent implements OnInit {
   }
 
   // Create a new question-answer form group
-  createQuestionAnswer(question = '', answer = ''): FormGroup {
+  createQuestionAnswer(id: number, question = '', answer = ''): FormGroup {
     return this.fb.group({
+      id: [id],
       question: [question, Validators.required],
       answer: [answer, Validators.required]
     });
   }
 
   // Add a new question-answer form group to the form array
-  addQuestion(question = '', answer = '') {
-    this.questions.push(this.createQuestionAnswer(question, answer));
+  addQuestion(id = null, question = '', answer = '') {
+    this.questions.push(this.createQuestionAnswer(id, question, answer));
     this.isEditable.push(false); // Initially readonly
   }
 
@@ -73,8 +79,10 @@ export class FAQsComponent implements OnInit {
 
     this.faqsService.getList(defaultInput).subscribe(
       (response: any) => {
-        console.log(response);
-        response.data.items.forEach((faq: any) => this.addQuestion(faq.question, faq.answer));
+        response.data.items.forEach((faq: any) => {
+          // Ensure that each FAQ's id is passed correctly
+          this.addQuestion(faq.id, faq.question, faq.answer);
+        });
       },
       error => {
         console.error('Error loading FAQs:', error);
@@ -88,8 +96,9 @@ export class FAQsComponent implements OnInit {
       const formValue = this.questionAnswerForm.value.questions;
 
       formValue.forEach((q: any, index: number) => {
+        console.log(q)
         const payload = {
-          id: q.id || 0, // Use `id` if it exists, otherwise assume it's a new FAQ
+          id: q.id || null,
           question: q.question,
           answer: q.answer,
         };
@@ -119,7 +128,6 @@ export class FAQsComponent implements OnInit {
         }
       });
 
-      this.resetForm(); // Reset the form after all operations
     } else {
       this.questionAnswerForm.markAllAsTouched();
     }
@@ -131,13 +139,35 @@ export class FAQsComponent implements OnInit {
     console.error('Validation Errors:', this.errorMessages);
   }
 
-  // Reset form after submission
-  resetForm() {
-    this.questionAnswerForm.reset();
-    while (this.questions.length) {
-      this.questions.removeAt(0);
-    }
-    this.isEditable = [];
-    this.addQuestion();
+  openConfirmDeleteModal(faqId: number, faqName: string): void {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: 'static',
+    });
+
+    // Pass data to the modal instance
+    modalRef.componentInstance.id = faqId;
+    modalRef.componentInstance.name = faqName;
+
+    // Handle modal result
+    modalRef.componentInstance.confirmDelete.subscribe((id: number) => {
+      this.deleteFaq(id); // Call the delete method with the correct faq ID
+      modalRef.close();
+    });
+
+    modalRef.componentInstance.cancelDelete.subscribe(() => {
+      modalRef.close(); // Close modal on cancel
+    });
   }
+
+  deleteFaq(id: number): void {
+    this.faqsService.delete(id).subscribe(() => {
+      console.log(`FAQ with id: ${id} deleted successfully.`);
+      this.afterActionService.reloadCurrentRoute(); // Reload the route after deletion
+    }, (error) => {
+      console.error('Failed to delete FAQ:', error);
+    });
+  }
+
 }

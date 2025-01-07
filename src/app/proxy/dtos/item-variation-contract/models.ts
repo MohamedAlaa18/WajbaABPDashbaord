@@ -9,15 +9,5 @@ export interface CreateItemVariationDto {
   itemId: number;
 }
 
-export interface ItemVariationDto {
-  id: number;
-  name?: string;
-  note?: string;
-  status: Status;
-  additionalPrice: number;
-  itemAttributesId: number;
-  itemId: number;
-}
-
 export interface UpdateItemVariationDto extends CreateItemVariationDto {
 }

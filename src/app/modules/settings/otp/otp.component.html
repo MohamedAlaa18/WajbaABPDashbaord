@@ -11,11 +11,11 @@
         <!-- Order Type -->
         <div class="col-md-6 mb-3">
           <label>Order Type <span class="text-danger">*</span></label>
-          <select formControlName="orderType" class="form-select bg-white">
+          <select formControlName="type" class="form-select bg-white">
             <option value="" disabled selected>--</option>
             <option *ngFor="let type of orderTypes" [value]="type.value">{{ type.label }}</option>
           </select>
-          <div *ngIf="otpForm.get('orderType')?.invalid && otpForm.get('orderType')?.touched" class="text-danger">
+          <div *ngIf="otpForm.get('type')?.invalid && otpForm.get('type')?.touched" class="text-danger">
             Type is required.
           </div>
         </div>
@@ -23,11 +23,11 @@
         <!-- OTP Length -->
         <div class="col-md-6 mb-3">
           <label>OTP Length <span class="text-danger">*</span></label>
-          <select formControlName="otpLength" class="form-select bg-white">
+          <select formControlName="digitLimit" class="form-select bg-white">
             <option value="" disabled selected>--</option>
             <option *ngFor="let length of otpLengths" [value]="length">{{ length }}</option>
           </select>
-          <div *ngIf="otpForm.get('otpLength')?.invalid && otpForm.get('otpLength')?.touched" class="text-danger">
+          <div *ngIf="otpForm.get('digitLimit')?.invalid && otpForm.get('digitLimit')?.touched" class="text-danger">
             OTP Length is required.
           </div>
         </div>
@@ -37,11 +37,11 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label>OTP Expire Time <span class="text-danger">*</span></label>
-          <select formControlName="otpExpireTime" class="form-select bg-white">
+          <select formControlName="expiryTimeInMinutes" class="form-select bg-white">
             <option value="" disabled selected>--</option>
             <option *ngFor="let time of otpExpireTimes" [value]="time">{{ time }}</option>
           </select>
-          <div *ngIf="otpForm.get('otpExpireTime')?.invalid && otpForm.get('otpExpireTime')?.touched"
+          <div *ngIf="otpForm.get('expiryTimeInMinutes')?.invalid && otpForm.get('expiryTimeInMinutes')?.touched"
             class="text-danger">
             Expire Time is required.
           </div>

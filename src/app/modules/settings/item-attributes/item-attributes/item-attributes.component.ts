@@ -8,8 +8,8 @@ import { ItemAttributeService } from '@proxy/controllers';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
-import { CreateUpdateItemAttributeDto } from '@proxy/dtos/item-attributes';
 import { AddItemAttributesComponent } from '../add-item-attributes/add-item-attributes.component';
+import { UpdateItemAttributeDto } from '@proxy/dtos/item-attributes';
 
 @Component({
   selector: 'app-item-attributes',
@@ -19,7 +19,7 @@ import { AddItemAttributesComponent } from '../add-item-attributes/add-item-attr
   styleUrl: './item-attributes.component.scss'
 })
 export class ItemAttributesComponent {
-  itemAttributes: CreateUpdateItemAttributeDto[] = [];
+  itemAttributes: UpdateItemAttributeDto[] = [];
   isAddMode = true;
 
   columns = [
@@ -71,7 +71,7 @@ export class ItemAttributesComponent {
     });
   }
 
-  openAddEditModal(itemAttribute?: CreateUpdateItemAttributeDto): void {
+  openAddEditModal(itemAttribute?: UpdateItemAttributeDto): void {
     const modalRef = this.modalService.open(AddItemAttributesComponent, {
       size: 'lg',
       centered: true,

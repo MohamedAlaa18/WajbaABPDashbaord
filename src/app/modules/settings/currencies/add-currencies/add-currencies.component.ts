@@ -48,7 +48,7 @@ export class AddCurrenciesComponent implements OnInit {
       symbol: currency.symbol,
       code: currency.code,
       exchangeRate: currency.exchangeRate,
-      isCryptoCurrency: currency.isCryptoCurrency ? 'yes' : 'no',
+      isCryptoCurrency: currency.isCryptoCurrency,
     });
   }
 
@@ -63,6 +63,11 @@ export class AddCurrenciesComponent implements OnInit {
       const formValue = this.currencyForm.value;
 
       console.log('Form values:', formValue);
+
+      // Ensure isCryptoCurrency is a boolean value (either true or false)
+      if (formValue.hasOwnProperty('isCryptoCurrency')) {
+        formValue.isCryptoCurrency = Boolean(formValue.isCryptoCurrency); // Ensure boolean type
+      }
 
       if (this.currency) {
         // Ensure formValue has the 'id' property for update

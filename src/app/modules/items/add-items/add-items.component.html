@@ -1,1 +1,139 @@
-<p>add-items works!</p>
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header border-bottom">
+      <h5 class="section-title text-black">Items</h5>
+      <button type="button" class="border-0 bg-white" aria-label="Close" (click)="closeModal()">
+        <app-icons iconName="close" color="#F45859"></app-icons>
+      </button>
+    </div>
+
+    <form [formGroup]="itemForm" (ngSubmit)="submitForm()" class="p-3">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="itemName" class="form-label">Name <span class="text-danger">*</span></label>
+          <input type="text" id="itemName" formControlName="name" class="form-control bg-white">
+          <div *ngIf="itemForm.get('name')?.touched && itemForm.get('name')?.invalid" class="text-danger">
+            <small>Name is required.</small>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="itemPrice" class="form-label">Price <span class="text-danger">*</span></label>
+          <input type="number" id="itemPrice" formControlName="price" class="form-control bg-white">
+          <div *ngIf="itemForm.get('price')?.touched && itemForm.get('price')?.invalid" class="text-danger">
+            <small *ngIf="itemForm.get('price')?.errors?.['required']">Price is required.</small>
+            <small *ngIf="itemForm.get('price')?.errors?.['min']">Price must be a positive number.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="itemCategory" class="form-label">Category <span class="text-danger">*</span></label>
+          <input type="text" id="itemCategory" formControlName="category" class="form-control bg-white">
+          <div *ngIf="itemForm.get('category')?.touched && itemForm.get('category')?.invalid" class="text-danger">
+            <small>Category is required.</small>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
+          <input type="file" (change)="onFileSelected($event)" class="form-control bg-white">
+          <div *ngIf="itemForm.get('image')?.touched && itemForm.get('image')?.invalid" class="text-danger">
+            <small *ngIf="itemCategoryForm.get('image')?.errors?.['required']">Image is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <label for="branches" class="form-label">Branches <span class="text-danger">*</span></label>
+          <ng-select [items]="branchesList" bindLabel="name" bindValue="id" [multiple]="true"
+            placeholder="Select branches" formControlName="branches" class="custom">
+          </ng-select>
+          <div *ngIf="itemForm.get('branches')?.touched && itemForm.get('branches')?.invalid" class="text-danger">
+            <small>At least one branch must be selected.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label>Item Type <span class="text-danger">*</span></label>
+          <div class="d-flex align-items-center gap-2">
+            <label class="btn radio-label">
+              <input type="radio" formControlName="itemType" [value]="'Veg'" class="d-none"> Veg
+            </label>
+            <label class="btn radio-label">
+              <input type="radio" formControlName="itemType" [value]="'Non-Veg'" class="d-none"> Non-Veg
+            </label>
+          </div>
+          <div *ngIf="itemForm.get('itemType')?.touched && itemForm.get('itemType')?.invalid" class="text-danger">
+            <small>Item Type is required.</small>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label>Status <span class="text-danger">*</span></label>
+          <div class="d-flex align-items-center gap-2">
+            <label class="btn radio-label">
+              <input type="radio" formControlName="status" [value]="1" class="d-none"> Active
+            </label>
+            <label class="btn radio-label">
+              <input type="radio" formControlName="status" [value]="0" class="d-none"> Inactive
+            </label>
+          </div>
+          <div *ngIf="itemForm.get('status')?.touched && itemForm.get('status')?.invalid" class="text-danger">
+            <small>Status is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="itemTax" class="form-label">Tax</label>
+          <input type="text" id="itemTax" formControlName="tax" class="form-control bg-white">
+        </div>
+
+        <div class="col-md-6">
+          <label>Featured <span class="text-danger">*</span></label>
+          <div class="d-flex align-items-center gap-2">
+            <label class="btn radio-label">
+              <input type="radio" formControlName="isFeatured" [value]="1" class="d-none">Yes
+            </label>
+            <label class="btn radio-label">
+              <input type="radio" formControlName="isFeatured" [value]="0" class="d-none">No
+            </label>
+          </div>
+          <div *ngIf="itemForm.get('isFeatured')?.touched && itemForm.get('isFeatured')?.invalid" class="text-danger">
+            <small>Featured is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <label for="itemDescription" class="form-label">Description <span class="text-danger">*</span></label>
+          <textarea id="itemDescription" formControlName="description" class="form-control bg-white"
+            rows="3"></textarea>
+          <div *ngIf="itemForm.get('description')?.touched && itemForm.get('description')?.invalid" class="text-danger">
+            <small>Description is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <label for="itemNote" class="form-label">Note <span class="text-danger">*</span></label>
+          <textarea id="itemNote" formControlName="note" class="form-control bg-white" rows="3"></textarea>
+          <div *ngIf="itemForm.get('note')?.touched && itemForm.get('note')?.invalid" class="text-danger">
+            <small>Note is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-start">
+        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

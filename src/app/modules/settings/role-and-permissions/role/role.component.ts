@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CreateUpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from "../../../../shared/icons/icons.component";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddRoleComponent } from '../add-role/add-role.component';
 import { SettingsSidebarComponent } from "../../settings-sidebar/settings-sidebar.component";
+import { UpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
 
 @Component({
   selector: 'app-role',
@@ -18,7 +18,7 @@ import { SettingsSidebarComponent } from "../../settings-sidebar/settings-sideba
 export class RoleComponent implements OnInit {
   isModalOpen: boolean = false;
   isMenuOpen: boolean = false;
-  roles: CreateUpdateItemTaxDto[] = [];
+  roles: UpdateItemTaxDto[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -71,7 +71,7 @@ export class RoleComponent implements OnInit {
       });
   }
 
-  openItemDetails(category: CreateUpdateItemTaxDto) {
+  openItemDetails(category: UpdateItemTaxDto) {
     localStorage.setItem('selectedRole', JSON.stringify(category));
     localStorage.setItem('selectedComponentName', 'Role & Permissions Details');
     this.afterActionService.reloadCurrentRoute();

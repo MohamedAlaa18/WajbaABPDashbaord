@@ -47,13 +47,13 @@ export class SiteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCompany();
-    this.loadLanguages();
-    this.loadBranches();
+    this.loadSite();
     this.loadCurrencies();
+    this.loadBranches();
+    this.loadLanguages();
   }
 
-  getCompany(): void {
+  loadSite(): void {
     this.siteService.getById().subscribe(
       (response) => {
         console.log(response);
@@ -79,7 +79,13 @@ export class SiteComponent implements OnInit {
   }
 
   loadLanguages(): void {
-    this.languageService.getAllByDto(null).subscribe({
+    const defaultInput: PagedAndSortedResultRequestDto = {
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
+    };
+
+    this.languageService.getAllByDto(defaultInput).subscribe({
       next: (languages) => {
         console.log(languages)
         this.languages = languages.data.items.map(lang => ({

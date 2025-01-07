@@ -10,6 +10,7 @@ import { AddCurrenciesComponent } from '../add-currencies/add-currencies.compone
 import { SettingsSidebarComponent } from "../../settings-sidebar/settings-sidebar.component";
 import { TableComponent } from "../../../../shared/table/table.component";
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
+import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 @Component({
   selector: 'app-currencies',
@@ -31,7 +32,7 @@ export class CurrenciesComponent {
     { field: 'name', header: 'Name' },
     { field: 'symbol', header: 'Symbol' },
     { field: 'code', header: 'Code' },
-    { field: 'rate', header: 'Exchange Rate' }
+    { field: 'exchangeRate', header: 'Exchange Rate' }
   ];
 
   actions = [
@@ -44,7 +45,7 @@ export class CurrenciesComponent {
     {
       icon: 'assets/images/delete.svg',
       tooltip: 'Delete',
-      show: (row: any) => row.status === 1, // Show only for active currencies
+      show: (row: any) => row.status === 1,
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     },
   ];
@@ -61,17 +62,23 @@ export class CurrenciesComponent {
   }
 
   loadCurrencies() {
-    // this.CurrenciesService.getList().subscribe((response: any) => {
-    //   if (response) {
-    //     this.currencies = response.data;
-    //     console.log("currency : " + response.data)
-    //   } else {
-    //     console.error('The response is not an array:', response);
-    //     this.currencies = [];
-    //   }
-    // }, (error) => {
-    //   console.error('Failed to load currencies:', error);
-    // });
+    const defaultInput: PagedAndSortedResultRequestDto = {
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
+    };
+
+    this.CurrenciesService.getList(defaultInput).subscribe((response: any) => {
+      if (response) {
+        this.currencies = response.data.items;
+        console.log("currency : " + response.data.items)
+      } else {
+        console.error('The response is not an array:', response);
+        this.currencies = [];
+      }
+    }, (error) => {
+      console.error('Failed to load currencies:', error);
+    });
   }
 
   toggleMenu() {
