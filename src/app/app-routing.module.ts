@@ -15,6 +15,22 @@ const routes: Routes = [
     loadChildren: () => import('./modules/items/items.module').then(m => m.ItemsModule),
   },
   {
+    path: 'popular-today',
+    loadChildren: () => import('./modules/popular-today/popular-today.module').then(m => m.PopularTodayModule),
+  },
+  {
+    path: 'dining-tables',
+    loadChildren: () => import('./modules/dining-tables/dining-tables.module').then(m => m.DiningTablesModule),
+  },
+  {
+    path: 'pos',
+    loadChildren: () => import('./modules/pos/pos.module').then(m => m.POSModule),
+  },
+  // {
+  //   path: 'administrators',
+  //   loadChildren: () => import('./modules/administrators/administrators.module').then(m => m.AdministratorsModule),
+  // },
+  {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
   },

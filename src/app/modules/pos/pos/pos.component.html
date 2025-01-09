@@ -1,0 +1,307 @@
+<section class="d-flex justify-content-center flex-wrap gap-4 w-100">
+  <div class="w-100">
+    <form>
+      <div class="bg-white rounded border border-light d-flex align-items-center gap-2 search">
+        <input type="text" id="search" placeholder="Search by menu item" (input)="searchAction($event)"
+          class="form-control rounded-start bg-white border-0" />
+
+        <button type="button" class="btn">
+          <app-icons iconName="search" color="white"></app-icons>
+        </button>
+      </div>
+    </form>
+
+    <!-- Meal items scrollable list -->
+    <div class="overflow-auto max-w-screen-md categories-container" *ngIf="categories" (scroll)="onScroll($event)">
+      <div [ngStyle]="{ width: (calculateWidth(categories.length + 1)) + 'px' }">
+        <div class="d-flex flex-wrap gap-3 my-4"
+          [ngStyle]="{ 'transform': 'translateX(-' + (selectedPageIndex * calculateWidth(4)) + 'px)' }">
+          <!-- 'All' category button -->
+          <button (click)="selectCategory(0)"
+            class="btn rounded-circle border border-light hover:border-danger hover:bg-danger bg-light transition"
+            [ngClass]="{ 'bg-success': selectedCategoryId === undefined }">
+            <img [src]="" alt="category" class="w-75 h-75" />
+            <span class="text-small font-weight-bold">All</span>
+          </button>
+
+          <!-- Category buttons -->
+          <button *ngFor="let category of categories;" (click)="selectCategory(category.id)"
+            class="btn rounded-circle border border-light hover:border-danger hover:bg-danger transition"
+            [ngClass]="{ 'bg-success': selectedCategoryId === category.id }">
+            <img [src]="category.imageUrl" alt="category" class="w-75 h-75" />
+            <span class="text-small font-weight-bold">{{ category.name }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination buttons -->
+    <div class="d-flex justify-content-center gap-2 w-100 mt-4 mb-4">
+      <button *ngFor="let page of [].constructor(pageCount); let i = index" (click)="selectPage(i)" class="btn rounded"
+        [ngStyle]="{ 'background-color': selectedPageIndex === i ? '#F45859' : '#F4585945' }"></button>
+    </div>
+
+    <!-- Product list -->
+    <div class="d-flex overflow-auto gap-3 my-4 w-100 max-w-screen-md flex-wrap">
+      <!-- <div *ngFor="let product of products">
+        <app-product-card [productItem]="product"></app-product-card>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- Service selection buttons -->
+  <div class="max-w-446px w-100 bg-white p-4 rounded-2xl d-flex flex-column gap-4">
+    <div class="d-flex flex-wrap gap-2 justify-content-center">
+      <button *ngFor="let type of orderType" (click)="selectService(type)"
+        class="btn d-flex align-items-center gap-2 rounded" [ngClass]="{
+        'bg-danger': selectedTypeName === type.name,
+        'bg-light': selectedTypeName !== type.name
+      }">
+        <img [src]="'assets/images/' + type.imageUrl + '.svg'" [alt]="type.name">
+        {{ type.name }}
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-100">
+      <!-- Conditionally Render Forms Based on Selected Service -->
+
+      <div *ngIf="selectedTypeName === 'POS'">
+        <!-- POS Form -->
+        <div class="mt-4 d-flex flex-column gap-2">
+          <select formControlName="customer" class="form-select bg-white" aria-label="Select customer">
+            <option [ngValue]="null" disabled>Select customer</option>
+            <option *ngFor="let customer of customers" [ngValue]="customer.id">{{ customer.fullName }}</option>
+          </select>
+          <div *ngIf="form.get('customer')?.invalid && form.get('customer')?.touched" class="text-danger">
+            Customer is required.
+          </div>
+
+          <input formControlName="phoneNumber" type="text" class="form-control bg-white" placeholder="Phone number" />
+          <div *ngIf="form.get('phoneNumber')?.invalid && form.get('phoneNumber')?.touched" class="text-danger">
+            Phone number is required.
+          </div>
+
+          <input formControlName="tokenNo" type="text" class="form-control bg-white" placeholder="Token no." />
+          <div *ngIf="form.get('tokenNo')?.invalid && form.get('tokenNo')?.touched" class="text-danger">
+            Token number is required.
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selectedTypeName === 'Delivery'">
+        <!-- Delivery Form -->
+        <div class="d-flex flex-column gap-2">
+          <h2 class="mt-4">Delivery Info</h2>
+          <input formControlName="buildingName" type="text" class="form-control bg-white" placeholder="Building name" />
+          <div *ngIf="form.get('buildingName')?.invalid && form.get('buildingName')?.touched" class="text-danger">
+            Building name is required.
+          </div>
+
+          <div class="d-flex gap-2">
+            <div class="flex-grow-1">
+              <input formControlName="apartmentNumber" type="text" class="form-control bg-white"
+                placeholder="Apartment number" />
+              <div *ngIf="form.get('apartmentNumber')?.invalid && form.get('apartmentNumber')?.touched"
+                class="text-danger">
+                The number is required.
+              </div>
+            </div>
+
+            <div class="flex-grow-1">
+              <input formControlName="floor" type="text" class="form-control bg-white" placeholder="Floor" />
+              <div *ngIf="form.get('floor')?.invalid && form.get('floor')?.touched" class="text-danger">
+                Floor is required.
+              </div>
+            </div>
+          </div>
+
+          <input formControlName="street" type="text" class="form-control bg-white" placeholder="Street" />
+          <div *ngIf="form.get('street')?.invalid && form.get('street')?.touched" class="text-danger">
+            Street is required.
+          </div>
+
+          <input formControlName="additionalDirections" type="text" class="form-control bg-white"
+            placeholder="Additional directions (optional)" />
+
+          <input formControlName="phoneNumber" type="text" class="form-control bg-white" placeholder="Phone number" />
+          <div *ngIf="form.get('phoneNumber')?.invalid && form.get('phoneNumber')?.touched" class="text-danger">
+            Phone number is required.
+          </div>
+
+          <input formControlName="addressLabel" type="text" class="form-control bg-white"
+            placeholder="Address label (optional)" />
+        </div>
+      </div>
+
+      <div *ngIf="selectedTypeName === 'Drive thru'">
+        <!-- Drive Thru Form -->
+        <div class="d-flex flex-column gap-2">
+          <h2 class="my-2">Drive Thru Info</h2>
+          <input formControlName="time" type="time" class="form-control bg-white" placeholder="Time" />
+          <div *ngIf="form.get('time')?.invalid && form.get('time')?.touched" class="text-danger">
+            Time is required.
+          </div>
+
+          <input formControlName="date" type="date" class="form-control bg-white" placeholder="Date" />
+          <div *ngIf="form.get('date')?.invalid && form.get('date')?.touched" class="text-danger">
+            Date is required.
+          </div>
+
+          <select id="branch" formControlName="branch" class="form-select bg-white">
+            <option value="" disabled>Branch</option>
+            <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+          </select>
+          <div *ngIf="form.get('branch')?.invalid && form.get('branch')?.touched" class="text-danger">
+            Branch is required.
+          </div>
+
+          <!-- Car Info Fields -->
+          <h2 class="my-2">Car Info</h2>
+          <input formControlName="carType" type="text" class="form-control bg-white" placeholder="Car type" />
+          <div *ngIf="form.get('carType')?.invalid && form.get('carType')?.touched" class=" text-danger">
+            Car type is required.
+          </div>
+
+          <input formControlName="carColor" type="text" class="form-control bg-white" placeholder="Car color" />
+          <div *ngIf="form.get('carColor')?.invalid && form.get('carColor')?.touched" class="text-danger">
+            Car color is required.
+          </div>
+
+          <input formControlName="carNumber" type="text" class="form-control bg-white" placeholder="Car plate number" />
+          <div *ngIf="form.get('carNumber')?.invalid && form.get('carNumber')?.touched" class="text-danger">
+            Car plate number is required.
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selectedTypeName === 'Dine in'">
+        <!-- Dine In Form -->
+        <div class="d-flex flex-column gap-2">
+          <h2 class="my-2">Dine In Info</h2>
+
+          <input formControlName="time" type="time" class="form-control bg-white" placeholder="Time" />
+          <div *ngIf="form.get('time')?.invalid && form.get('time')?.touched" class="text-danger">
+            Time is required.
+          </div>
+
+          <input formControlName="date" type="date" class="form-control bg-white" placeholder="Date" />
+          <div *ngIf="form.get('date')?.invalid && form.get('date')?.touched" class="text-danger">
+            Date is required.
+          </div>
+
+          <select id="branch" formControlName="branch" class="form-select bg-white">
+            <option value="" disabled>Branch</option>
+            <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+          </select>
+          <div *ngIf="form.get('branch')?.invalid && form.get('branch')?.touched" class="text-danger">
+            Please select a branch.
+          </div>
+
+          <input formControlName="persons" type="number" class="form-control bg-white" placeholder="Number of persons"
+            min="0" />
+          <div *ngIf="form.get('persons')?.invalid && form.get('persons')?.touched" class="text-danger">
+            Number of persons is required.
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selectedTypeName === 'Pick up'">
+        <!-- Pick Up Form -->
+        <div class="d-flex flex-column gap-2">
+          <h2 class="my-2">Pick Up Info</h2>
+
+          <input formControlName="time" type="time" class="form-control bg-white" placeholder="Time" />
+          <div *ngIf="form.get('time')?.invalid && form.get('time')?.touched" class="text-danger">
+            Time is required.
+          </div>
+
+          <select id="branch" formControlName="branch" class="form-select bg-white">
+            <option value="" disabled>Branch</option>
+            <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+          </select>
+          <div *ngIf="form.get('branch')?.invalid && form.get('branch')?.touched" class="text-danger">
+            Please select a branch.
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div>
+      <div class="bg-light d-flex align-items-center justify-content-between px-3 font-weight-bold h-50">
+        <span class="w-33">Item</span>
+        <span class="w-33 text-center">Qty</span>
+        <span class="w-33 text-right">Price</span>
+      </div>
+      <!-- <div *ngIf="cart">
+      <div *ngFor="let item of cart.items;" class="d-flex align-items-center justify-content-between mt-3">
+        <div class="d-flex align-items-center gap-2 w-33">
+          <button (click)="onRemove(item.cartItemId)"><app-icon iconName="delete" color="#F45859"></app-icon></button>
+          <p class="font-weight-medium">{{item.itemName}}</p>
+        </div>
+        <div class="d-flex align-items-center justify-content-center gap-2 w-33">
+          <button *ngIf="item.quantity === 1" (click)="onRemove(item.cartItemId)"><app-icon iconName="smallDelete"
+              color="#F45859"></app-icon></button>
+          <button *ngIf="item.quantity > 1" (click)="decrementQuantity(item)"><app-icon iconName="decrement"
+              color="#F 45859"></app-icon></button>
+
+          <p>{{item.quantity}}</p>
+
+          <button (click)="incrementQuantity(item)"><app-icon iconName="increment" color="#F45859"></app-icon></button>
+        </div>
+        <p class="w-33 text-right">QAR {{(item.price).toFixed(2)}}</p>
+      </div>
+    </div> -->
+    </div>
+
+    <div class="d-flex align-items-center promo">
+      <select [(ngModel)]="discountType" class="form-select bg-white">
+        <option [value]="0">Fixed</option>
+        <option [value]="1">Percentage</option>
+      </select>
+
+      <input type="number" [(ngModel)]="discountValue" placeholder="Add discount" class="form-control bg-white" min="0" />
+
+      <button type="button" (click)="applyVoucherCode(discountType, discountValue)"
+        class="btn btn-success">Apply</button>
+    </div>
+
+    <!-- <div *ngIf="cart">
+    <h3 class="text-small font-weight-bold">Payment summary</h3>
+    <div class="d-flex justify-content-end border-top border-light">
+      <div class="w-100 max-w-lg">
+        <dl class="text-small">
+          <div class="d-flex justify-content-between">
+            <dt>Subtotal</dt>
+            <dd>QAR {{cart.subTotal}}</dd>
+          </div>
+
+          <div class="d-flex justify-content-between text-danger">
+            <dt>Discount</dt>
+            <dd>- QAR {{cart.discountAmount }}</dd>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <dt>Service fee</dt>
+            <dd>QAR {{cart.deliveryFee}}</dd>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <dt>Delivery fee</dt>
+            <dd>QAR {{cart.deliveryFee}}</dd>
+          </div>
+
+          <div class="d-flex justify-content-between fw-bold">
+            <dt>Total amount</dt>
+            <dd>QAR {{(cart.totalAmount).toFixed(2)}}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div> -->
+
+    <div class="d-flex justify-content-start gap-2">
+      <button type="button" class="btn bg-white close">Cancel</button>
+      <button (click)="placeOrder()" type="submit" class="btn me-2 text-white save">Order</button>
+    </div>
+  </div>
+</section>

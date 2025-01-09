@@ -16,7 +16,7 @@
   <div class="border border-danger bg-white">
     <!-- Information Section -->
     <div *ngIf="activeSection === 'information' && item" class="section p-3 mb-3">
-      <div class="info d-flex flex-column gap-3">
+      <div class="info d-flex flex-column gap-3 col-md-6">
         <div class="d-flex align-items-center flex-wrap gap-3 w-66 justify-content-between">
           <p class="d-flex align-items-center gap-3 min-w-270">
             <span class="min-w-135">Name</span>
@@ -84,7 +84,7 @@
     <div *ngIf="activeSection === 'image'" class="section p-3 rounded mb-3">
       <div class="d-flex flex-wrap align-items-center gap-3">
         <img [src]="item.imageUrl" alt="Item Image" class="w-50 h-auto rounded-3">
-        <label class="btn btn-danger text-white d-flex align-items-center justify-content-center">
+        <label class="btn btn-danger text-white d-flex align-items-center justify-content-center border-0">
           Update Image
           <input type="file" id="image" (change)="onFileSelect($event)" class="d-none">
         </label>
@@ -93,7 +93,7 @@
 
     <!-- Variation Section -->
     <div *ngIf="activeSection === 'variation'" class="section p-3 rounded mb-3">
-      <button (click)="openVariationModal()" class="btn btn-danger text-white w-50">
+      <button (click)="openVariationModal()" class="btn btn-danger text-white border-0">
         Add Variation
       </button>
       <!-- Table to Display Variations -->
@@ -102,7 +102,7 @@
 
     <!-- Extra Section -->
     <div *ngIf="activeSection === 'extra'" class="section p-3 rounded mb-3">
-      <button (click)="openExtraModal()" class="btn btn-danger text-white w-50">
+      <button (click)="openExtraModal()" class="btn btn-danger text-white border-0">
         Add Extra
       </button>
       <!-- Table to Display Extras -->
@@ -111,7 +111,7 @@
 
     <!-- Addons Section -->
     <div *ngIf="activeSection === 'addons'" class="section p-3 rounded mb-3">
-      <button (click)="openAddonsModal()" class="btn btn-danger text-white w-50">
+      <button (click)="openAddonsModal()" class="btn btn-danger text-white border-0">
         Add on
       </button>
       <!-- Table to Display Addons -->

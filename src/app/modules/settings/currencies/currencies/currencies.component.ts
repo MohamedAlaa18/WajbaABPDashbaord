@@ -45,11 +45,10 @@ export class CurrenciesComponent {
     {
       icon: 'assets/images/delete.svg',
       tooltip: 'Delete',
-      show: (row: any) => row.status === 1,
+      show: (row: any) => true,
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     },
   ];
-
 
   constructor(
     private CurrenciesService: CurrenciesService,
@@ -124,6 +123,7 @@ export class CurrenciesComponent {
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
       this.deleteCurrency(id); // Call the delete method with the currency ID
+      modalRef.close();
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {

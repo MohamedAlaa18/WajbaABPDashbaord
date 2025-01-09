@@ -44,7 +44,7 @@ export class BranchesComponent implements OnInit {
     {
       icon: 'assets/images/delete.svg',
       tooltip: 'Delete',
-      show: (row: any) => row.status === 1, // Show only for active branches
+      show: (row: any) => true,
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     },
   ];

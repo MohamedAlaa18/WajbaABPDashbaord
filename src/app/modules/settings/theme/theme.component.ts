@@ -77,65 +77,63 @@ export class ThemeComponent implements OnInit {
 
   onSubmit(): void {
     if (this.themeForm.valid && this.logoFile && this.browserIconFile && this.footerLogoFile) {
-      // Convert each file to Base64 and upload using the themeService
       const uploadPromises = [
         this.convertToBase64(this.logoFile).then((base64) => {
-          console.log('Logo Base64:', base64); // Debug log
-          return this.themeService.uploadBase64ImageByModel({ base64Content: base64, fileName: this.logoFile.name });
+          const model = { base64Content: base64, fileName: this.logoFile.name };
+          console.log('Sending model for logo:', model);
+          return this.themeService.uploadBase64ImageByModel(model).toPromise(); // Convert observable to promise
+        }).catch(error => {
+          console.error('Error converting logo file to base64:', error);
+          throw error; // Re-throw error so the promise chain catches it
         }),
+
         this.convertToBase64(this.browserIconFile).then((base64) => {
-          console.log('Browser Icon Base64:', base64); // Debug log
-          return this.themeService.uploadBase64ImageByModel({ base64Content: base64, fileName: this.browserIconFile.name });
+          const model = { base64Content: base64, fileName: this.browserIconFile.name };
+          console.log('Sending model for browser icon:', model);
+          return this.themeService.uploadBase64ImageByModel(model).toPromise(); // Convert observable to promise
+        }).catch(error => {
+          console.error('Error converting browser icon file to base64:', error);
+          throw error; // Re-throw error
         }),
+
         this.convertToBase64(this.footerLogoFile).then((base64) => {
-          console.log('Footer Logo Base64:', base64); // Debug log
-          return this.themeService.uploadBase64ImageByModel({ base64Content: base64, fileName: this.footerLogoFile.name });
+          const model = { base64Content: base64, fileName: this.footerLogoFile.name };
+          console.log('Sending model for footer logo:', model);
+          return this.themeService.uploadBase64ImageByModel(model).toPromise(); // Convert observable to promise
+        }).catch(error => {
+          console.error('Error converting footer logo file to base64:', error);
+          throw error; // Re-throw error
         }),
       ];
 
-      // Handle all upload operations
       Promise.all(uploadPromises)
         .then((responses) => {
-          console.log('Upload responses:', responses); // Debug log
-          // Reset the form and files after successful submission
-          this.themeForm.reset();
-          this.logoFile = null;
-          this.browserIconFile = null;
-          this.footerLogoFile = null;
+          console.log('Upload responses:', responses);
+          if (responses.every((response) => response.success)) {
+            console.log('All images uploaded successfully.');
+          } else {
+            console.error('Some uploads failed:', responses);
+          }
         })
         .catch((error) => {
-          console.error('Error uploading images:', error);
+          console.error('Error during upload process:', error); // Log errors
         });
     } else {
       this.themeForm.markAllAsTouched();
     }
   }
 
-
   // Helper method to convert a File to Base64
   private convertToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string); // Resolve with Base64 string
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        const base64Content = base64String.split(',')[1]; // Remove the 'data:image/...;' part
+        resolve(base64Content); // Resolve with the base64 string without the MIME type
+      };
       reader.onerror = (error) => reject(error);
       reader.readAsDataURL(file); // Read file as Data URL
     });
-  }
-
-  convertFileToIFormFile(file: File): IFormFile {
-    // Convert HttpHeaders to a plain object
-    const headersObj: Record<string, string[]> = {};
-    // Example: You can populate headers if necessary, like this:
-    // headersObj['Content-Type'] = [file.type];
-
-    // Create an object resembling IFormFile structure
-    const iFormFile: IFormFile = {
-      headers: headersObj,  // Use the plain object for headers
-      length: file.size,
-      name: file.name,
-      contentType: file.type,
-    };
-
-    return iFormFile;
   }
 }

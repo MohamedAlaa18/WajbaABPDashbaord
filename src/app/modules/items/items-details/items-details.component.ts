@@ -59,7 +59,7 @@ export class ItemsDetailsComponent implements OnInit {
     {
       icon: 'assets/images/delete.svg',
       tooltip: 'Delete',
-      show: (row: any) => row.status === 1,
+      show: (row: any) => true,
       callback: (row: any) => {
         if (row.type === 'variation') {
           this.openConfirmDeleteModal(row.id, row.name, 'variation');

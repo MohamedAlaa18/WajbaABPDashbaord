@@ -1,0 +1,26 @@
+.pagination-container {
+  padding-top: 12px;
+  .pagination {
+    li {
+      .page-link {
+        color: #1d1b20;
+
+        &:hover {
+          color: #f45859;
+        }
+      }
+
+      &.active .page-link {
+        font-weight: bold;
+        color: #f45859;
+        background-color: transparent;
+        border: none;
+      }
+
+      &.disabled .page-link {
+        color: #ccc;
+        pointer-events: none;
+      }
+    }
+  }
+}
