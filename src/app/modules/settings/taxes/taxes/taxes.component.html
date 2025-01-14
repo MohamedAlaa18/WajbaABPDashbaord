@@ -1,0 +1,22 @@
+<div class="d-flex items-center gap-2">
+  <app-settings-sidebar></app-settings-sidebar>
+
+  <section class="d-flex justify-content-center w-100 h-100 flex-grow-1">
+    <div class="table-responsive w-100">
+      <div class="d-flex justify-content-between align-items-center w-100 rounded-top bg-white px-4 py-3 border-bottom">
+        <span class="section-title text-black">Taxes</span>
+
+        <div class="d-flex justify-content-center align-items-center gap-3">
+          <button (click)="openAddEditModal()"
+            class="btn btn-danger text-white d-flex align-items-center justify-content-evenly rounded-2 px-3 py-1 border-0">
+            <app-icons iconName="add" color="white" class="me-2"></app-icons>
+            <span class="h5 p-0 m-0">Add Taxes</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <app-table [data]="taxes" [columns]="columns" [actions]="actions"></app-table>
+    </div>
+  </section>
+</div>

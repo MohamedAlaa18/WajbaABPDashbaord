@@ -40,10 +40,19 @@ const routes: Routes = [
     path: 'item-attributes',
     loadChildren: () => import('./item-attributes/item-attributes.module').then(m => m.ItemAttributesModule),
   },
-  // { path: 'taxes', component: TaxesComponent },
+  {
+    path: 'languages',
+    loadChildren: () => import('./languages/languages.module').then(m => m.LanguagesModule),
+  },
   // { path: 'pages', component: PagesComponent },
-  // { path: 'role', component: RoleComponent },
-  // { path: 'languages', component: LanguagesComponent },
+  {
+    path: 'role-and-permissions',
+    loadChildren: () => import('./role-and-permissions/role-and-permissions.module').then(m => m.RoleAndPermissionsModule),
+  },
+  {
+    path: 'taxes',
+    loadChildren: () => import('./taxes/taxes.module').then(m => m.TaxesModule),
+  },
   // { path: 'smsGateway', component: SmsGatewayComponent },
   // { path: 'license', component: LicenseComponent },
 ];

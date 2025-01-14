@@ -3,6 +3,6 @@ export interface ActionResult {
 }
 
 export interface IActionResult {
-  data: any;
+  data?: any;
   success: boolean;
 }

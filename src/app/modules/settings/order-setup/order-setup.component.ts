@@ -43,7 +43,37 @@ export class OrderSetupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchOrderSetup();
+    this.loadOrderSetup();
+  }
+
+  loadOrderSetup(): void {
+    const defaultInput: PagedAndSortedResultRequestDto = {
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
+    };
+
+    // Fetch the order setup data
+    this.orderSetupService.getList(defaultInput).subscribe(
+      (response: any) => {
+        console.log("", response);
+        this.orderForm.patchValue({
+          foodPreparationTime: response.data.items[0].foodPreparationTime,
+          scheduleOrderSlotDuration: response.data.items[0].scheduleOrderSlotDuration,
+          isTakeawayEnabled: response.data.items[0].isTakeawayEnabled,
+          isDeliveryEnabled: response.data.items[0].isDeliveryEnabled,
+          freeDeliveryKilometer: response.data.items[0].freeDeliveryKilometer,
+          basicDeliveryCharge: response.data.items[0].basicDeliveryCharge,
+          chargePerKilo: response.data.items[0].chargePerKilo,
+          onTime: response.data.items[0].onTime,
+          warning: response.data.items[0].warning,
+          delayTime: response.data.items[0].delayTime,
+        });
+      },
+      (error) => {
+        console.error('Error fetching order setup data', error);
+      }
+    );
   }
 
   openTimeModal(field: string): void {
@@ -103,35 +133,6 @@ export class OrderSetupComponent implements OnInit {
         console.error('Error updating order setup', error);
       });
     }
-  }
-
-  fetchOrderSetup(): void {
-    const defaultInput: PagedAndSortedResultRequestDto = {
-      sorting: '',
-      skipCount: 0,
-      maxResultCount: 10
-    };
-
-    // Fetch the order setup data
-    this.orderSetupService.getList(defaultInput).subscribe(
-      (response: any) => {
-        this.orderForm.patchValue({
-          foodPreparationTime: response.data.foodPreparationTime,
-          scheduleOrderSlotDuration: response.data.scheduleOrderSlotDuration,
-          isTakeawayEnabled: response.data.isTakeawayEnabled,
-          isDeliveryEnabled: response.data.isDeliveryEnabled,
-          freeDeliveryKilometer: response.data.freeDeliveryKilometer,
-          basicDeliveryCharge: response.data.basicDeliveryCharge,
-          chargePerKilo: response.data.chargePerKilo,
-          onTime: response.data.onTime,
-          warning: response.data.warning,
-          delayTime: response.data.delayTime,
-        });
-      },
-      (error) => {
-        console.error('Error fetching order setup data', error);
-      }
-    );
   }
 
   getWeekDayId(field: string): number {

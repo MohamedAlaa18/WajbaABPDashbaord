@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ItemAttributeService } from '@proxy/controllers';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { AddItemAttributesComponent } from '../add-item-attributes/add-item-attributes.component';
@@ -39,7 +38,7 @@ export class ItemAttributesComponent {
     {
       icon: 'assets/images/delete.svg',
       tooltip: 'Delete',
-      show: (row: any) => row.status === 1,
+      show: (row: any) => true,
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     },
   ];
@@ -47,7 +46,6 @@ export class ItemAttributesComponent {
   constructor(
     private modalService: NgbModal,
     private itemAttributeService: ItemAttributeService,
-    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -65,7 +63,7 @@ export class ItemAttributesComponent {
     this.itemAttributeService.getList(defaultInput).subscribe({
       next: (response) => {
         console.log(response)
-        this.itemAttributes = response.data.items;
+        // this.itemAttributes = response.data.items;
       },
       error: (err) => {
         console.error('Error loading item attributes:', err);

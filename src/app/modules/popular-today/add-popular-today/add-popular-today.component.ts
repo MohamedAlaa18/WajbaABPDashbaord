@@ -5,6 +5,8 @@ import { ItemService } from '@proxy/controllers';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { PopularItemsService } from '@proxy/controllers/popular-items.service';
+import { ItemDto } from '@proxy/dtos/items-dtos';
+import { CreatePopularitem, UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
 @Component({
   selector: 'app-add-popular-today',
   standalone: true,
@@ -14,8 +16,8 @@ import { PopularItemsService } from '@proxy/controllers/popular-items.service';
 })
 export class AddPopularTodayComponent {
   @Input() isOpen: boolean = false;
-  @Input() item: any | null = null;
-  @Input() items: any[];
+  @Input() item: UpdatePopularItemdto | null = null;
+  @Input() items: ItemDto[];
   @Output() close = new EventEmitter<void>();
 
   popularItemForm: FormGroup;
@@ -61,7 +63,7 @@ export class AddPopularTodayComponent {
     });
   }
 
-  populateForm(item: any) {
+  populateForm(item: UpdatePopularItemdto) {
     this.popularItemForm.patchValue({
       id: item.id,
       name: item.name,
@@ -79,20 +81,20 @@ export class AddPopularTodayComponent {
   submitForm() {
     if (this.popularItemForm.valid) {
       // Declare the formValue outside the if-else block
-      let formValue: any | any;
+      let formValue: UpdatePopularItemdto | CreatePopularitem;
 
       // Determine whether it's an update or create operation
       if (this.popularItemForm.value.id) {
-        formValue = this.popularItemForm.value as any;
+        formValue = this.popularItemForm.value as UpdatePopularItemdto;
       } else {
-        formValue = this.popularItemForm.value as any;
+        formValue = this.popularItemForm.value as CreatePopularitem;
       }
 
       console.log(formValue);
 
       if (this.item) {
         // Update existing branch
-        this.popularItemService.update(formValue as any)
+        this.popularItemService.update(formValue as UpdatePopularItemdto)
           .subscribe(
             response => {
               // Handle successful response
@@ -105,7 +107,7 @@ export class AddPopularTodayComponent {
           );
       } else {
         // Create a new branch
-        this.popularItemService.create(formValue as any)
+        this.popularItemService.create(formValue as CreatePopularitem)
           .subscribe(
             response => {
               // Handle successful response

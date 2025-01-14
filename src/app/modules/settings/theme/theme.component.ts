@@ -1,28 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ThemeService } from '@proxy/controllers';
-import { IFormFile } from '@proxy/microsoft/asp-net-core/http';
-import { HttpHeaders } from '@angular/common/http';
-import { Base64Service } from 'src/app/services/base64/base64.service';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
+import { Base64Service } from 'src/app/services/base64/base64.service';
 
 @Component({
   selector: 'app-theme',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, SettingsSidebarComponent],
   templateUrl: './theme.component.html',
-  styleUrl: './theme.component.scss'
+  styleUrls: ['./theme.component.scss']
 })
-export class ThemeComponent {
+export class ThemeComponent implements OnInit {
   themeForm: FormGroup;
+
+  logoFile: File | null = null;
+  browserIconFile: File | null = null;
+  footerLogoFile: File | null = null;
+
   logoPreview: string | null = null;
   browserIconPreview: string | null = null;
   footerLogoPreview: string | null = null;
-
-  logoFile!: File; // Store files separately
-  browserIconFile!: File;
-  footerLogoFile!: File;
 
   constructor(
     private fb: FormBuilder,
@@ -63,7 +62,7 @@ export class ThemeComponent {
         const result = reader.result as string;
         if (type === 'logo') {
           this.logoPreview = result;
-          this.logoFile = file; // Store file separately
+          this.logoFile = file;
         } else if (type === 'browserIcon') {
           this.browserIconPreview = result;
           this.browserIconFile = file;
@@ -76,7 +75,6 @@ export class ThemeComponent {
     }
   }
 
-  // Submit the form data using the ThemeService
   onSubmit(): void {
     if (this.themeForm.valid && this.logoFile && this.browserIconFile && this.footerLogoFile) {
       const uploadPromises = [

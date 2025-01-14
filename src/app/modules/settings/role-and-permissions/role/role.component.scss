@@ -1,0 +1,40 @@
+// Add any custom styles here
+.table-responsive {
+  .table {
+    &.table-striped tbody tr:nth-of-type(odd) {
+      background-color: #f9f9f9;
+    }
+  }
+}
+
+.btn {
+  &.btn-danger {
+    background-color: #f45859;
+    border-color: #f45859;
+
+    &:hover {
+      background-color: #d14044;
+      border-color: #d14044;
+    }
+  }
+
+  &.btn-outline-danger {
+    color: #ff3c3c;
+    border-color: #ff3c3c;
+
+    &:hover {
+      background-color: #ff3c3c;
+      color: #fff;
+    }
+  }
+
+  &.btn-outline-primary {
+    color: #328de0;
+    border-color: #328de0;
+
+    &:hover {
+      background-color: #328de0;
+      color: #fff;
+    }
+  }
+}

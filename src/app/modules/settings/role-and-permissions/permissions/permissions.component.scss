@@ -1,0 +1,54 @@
+@import '../../../../../assets/styles/main';
+@include radio-label(#F458591F, var(--red-color), #CCCCCC4D, transparent);
+
+button.save {
+  @include submit-button(var(--red-color));
+}
+
+button.close {
+  @include close-button(var(--red-color));
+}
+
+.text-danger,
+.invalid-feedback {
+  color: var(--red-color) !important;
+}
+
+.permissions-container {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+
+  .heading {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+
+    .role-indicator {
+      color: #ff3c3c;
+    }
+  }
+
+  .divider {
+    border: 1px solid rgba(204, 204, 204, 0.3);
+    margin: 0.5rem 0;
+  }
+
+  .table {
+    width: 100%;
+    margin-top: 1rem;
+
+    th,
+    td {
+      padding: 0.75rem;
+      vertical-align: middle;
+    }
+
+    .form-check {
+      .form-check-input {
+        accent-color: #f45859;
+      }
+    }
+  }
+}

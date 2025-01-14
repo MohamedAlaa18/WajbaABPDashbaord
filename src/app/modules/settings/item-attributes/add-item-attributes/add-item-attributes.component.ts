@@ -27,7 +27,7 @@ export class AddItemAttributesComponent {
     this.itemAttributeForm = this.fb.group({
       id: [null],
       name: ['', Validators.required],
-      status: ['active'],
+      status: [1],
     });
   }
 
@@ -81,12 +81,13 @@ export class AddItemAttributesComponent {
         this.itemAttributeService.create(formValue as CreateItemAttributeDto)
           .subscribe(
             response => {
-              // Handle successful response
               console.log('Item attribute created successfully:', response);
             },
             error => {
-              // Handle error response
               console.error('Error creating Item attribute:', error);
+              if (error.error && error.error.message) {
+                console.error('Detailed error message:', error.error.message);
+              }
             }
           );
       }

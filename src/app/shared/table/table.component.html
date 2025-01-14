@@ -32,7 +32,7 @@
                 {{ action.tooltip }}
               </span>
               <button *ngIf="action.show(row)" [title]="action.tooltip" (click)="actionClicked(action, row)"
-                class="btn p-1 rounded-1 border-0">
+                class="btn p-1 rounded-1 border-0" [ngClass]="action.tooltip">
                 <img [src]="action.icon" [alt]="action.tooltip" />
               </button>
             </div>

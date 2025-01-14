@@ -5,20 +5,19 @@ import { CreateBranchDto, GetBranchInput, UpdateBranchDto } from '@proxy/dtos/br
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { IconsComponent } from "../../../shared/icons/icons.component";
-import { CreateItemDto, } from '@proxy/dtos/items-dtos';
 import { CreateUpdateCategoryDto } from '@proxy/dtos/categories';
 import { UpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
-
+import { CreateItemDto, ItemDto } from '@proxy/dtos/items-dtos';
 @Component({
   selector: 'app-add-items',
   standalone: true,
-  imports: [NgSelectModule, ReactiveFormsModule, CommonModule, IconsComponent],
+  imports: [ReactiveFormsModule, CommonModule, IconsComponent, NgSelectModule],
   templateUrl: './add-items.component.html',
-  styleUrl: './add-items.component.scss'
+  styleUrls: ['./add-items.component.scss']
 })
 export class AddItemsComponent {
   @Input() isOpen: boolean = false;
-  @Input() item: any | null = null;
+  @Input() item: ItemDto | null = null;
   @Output() close = new EventEmitter<void>();
   selectedBranches: number[] = []; // Array to hold selected branch IDs
 
@@ -60,7 +59,7 @@ export class AddItemsComponent {
     }
   }
 
-  populateForm(item: any) {
+  populateForm(item: ItemDto) {
     this.itemForm.patchValue({
       id: item.id,
       name: item.name,
@@ -86,8 +85,8 @@ export class AddItemsComponent {
     };
 
     this.branchService.getList(defaultInput).subscribe({
-      next: (response) => {
-        this.branchesList = response.data.items;
+      next: (branches) => {
+        this.branchesList = branches.data.items;
       },
       error: (error) => {
         console.error('Error fetching branches:', error);
@@ -152,11 +151,11 @@ export class AddItemsComponent {
 
   submitForm() {
     if (this.itemForm.valid) {
-      let formValue: CreateItemDto | any;
+      let formValue: CreateItemDto | ItemDto;
 
       // Determine whether it's an update or create operation
       if (this.itemForm.value.id) {
-        formValue = this.itemForm.value as any;
+        formValue = this.itemForm.value as ItemDto;
       } else {
         formValue = this.itemForm.value as CreateItemDto;
       }

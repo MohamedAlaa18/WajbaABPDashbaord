@@ -1,0 +1,59 @@
+<div class="d-flex items-center gap-2">
+  <app-settings-sidebar></app-settings-sidebar>
+
+  <section class="d-flex justify-content-center w-100 h-100">
+    <div class="table-responsive w-100 bg-white">
+      <div class="d-flex justify-content-between align-items-center w-100 rounded-top bg-white px-4 py-3 border-bottom">
+        <span class="section-title text-black">Role & Permissions <span class="text-danger">(Admin)</span></span>
+      </div>
+
+      <table class="table table-striped bg-white">
+        <thead>
+          <tr>
+            <th class="px-3 py-3 fw-bold">Page</th>
+            <th class="px-3 py-3 fw-bold">Create</th>
+            <th class="px-3 py-3 fw-bold">Update</th>
+            <th class="px-3 py-3 fw-bold">Delete</th>
+            <th class="px-3 py-3 fw-bold">View</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let permission of permissions; let isOdd = odd" [class.table-secondary]="!isOdd">
+            <!-- Page Checkbox -->
+            <td>
+              <div class="form-check d-flex align-items-center">
+                <input type="checkbox" [(ngModel)]="permission.name" class="form-check-input me-2">
+                <label class="form-check-label">{{ permission.pageName }}</label>
+              </div>
+            </td>
+
+            <!-- Create Permission -->
+            <td class="text-center">
+              <input type="checkbox" [(ngModel)]="permission.canCreate" class="form-check-input">
+            </td>
+
+            <!-- Update Permission -->
+            <td class="text-center">
+              <input type="checkbox" [(ngModel)]="permission.canUpdate" class="form-check-input">
+            </td>
+
+            <!-- Delete Permission -->
+            <td class="text-center">
+              <input type="checkbox" [(ngModel)]="permission.canDelete" class="form-check-input">
+            </td>
+
+            <!-- View Permission -->
+            <td class="text-center">
+              <input type="checkbox" [(ngModel)]="permission.canRead" class="form-check-input">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Submit Button -->
+      <div class="d-flex justify-content-start mx-2 my-4">
+        <button type="submit" class="btn me-2 text-white save" (click)="submit()">Save</button>
+      </div>
+    </div>
+  </section>
+</div>

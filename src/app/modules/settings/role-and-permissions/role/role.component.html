@@ -1,0 +1,45 @@
+<div class="d-flex items-center gap-2">
+  <app-settings-sidebar></app-settings-sidebar>
+
+  <section class="d-flex justify-content-center w-100 h-100">
+    <div class="table-responsive w-100">
+      <div class="d-flex justify-content-between align-items-center w-100 rounded-top bg-white px-4 py-3 border-bottom">
+        <span class="section-title text-black">Role & Permissions</span>
+        <div class="d-flex justify-content-center align-items-center gap-3">
+          <button (click)="openAddEditModal()"
+            class="btn btn-danger text-white d-flex align-items-center justify-content-evenly rounded-2 px-3 py-1 border-0">
+            <app-icons iconName="add" color="white" class="me-2"></app-icons>
+            <span class="h5 p-0 m-0">Add Role</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive w-100">
+        <table class="table table-striped bg-white">
+          <thead>
+            <tr>
+              <th class="px-3 py-3 fw-bold">Name</th>
+              <th class="px-3 py-3 fw-bold">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let role of roles; let isOdd = odd" [ngClass]="{'table-secondary': isOdd}">
+              <td class="px-3 py-2">{{ role.name }}</td>
+              <td class="px-3 py-2 d-flex align-items-center gap-2">
+                <button (click)="openItemDetails(role)" class="btn btn-outline-danger d-flex align-items-center gap-1">
+                  <app-icons iconName="key" color="#FF3C3C"></app-icons>
+                  Permission
+                </button>
+                <button (click)="openModal('edit', role)"
+                  class="btn btn-outline-primary d-flex align-items-center gap-1">
+                  <app-icons iconName="edit" color="#328DE0"></app-icons>
+                  Edit
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>

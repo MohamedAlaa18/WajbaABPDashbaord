@@ -1,0 +1,47 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header border-bottom">
+      <h5 class="section-title text-black">Addons</h5>
+      <button type="button" class="border-0 bg-white" aria-label="Close" (click)="closeModal()">
+        <app-icons iconName="close" color="#F45859"></app-icons>
+      </button>
+    </div>
+
+    <form [formGroup]="addonForm" (ngSubmit)="saveAddon()" class="p-3">
+      <div class="mb-3">
+        <label for="option" class="form-label">Addon items</label>
+        <select id="option" formControlName="option" class="form-select bg-white"
+          (change)="onAddonSelectionChange($event)">
+          <option *ngFor="let item of addonDropdown" [value]="item.itemId">
+            {{ item.itemName }}
+          </option>
+        </select>
+        <div
+          *ngIf="addonForm.get('option')?.invalid && (addonForm.get('option')?.touched || addonForm.get('option')?.dirty)"
+          class="text-danger">
+          <small *ngIf="addonForm.get('option')?.errors?.['required']">addon is required.</small>
+        </div>
+      </div>
+
+      <div *ngIf="variationsAddonDropdown.length" class="mb-3">
+        <label for="variation" class="form-label">Quantity choice</label>
+        <select id="variation" formControlName="variation" class="form-select bg-white"
+          (change)="onVariationSelectionChange($event)">
+          <option *ngFor="let variation of variationsAddonDropdown" [value]="variation.variationId">
+            {{ variation.variationName }}
+          </option>
+        </select>
+        <div
+          *ngIf="addonForm.get('variation')?.invalid && (addonForm.get('variation')?.touched || addonForm.get('variation')?.dirty)"
+          class="text-danger">
+          <small *ngIf="addonForm.get('variation')?.errors?.['required']">variation is required.</small>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-start">
+        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
+import { NotificationService } from '@proxy/controllers';
 
 @Component({
   selector: 'app-notification',
@@ -17,7 +18,7 @@ export class NotificationComponent {
 
   constructor(
     private fb: FormBuilder,
-    // private notificationService: NotificationService,
+    private notificationService: NotificationService,
   ) {
     this.notificationForm = this.fb.group({
       vapidKey: ['', Validators.required],
@@ -30,6 +31,31 @@ export class NotificationComponent {
       measurementId: ['', Validators.required],
       image: ['', Validators.required]
     });
+  }
+
+  loadNotification(): void {
+    // this.notificationService.getById().subscribe(
+    //   (response) => {
+    //     console.log(response);
+    //     this.notificationForm.patchValue({
+    //       name: response.data.name,
+    //       email: response.data.email,
+    //       iosappLink: response.data.iosappLink, // Ensure correct casing
+    //       androidAPPLink: response.data.androidAPPLink, // Ensure correct casing
+    //       copyrights: response.data.copyrights,
+    //       googleMapKey: response.data.googleMapKey,
+    //       digitAfterDecimal: response.data.quantity,
+    //       currencyPosition: response.data.currencyPosition,
+    //       languageSwitch: response.data.languageSwitch,
+    //       defaultBranch: response.data.branchId,
+    //       defaultCurrency: response.data.currencyId,
+    //       defaultLanguage: response.data.languageId,
+    //     });
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching company:', error);
+    //   }
+    // );
   }
 
   // Method to handle file selection and validation
@@ -51,23 +77,10 @@ export class NotificationComponent {
   sendNotification() {
     console.log(this.notificationForm)
     if (this.notificationForm.valid) {
-      const formData = new FormData();
-      formData.append('FireBasePublicVapidKey', this.notificationForm.get('vapidKey')?.value);
-      formData.append('FireBaseAPIKey', this.notificationForm.get('apiKey')?.value);
-      formData.append('FireBaseProjectId', this.notificationForm.get('projectId')?.value);
-      formData.append('FireBaseAuthDomain', this.notificationForm.get('authDomain')?.value);
-      formData.append('FireBaseStorageBucket', this.notificationForm.get('storageBucket')?.value);
-      formData.append('FireBaseMessageSenderId', this.notificationForm.get('messagingSenderId')?.value);
-      formData.append('FireBaseAppId', this.notificationForm.get('appId')?.value);
-      formData.append('FireBaseMeasurementId', this.notificationForm.get('measurementId')?.value);
 
-      // Only append image file if one is selected and valid
-      if (this.imageFile) {
-        formData.append('ImageUrl', this.imageFile, this.imageFile.name);
-      }
 
       // Call the notification service to send the notification
-      // this.notificationService.sendNotification(formData).subscribe(
+      // this.notificationService.update(formData).subscribe(
       //   response => {
       //     console.log('Notification sent successfully:', response);
       //     this.notificationForm.reset();

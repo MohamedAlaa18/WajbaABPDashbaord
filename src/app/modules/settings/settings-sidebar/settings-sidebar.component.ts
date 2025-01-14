@@ -35,7 +35,7 @@ export class SettingsSidebarComponent {
     { type: 'link', name: 'Item Attributes', iconName: 'itemAttributes', href: 'item-attributes' },
     { type: 'link', name: 'Taxes', iconName: 'taxes', href: 'taxes' },
     { type: 'link', name: 'Pages', iconName: 'pages', href: 'pages' },
-    { type: 'link', name: 'Role & Permissions', iconName: 'role', href: 'role-permissions' },
+    { type: 'link', name: 'Role & Permissions', iconName: 'role', href: 'role-and-permissions' },
     { type: 'link', name: 'Languages', iconName: 'languages', href: 'languages' },
     { type: 'link', name: 'Sms Gateway', iconName: 'smsGateway', href: 'sms-gateway' },
     { type: 'link', name: 'License', iconName: 'license', href: 'license' },

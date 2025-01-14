@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BranchService } from '@proxy/controllers';
-import { CreateBranchDto, UpdateBranchDto } from '@proxy/dtos/branch-contract';
+import { CategoryService } from '@proxy/controllers';
 import { IconsComponent } from "../../../../shared/icons/icons.component";
 import { CommonModule } from '@angular/common';
+import { CreateUpdateCategoryDto, UpdateCategory } from '@proxy/dtos/categories';
 
 @Component({
   selector: 'app-add-item-categories',
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AddItemCategoriesComponent {
   @Input() isOpen: boolean = false;
-  @Input() itemCategory: UpdateBranchDto | null = null;
+  @Input() itemCategory: UpdateCategory | null = null;
   @Output() close = new EventEmitter<void>();
 
   itemCategoryForm: FormGroup;
@@ -22,14 +22,14 @@ export class AddItemCategoriesComponent {
 
   constructor(
     private fb: FormBuilder,
-    private branchService: BranchService,
+    private categoryService: CategoryService,
   ) {
     this.itemCategoryForm = this.fb.group({
       id: [null],
       name: ['', Validators.required],
       image: [null, Validators.required],
       description: ['', Validators.required],
-      status: ['active'],
+      status: [2],
     });
   }
 
@@ -39,19 +39,13 @@ export class AddItemCategoriesComponent {
     }
   }
 
-  populateForm(itemCategory: UpdateBranchDto) {
+  populateForm(itemCategory: UpdateCategory) {
     this.itemCategoryForm.patchValue({
       id: itemCategory.id,
       name: itemCategory.name,
-      email: itemCategory.email,
-      city: itemCategory.city,
-      state: itemCategory.state,
-      phone: itemCategory.phone,
-      zipCode: itemCategory.zipCode,
-      address: itemCategory.address,
-      status: itemCategory.status === 1 ? 'active' : 'inactive',
-      longitude: itemCategory.longitude || '',
-      latitude: itemCategory.latitude || '',
+      image: itemCategory.image,
+      description: itemCategory.description,
+      status: itemCategory.status
     });
   }
 
@@ -62,41 +56,51 @@ export class AddItemCategoriesComponent {
   submitForm() {
     if (this.itemCategoryForm.valid) {
       // Declare the formValue outside the if-else block
-      let formValue: CreateBranchDto | UpdateBranchDto;
+      let formValue: CreateUpdateCategoryDto | UpdateCategory;
+
+      // Ensure status is valid (either 1 or 2)
+      const status = this.itemCategoryForm.value.status;
+      if (![1, 2].includes(status)) {
+        console.error('Invalid status value');
+        return;
+      }
 
       // Determine whether it's an update or create operation
       if (this.itemCategoryForm.value.id) {
-        formValue = this.itemCategoryForm.value as UpdateBranchDto;
+        formValue = this.itemCategoryForm.value as UpdateCategory;
       } else {
-        formValue = this.itemCategoryForm.value as CreateBranchDto;
+        formValue = this.itemCategoryForm.value as CreateUpdateCategoryDto;
       }
 
       console.log(formValue);
 
+      // Make sure to send the formValue in the request body, not as query params
       if (this.itemCategory) {
-        // Update existing item category
-        this.branchService.update(formValue as UpdateBranchDto)
+        // Update existing Item Category
+        this.categoryService.update(formValue as UpdateCategory)
           .subscribe(
             response => {
               // Handle successful response
-              console.log('Item category updated successfully:', response);
+              console.log('Item Category updated successfully:', response);
+              this.closeModal();
             },
             error => {
               // Handle error response
-              console.error('Error updating item category:', error);
+              console.error('Error updating Item Category:', error);
             }
           );
       } else {
-        // Create a new item category
-        this.branchService.create(formValue as CreateBranchDto)
+        // Create a new Item Category
+        this.categoryService.create(formValue as CreateUpdateCategoryDto)
           .subscribe(
             response => {
               // Handle successful response
-              console.log('Item category created successfully:', response);
+              console.log('Item Category created successfully:', response);
+              this.closeModal();
             },
             error => {
               // Handle error response
-              console.error('Error creating item category:', error);
+              console.error('Error creating Item Category:', error);
             }
           );
       }

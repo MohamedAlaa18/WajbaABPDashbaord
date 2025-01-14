@@ -24,8 +24,9 @@ export class ItemsComponent implements OnInit {
 
   columns = [
     { field: 'name', header: 'Name' },
+    { field: 'category', header: 'Category' },
+    { field: 'price', header: 'Price' },
     { field: 'status', header: 'Status' },
-    // { field: 'action', header: 'Action' },
   ];
 
   actions = [
@@ -44,7 +45,7 @@ export class ItemsComponent implements OnInit {
     {
       icon: 'assets/images/delete.svg',
       tooltip: 'Delete',
-      show: (row: any) => row.status === 1, // Show only for active items
+      show: (row: any) => true,
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     },
   ];
@@ -123,7 +124,6 @@ export class ItemsComponent implements OnInit {
       modalRef.close(); // Close modal on cancel
     });
   }
-
 
   deleteItem(id: number): void {
     this.itemService.delete(id).subscribe({

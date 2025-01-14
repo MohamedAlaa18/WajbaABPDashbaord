@@ -21,12 +21,11 @@ export class AddBranchComponent {
   @Output() close = new EventEmitter<void>();
 
   branchForm: FormGroup;
-  isMapModalOpen: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private afterActionService: AfterActionService,
-    @Inject(BranchService) private branchService: BranchService,
+    private branchService: BranchService,
     private modalService: NgbModal,
   ) {
     this.branchForm = this.fb.group({
@@ -60,7 +59,7 @@ export class AddBranchComponent {
       phone: branch.phone,
       zipCode: branch.zipCode,
       address: branch.address,
-      status: branch.status === 1 ? 'active' : 'inactive',
+      status: branch.status,
       longitude: branch.longitude || '',
       latitude: branch.latitude || '',
     });
@@ -134,16 +133,11 @@ export class AddBranchComponent {
     });
   }
 
-  closeMapModal() {
-    this.isMapModalOpen = false;
-  }
-
   // Method to receive coordinates from the map modal
   setCoordinates(longitude: number, latitude: number) {
     this.branchForm.patchValue({
       longitude: longitude,
       latitude: latitude
     });
-    this.closeMapModal();
   }
 }

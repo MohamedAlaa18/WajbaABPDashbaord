@@ -38,7 +38,8 @@
                 <span class="tooltip-text position-absolute start-50 translate-middle badge bg-black rounded-0 p-1">
                   Delete
                 </span>
-                <button type="button" (click)="removeQuestion(i)" class="btn p-1 rounded-1 border-0">
+                <button type="button" (click)="openConfirmDeleteModal(questionGroup.get('id').value, 'FAQ')"
+                  class="btn p-1 rounded-1 border-0">
                   <img src="assets/images/delete.svg" alt="delete">
                 </button>
               </div>

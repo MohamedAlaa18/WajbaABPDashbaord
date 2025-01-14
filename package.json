@@ -32,6 +32,7 @@
     "@angular/router": "~18.1.0",
     "@googlemaps/js-api-loader": "^1.16.8",
     "@ng-bootstrap/ng-bootstrap": "^18.0.0",
+    "@ng-select/ng-select": "^14.1.0",
     "bootstrap-icons": "~1.8.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.0.0",
@@ -61,5 +62,8 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.7.0",
     "typescript": "~5.5.0"
+  },
+  "engines": {
+    "node": "v23.5.0"
   }
 }
