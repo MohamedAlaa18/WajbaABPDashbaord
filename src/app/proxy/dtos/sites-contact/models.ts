@@ -8,10 +8,10 @@ export interface CreateSiteDto {
   androidAPPLink: string;
   copyrights: string;
   googleMapKey: string;
-  quantity: number;
+  digitAfterDecimal: number;
   currencyPosition: CurrencyPosition;
   languageSwitch: LanguageSwitch;
-  branchId: number;
-  currencyId: number;
-  languageId: number;
+  defaultBranch: number;
+  defaultCurrency: number;
+  defaultLanguage: number;
 }

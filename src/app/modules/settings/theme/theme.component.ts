@@ -2,13 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ThemeService } from '@proxy/controllers';
-<<<<<<< Updated upstream
-import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
-=======
 import { IFormFile } from '@proxy/microsoft/asp-net-core/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Base64Service } from 'src/app/services/base64/base64.service';
->>>>>>> Stashed changes
+import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
 @Component({
   selector: 'app-theme',
@@ -39,14 +36,11 @@ export class ThemeComponent {
     });
   }
 
-<<<<<<< Updated upstream
-  // Handles file selection and preview generation
-=======
   ngOnInit(): void {
-    this.loadOrderSetup();
+    this.loadTheme();
   }
 
-  loadOrderSetup(): void {
+  loadTheme(): void {
     this.themeService.get().subscribe(
       (response: any) => {
         console.log("Response:", response);
@@ -60,7 +54,6 @@ export class ThemeComponent {
     );
   }
 
->>>>>>> Stashed changes
   onFileSelected(event: Event, type: string): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -85,19 +78,6 @@ export class ThemeComponent {
 
   // Submit the form data using the ThemeService
   onSubmit(): void {
-<<<<<<< Updated upstream
-    if (this.themeForm.valid) {
-      // Submit the files stored separately
-      // this.themeService.update(this.logoFile, this.browserIconFile, this.footerLogoFile).subscribe(
-      //   response => {
-      //     console.log('Theme updated successfully:', response);
-      //     this.themeForm.reset();
-      //   },
-      //   error => {
-      //     console.error('Error updating theme:', error);
-      //   }
-      // );
-=======
     if (this.themeForm.valid && this.logoFile && this.browserIconFile && this.footerLogoFile) {
       const uploadPromises = [
         this.base64Service.convertToBase64(this.logoFile).then((base64) => {
@@ -140,7 +120,6 @@ export class ThemeComponent {
         .catch((error) => {
           console.error('Error during upload process:', error); // Log errors
         });
->>>>>>> Stashed changes
     } else {
       this.themeForm.markAllAsTouched();
     }

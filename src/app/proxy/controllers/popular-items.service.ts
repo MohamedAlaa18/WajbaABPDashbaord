@@ -14,8 +14,7 @@ export class PopularItemsService {
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/PopularItems',
-      params: { id: input.id, name: input.name, status: input.status, preprice: input.preprice, currentprice: input.currentprice, description: input.description, branchId: input.branchId },
-      body: input.imgFile,
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -50,8 +49,7 @@ export class PopularItemsService {
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/PopularItems',
-      params: { itemId: input.itemId, id: input.id, name: input.name, status: input.status, preprice: input.preprice, currentprice: input.currentprice, description: input.description, branchId: input.branchId },
-      body: input.imgFile,
+      body: input,
     },
     { apiName: this.apiName,...config });
 

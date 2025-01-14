@@ -39,8 +39,7 @@ export class CategoryService {
   getCategoryItemsdtoByBranchid = (branchid: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
-      url: '/api/Category/getcategoryItems',
-      params: { branchid },
+      url: `/api/Category/getcategoryItems${branchid}`,
     },
     { apiName: this.apiName,...config });
   

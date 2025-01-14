@@ -27,10 +27,10 @@ export class ItemVariationService {
     { apiName: this.apiName,...config });
   
 
-  get = (id: number, config?: Partial<Rest.Config>) =>
+  get = (itemId: number, variationId: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
-      url: `/api/ItemVariation/${id}`,
+      url: `/api/ItemVariation/item/${itemId}/variation/${variationId}`,
     },
     { apiName: this.apiName,...config });
   
@@ -54,7 +54,8 @@ export class ItemVariationService {
   updateVariationForItem = (itemId: number, variationId: number, input: UpdateItemVariationDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: `/api/ItemVariation/item/${itemId}/variation/${variationId}`,
+      url: '/api/ItemVariation',
+      params: { itemId, variationId },
       body: input,
     },
     { apiName: this.apiName,...config });

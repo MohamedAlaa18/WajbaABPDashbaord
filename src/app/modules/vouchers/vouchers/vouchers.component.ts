@@ -4,14 +4,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { OfferService } from '@proxy/controllers';
 import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
-import { CreateUpdateOfferDto } from '@proxy/offers-contract';
 import { AddVouchersComponent } from '../add-vouchers/add-vouchers.component';
+import { OfferService } from '@proxy/controllers';
+import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
 
 @Component({
   selector: 'app-vouchers',
@@ -21,7 +21,7 @@ import { AddVouchersComponent } from '../add-vouchers/add-vouchers.component';
   styleUrl: './vouchers.component.scss'
 })
 export class VouchersComponent implements OnInit {
-  vouchers: CreateUpdateOfferDto[] = [];
+  vouchers: UpdateOfferdto[] = [];
   isAddMode = true;
   currentPage: number = 1;
   totalPages: number = 4;
@@ -128,7 +128,7 @@ export class VouchersComponent implements OnInit {
     }
   }
 
-  openAddEditModal(offer?: CreateUpdateOfferDto): void {
+  openAddEditModal(offer?: UpdateOfferdto): void {
     const modalRef = this.modalService.open(AddVouchersComponent, {
       size: 'lg',
       centered: true,
@@ -201,7 +201,7 @@ export class VouchersComponent implements OnInit {
     this.loadVouchers();
   }
 
-  openBranchDetailsAndNavigate(offer: CreateUpdateOfferDto) {
+  openBranchDetailsAndNavigate(offer: UpdateOfferdto) {
     this.router.navigate(['/offers', offer.id]);
   }
 

@@ -1,12 +1,12 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CreateUpdateOfferDto } from '@proxy/offers-contract';
 import { CategoryService, ItemService, OfferService } from '@proxy/controllers';
 import { ItemDto } from '@proxy/dtos/items-dtos';
 import { GetCategoryInput, UpdateCategory } from '@proxy/dtos/categories';
 import { IconsComponent } from "../../../shared/icons/icons.component";
 import { NgSelectModule } from '@ng-select/ng-select';
+import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
 
 @Component({
   selector: 'app-add-offers',
@@ -17,7 +17,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 })
 export class AddOffersComponent implements OnInit {
   @Input() isOpen: boolean = false;
-  @Input() offer: CreateUpdateOfferDto | null = null;
+  @Input() offer: UpdateOfferdto | null = null;
   @Output() close = new EventEmitter<void>();
 
   offerForm: FormGroup;
@@ -66,7 +66,7 @@ export class AddOffersComponent implements OnInit {
     });
   }
 
-  populateForm(offer: CreateUpdateOfferDto) {
+  populateForm(offer: UpdateOfferdto) {
     const formattedStartDate = this.datePipe.transform(offer.startDate, 'yyyy-MM-dd');
     const formattedEndDate = this.datePipe.transform(offer.endDate, 'yyyy-MM-dd');
 

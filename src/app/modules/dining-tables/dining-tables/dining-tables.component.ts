@@ -5,13 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DineIntableService } from '@proxy/controllers';
-import { CreateDineIntable } from '@proxy/dtos/dine-in-table-contract';
 import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
 import { AddDiningTablesComponent } from '../add-dining-tables/add-dining-tables.component';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
+import { UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
 
 @Component({
   selector: 'app-dining-tables',
@@ -21,7 +21,7 @@ import { FilterComponent } from "../../../shared/filter/filter.component";
   styleUrl: './dining-tables.component.scss'
 })
 export class DiningTablesComponent implements OnInit {
-  tables: CreateDineIntable[] = [];
+  tables: UpdateDinInTable[] = [];
   isAddMode = true;
   currentPage: number = 1;
   totalPages: number = 4;
@@ -121,7 +121,7 @@ export class DiningTablesComponent implements OnInit {
     }
   }
 
-  openAddEditModal(table?: CreateDineIntable): void {
+  openAddEditModal(table?: UpdateDinInTable): void {
     const modalRef = this.modalService.open(AddDiningTablesComponent, {
       size: 'lg',
       centered: true,
@@ -194,7 +194,7 @@ export class DiningTablesComponent implements OnInit {
     this.loadDiningTables();
   }
 
-  downloadQRCode(table: CreateDineIntable) {
+  downloadQRCode(table: UpdateDinInTable) {
     // if (table?.qrCode) {
     //   const qrCodeDataUrl = table.qrCode;
 
@@ -220,7 +220,7 @@ export class DiningTablesComponent implements OnInit {
     // }
   }
 
-  openBranchDetailsAndNavigate(table: CreateDineIntable) {
+  openBranchDetailsAndNavigate(table: UpdateDinInTable) {
     this.router.navigate(['/dining-tables', table.id]);
   }
 

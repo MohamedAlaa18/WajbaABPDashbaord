@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemAttributeService } from '@proxy/controllers';
-import { CreateUpdateItemAttributeDto } from '@proxy/dtos/item-attributes';
+import { CreateItemAttributeDto, UpdateItemAttributeDto } from '@proxy/dtos/item-attributes';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 })
 export class AddItemAttributesComponent {
   @Input() isOpen: boolean = false;
-  @Input() itemAttribute: CreateUpdateItemAttributeDto | null = null;
+  @Input() itemAttribute: UpdateItemAttributeDto | null = null;
   @Output() close = new EventEmitter<void>();
 
   itemAttributeForm: FormGroup;
@@ -37,19 +37,11 @@ export class AddItemAttributesComponent {
     }
   }
 
-  populateForm(itemAttribute: CreateUpdateItemAttributeDto) {
+  populateForm(itemAttribute: UpdateItemAttributeDto) {
     this.itemAttributeForm.patchValue({
-      // id: itemAttribute.id,
-      // name: itemAttribute.name,
-      // email: itemAttribute.email,
-      // city: itemAttribute.city,
-      // state: itemAttribute.state,
-      // phone: itemAttribute.phone,
-      // zipCode: itemAttribute.zipCode,
-      // address: itemAttribute.address,
-      // status: itemAttribute.status === 1 ? 'active' : 'inactive',
-      // longitude: itemAttribute.longitude || '',
-      // latitude: itemAttribute.latitude || '',
+      id: itemAttribute.id,
+      name: itemAttribute.name,
+      status: itemAttribute.status
     });
   }
 
@@ -60,33 +52,33 @@ export class AddItemAttributesComponent {
   submitForm() {
     if (this.itemAttributeForm.valid) {
       // Declare the formValue outside the if-else block
-      let formValue: CreateUpdateItemAttributeDto | CreateUpdateItemAttributeDto;
+      let formValue: UpdateItemAttributeDto | CreateItemAttributeDto;
 
       // Determine whether it's an update or create operation
       if (this.itemAttributeForm.value.id) {
-        formValue = this.itemAttributeForm.value as CreateUpdateItemAttributeDto;
+        formValue = this.itemAttributeForm.value as UpdateItemAttributeDto;
       } else {
-        formValue = this.itemAttributeForm.value as CreateUpdateItemAttributeDto;
+        formValue = this.itemAttributeForm.value as CreateItemAttributeDto;
       }
 
       console.log(formValue);
 
       if (this.itemAttribute) {
         // Update existing itemAttribute
-        // this.itemAttributeService.update(formValue as CreateUpdateItemAttributeDto)
-        //   .subscribe(
-        //     response => {
-        //       // Handle successful response
-        //       console.log('itemAttribute updated successfully:', response);
-        //     },
-        //     error => {
-        //       // Handle error response
-        //       console.error('Error updating itemAttribute:', error);
-        //     }
-        //   );
+        this.itemAttributeService.update(formValue as UpdateItemAttributeDto)
+          .subscribe(
+            response => {
+              // Handle successful response
+              console.log('itemAttribute updated successfully:', response);
+            },
+            error => {
+              // Handle error response
+              console.error('Error updating itemAttribute:', error);
+            }
+          );
       } else {
         // Create a new itemAttribute
-        this.itemAttributeService.create(formValue as CreateUpdateItemAttributeDto)
+        this.itemAttributeService.create(formValue as CreateItemAttributeDto)
           .subscribe(
             response => {
               // Handle successful response

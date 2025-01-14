@@ -1,6 +1,6 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateItemDto, GetItemInput } from '../dtos/items-dtos/models';
+import type { CreateItemDto, GetItemInput, ItemDto } from '../dtos/items-dtos/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -36,6 +36,30 @@ export class ItemService {
     { apiName: this.apiName,...config });
   
 
+  getItemWithDetailsById = (id: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ItemDto>({
+      method: 'GET',
+      url: `/api/Item/${id}/details`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getItemsByBranchByBranchId = (branchId: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ItemDto[]>({
+      method: 'GET',
+      url: `/api/Item/by-branch/${branchId}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getItemsByCategoryByCategoryId = (categoryId: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ItemDto[]>({
+      method: 'GET',
+      url: `/api/Item/by-category/${categoryId}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   getList = (input: GetItemInput, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
@@ -48,8 +72,8 @@ export class ItemService {
   update = (id: number, input: CreateItemDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: `/api/Item/${id}`,
-      params: { name: input.name, price: input.price, isFeatured: input.isFeatured, status: input.status, itemType: input.itemType, note: input.note, description: input.description, taxValue: input.taxValue, categoryId: input.categoryId, branchIds: input.branchIds },
+      url: '/api/Item',
+      params: { id, name: input.name, price: input.price, isFeatured: input.isFeatured, status: input.status, itemType: input.itemType, note: input.note, description: input.description, taxValue: input.taxValue, categoryId: input.categoryId, branchIds: input.branchIds },
       body: input.imageUrl,
     },
     { apiName: this.apiName,...config });

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OfferService } from '@proxy/controllers';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
-import { CreateUpdateOfferDto } from '@proxy/offers-contract';
+import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class OffersDetailsComponent implements OnInit {
   activeSection: string = 'information';
   showItemModal = false;
   offerId!: number;
-  offer!: CreateUpdateOfferDto;
+  offer!: UpdateOfferdto;
   selectedItem: any = null;
   selectedFileName: string | null = null;
   selectedFile: File | null = null;

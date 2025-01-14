@@ -97,7 +97,7 @@ export class OrderSetupComponent implements OnInit {
       let formValue = this.orderForm.value as CreateUpdateOrderSetupDto;
 
       // Call the update method from the service
-      this.orderSetupService.update(1, formValue).subscribe(response => {
+      this.orderSetupService.update(formValue).subscribe(response => {
         console.log('Order setup updated successfully', response);
       }, error => {
         console.error('Error updating order setup', error);

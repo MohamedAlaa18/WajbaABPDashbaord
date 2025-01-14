@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-import { Component } from '@angular/core';
-=======
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BranchService, CategoryService, ItemService, ItemTaxService } from '@proxy/controllers';
@@ -8,24 +5,20 @@ import { CreateBranchDto, GetBranchInput, UpdateBranchDto } from '@proxy/dtos/br
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { IconsComponent } from "../../../shared/icons/icons.component";
-import { CreateItemDto, ItemDto } from '@proxy/dtos/items-dtos';
+import { CreateItemDto, } from '@proxy/dtos/items-dtos';
 import { CreateUpdateCategoryDto } from '@proxy/dtos/categories';
 import { UpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
->>>>>>> Stashed changes
 
 @Component({
   selector: 'app-add-items',
   standalone: true,
-  imports: [],
+  imports: [NgSelectModule, ReactiveFormsModule, CommonModule, IconsComponent],
   templateUrl: './add-items.component.html',
   styleUrl: './add-items.component.scss'
 })
 export class AddItemsComponent {
-<<<<<<< Updated upstream
-
-=======
   @Input() isOpen: boolean = false;
-  @Input() item: ItemDto | null = null;
+  @Input() item: any | null = null;
   @Output() close = new EventEmitter<void>();
   selectedBranches: number[] = []; // Array to hold selected branch IDs
 
@@ -37,7 +30,7 @@ export class AddItemsComponent {
   constructor(
     private fb: FormBuilder,
     private itemService: ItemService,
-    private branchService: ItemTaxService,
+    private branchService: BranchService,
     private categoryService: CategoryService,
     private itemTaxService: ItemTaxService,
   ) {
@@ -67,7 +60,7 @@ export class AddItemsComponent {
     }
   }
 
-  populateForm(item: ItemDto) {
+  populateForm(item: any) {
     this.itemForm.patchValue({
       id: item.id,
       name: item.name,
@@ -130,7 +123,7 @@ export class AddItemsComponent {
 
     this.itemTaxService.getList(defaultInput).subscribe({
       next: (response) => {
-        this.taxes = response.data.items;
+        // this.taxes = response.data.items;
       },
       error: (error) => {
         console.error('Error fetching taxes:', error);
@@ -159,11 +152,11 @@ export class AddItemsComponent {
 
   submitForm() {
     if (this.itemForm.valid) {
-      let formValue: CreateItemDto | ItemDto;
+      let formValue: CreateItemDto | any;
 
       // Determine whether it's an update or create operation
       if (this.itemForm.value.id) {
-        formValue = this.itemForm.value as ItemDto;
+        formValue = this.itemForm.value as any;
       } else {
         formValue = this.itemForm.value as CreateItemDto;
       }
@@ -196,5 +189,4 @@ export class AddItemsComponent {
       this.itemForm.markAllAsTouched();
     }
   }
->>>>>>> Stashed changes
 }

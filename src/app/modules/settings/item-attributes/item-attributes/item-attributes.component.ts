@@ -4,14 +4,13 @@ import { SettingsSidebarComponent } from '../../settings-sidebar/settings-sideba
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UpdateBranchDto } from '@proxy/dtos/branch-contract';
-import { BranchService } from '@proxy/controllers';
+import { ItemAttributeService } from '@proxy/controllers';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
-import { CreateUpdateItemAttributeDto } from '@proxy/dtos/item-attributes';
 import { AddItemAttributesComponent } from '../add-item-attributes/add-item-attributes.component';
+import { UpdateItemAttributeDto } from '@proxy/dtos/item-attributes';
 
 @Component({
   selector: 'app-item-attributes',
@@ -21,7 +20,7 @@ import { AddItemAttributesComponent } from '../add-item-attributes/add-item-attr
   styleUrl: './item-attributes.component.scss'
 })
 export class ItemAttributesComponent {
-  itemAttributes: CreateUpdateItemAttributeDto[] = [];
+  itemAttributes: UpdateItemAttributeDto[] = [];
   isAddMode = true;
 
   columns = [
@@ -47,7 +46,7 @@ export class ItemAttributesComponent {
 
   constructor(
     private modalService: NgbModal,
-    private branchService: BranchService,
+    private itemAttributeService: ItemAttributeService,
     private router: Router,
   ) { }
 
@@ -63,7 +62,7 @@ export class ItemAttributesComponent {
       maxResultCount: 10
     };
 
-    this.branchService.getList(defaultInput).subscribe({
+    this.itemAttributeService.getList(defaultInput).subscribe({
       next: (response) => {
         console.log(response)
         this.itemAttributes = response.data.items;
@@ -74,7 +73,7 @@ export class ItemAttributesComponent {
     });
   }
 
-  openAddEditModal(itemAttribute?: UpdateBranchDto): void {
+  openAddEditModal(itemAttribute?: UpdateItemAttributeDto): void {
     const modalRef = this.modalService.open(AddItemAttributesComponent, {
       size: 'lg',
       centered: true,
@@ -121,7 +120,7 @@ export class ItemAttributesComponent {
   }
 
   deleteItemAttribute(id: number): void {
-    this.branchService.delete(id).subscribe({
+    this.itemAttributeService.delete(id).subscribe({
       next: () => {
         // this.attributes = this.attributes.filter((attribute) => attribute.id !== id);
         this.modalService.dismissAll(); // Close all modals

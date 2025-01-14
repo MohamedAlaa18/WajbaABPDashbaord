@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreateDineIntable } from '@proxy/dtos/dine-in-table-contract';
+import { UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
 import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
 import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
@@ -19,7 +19,7 @@ import { AddUserComponent } from '../add-user/add-user.component';
   styleUrl: './user.component.scss'
 })
 export class UserComponent implements OnInit {
-  users: CreateDineIntable[] = [];
+  users: UpdateDinInTable[] = [];
   userTypeLabel: string = '';
 
   isAddMode = true;
@@ -156,7 +156,7 @@ export class UserComponent implements OnInit {
     }
   }
 
-  openAddEditModal(table?: CreateDineIntable, userTypeLabel?: string): void {
+  openAddEditModal(table?: UpdateDinInTable, userTypeLabel?: string): void {
     const modalRef = this.modalService.open(AddUserComponent, {
       size: 'lg',
       centered: true,
@@ -197,7 +197,7 @@ export class UserComponent implements OnInit {
     this.loadDiningTables();
   }
 
-  openBranchDetailsAndNavigate(table: CreateDineIntable) {
+  openBranchDetailsAndNavigate(table: UpdateDinInTable) {
     this.router.navigate(['/user', table.id]);
   }
 

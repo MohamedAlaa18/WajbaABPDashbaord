@@ -1,7 +1,8 @@
-import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { EntityDto } from '@abp/ng.core';
 
-export interface GetThemeInput extends PagedAndSortedResultRequestDto {
-  filter?: string;
+export interface Base64ImageModel extends EntityDto<number> {
+  fileName?: string;
+  base64Content?: string;
 }
 
 export interface CreateThemesDto {

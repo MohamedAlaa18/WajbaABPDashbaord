@@ -32,7 +32,7 @@ export class LanguageService {
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/Language',
-      body: dto,
+      params: { sorting: dto.sorting, skipCount: dto.skipCount, maxResultCount: dto.maxResultCount },
     },
     { apiName: this.apiName,...config });
   

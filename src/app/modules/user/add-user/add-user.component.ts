@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { BranchService, DineIntableService } from '@proxy/controllers';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
-import { CreateDineIntable } from '@proxy/dtos/dine-in-table-contract';
+import { CreateDineIntable, UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
 import { GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-contract';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -16,7 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 })
 export class AddUserComponent implements OnInit {
   @Input() isOpen: boolean = false;
-  @Input() table: CreateDineIntable | null = null;
+  @Input() table: UpdateDinInTable | null = null;
   @Input() userTypeLabel: string | null = null;
   @Input() branchesList: UpdateBranchDto[] = [];
   @Output() close = new EventEmitter<void>();
@@ -30,6 +30,7 @@ export class AddUserComponent implements OnInit {
     private branchService: BranchService,
   ) {
     this.userForm = this.fb.group({
+      id: [null],
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
@@ -77,7 +78,7 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-  populateForm(item: CreateDineIntable) {
+  populateForm(item: UpdateDinInTable) {
     this.userForm.patchValue({
       id: item.id,
       name: item.name,
@@ -100,11 +101,11 @@ export class AddUserComponent implements OnInit {
   submitForm() {
     if (this.userForm.valid) {
       // Declare the formValue outside the if-else block
-      let formValue: CreateDineIntable | CreateDineIntable;
+      let formValue: UpdateDinInTable | CreateDineIntable;
 
       // Determine whether it's an update or create operation
       if (this.userForm.value.id) {
-        formValue = this.userForm.value as CreateDineIntable;
+        formValue = this.userForm.value as UpdateDinInTable;
       } else {
         formValue = this.userForm.value as CreateDineIntable;
       }
@@ -113,17 +114,17 @@ export class AddUserComponent implements OnInit {
 
       if (this.table) {
         // Update existing branch
-        // this.dineIntableService.update(formValue as CreateDineIntable)
-        //   .subscribe(
-        //     response => {
-        //       // Handle successful response
-        //       console.log('Branch updated successfully:', response);
-        //     },
-        //     error => {
-        //       // Handle error response
-        //       console.error('Error updating branch:', error);
-        //     }
-        //   );
+        this.dineIntableService.update(formValue as UpdateDinInTable)
+          .subscribe(
+            response => {
+              // Handle successful response
+              console.log('Branch updated successfully:', response);
+            },
+            error => {
+              // Handle error response
+              console.error('Error updating branch:', error);
+            }
+          );
       } else {
         // Create a new branch
         this.dineIntableService.create(formValue as CreateDineIntable)

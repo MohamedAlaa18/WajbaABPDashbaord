@@ -1,6 +1,6 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateDineIntable, GetDiniTableInput } from '../dtos/dine-in-table-contract/models';
+import type { CreateDineIntable, GetDiniTableInput, UpdateDinInTable } from '../dtos/dine-in-table-contract/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -44,10 +44,10 @@ export class DineIntableService {
     { apiName: this.apiName,...config });
   
 
-  update = (id: number, input: CreateDineIntable, config?: Partial<Rest.Config>) =>
+  update = (input: UpdateDinInTable, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: `/api/DineIntable/${id}`,
+      url: '/api/DineIntable',
       body: input,
     },
     { apiName: this.apiName,...config });

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { OfferService } from '@proxy/controllers';
-import { CreateUpdateOfferDto } from '@proxy/offers-contract';
+import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
 
 @Component({
   selector: 'app-vouchers-details',
@@ -13,7 +13,7 @@ import { CreateUpdateOfferDto } from '@proxy/offers-contract';
 })
 export class VouchersDetailsComponent implements OnInit {
   voucherId!: number;
-  voucher!: CreateUpdateOfferDto;
+  voucher!: UpdateOfferdto;
 
   constructor(
     private activatedRoute: ActivatedRoute,

@@ -1,26 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { Router } from '@angular/router';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
-import { SettingsSidebarComponent } from '../../settings/settings-sidebar/settings-sidebar.component';
 import { TableComponent } from 'src/app/shared/table/table.component';
 import { AddItemsComponent } from '../add-items/add-items.component';
 import { ItemService } from '@proxy/controllers';
-import { CreateItemDto } from '@proxy/dtos/items-dtos';
+import { ItemDto } from '@proxy/dtos/items-dtos';
 
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent],
+  imports: [CommonModule, ReactiveFormsModule, IconsComponent, TableComponent],
   templateUrl: './items.component.html',
   styleUrl: './items.component.scss'
 })
 export class ItemsComponent implements OnInit {
-  items: CreateItemDto[] = [];
+  items: ItemDto[] = [];
   isAddMode = true;
 
   columns = [
@@ -79,7 +78,7 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  openAddEditModal(item?: CreateItemDto): void {
+  openAddEditModal(item?: ItemDto): void {
     const modalRef = this.modalService.open(AddItemsComponent, {
       size: 'lg',
       centered: true,
@@ -138,7 +137,7 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  openItemDetailsAndNavigate(item: CreateItemDto) {
+  openItemDetailsAndNavigate(item: ItemDto) {
     this.router.navigate(['/items', item.id]);
   }
 }

@@ -1,8 +1,7 @@
 import { RestService, Rest } from '@abp/ng.core';
-import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { CreateUpdateOfferDto, GetOfferInput, UpdateOfferdto } from '../dtos/offers-contract/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
-import type { CreateUpdateOfferDto } from '../offers-contract/models';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +35,7 @@ export class OfferService {
     { apiName: this.apiName,...config });
   
 
-  getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
+  getList = (input: GetOfferInput, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/Offer',
@@ -45,10 +44,10 @@ export class OfferService {
     { apiName: this.apiName,...config });
   
 
-  update = (id: number, input: CreateUpdateOfferDto, config?: Partial<Rest.Config>) =>
+  update = (input: UpdateOfferdto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: `/api/Offer/${id}`,
+      url: '/api/Offer',
       body: input.image,
     },
     { apiName: this.apiName,...config });

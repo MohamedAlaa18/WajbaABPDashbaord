@@ -11,7 +11,7 @@ import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
 import { AddOffersComponent } from '../add-offers/add-offers.component';
-import { CreateUpdateOfferDto } from '@proxy/offers-contract';
+import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
 
 @Component({
   selector: 'app-offers',
@@ -21,7 +21,7 @@ import { CreateUpdateOfferDto } from '@proxy/offers-contract';
   styleUrl: './offers.component.scss'
 })
 export class OffersComponent implements OnInit {
-  offers: CreateUpdateOfferDto[] = [];
+  offers: UpdateOfferdto[] = [];
   isAddMode = true;
   currentPage: number = 1;
   totalPages: number = 4;
@@ -122,7 +122,7 @@ export class OffersComponent implements OnInit {
     }
   }
 
-  openAddEditModal(offer?: CreateUpdateOfferDto): void {
+  openAddEditModal(offer?: UpdateOfferdto): void {
     const modalRef = this.modalService.open(AddOffersComponent, {
       size: 'lg',
       centered: true,
@@ -195,7 +195,7 @@ export class OffersComponent implements OnInit {
     this.loadOffers();
   }
 
-  openBranchDetailsAndNavigate(offer: CreateUpdateOfferDto) {
+  openBranchDetailsAndNavigate(offer: UpdateOfferdto) {
     this.router.navigate(['/offers', offer.id]);
   }
 

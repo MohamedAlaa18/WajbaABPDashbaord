@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DineIntableService } from '@proxy/controllers';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
-import { CreateDineIntable } from '@proxy/dtos/dine-in-table-contract';
+import { CreateDineIntable, UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
 
 @Component({
   selector: 'app-add-dining-tables',
@@ -14,7 +14,7 @@ import { CreateDineIntable } from '@proxy/dtos/dine-in-table-contract';
 })
 export class AddDiningTablesComponent {
   @Input() isOpen: boolean = false;
-  @Input() table: CreateDineIntable | null = null;
+  @Input() table: UpdateDinInTable | null = null;
   @Output() close = new EventEmitter<void>();
 
   diningTableForm: FormGroup;
@@ -31,7 +31,7 @@ export class AddDiningTablesComponent {
     });
   }
 
-  populateForm(item: CreateDineIntable) {
+  populateForm(item: UpdateDinInTable) {
     this.diningTableForm.patchValue({
       id: item.id,
       name: item.name,
@@ -47,11 +47,11 @@ export class AddDiningTablesComponent {
   submitForm() {
     if (this.diningTableForm.valid) {
       // Declare the formValue outside the if-else block
-      let formValue: CreateDineIntable | CreateDineIntable;
+      let formValue: UpdateDinInTable | CreateDineIntable;
 
       // Determine whether it's an update or create operation
       if (this.diningTableForm.value.id) {
-        formValue = this.diningTableForm.value as CreateDineIntable;
+        formValue = this.diningTableForm.value as UpdateDinInTable;
       } else {
         formValue = this.diningTableForm.value as CreateDineIntable;
       }
@@ -60,17 +60,17 @@ export class AddDiningTablesComponent {
 
       if (this.table) {
         // Update existing branch
-        // this.dineIntableService.update(formValue as CreateDineIntable)
-        //   .subscribe(
-        //     response => {
-        //       // Handle successful response
-        //       console.log('Branch updated successfully:', response);
-        //     },
-        //     error => {
-        //       // Handle error response
-        //       console.error('Error updating branch:', error);
-        //     }
-        //   );
+        this.dineIntableService.update(formValue as UpdateDinInTable)
+          .subscribe(
+            response => {
+              // Handle successful response
+              console.log('Branch updated successfully:', response);
+            },
+            error => {
+              // Handle error response
+              console.error('Error updating branch:', error);
+            }
+          );
       } else {
         // Create a new branch
         this.dineIntableService.create(formValue as CreateDineIntable)
