@@ -1,0 +1,21 @@
+<div class="pagination-container" *ngIf="totalPages > 0">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" [class.disabled]="pageNumber === 1">
+      <a class="page-link" (click)="onPreviousClicked()" href="#" aria-label="Previous">
+        Previous
+        <app-icons iconName="previous" color="#1D1B20"></app-icons>
+      </a>
+    </li>
+
+    <li class="page-item" *ngFor="let page of pages" [class.active]="page === pageNumber">
+      <a class="page-link" (click)="onPageClicked(page)" href="#">{{ page }}</a>
+    </li>
+
+    <li class="page-item" [class.disabled]="pageNumber === totalPages">
+      <a class="page-link" (click)="onNextClicked()" href="#" aria-label="Next">
+        <app-icons iconName="next" color="#1D1B20"></app-icons>
+        Next
+      </a>
+    </li>
+  </ul>
+</div>

@@ -3,6 +3,7 @@ import type { DiscountType } from '../enums/discount-type.enum';
 import type { IFormFile } from '../microsoft/asp-net-core/http/models';
 
 export interface CreateUpdateOfferDto {
+  id: number;
   name?: string;
   status: Status;
   startDate?: string;

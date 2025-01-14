@@ -1,0 +1,86 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header border-bottom">
+      <h5 class="section-title text-black">Address</h5>
+      <button type="button" class="border-0 bg-white" aria-label="Close" (click)="closeModal()">
+        <app-icons iconName="close" color="#F45859"></app-icons>
+      </button>
+    </div>
+
+    <div class="modal-body p-3">
+      <div class="d-flex justify-content-between mb-4">
+        <button type="button" class="btn border-0 col-4" [class.btn-danger]="selectedForm === 'apartment'"
+          [class.rounded-5]="selectedForm !== 'apartment'" (click)="selectForm('apartment')">
+          <app-icons iconName="apartment" [color]="selectedForm === 'apartment' ? 'white' : '#818181'"></app-icons>
+          <span class="mx-1">Apartment</span>
+        </button>
+        <button type="button" class="btn border-0 col-4" [class.btn-danger]="selectedForm === 'house'"
+          [class.rounded-5]="selectedForm !== 'house'" (click)="selectForm('house')">
+          <app-icons iconName="house" [color]="selectedForm === 'house' ? 'white' : '#818181'"></app-icons>
+          <span class="mx-1">House</span>
+        </button>
+        <button type="button" class="btn border-0 col-4" [class.btn-danger]="selectedForm === 'office'"
+          [class.rounded-5]="selectedForm !== 'office'" (click)="selectForm('office')">
+          <app-icons iconName="office" [color]="selectedForm === 'office' ? 'white' : '#818181'"></app-icons>
+          <span class="mx-1">Office</span>
+        </button>
+      </div>
+
+      <form [formGroup]="addressForm" (ngSubmit)="submitForm()">
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <!-- <label for="buildingName" class="form-label">Building Name <span class="text-danger">*</span></label> -->
+            <input id="buildingName" formControlName="buildingName" type="text" placeholder="Building Name"
+              class="form-control bg-white">
+            <div *ngIf="addressForm.get('buildingName')?.touched && addressForm.get('buildingName')?.invalid"
+              class="text-danger">
+              <small>Building Name is required.</small>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="selectedForm !== 'house'" class="row">
+          <div class="col-md-6 mb-3">
+            <!-- <label for="apartmentNumber" class="form-label">Apartment Number <span class="text-danger">*</span></label> -->
+            <input id="apartmentNumber" formControlName="apartmentNumber" type="text" placeholder="Apartment Number"
+              class="form-control bg-white">
+            <div *ngIf="addressForm.get('apartmentNumber')?.touched && addressForm.get('apartmentNumber')?.invalid"
+              class="text-danger">
+              <small>Apartment Number is required.</small>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <!-- <label for="floor" class="form-label">Floor <span class="text-danger">*</span></label> -->
+            <input id="floor" formControlName="floor" type="text" placeholder="Floor" class="form-control bg-white">
+            <div *ngIf="addressForm.get('floor')?.touched && addressForm.get('floor')?.invalid" class="text-danger">
+              <small>Floor is required.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <!-- <label for="street" class="form-label">Street <span class="text-danger">*</span></label> -->
+            <input id="street" formControlName="street" type="text" placeholder="Street" class="form-control bg-white">
+            <div *ngIf="addressForm.get('street')?.touched && addressForm.get('street')?.invalid" class="text-danger">
+              <small>Street is required.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <!-- <label for="addressLabel" class="form-label">Address Label (optional)</label> -->
+            <input id="addressLabel" formControlName="addressLabel" type="text" placeholder="Address Label (optional)"
+              class="form-control bg-white">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-start">
+          <button type="submit" class="btn btn-danger me-2 text-white w-100 border-0">Save Address</button>
+          <!-- <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

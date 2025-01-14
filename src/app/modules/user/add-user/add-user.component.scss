@@ -1,0 +1,48 @@
+@import '../../../../assets/styles/main';
+@include radio-label(#F458591F, var(--red-color), #CCCCCC4D, transparent);
+
+button.save {
+  @include submit-button(var(--red-color));
+}
+
+button.close {
+  @include close-button(var(--red-color));
+}
+
+.text-danger,
+.invalid-feedback {
+  color: var(--red-color) !important;
+}
+
+input {
+  border: 1px solid #CCCCCC4D !important;
+  height: 40px;
+}
+
+.ng-select.custom ::ng-deep .ng-select-container {
+  border-color: #CCCCCC4D;
+  box-shadow: none;
+  border-radius: 0.5rem;
+  height: 40px;
+}
+
+::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  background-color: #F458591F;
+}
+
+::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+  border-right: 1px solid #CCCCCC4D;
+}
+
+::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left:hover {
+  background-color: #F458591F;
+}
+
+::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+  background-color: #F5F5F5 !important;
+}
+
+::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: white !important;
+}

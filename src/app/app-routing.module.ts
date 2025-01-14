@@ -15,6 +15,33 @@ const routes: Routes = [
     loadChildren: () => import('./modules/items/items.module').then(m => m.ItemsModule),
   },
   {
+<<<<<<< Updated upstream
+=======
+    path: 'popular-today',
+    loadChildren: () => import('./modules/popular-today/popular-today.module').then(m => m.PopularTodayModule),
+  },
+  {
+    path: 'dining-tables',
+    loadChildren: () => import('./modules/dining-tables/dining-tables.module').then(m => m.DiningTablesModule),
+  },
+  {
+    path: 'pos',
+    loadChildren: () => import('./modules/pos/pos.module').then(m => m.POSModule),
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
+  },
+  {
+    path: 'offers',
+    loadChildren: () => import('./modules/offers/offers.module').then(m => m.OffersModule),
+  },
+  {
+    path: 'vouchers',
+    loadChildren: () => import('./modules/vouchers/vouchers.module').then(m => m.VouchersModule),
+  },
+  {
+>>>>>>> Stashed changes
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
   },

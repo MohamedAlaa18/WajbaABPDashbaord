@@ -1,0 +1,47 @@
+<section class="w-100 bg-white d-flex justify-content-center">
+  <div class="w-100 overflow-auto">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center gap-2 px-3 py-2 border-bottom">
+      <span class="fw-semibold text-black fs-4">Vouchers</span>
+
+      <div class="d-flex align-items-center gap-3">
+        <!-- Filter Button -->
+        <button class="btn rounded-danger dropdown-toggle d-flex align-items-center gap-2 px-3 py-2"
+          (click)="toggleFilterVisibility()">
+          <img src="assets/images/filter.svg" alt="filter">
+          <span class="h5 p-0 m-0"> Filter</span>
+        </button>
+
+        <!-- Export Button -->
+        <app-export-button [buttonLabel]="'Export'" [buttonIcon]="'assets/images/export.svg'" [menuItems]="[
+        { label: 'XLS', icon: 'assets/images/xls.svg', action: 'exportXLS' },
+        { label: 'Print', icon: 'assets/images/print.svg', action: 'print' }
+        ]" (menuAction)="handleMenuAction($event)">
+        </app-export-button>
+
+        <!-- Add Item Button -->
+        <button class="btn btn-danger d-flex align-items-center gap-2 px-3 py-2 border-0" (click)="openAddEditModal()">
+          <img src="assets/images/add-item.svg" alt="add-item">
+          <span class="h5 p-0 m-0"> Add vouchers</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="accordion" *ngIf="isFilterVisible">
+      <div class="accordion-item">
+        <div id="filterForm" class="accordion-collapse collapse show">
+          <app-filter [filters]="filters" [filterFields]="filterFields" (filterSubmit)="applyFilters($event)"
+            (filterClear)="clearFilters()">
+          </app-filter>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <app-table [data]="vouchers" [columns]="columns" [actions]="actions"></app-table>
+  </div>
+</section>
+
+<app-pagination [pageNumber]="currentPage" [totalPages]="totalPages"
+  (pageChange)="onPageChange($event)"></app-pagination>

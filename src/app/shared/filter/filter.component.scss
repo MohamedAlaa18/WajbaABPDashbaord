@@ -1,0 +1,41 @@
+@import '../../../assets/styles/main';
+@include radio-label(#F458591F, var(--red-color), #CCCCCC4D, transparent);
+
+.h5 {
+  font-size: 20px;
+}
+
+.text-danger,
+.invalid-feedback {
+  color: var(--red-color) !important;
+}
+
+input {
+  border: 1px solid #CCCCCC4D !important;
+  height: 40px;
+}
+
+select {
+  outline: none !important;
+}
+
+select.form-select option:checked {
+  background-color: var(--red-color) !important;
+}
+
+.apply {
+  background-color: var(--red-color);
+  color: white;
+}
+
+.clear {
+  background-color: white;
+  border: 1px solid var(--red-color);
+  color: var(--red-color);
+}
+
+@media (min-width: 768px) {
+  .col-md-4 {
+    width: 32.333333% !important;
+  }
+}

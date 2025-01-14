@@ -1,0 +1,27 @@
+<section class="d-flex justify-content-center w-100 h-100 flex-grow-1">
+  <div class="table-responsive w-100">
+    <div class="d-flex justify-content-between align-items-center w-100 rounded-top bg-white px-4 py-3 border-bottom">
+      <span class="section-title text-black">Popular today</span>
+
+      <div class="d-flex justify-content-center align-items-center gap-3">
+        <!-- Export Button -->
+        <app-export-button [buttonLabel]="'Export'" [buttonIcon]="'assets/images/export.svg'" [menuItems]="[
+        { label: 'XLS', icon: 'assets/images/xls.svg', action: 'exportXLS' },
+        { label: 'Print', icon: 'assets/images/print.svg', action: 'print' }
+        ]" (menuAction)="handleMenuAction($event)">
+        </app-export-button>
+
+        <button (click)="openAddEditModal()" class="btn btn-danger d-flex align-items-center gap-2 px-3 py-2 border-0">
+          <img src="assets/images/add-item.svg" alt="add-item">
+          <span class="h5 p-0 m-0">Add Item</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <app-table [data]="items" [columns]="columns" [actions]="actions"></app-table>
+  </div>
+</section>
+
+<app-pagination [pageNumber]="currentPage" [totalPages]="totalPages"
+  (pageChange)="onPageChange($event)"></app-pagination>

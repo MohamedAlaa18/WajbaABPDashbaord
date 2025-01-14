@@ -12,6 +12,10 @@ export * from './language.service';
 export * from './offer.service';
 export * from './order-setup.service';
 export * from './otp.service';
+<<<<<<< Updated upstream
+=======
+export * from './popular-items.service';
+>>>>>>> Stashed changes
 export * from './site.service';
 export * from './theme.service';
 export * from './time-slot.service';

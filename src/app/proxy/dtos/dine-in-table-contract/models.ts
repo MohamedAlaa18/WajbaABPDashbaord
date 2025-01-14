@@ -1,6 +1,7 @@
 import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateDineIntable {
+  id:number;
   name: string;
   size: number;
   isActive: boolean;

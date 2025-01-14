@@ -1,0 +1,110 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header border-bottom">
+      <h5 class="section-title text-black">Vouchers</h5>
+      <button type="button" class="border-0 bg-white" aria-label="Close" (click)="closeModal()">
+        <app-icons iconName="close" color="#F45859"></app-icons>
+      </button>
+    </div>
+
+    <form [formGroup]="voucherForm" (ngSubmit)="submitForm()" class="p-3">
+      <div class="row">
+        <div class="col-md-6  mb-3">
+          <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+          <input type="text" id="name" formControlName="name" class="form-control bg-white">
+          <div *ngIf="voucherForm.get('name')?.touched && voucherForm.get('name')?.invalid" class="text-danger">
+            <small>Name is required.</small>
+          </div>
+        </div>
+        <div class="col-md-6  mb-3">
+          <label for="code" class="form-label">Code <span class="text-danger">*</span></label>
+          <input type="text" id="code" formControlName="code" class="form-control bg-white">
+          <div *ngIf="voucherForm.get('code')?.touched && voucherForm.get('code')?.invalid" class="text-danger">
+            <small>Code is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label for="discountType" class="form-label">Discount Type <span class="text-danger">*</span></label>
+          <select id="discountType" formControlName="discountType" class="form-select bg-white">
+            <option value="" disabled>--</option>
+            <option value="0">Fixed</option>
+            <option value="1">Percentage</option>
+          </select>
+          <div
+            *ngIf="voucherForm.get('discountType')?.invalid && (voucherForm.get('discountType')?.touched || voucherForm.get('discountType')?.dirty)"
+            class="text-danger">
+            <ng-container *ngIf="voucherForm.get('discountType')?.errors?.['required']">Discount Type is
+              required.</ng-container>
+          </div>
+        </div>
+
+        <div class="mb-3 col-md-6">
+          <label for="discount" class="form-label">Discount <span class="text-danger">*</span></label>
+          <input type="number" id="discount" formControlName="discount"
+            [placeholder]="voucherForm.get('discountType')?.value === '1' ? '%' : ''" class="form-control bg-white" />
+          <div
+            *ngIf="voucherForm.get('discount')?.invalid && (voucherForm.get('discount')?.touched || voucherForm.get('discount')?.dirty)"
+            class="text-danger">
+            <ng-container *ngIf="offerForm.get('discount')?.errors?.['required']">Discount is required.</ng-container>
+            <ng-container *ngIf="offerForm.get('discount')?.errors?.['min']">Discount must be a positive
+              number.</ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
+          <input type="file" (change)="onFileSelected($event)" class="form-control bg-white">
+          <div *ngIf="voucherForm.get('image')?.touched && voucherForm.get('image')?.invalid" class="text-danger">
+            <small *ngIf="itemCategoryForm.get('image')?.errors?.['required']">Image is required.</small>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="limitPerUser" class="form-label">Limit Per User</label>
+          <input type="number" id="limitPerUser" formControlName="limitPerUser" class="form-control bg-white">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="startDate" class="form-label">Start Date</label>
+          <input type="date" id="startDate" formControlName="startDate" class="form-control bg-white">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="endDate" class="form-label">End Date</label>
+          <input type="date" id="endDate" formControlName="endDate" class="form-control bg-white">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="minDiscount" class="form-label">Minimum Discount</label>
+          <input type="number" id="minDiscount" formControlName="minDiscount" class="form-control bg-white">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="maxDiscount" class="form-label">Maximum Discount <span class="text-danger">*</span></label>
+          <input type="number" id="maxDiscount" formControlName="maxDiscount" class="form-control bg-white">
+          <div *ngIf="voucherForm.get('maxDiscount')?.touched && voucherForm.get('maxDiscount')?.invalid"
+            class="text-danger">
+            <small>Maximum discount is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" formControlName="description" class="form-control bg-white" rows="3"></textarea>
+      </div>
+
+      <div class="d-flex justify-content-start">
+        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
