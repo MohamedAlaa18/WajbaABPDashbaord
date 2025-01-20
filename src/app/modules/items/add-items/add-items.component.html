@@ -29,17 +29,18 @@
       <div class="row mb-3">
         <div class="col-md-6">
           <label for="itemCategory" class="form-label">Category <span class="text-danger">*</span></label>
-          <select id="itemCategory" formControlName="category" class="form-control bg-white">
+          <select id="itemCategory" formControlName="categoryId" class="form-control bg-white">
             <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
           </select>
-          <div *ngIf="itemForm.get('category')?.touched && itemForm.get('category')?.invalid" class="text-danger">
+          <div *ngIf="itemForm.get('categoryId')?.touched && itemForm.get('categoryId')?.invalid" class="text-danger">
             <small>Category is required.</small>
           </div>
         </div>
 
         <div class="col-md-6">
           <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
-          <input type="file" (change)="onFileSelected($event)" class="form-control bg-white">
+          <input type="file" (change)="onFileSelected($event)" class="form-control bg-white"
+            (change)="handleImageUpload($event)">
           <div *ngIf="itemForm.get('image')?.touched && itemForm.get('image')?.invalid" class="text-danger">
             <small *ngIf="itemCategoryForm.get('image')?.errors?.['required']">Image is required.</small>
           </div>
@@ -48,11 +49,11 @@
 
       <div class="row mb-3">
         <div class="col-md-12">
-          <label for="branches" class="form-label">Branches <span class="text-danger">*</span></label>
+          <label for="branchIds" class="form-label">Branches <span class="text-danger">*</span></label>
           <ng-select [items]="branchesList" bindLabel="name" bindValue="id" [multiple]="true"
-            placeholder="Select branches" formControlName="branches" class="custom">
+            placeholder="Select branches" formControlName="branchIds" class="custom">
           </ng-select>
-          <div *ngIf="itemForm.get('branches')?.touched && itemForm.get('branches')?.invalid" class="text-danger">
+          <div *ngIf="itemForm.get('branchIds')?.touched && itemForm.get('branchIds')?.invalid" class="text-danger">
             <small>At least one branch must be selected.</small>
           </div>
         </div>
@@ -63,10 +64,10 @@
           <label>Item Type <span class="text-danger">*</span></label>
           <div class="d-flex align-items-center gap-2">
             <label class="btn radio-label">
-              <input type="radio" formControlName="itemType" [value]="'Veg'" class="d-none"> Veg
+              <input type="radio" formControlName="itemType" [value]="1" class="d-none"> Veg
             </label>
             <label class="btn radio-label">
-              <input type="radio" formControlName="itemType" [value]="'Non-Veg'" class="d-none"> Non-Veg
+              <input type="radio" formControlName="itemType" [value]="0" class="d-none"> Non-Veg
             </label>
           </div>
           <div *ngIf="itemForm.get('itemType')?.touched && itemForm.get('itemType')?.invalid" class="text-danger">
@@ -92,10 +93,10 @@
       <div class="row mb-3">
         <div class="col-md-6">
           <label for="itemTax" class="form-label">Tax</label>
-          <select id="itemTax" formControlName="tax" class="form-control bg-white">
+          <select id="itemTax" formControlName="taxValue" class="form-control bg-white">
             <option *ngFor="let tax of taxes" [value]="tax.id">{{ tax.name }}</option>
           </select>
-          <div *ngIf="itemForm.get('tax')?.touched && itemForm.get('tax')?.invalid" class="text-danger">
+          <div *ngIf="itemForm.get('taxValue')?.touched && itemForm.get('taxValue')?.invalid" class="text-danger">
             <small>Tax is required.</small>
           </div>
         </div>
@@ -104,10 +105,10 @@
           <label>Featured <span class="text-danger">*</span></label>
           <div class="d-flex align-items-center gap-2">
             <label class="btn radio-label">
-              <input type="radio" formControlName="isFeatured" [value]="1" class="d-none">Yes
+              <input type="radio" formControlName="isFeatured" [value]="true" class="d-none">Yes
             </label>
             <label class="btn radio-label">
-              <input type="radio" formControlName="isFeatured" [value]="0" class="d-none">No
+              <input type="radio" formControlName="isFeatured" [value]="false" class="d-none">No
             </label>
           </div>
           <div *ngIf="itemForm.get('isFeatured')?.touched && itemForm.get('isFeatured')?.invalid" class="text-danger">

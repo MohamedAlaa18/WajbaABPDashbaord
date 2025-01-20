@@ -14,8 +14,7 @@ export class NotificationService {
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Notification',
-      params: { fireBasePublicVapidKey: input.fireBasePublicVapidKey, fireBaseAPIKey: input.fireBaseAPIKey, fireBaseProjectId: input.fireBaseProjectId, fireBaseAuthDomain: input.fireBaseAuthDomain, fireBaseStorageBucket: input.fireBaseStorageBucket, fireBaseMessageSenderId: input.fireBaseMessageSenderId, fireBaseAppId: input.fireBaseAppId, fireBaseMeasurementId: input.fireBaseMeasurementId },
-      body: input.imageUrl,
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -49,8 +48,7 @@ export class NotificationService {
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Notification',
-      params: { id: input.id, fireBasePublicVapidKey: input.fireBasePublicVapidKey, fireBaseAPIKey: input.fireBaseAPIKey, fireBaseProjectId: input.fireBaseProjectId, fireBaseAuthDomain: input.fireBaseAuthDomain, fireBaseStorageBucket: input.fireBaseStorageBucket, fireBaseMessageSenderId: input.fireBaseMessageSenderId, fireBaseAppId: input.fireBaseAppId, fireBaseMeasurementId: input.fireBaseMeasurementId },
-      body: input.imageUrl,
+      body: input,
     },
     { apiName: this.apiName,...config });
 

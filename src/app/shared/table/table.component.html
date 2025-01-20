@@ -13,18 +13,29 @@
     <tbody>
       <tr *ngFor="let row of data; let isOdd = odd" [class.table-secondary]="!isOdd">
         <td *ngFor="let col of columns" class="px-3 py-2">
-          <ng-container *ngIf="col.header === 'Status'; else defaultCell">
-            <span [ngClass]="{
-                'text-success fw-bold': row[col.field] === 1,
-                'text-danger fw-bold': row[col.field] === 0
-              }">
-              {{ row[col.field] === 1 ? 'Active' : 'Inactive' }}
-            </span>
+          <ng-container [ngSwitch]="col.header">
+            <!-- Status Column -->
+            <ng-container *ngSwitchCase="'Status'">
+              <span [ngClass]="{
+                  'text-success': row[col.field] === 1,
+                  'text-danger': row[col.field] === 0
+                }">
+                {{ row[col.field] === 1 ? 'Active' : 'Inactive' }}
+              </span>
+            </ng-container>
+            <!-- Type Column -->
+            <ng-container *ngSwitchCase="'Type'">
+              <span>
+                {{ row[col.field] === 1 ? 'Percentage' : 'Fixed' }}
+              </span>
+            </ng-container>
+            <!-- Default Case -->
+            <ng-container *ngSwitchDefault>
+              {{ row[col.field] }}
+            </ng-container>
           </ng-container>
-          <ng-template #defaultCell>
-            {{ row[col.field] }}
-          </ng-template>
         </td>
+        <!-- Actions Column -->
         <td class="px-3 py-2 d-flex align-items-center gap-3" *ngIf="actions?.length">
           <ng-container *ngFor="let action of actions">
             <div class="position-relative">

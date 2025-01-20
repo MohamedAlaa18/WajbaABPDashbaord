@@ -7,11 +7,6 @@ export interface CreateUpdateCurrenciesDto {
   isCryptoCurrency: boolean;
 }
 
-export interface UpadteCurrency {
+export interface UpadteCurrency extends CreateUpdateCurrenciesDto {
   id: number;
-  name: string;
-  symbol: string;
-  code: string;
-  exchangeRate: number;
-  isCryptoCurrency: boolean;
 }

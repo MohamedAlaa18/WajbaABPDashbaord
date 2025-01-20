@@ -1,21 +1,17 @@
 <section *ngIf="offer">
   <!-- Navigation Buttons -->
-  <div class="btn-group w-100 mb-3">
-    <button class="btn btn-outline-secondary" [ngClass]="{'btn-primary': activeSection === 'information'}"
+  <div class="d-flex justify-content-around w-100">
+    <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'information'}"
       (click)="activeSection = 'information'">
       Information
     </button>
-    <button class="btn btn-outline-secondary" [ngClass]="{'btn-primary': activeSection === 'image'}"
+    <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'image'}"
       (click)="activeSection = 'image'">
       Image
     </button>
-    <button *ngIf="offer.items.length != 0" class="btn btn-outline-secondary"
-      [ngClass]="{'btn-primary': activeSection === 'items'}" (click)="activeSection = 'items'">
-      Items
-    </button>
-    <button *ngIf="offer.categories.length != 0" class="btn btn-outline-secondary"
-      [ngClass]="{'btn-primary': activeSection === 'categories'}" (click)="activeSection = 'categories'">
-      Categories
+    <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'items'}"
+      (click)="activeSection = 'items'">
+      {{ offer.items?.length ? 'Items' : 'Categories'}}
     </button>
   </div>
 
@@ -23,7 +19,7 @@
     <!-- Information Section -->
     <div *ngIf="activeSection === 'information' && offer" class="section mb-4">
       <div class="info">
-        <div class="row mb-3">
+        <div class="row mb-1">
           <div class="col-md-6">
             <p><strong>Name:</strong> {{ offer.name }}</p>
           </div>
@@ -31,7 +27,7 @@
             <p><strong>Discount:</strong> {{ (offer.discountPercentage).toFixed(2) }}%</p>
           </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-1">
           <div class="col-md-6">
             <p><strong>Start Day:</strong> {{ offer.startDate }}</p>
           </div>
@@ -54,8 +50,8 @@
     <!-- Image Section -->
     <div *ngIf="activeSection === 'image'" class="section mb-4">
       <div class="d-flex align-items-center gap-3 flex-wrap">
-        <img [src]="offer.imageUrl" alt="Offer Image" class="img-thumbnail" style="width: 200px; height: auto;">
-        <label class="btn btn-danger">
+        <img [src]="offer.image" alt="Offer Image" class="h-auto rounded-3" style="width: 200px; height: auto;">
+        <label class="btn btn-danger border-0">
           Update Image
           <input type="file" id="image" (change)="onFileSelect($event)" hidden>
         </label>
@@ -64,48 +60,8 @@
 
     <!-- Items Section -->
     <div *ngIf="activeSection === 'items' && offer.items.length != 0" class="section mb-4">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of offer.items; let isOdd = odd" [ngClass]="{'table-secondary': isOdd}">
-            <td>{{ item.name }}</td>
-            <td>{{ item.price }}</td>
-            <td>
-              <button class="btn btn-outline-danger btn-sm" (click)="openConfirmDeleteItemModal(item.id)">
-                <img src="assets/images/delete.svg" alt="delete" width="16">
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Categories Section -->
-    <div *ngIf="activeSection === 'categories' && offer.categories.length != 0" class="section mb-4">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let category of offer.categories; let isOdd = odd" [ngClass]="{'table-secondary': isOdd}">
-            <td>{{ category.name }}</td>
-            <td>
-              <button class="btn btn-outline-danger btn-sm" (click)="openConfirmDeleteCategoryModal(category.id)">
-                <img src="assets/images/delete.svg" alt="delete" width="16">
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <app-table [data]="offer.items?.length ? offer.items : offer.categories" [columns]="columns"
+        [actions]="actions"></app-table>
     </div>
   </div>
 </section>

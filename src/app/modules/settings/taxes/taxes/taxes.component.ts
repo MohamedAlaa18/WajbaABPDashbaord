@@ -69,7 +69,7 @@ export class TaxesComponent {
 
     this.itemTaxService.getList(defaultInput).subscribe((response: any) => {
       if (response) {
-        // this.taxes = response.data;
+        this.taxes = response.data.items;
         console.log("tax : " + response.data)
       } else {
         console.error('The response is not an array:', response);
@@ -123,6 +123,7 @@ export class TaxesComponent {
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
       this.deleteCurrency(id); // Call the delete method with the tax ID
+      modalRef.close();
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {

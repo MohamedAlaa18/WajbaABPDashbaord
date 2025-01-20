@@ -51,29 +51,25 @@ export class AddItemAttributesComponent {
 
   submitForm() {
     if (this.itemAttributeForm.valid) {
-      // Declare the formValue outside the if-else block
       let formValue: UpdateItemAttributeDto | CreateItemAttributeDto;
 
-      // Determine whether it's an update or create operation
       if (this.itemAttributeForm.value.id) {
         formValue = this.itemAttributeForm.value as UpdateItemAttributeDto;
       } else {
         formValue = this.itemAttributeForm.value as CreateItemAttributeDto;
       }
 
-      console.log(formValue);
-
       if (this.itemAttribute) {
         // Update existing itemAttribute
         this.itemAttributeService.update(formValue as UpdateItemAttributeDto)
           .subscribe(
             response => {
-              // Handle successful response
-              console.log('itemAttribute updated successfully:', response);
+              console.log('Item attribute updated successfully:', response);
+              // Emit 'saved' result to the parent component
+              this.close.emit();
             },
             error => {
-              // Handle error response
-              console.error('Error updating itemAttribute:', error);
+              console.error('Error updating item attribute:', error);
             }
           );
       } else {
@@ -82,17 +78,15 @@ export class AddItemAttributesComponent {
           .subscribe(
             response => {
               console.log('Item attribute created successfully:', response);
+              // Emit 'saved' result to the parent component
+              this.close.emit();
             },
             error => {
-              console.error('Error creating Item attribute:', error);
-              if (error.error && error.error.message) {
-                console.error('Detailed error message:', error.error.message);
-              }
+              console.error('Error creating item attribute:', error);
             }
           );
       }
     } else {
-      // Mark all form controls as touched to trigger validation messages
       this.itemAttributeForm.markAllAsTouched();
     }
   }

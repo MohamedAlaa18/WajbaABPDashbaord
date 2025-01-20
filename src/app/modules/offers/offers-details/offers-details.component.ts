@@ -4,13 +4,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OfferService } from '@proxy/controllers';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
-import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
+import { OfferDto } from '@proxy/dtos/offers-contract';
+import { TableComponent } from "../../../shared/table/table.component";
+import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
   selector: 'app-offers-details',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TableComponent],
   templateUrl: './offers-details.component.html',
   styleUrl: './offers-details.component.scss'
 })
@@ -18,30 +21,41 @@ export class OffersDetailsComponent implements OnInit {
   activeSection: string = 'information';
   showItemModal = false;
   offerId!: number;
-  offer!: UpdateOfferdto;
+  offer!: OfferDto;
   selectedItem: any = null;
   selectedFileName: string | null = null;
   selectedFile: File | null = null;
 
-  isConfirmDeleteCategoryModalOpen: boolean = false;
-  categoryToDeleteId!: number;
-  isConfirmDeleteItemModalOpen: boolean = false;
-  itemToDeleteId!: number;
+  columns = [
+    { field: 'name', header: 'Name' },
+    { field: 'price', header: 'Price' },
+    { field: 'status', header: 'Status' },
+  ];
+
+  actions = [
+    {
+      icon: 'assets/images/delete.svg',
+      tooltip: 'Delete',
+      show: (row: any) => true,
+      callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
+    },
+  ];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private offerService: OfferService,
     private afterActionService: AfterActionService,
+    private modalService: NgbModal,
   ) {
     this.offerId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void {
-    this.getOfferDetails();
+    this.loadOffer();
   }
 
   // Method to get offer details
-  getOfferDetails() {
+  loadOffer() {
     if (this.offerId) {
       this.offerService.getById(this.offerId).subscribe(
         (response) => {
@@ -55,20 +69,15 @@ export class OffersDetailsComponent implements OnInit {
     }
   }
 
-  openItemModal() {
-    this.showItemModal = true;
+  deleteItem(itemId: number) {
+    // this.offerService.removeItemsFromOffer(this.itemToDeleteId).subscribe({
+    //   next: (response) => {
+    //     console.log(`Items removed from offer ${this.itemToDeleteId}`, response);
+    //     this.afterActionService.reloadCurrentRoute();
+    //   },
+    //   error: (err) => console.error('Error removing items:', err)
+    // });
   }
-
-  closeItemModal() {
-    this.showItemModal = false;
-  }
-
-  saveItem() {
-    console.log('Selected Item:', this.selectedItem);
-    this.closeItemModal();
-  }
-
-  deleteItem(itemId: number) { }
 
   onFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -96,38 +105,24 @@ export class OffersDetailsComponent implements OnInit {
     }
   }
 
-  openConfirmDeleteItemModal(id: number) {
-    this.itemToDeleteId = id;
-    this.isConfirmDeleteItemModalOpen = true;
-  }
+  openConfirmDeleteModal(branchId: number, branchName: string): void {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: 'static',
+    });
 
-  openConfirmDeleteCategoryModal(id: number) {
-    this.categoryToDeleteId = id;
-    this.isConfirmDeleteCategoryModalOpen = true;
-  }
+    // Pass data to the modal instance
+    modalRef.componentInstance.id = branchId;
+    modalRef.componentInstance.name = branchName;
 
+    // Handle modal result
+    modalRef.componentInstance.confirmDelete.subscribe((id) => {
+      this.deleteItem(id); // Call the delete method with the branch ID
+    });
 
-  removeItems(): void {
-    if (this.itemToDeleteId) {
-      // this.offerService.removeItemsFromOffer(this.itemToDeleteId).subscribe({
-      //   next: (response) => {
-      //     console.log(`Items removed from offer ${this.itemToDeleteId}`, response);
-      //     this.afterActionService.reloadCurrentRoute();
-      //   },
-      //   error: (err) => console.error('Error removing items:', err)
-      // });
-    }
-  }
-
-  removeCategories(): void {
-    if (this.categoryToDeleteId) {
-      // this.offerService.removeCategoriesFromOffer(this.categoryToDeleteId).subscribe({
-      //   next: (response) => {
-      //     console.log(`Categories removed from offer ${this.categoryToDeleteId}`, response);
-      //     this.afterActionService.reloadCurrentRoute();
-      //   },
-      //   error: (err) => console.error('Error removing categories:', err)
-      // });
-    }
+    modalRef.componentInstance.cancelDelete.subscribe(() => {
+      modalRef.close(); // Close modal on cancel
+    });
   }
 }

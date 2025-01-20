@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
 import { NotificationService } from '@proxy/controllers';
+import { GetNotificationInput, UpdateNotificationDto } from '@proxy/dtos/notification-contract';
+import { Base64Service } from 'src/app/services/base64/base64.service';
 
 @Component({
   selector: 'app-notification',
@@ -11,7 +13,7 @@ import { NotificationService } from '@proxy/controllers';
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.scss'
 })
-export class NotificationComponent {
+export class NotificationComponent implements OnInit {
   notificationForm: FormGroup;
   imageFile: File | null = null;
   imageFileError: string | null = null;
@@ -19,43 +21,58 @@ export class NotificationComponent {
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,
+    private base64Service: Base64Service,
   ) {
+    // Initialize form with keys matching the API response
     this.notificationForm = this.fb.group({
-      vapidKey: ['', Validators.required],
-      apiKey: ['', Validators.required],
-      authDomain: ['', Validators.required],
-      projectId: ['', Validators.required],
-      storageBucket: ['', Validators.required],
-      messagingSenderId: ['', Validators.required],
-      appId: ['', Validators.required],
-      measurementId: ['', Validators.required],
-      image: ['', Validators.required]
+      fireBasePublicVapidKey: ['', Validators.required],
+      fireBaseAPIKey: ['', Validators.required],
+      fireBaseAuthDomain: ['', Validators.required],
+      fireBaseProjectId: ['', Validators.required],
+      fireBaseStorageBucket: ['', Validators.required],
+      fireBaseMessageSenderId: ['', Validators.required],
+      fireBaseAppId: ['', Validators.required],
+      fireBaseMeasurementId: ['', Validators.required],
+      imageUrl: ['', Validators.required],
     });
+
+  }
+
+  ngOnInit(): void {
+    this.loadNotification();
   }
 
   loadNotification(): void {
-    // this.notificationService.getById().subscribe(
-    //   (response) => {
-    //     console.log(response);
-    //     this.notificationForm.patchValue({
-    //       name: response.data.name,
-    //       email: response.data.email,
-    //       iosappLink: response.data.iosappLink, // Ensure correct casing
-    //       androidAPPLink: response.data.androidAPPLink, // Ensure correct casing
-    //       copyrights: response.data.copyrights,
-    //       googleMapKey: response.data.googleMapKey,
-    //       digitAfterDecimal: response.data.quantity,
-    //       currencyPosition: response.data.currencyPosition,
-    //       languageSwitch: response.data.languageSwitch,
-    //       defaultBranch: response.data.branchId,
-    //       defaultCurrency: response.data.currencyId,
-    //       defaultLanguage: response.data.languageId,
-    //     });
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching company:', error);
-    //   }
-    // );
+    const defaultInput: GetNotificationInput = {
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
+    };
+
+    this.notificationService.getAll(defaultInput).subscribe(
+      (response) => {
+        if (response.success && response.data.items.length > 0) {
+          const notificationData = response.data.items[0]; // Assuming the first item is needed
+          console.log(notificationData);
+          this.notificationForm.patchValue({
+            fireBasePublicVapidKey: notificationData.fireBasePublicVapidKey,
+            fireBaseAPIKey: notificationData.fireBaseAPIKey,
+            fireBaseAuthDomain: notificationData.fireBaseAuthDomain,
+            fireBaseProjectId: notificationData.fireBaseProjectId,
+            fireBaseStorageBucket: notificationData.fireBaseStorageBucket,
+            fireBaseMessageSenderId: notificationData.fireBaseMessageSenderId,
+            fireBaseAppId: notificationData.fireBaseAppId,
+            fireBaseMeasurementId: notificationData.fireBaseMeasurementId,
+            imageUrl: notificationData.imageUrl,
+          });
+        } else {
+          console.warn('No notifications found.');
+        }
+      },
+      (error) => {
+        console.error('Error fetching notifications:', error);
+      }
+    );
   }
 
   // Method to handle file selection and validation
@@ -75,20 +92,45 @@ export class NotificationComponent {
 
   // Method to submit the form and send the notification
   sendNotification() {
-    console.log(this.notificationForm)
     if (this.notificationForm.valid) {
+      const formValues = { ...this.notificationForm.value };
+      const updateNotificationDto: UpdateNotificationDto = {
+        id: 1, // Replace with the actual ID, if dynamically fetched
+        fireBasePublicVapidKey: formValues.fireBasePublicVapidKey,
+        fireBaseAPIKey: formValues.fireBaseAPIKey,
+        fireBaseProjectId: formValues.fireBaseProjectId,
+        fireBaseAuthDomain: formValues.fireBaseAuthDomain,
+        fireBaseStorageBucket: formValues.fireBaseStorageBucket,
+        fireBaseMessageSenderId: formValues.fireBaseMessageSenderId,
+        fireBaseAppId: formValues.fireBaseAppId,
+        fireBaseMeasurementId: formValues.fireBaseMeasurementId,
+        model: {
+          id: 0, // Replace if an existing ID is needed for the image
+          fileName: this.imageFile?.name || '', // Use the selected image's name
+          base64Content: '' // Placeholder for base64 content
+        }
+      };
 
+      if (this.imageFile) {
+        // Convert the selected image to Base64
+        this.base64Service.convertToBase64(this.imageFile).then((base64Content) => {
+          updateNotificationDto.model.base64Content = base64Content;
 
-      // Call the notification service to send the notification
-      // this.notificationService.update(formData).subscribe(
-      //   response => {
-      //     console.log('Notification sent successfully:', response);
-      //     this.notificationForm.reset();
-      //   },
-      //   error => {
-      //     console.error('Error sending notification:', error);
-      //   }
-      // );
+          // Call the update API with the prepared DTO
+          this.notificationService.update(updateNotificationDto).subscribe(
+            (response) => {
+              console.log('Notification updated successfully:', response);
+            },
+            (error) => {
+              console.error('Error updating notification:', error);
+            }
+          );
+        }).catch((error) => {
+          console.error('Error converting image to Base64:', error);
+        });
+      } else {
+        console.error('No image file selected. Please select an image.');
+      }
     } else {
       this.notificationForm.markAllAsTouched();
       console.error('Form is invalid. Please check the inputs.');

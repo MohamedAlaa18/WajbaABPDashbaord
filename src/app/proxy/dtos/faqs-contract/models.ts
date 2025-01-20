@@ -8,8 +8,6 @@ export interface CreateFaqs {
 export interface GetFaqInput extends PagedAndSortedResultRequestDto {
 }
 
-export interface UpadtefaqDto {
+export interface UpadtefaqDto extends CreateFaqs {
   id: number;
-  question: string;
-  answer: string;
 }

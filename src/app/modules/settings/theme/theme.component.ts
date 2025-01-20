@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ThemeService } from '@proxy/controllers';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 import { Base64Service } from 'src/app/services/base64/base64.service';
+import { CreateThemesDto } from '@proxy/dtos/themes-contract';
 
 @Component({
   selector: 'app-theme',
@@ -77,49 +78,55 @@ export class ThemeComponent implements OnInit {
 
   onSubmit(): void {
     if (this.themeForm.valid && this.logoFile && this.browserIconFile && this.footerLogoFile) {
+      // Initialize an empty DTO
+      const themesDto: CreateThemesDto = {
+        logoUrl: null,
+        browserTabIconUrl: null,
+        footerLogoUrl: null,
+      };
+
+      // Convert all files to base64 and build the themesDto object
       const uploadPromises = [
         this.base64Service.convertToBase64(this.logoFile).then((base64) => {
-          const model = { base64Content: base64, fileName: this.logoFile.name };
-          console.log('Sending model for logo:', model);
-          return this.themeService.uploadBase64ImageByModel(model).toPromise(); // Convert observable to promise
-        }).catch(error => {
+          themesDto.logoUrl = { base64Content: base64, fileName: this.logoFile.name };
+        }).catch((error) => {
           console.error('Error converting logo file to base64:', error);
-          throw error; // Re-throw error so the promise chain catches it
+          throw error;
         }),
 
         this.base64Service.convertToBase64(this.browserIconFile).then((base64) => {
-          const model = { base64Content: base64, fileName: this.browserIconFile.name };
-          console.log('Sending model for browser icon:', model);
-          return this.themeService.uploadBase64ImageByModel(model).toPromise(); // Convert observable to promise
-        }).catch(error => {
+          themesDto.browserTabIconUrl = { base64Content: base64, fileName: this.browserIconFile.name };
+        }).catch((error) => {
           console.error('Error converting browser icon file to base64:', error);
-          throw error; // Re-throw error
+          throw error;
         }),
 
         this.base64Service.convertToBase64(this.footerLogoFile).then((base64) => {
-          const model = { base64Content: base64, fileName: this.footerLogoFile.name };
-          console.log('Sending model for footer logo:', model);
-          return this.themeService.uploadBase64ImageByModel(model).toPromise(); // Convert observable to promise
-        }).catch(error => {
+          themesDto.footerLogoUrl = { base64Content: base64, fileName: this.footerLogoFile.name };
+        }).catch((error) => {
           console.error('Error converting footer logo file to base64:', error);
-          throw error; // Re-throw error
+          throw error;
         }),
       ];
 
+      // Wait for all promises to complete
       Promise.all(uploadPromises)
-        .then((responses) => {
-          console.log('Upload responses:', responses);
-          if (responses.every((response) => response.success)) {
-            console.log('All images uploaded successfully.');
-          } else {
-            console.error('Some uploads failed:', responses);
-          }
+        .then(() => {
+          // Call the update API with the constructed themesDto
+          this.themeService.update(themesDto).subscribe({
+            next: (response) => {
+              console.log('Themes updated successfully:', response);
+            },
+            error: (error) => {
+              console.error('Error updating themes:', error);
+            },
+          });
         })
         .catch((error) => {
-          console.error('Error during upload process:', error); // Log errors
+          console.error('Error during the file conversion process:', error);
         });
     } else {
-      this.themeForm.markAllAsTouched();
+      this.themeForm.markAllAsTouched(); // Mark form controls as touched to show validation errors
     }
   }
 }

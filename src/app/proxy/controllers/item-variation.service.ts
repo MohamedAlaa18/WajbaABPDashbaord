@@ -51,11 +51,10 @@ export class ItemVariationService {
     { apiName: this.apiName,...config });
   
 
-  updateVariationForItem = (itemId: number, variationId: number, input: UpdateItemVariationDto, config?: Partial<Rest.Config>) =>
+  updateVariationForItem = (input: UpdateItemVariationDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/ItemVariation',
-      params: { itemId, variationId },
       body: input,
     },
     { apiName: this.apiName,...config });

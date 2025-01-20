@@ -5,10 +5,13 @@ export interface CreateItemAddonDto {
   itemId: number;
 }
 
-export interface UpdateItemAddonDto {
-  itemId: number;
+export interface UpdateItemAddonDto extends CreateItemAddonDto {
   addonId: number;
+}
+
+export interface ItemAddonDto {
+  id: number;
   addonName?: string;
   additionalPrice: number;
-  // itemId: number;
+  itemId: number;
 }

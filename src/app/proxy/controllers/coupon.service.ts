@@ -14,8 +14,7 @@ export class CouponService {
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Coupon',
-      params: { name: input.name, code: input.code, discount: input.discount, discountType: input.discountType, startDate: input.startDate, endDate: input.endDate, minimumOrderAmount: input.minimumOrderAmount, maximumDiscount: input.maximumDiscount, limitPerUser: input.limitPerUser, description: input.description },
-      body: input.image,
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -40,7 +39,7 @@ export class CouponService {
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/Coupon',
-      params: { filter: input.filter, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { name: input.name, branchid: input.branchid, discount: input.discount, discountype: input.discountype, startdate: input.startdate, enddate: input.enddate, minimumOrderAmount: input.minimumOrderAmount, maximumDiscount: input.maximumDiscount, limitPerUser: input.limitPerUser, description: input.description, code: input.code, branchId: input.branchId, isexpire: input.isexpire, isused: input.isused, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   
@@ -49,8 +48,7 @@ export class CouponService {
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Coupon',
-      params: { id: input.id, name: input.name, code: input.code, discount: input.discount, discountType: input.discountType, startDate: input.startDate, endDate: input.endDate, minimumOrderAmount: input.minimumOrderAmount, maximumDiscount: input.maximumDiscount, limitPerUser: input.limitPerUser, description: input.description },
-      body: input.image,
+      body: input,
     },
     { apiName: this.apiName,...config });
 

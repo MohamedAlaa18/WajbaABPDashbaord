@@ -10,6 +10,9 @@ import { AddExtraComponent } from '../add-extra/add-extra.component';
 import { AddOnsComponent } from '../add-ons/add-ons.component';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { ItemDto } from '@proxy/dtos/items-dtos';
+import { UpdateItemVariationDto } from '@proxy/dtos/item-variation-contract';
+import { UpdateItemExtraDto } from '@proxy/dtos/item-extra-contract';
+import { UpdateItemAddonDto } from '@proxy/dtos/item-addon-contract';
 
 @Component({
   selector: 'app-items-details',
@@ -25,15 +28,12 @@ export class ItemsDetailsComponent implements OnInit {
   showAddonsModal = false;
   itemId!: number;
   item!: ItemDto;
-  selectedVariation: any = null;
-  selectedExtra: any = null;
-  selectedAddon: any = null;
-  selectedFileName: string | null = null;
+
   selectedFile: File | null = null;
 
-  variations: any[] = [];
-  extras: any[] = [];
-  addons: any[] = [];
+  variations: UpdateItemVariationDto[] = [];
+  extras: UpdateItemExtraDto[] = [];
+  addons: UpdateItemAddonDto[] = [];
 
   columns = [
     { field: 'name', header: 'Name' },
@@ -47,12 +47,14 @@ export class ItemsDetailsComponent implements OnInit {
       tooltip: 'Edit',
       show: (row: any) => true,
       callback: (row: any) => {
-        if (row.type === 'variation') {
+        if (this.variations.includes(row)) {
           this.editVariation(row);
-        } else if (row.type === 'extra') {
+        } else if (this.extras.includes(row)) {
           this.editExtra(row);
-        } else if (row.type === 'addon') {
+        } else if (this.addons.includes(row)) {
           this.editAddon(row);
+        } else {
+          console.error('Unknown type for row:', row);
         }
       },
     },
@@ -61,12 +63,14 @@ export class ItemsDetailsComponent implements OnInit {
       tooltip: 'Delete',
       show: (row: any) => true,
       callback: (row: any) => {
-        if (row.type === 'variation') {
+        if (this.variations.includes(row)) {
           this.openConfirmDeleteModal(row.id, row.name, 'variation');
-        } else if (row.type === 'extra') {
+        } else if (this.extras.includes(row)) {
           this.openConfirmDeleteModal(row.id, row.name, 'extra');
-        } else if (row.type === 'addon') {
+        } else if (this.addons.includes(row)) {
           this.openConfirmDeleteModal(row.id, row.name, 'addon');
+        } else {
+          console.error('Unknown type for row:', row);
         }
       },
     },
@@ -124,6 +128,7 @@ export class ItemsDetailsComponent implements OnInit {
   loadExtras(id: number): void {
     this.extraService.getExtrasByItemId(id).subscribe(
       (response) => {
+        console.log(response)
         this.extras = response.data;
       },
       (error) => {
@@ -153,9 +158,11 @@ export class ItemsDetailsComponent implements OnInit {
 
     modalRef.componentInstance.isOpen = true;
     modalRef.componentInstance.variation = variation || null;
+    modalRef.componentInstance.itemId = this.itemId || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
+      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result
@@ -178,9 +185,11 @@ export class ItemsDetailsComponent implements OnInit {
 
     modalRef.componentInstance.isOpen = true;
     modalRef.componentInstance.extra = extra || null;
+    modalRef.componentInstance.itemId = this.itemId || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
+      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result
@@ -203,9 +212,11 @@ export class ItemsDetailsComponent implements OnInit {
 
     modalRef.componentInstance.isOpen = true;
     modalRef.componentInstance.addon = addon || null;
+    modalRef.componentInstance.itemId = this.itemId || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
+      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result
@@ -251,6 +262,8 @@ export class ItemsDetailsComponent implements OnInit {
       } else if (type === 'variation') {
         this.deleteVariation(itemId);
       }
+      modalRef.close();
+      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -258,49 +271,41 @@ export class ItemsDetailsComponent implements OnInit {
     });
   }
 
-  deleteExtra(extra: any) {
-    if (confirm('Are you sure you want to delete this item?')) {
-      this.extraService.delete(extra.id, this.itemId).subscribe(() => {
-        console.log(`Item with id ${extra.id} deleted successfully.`);
-        // Refresh the items list after deletion
-        this.afterActionService.reloadCurrentRoute();
-      }, (error) => {
-        console.error(`Error deleting item with id ${extra.id}:`, error);
-      });
-    }
+  deleteExtra(extraId: number) {
+    this.extraService.delete(this.itemId, extraId).subscribe(() => {
+      console.log(`Item with id ${extraId} deleted successfully.`);
+      // Refresh the items list after deletion
+      this.afterActionService.reloadCurrentRoute();
+    }, (error) => {
+      console.error(`Error deleting item with id ${extraId}:`, error);
+    });
   }
 
-  deleteAddon(addon: any) {
-    if (confirm('Are you sure you want to delete this item?')) {
-      this.addonsService.deleteAddonForItem(addon.id, this.itemId).subscribe(() => {
-        console.log(`Item with id ${addon.id} deleted successfully.`);
-        // Refresh the items list after deletion
-        this.afterActionService.reloadCurrentRoute();
-      }, (error) => {
-        console.error(`Error deleting item with id ${addon.id}:`, error);
-      });
-    }
+  deleteAddon(addonId: number) {
+    this.addonsService.deleteAddonForItem(this.itemId, addonId).subscribe(() => {
+      console.log(`Item with id ${addonId} deleted successfully.`);
+      // Refresh the items list after deletion
+      this.afterActionService.reloadCurrentRoute();
+    }, (error) => {
+      console.error(`Error deleting item with id ${addonId}:`, error);
+    });
   }
 
-  deleteVariation(variation: any) {
-    if (confirm('Are you sure you want to delete this variation?')) {
-      this.variationService.delete(variation.itemattributesId, this.itemId).subscribe((response) => {
-        console.log(`Variation with id ${variation.itemattributesId} deleted successfully.`, response);
-        this.afterActionService.reloadCurrentRoute();
-      }, (error) => {
-        console.error(`Error deleting variation with id ${variation.itemattributesId}:`, error);
-      });
-    }
+  deleteVariation(variationId: number) {
+    this.variationService.delete(this.itemId, variationId).subscribe((response) => {
+      console.log(`Variation with id ${variationId} deleted successfully.`, response);
+      this.afterActionService.reloadCurrentRoute();
+    }, (error) => {
+      console.error(`Error deleting variation with id ${variationId}:`, error);
+    });
   }
 
   onFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.selectedFileName = input.files[0].name;
       this.selectedFile = input.files[0];
-      this.updateItemImage(); // Call the image update method after selecting the file
+      this.updateItemImage();
     } else {
-      this.selectedFileName = null;
       this.selectedFile = null;
     }
   }

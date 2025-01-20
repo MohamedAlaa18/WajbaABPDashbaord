@@ -91,6 +91,7 @@ export class LanguagesComponent {
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
+      this.loadLanguages();
     });
 
     modalRef.result

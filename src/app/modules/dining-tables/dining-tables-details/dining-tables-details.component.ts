@@ -17,19 +17,20 @@ export class DiningTablesDetailsComponent {
 
   constructor(
     private dineIntableService: DineIntableService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
     this.tableId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
 
-    this.fetchDiningTable(this.tableId);
+    this.loadDiningTable(this.tableId);
   }
 
-  fetchDiningTable(id: number) {
+  loadDiningTable(id: number) {
     this.dineIntableService.getById(id).subscribe(
       (response) => {
+        console.log('Dining Table:', response);
         this.diningTable = response.data;
-        console.log('Dining Table:', this.diningTable);
       },
       (error) => {
         console.error('Error fetching dining table:', error);

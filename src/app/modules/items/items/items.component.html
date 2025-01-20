@@ -3,12 +3,37 @@
     <div class="d-flex justify-content-between align-items-center w-100 rounded-top bg-white px-4 py-3 border-bottom">
       <span class="section-title text-black">Items</span>
 
-      <div class="d-flex justify-content-center align-items-center gap-3">
-        <button (click)="openAddEditModal()"
-          class="btn btn-danger text-white d-flex align-items-center justify-content-evenly rounded-2 px-3 py-1 border-0">
-          <app-icons iconName="add" color="white" class="me-2"></app-icons>
-          <span class="h5 p-0 m-0">Add Items</span>
+      <div class="d-flex align-items-center gap-3">
+        <!-- Filter Button -->
+        <button class="btn rounded-danger dropdown-toggle d-flex align-items-center gap-2 px-3 py-2"
+          (click)="toggleFilterVisibility()">
+          <img src="assets/images/filter.svg" alt="filter">
+          <span class="h5 p-0 m-0"> Filter</span>
         </button>
+
+        <!-- Export Button -->
+        <app-export-button [buttonLabel]="'Export'" [buttonIcon]="'assets/images/export.svg'" [menuItems]="[
+        { label: 'XLS', icon: 'assets/images/xls.svg', action: 'exportXLS' },
+        { label: 'Print', icon: 'assets/images/print.svg', action: 'print' }
+        ]" (menuAction)="handleMenuAction($event)">
+        </app-export-button>
+
+        <!-- Add Item Button -->
+        <button class="btn btn-danger d-flex align-items-center gap-2 px-3 py-2 border-0" (click)="openAddEditModal()">
+          <img src="assets/images/add-item.svg" alt="add-item">
+          <span class="h5 p-0 m-0"> Add Items</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="accordion" *ngIf="isFilterVisible">
+      <div class="accordion-item">
+        <div id="filterForm" class="accordion-collapse collapse show">
+          <app-filter [filters]="filters" [filterFields]="filterFields" (filterSubmit)="applyFilters($event)"
+            (filterClear)="clearFilters()">
+          </app-filter>
+        </div>
       </div>
     </div>
 
@@ -16,3 +41,7 @@
     <app-table [data]="items" [columns]="columns" [actions]="actions"></app-table>
   </div>
 </section>
+
+
+<app-pagination [pageNumber]="currentPage" [totalPages]="totalPages"
+  (pageChange)="onPageChange($event)"></app-pagination>

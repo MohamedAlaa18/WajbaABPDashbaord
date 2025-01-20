@@ -1,10 +1,9 @@
-import type { Status } from '../../enums/status.enum';
 
 export interface CreateItemTaxDto {
   name?: string;
   code: number;
   taxRate: number;
-  status: Status;
+  status: number;
 }
 
 export interface UpdateItemTaxDto extends CreateItemTaxDto {

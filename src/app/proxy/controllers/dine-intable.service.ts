@@ -39,7 +39,7 @@ export class DineIntableService {
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/DineIntable',
-      params: { name: input.name, size: input.size, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { name: input.name, size: input.size, status: input.status, branchId: input.branchId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   

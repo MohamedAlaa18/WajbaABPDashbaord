@@ -11,19 +11,19 @@
 
         <div class="row gy-3 mb-3">
           <div class="col-md-6">
-            <label for="vapidKey" class="form-label">Firebase Public VAPID Key (Key Pair) <span
+            <label for="fireBasePublicVapidKey" class="form-label">Firebase Public VAPID Key (Key Pair) <span
                 class="text-danger">*</span></label>
-            <input id="vapidKey" formControlName="vapidKey" type="text" class="form-control bg-white" />
-            <div *ngIf="notificationForm.get('vapidKey')?.invalid && notificationForm.get('vapidKey')?.touched"
+            <input id="fireBasePublicVapidKey" formControlName="fireBasePublicVapidKey" type="text" class="form-control bg-white" />
+            <div *ngIf="notificationForm.get('fireBasePublicVapidKey')?.invalid && notificationForm.get('fireBasePublicVapidKey')?.touched"
               class="text-danger">
               VAPID Key is required.
             </div>
           </div>
 
           <div class="col-md-6">
-            <label for="apiKey" class="form-label">Firebase Api Key <span class="text-danger">*</span></label>
-            <input id="apiKey" formControlName="apiKey" type="text" class="form-control bg-white" />
-            <div *ngIf="notificationForm.get('apiKey')?.invalid && notificationForm.get('apiKey')?.touched"
+            <label for="fireBaseAPIKey" class="form-label">Firebase Api Key <span class="text-danger">*</span></label>
+            <input id="fireBaseAPIKey" formControlName="fireBaseAPIKey" type="text" class="form-control bg-white" />
+            <div *ngIf="notificationForm.get('fireBaseAPIKey')?.invalid && notificationForm.get('fireBaseAPIKey')?.touched"
               class="text-danger">
               API Key is required.
             </div>
@@ -32,18 +32,18 @@
 
         <div class="row gy-3 mb-3">
           <div class="col-md-6">
-            <label for="authDomain" class="form-label">Firebase Auth Domain <span class="text-danger">*</span></label>
-            <input id="authDomain" formControlName="authDomain" type="text" class="form-control bg-white" />
-            <div *ngIf="notificationForm.get('authDomain')?.invalid && notificationForm.get('authDomain')?.touched"
+            <label for="fireBaseAuthDomain" class="form-label">Firebase Auth Domain <span class="text-danger">*</span></label>
+            <input id="fireBaseAuthDomain" formControlName="fireBaseAuthDomain" type="text" class="form-control bg-white" />
+            <div *ngIf="notificationForm.get('fireBaseAuthDomain')?.invalid && notificationForm.get('fireBaseAuthDomain')?.touched"
               class="text-danger">
               Auth Domain is required.
             </div>
           </div>
 
           <div class="col-md-6">
-            <label for="projectId" class="form-label">Firebase Project Id <span class="text-danger">*</span></label>
-            <input id="projectId" formControlName="projectId" type="text" class="form-control bg-white" />
-            <div *ngIf="notificationForm.get('projectId')?.invalid && notificationForm.get('projectId')?.touched"
+            <label for="fireBaseProjectId" class="form-label">Firebase Project Id <span class="text-danger">*</span></label>
+            <input id="fireBaseProjectId" formControlName="fireBaseProjectId" type="text" class="form-control bg-white" />
+            <div *ngIf="notificationForm.get('fireBaseProjectId')?.invalid && notificationForm.get('fireBaseProjectId')?.touched"
               class="text-danger">
               Project Id is required.
             </div>
@@ -52,23 +52,23 @@
 
         <div class="row gy-3 mb-3">
           <div class="col-md-6">
-            <label for="storageBucket" class="form-label">Firebase Storage Bucket <span
+            <label for="fireBaseStorageBucket" class="form-label">Firebase Storage Bucket <span
                 class="text-danger">*</span></label>
-            <input id="storageBucket" formControlName="storageBucket" type="text" class="form-control bg-white" />
+            <input id="fireBaseStorageBucket" formControlName="fireBaseStorageBucket" type="text" class="form-control bg-white" />
             <div
-              *ngIf="notificationForm.get('storageBucket')?.invalid && notificationForm.get('storageBucket')?.touched"
+              *ngIf="notificationForm.get('fireBaseStorageBucket')?.invalid && notificationForm.get('fireBaseStorageBucket')?.touched"
               class="text-danger">
               Storage Bucket is required.
             </div>
           </div>
 
           <div class="col-md-6">
-            <label for="messagingSenderId" class="form-label">Firebase Message Sender Id <span
+            <label for="fireBaseMessageSenderId" class="form-label">Firebase Message Sender Id <span
                 class="text-danger">*</span></label>
-            <input id="messagingSenderId" formControlName="messagingSenderId" type="text"
+            <input id="fireBaseMessageSenderId" formControlName="fireBaseMessageSenderId" type="text"
               class="form-control bg-white" />
             <div
-              *ngIf="notificationForm.get('messagingSenderId')?.invalid && notificationForm.get('messagingSenderId')?.touched"
+              *ngIf="notificationForm.get('fireBaseMessageSenderId')?.invalid && notificationForm.get('fireBaseMessageSenderId')?.touched"
               class="text-danger">
               Messaging Sender Id is required.
             </div>
@@ -77,20 +77,20 @@
 
         <div class="row gy-3 mb-3">
           <div class="col-md-6">
-            <label for="appId" class="form-label">Firebase App Id <span class="text-danger">*</span></label>
-            <input id="appId" formControlName="appId" type="text" class="form-control bg-white" />
-            <div *ngIf="notificationForm.get('appId')?.invalid && notificationForm.get('appId')?.touched"
+            <label for="fireBaseAppId" class="form-label">Firebase App Id <span class="text-danger">*</span></label>
+            <input id="fireBaseAppId" formControlName="fireBaseAppId" type="text" class="form-control bg-white" />
+            <div *ngIf="notificationForm.get('fireBaseAppId')?.invalid && notificationForm.get('fireBaseAppId')?.touched"
               class="text-danger">
               App Id is required.
             </div>
           </div>
 
           <div class="col-md-6">
-            <label for="measurementId" class="form-label">Firebase Measurement Id <span
+            <label for="fireBaseMeasurementId" class="form-label">Firebase Measurement Id <span
                 class="text-danger">*</span></label>
-            <input id="measurementId" formControlName="measurementId" type="text" class="form-control bg-white" />
+            <input id="fireBaseMeasurementId" formControlName="fireBaseMeasurementId" type="text" class="form-control bg-white" />
             <div
-              *ngIf="notificationForm.get('measurementId')?.invalid && notificationForm.get('measurementId')?.touched"
+              *ngIf="notificationForm.get('fireBaseMeasurementId')?.invalid && notificationForm.get('fireBaseMeasurementId')?.touched"
               class="text-danger">
               Measurement Id is required.
             </div>
@@ -98,12 +98,12 @@
         </div>
 
         <div class="mb-3">
-          <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
-          <input id="image" type="file" (change)="onFileSelected($event)" class="form-control bg-white" />
+          <label for="imageUrl" class="form-label">Image <span class="text-danger">*</span></label>
+          <input id="imageUrl" type="file" (change)="onFileSelected($event)" class="form-control bg-white" />
           <div *ngIf="imageFileError" class="text-danger">
             {{ imageFileError }}
           </div>
-          <div *ngIf="notificationForm.get('image')?.invalid && notificationForm.get('image')?.touched"
+          <div *ngIf="notificationForm.get('imageUrl')?.invalid && notificationForm.get('imageUrl')?.touched"
             class="text-danger">
             Image is required.
           </div>

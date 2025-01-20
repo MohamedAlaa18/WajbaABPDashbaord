@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ItemService } from '@proxy/controllers';
-import { CreateItemDto, ItemDto } from '@proxy/dtos/items-dtos';
+import { CreateItemDto, UpdateItemDTO} from '@proxy/dtos/items-dtos';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 
 @Component({
@@ -15,7 +15,7 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 })
 export class AddVouchersComponent {
   @Input() isOpen: boolean = false;
-  @Input() item: ItemDto | null = null;
+  @Input() item: UpdateItemDTO| null = null;
   @Output() close = new EventEmitter<void>();
 
   voucherForm: FormGroup;
@@ -46,7 +46,7 @@ export class AddVouchersComponent {
     }
   }
 
-  populateForm(item: ItemDto) {
+  populateForm(item: UpdateItemDTO) {
     this.voucherForm.patchValue({
       id: item.id,
       name: item.name,
@@ -56,7 +56,7 @@ export class AddVouchersComponent {
       itemType: item.itemType,
       status: item.status,
       isFeatured: item.isFeatured,
-      image: item.imageUrl,
+      // image: item.imageUrl,
       description: item.description,
       note: item.note,
       // branches: item.branchIds || [], // Populate selected branches (multiple selections)
@@ -76,18 +76,18 @@ export class AddVouchersComponent {
 
   submitForm() {
     if (this.voucherForm.valid) {
-      let formValue: CreateItemDto | ItemDto;
+      let formValue: CreateItemDto| UpdateItemDTO;
 
       // Determine whether it's an update or create operation
       if (this.voucherForm.value.id) {
-        formValue = this.voucherForm.value as ItemDto;
+        formValue = this.voucherForm.value as UpdateItemDTO;
       } else {
         formValue = this.voucherForm.value as CreateItemDto;
       }
 
       if (this.item) {
         // Update existing item
-        this.itemService.update(this.item.id, formValue as CreateItemDto)
+        this.itemService.update(formValue as UpdateItemDTO)
           .subscribe(
             response => {
               // Handle successful response

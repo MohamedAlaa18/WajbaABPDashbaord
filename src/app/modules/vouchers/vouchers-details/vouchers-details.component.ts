@@ -31,7 +31,7 @@ export class VouchersDetailsComponent implements OnInit {
     if (this.voucherId) {
       this.vouchersService.getById(this.voucherId).subscribe(
         (response) => {
-          this.voucher = response.data;
+          // this.voucher = response.data;
           console.log('voucher details:', this.voucher);
         },
         (error) => {

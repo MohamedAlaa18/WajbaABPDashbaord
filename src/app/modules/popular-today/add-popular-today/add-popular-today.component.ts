@@ -7,12 +7,14 @@ import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { PopularItemsService } from '@proxy/controllers/popular-items.service';
 import { ItemDto } from '@proxy/dtos/items-dtos';
 import { CreatePopularitem, UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
+import { Base64Service } from 'src/app/services/base64/base64.service';
+
 @Component({
   selector: 'app-add-popular-today',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, IconsComponent],
   templateUrl: './add-popular-today.component.html',
-  styleUrl: './add-popular-today.component.scss'
+  styleUrls: ['./add-popular-today.component.scss'],
 })
 export class AddPopularTodayComponent {
   @Input() isOpen: boolean = false;
@@ -21,17 +23,19 @@ export class AddPopularTodayComponent {
   @Output() close = new EventEmitter<void>();
 
   popularItemForm: FormGroup;
+  selectedImageFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
     private popularItemService: PopularItemsService,
     private itemService: ItemService,
+    private base64Service: Base64Service,
   ) {
     this.popularItemForm = this.fb.group({
       id: [null],
-      name: ['', Validators.required],
-      prePrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      currentPrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      itemId: ['', Validators.required],
+      preprice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      currentprice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       description: ['', Validators.required],
       image: [''],
     });
@@ -49,12 +53,11 @@ export class AddPopularTodayComponent {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
       skipCount: 0,
-      maxResultCount: 10
+      maxResultCount: 10,
     };
 
     this.itemService.getList(defaultInput).subscribe({
       next: (response) => {
-        console.log(response)
         this.items = response.data.items;
       },
       error: (err) => {
@@ -66,12 +69,17 @@ export class AddPopularTodayComponent {
   populateForm(item: UpdatePopularItemdto) {
     this.popularItemForm.patchValue({
       id: item.id,
-      name: item.name,
-      status: item.status,
-      prePrice: item.preprice,
-      currentPrice: item.currentprice,
+      preprice: item.preprice,
+      currentprice: item.currentprice,
       description: item.description,
     });
+  }
+
+  handleImageUpload(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedImageFile = fileInput.files[0];
+    }
   }
 
   closeModal() {
@@ -80,48 +88,60 @@ export class AddPopularTodayComponent {
 
   submitForm() {
     if (this.popularItemForm.valid) {
-      // Declare the formValue outside the if-else block
-      let formValue: UpdatePopularItemdto | CreatePopularitem;
-
-      // Determine whether it's an update or create operation
-      if (this.popularItemForm.value.id) {
-        formValue = this.popularItemForm.value as UpdatePopularItemdto;
-      } else {
-        formValue = this.popularItemForm.value as CreatePopularitem;
-      }
-
-      console.log(formValue);
-
-      if (this.item) {
-        // Update existing branch
-        this.popularItemService.update(formValue as UpdatePopularItemdto)
-          .subscribe(
-            response => {
-              // Handle successful response
-              console.log('Branch updated successfully:', response);
-            },
-            error => {
-              // Handle error response
-              console.error('Error updating branch:', error);
+      if (this.selectedImageFile) {
+        // Convert image to Base64
+        this.base64Service.convertToBase64(this.selectedImageFile).then((base64Content) => {
+          const formValue: CreatePopularitem | UpdatePopularItemdto = {
+            ...this.popularItemForm.value,
+            model: {
+              id: this.item?.id || 0, // Use existing ID if updating
+              fileName: this.selectedImageFile?.name || '',
+              base64Content: base64Content
             }
-          );
+          };
+
+          console.log('Form value:', formValue as CreatePopularitem);
+          // Determine create or update operation
+          if (this.item) {
+            this.updateItem(formValue as UpdatePopularItemdto);
+          } else {
+            this.createItem(formValue as CreatePopularitem);
+          }
+        }).catch((error) => {
+          console.error('Error converting image to Base64:', error);
+        });
       } else {
-        // Create a new branch
-        this.popularItemService.create(formValue as CreatePopularitem)
-          .subscribe(
-            response => {
-              // Handle successful response
-              console.log('Branch created successfully:', response);
-            },
-            error => {
-              // Handle error response
-              console.error('Error creating branch:', error);
-            }
-          );
+        console.error('No image file selected. Please select an image.');
       }
     } else {
       // Mark all form controls as touched to trigger validation messages
       this.popularItemForm.markAllAsTouched();
     }
+  }
+
+  private createItem(createDto: CreatePopularitem) {
+    this.popularItemService.create(createDto)
+      .subscribe(
+        (response) => {
+          console.log('Item created successfully:', response);
+          this.closeModal();
+        },
+        (error) => {
+          console.error('Error creating Item:', error);
+        }
+      );
+  }
+
+  private updateItem(updateDto: UpdatePopularItemdto) {
+    this.popularItemService.update(updateDto)
+      .subscribe(
+        (response) => {
+          console.log('Item updated successfully:', response);
+          this.closeModal();
+        },
+        (error) => {
+          console.error('Error updating Item:', error);
+        }
+      );
   }
 }

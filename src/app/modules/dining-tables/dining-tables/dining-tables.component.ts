@@ -11,7 +11,8 @@ import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal
 import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
-import { UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
+import { GetDiniTableInput, UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-dining-tables',
@@ -52,7 +53,7 @@ export class DiningTablesComponent implements OnInit {
       icon: 'assets/images/view.svg',
       tooltip: 'View',
       show: (row: any) => true,
-      callback: (row: any) => this.openBranchDetailsAndNavigate(row),
+      callback: (row: any) => this.openDiningTableDetailsAndNavigate(row),
     },
     {
       icon: 'assets/images/delete.svg',
@@ -86,6 +87,7 @@ export class DiningTablesComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private dineIntableService: DineIntableService,
+    private afterActionService: AfterActionService,
     // private exportService: ExportService,
     private router: Router,
   ) { }
@@ -98,19 +100,27 @@ export class DiningTablesComponent implements OnInit {
   loadDiningTables(): void {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
-      skipCount: 0,
-      maxResultCount: 10
+      skipCount: (this.currentPage - 1) * 10,
+      maxResultCount: 10,
     };
 
-    // this.dineIntableService.getList(defaultInput).subscribe({
-    //   next: (response) => {
-    //     console.log(response)
-    //     this.tables = response.data.tables;
-    //   },
-    //   error: (err) => {
-    //     console.error('Error loading tables:', err);
-    //   },
-    // });
+    // Convert filters to match the expected types
+    const inputWithFilters = {
+      ...defaultInput,
+      name: this.filters.name || undefined,
+      size: this.filters.size ? Number(this.filters.size) : undefined, // Convert size to a number
+      status: this.filters.status || undefined,
+    };
+
+    this.dineIntableService.getList(inputWithFilters as GetDiniTableInput).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.tables = response.data.items;
+      },
+      error: (err) => {
+        console.error('Error loading tables:', err);
+      },
+    });
   }
 
   handleMenuAction(action: string) {
@@ -133,6 +143,7 @@ export class DiningTablesComponent implements OnInit {
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
+      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result
@@ -220,7 +231,7 @@ export class DiningTablesComponent implements OnInit {
     // }
   }
 
-  openBranchDetailsAndNavigate(table: UpdateDinInTable) {
+  openDiningTableDetailsAndNavigate(table: UpdateDinInTable) {
     this.router.navigate(['/dining-tables', table.id]);
   }
 

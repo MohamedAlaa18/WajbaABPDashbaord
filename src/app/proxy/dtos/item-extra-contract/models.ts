@@ -1,13 +1,19 @@
-import type { Status } from '../../enums/status.enum';
+
+export interface ItemExtraDto {
+  id: number;
+  name?: string;
+  status: number;
+  additionalPrice: number;
+  itemId: number;
+}
 
 export interface CreateItemExtraDto {
   name?: string;
-  status: Status;
+  status: number;
   additionalPrice: number;
   itemId: number;
 }
 
 export interface UpdateItemExtraDto extends CreateItemExtraDto {
   extraId: number;
-  itemId: number;
 }

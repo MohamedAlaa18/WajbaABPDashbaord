@@ -75,6 +75,7 @@ export class PopularTodayComponent implements OnInit {
       next: (response) => {
         console.log(response)
         this.items = response.data.items;
+        this.totalPages = response.data.totalCount;
       },
       error: (err) => {
         console.error('Error loading items:', err);
@@ -163,5 +164,4 @@ export class PopularTodayComponent implements OnInit {
       this.print();
     }
   }
-
 }

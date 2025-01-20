@@ -12,6 +12,7 @@ import { ExportButtonComponent } from "../../../shared/export-button/export-butt
 import { FilterComponent } from "../../../shared/filter/filter.component";
 import { AddOffersComponent } from '../add-offers/add-offers.component';
 import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-offers',
@@ -31,11 +32,11 @@ export class OffersComponent implements OnInit {
 
   columns = [
     { field: 'name', header: 'Name' },
-    { field: 'code', header: 'Code' },
-    { field: 'discount', header: 'Discount' },
+    // { field: 'code', header: 'Code' },
+    { field: 'discountPercentage', header: 'Discount' },
     { field: 'startDate', header: 'StartDate' },
     { field: 'endDate', header: 'EndDate' },
-    { field: 'type', header: 'Type' },
+    { field: 'discountType', header: 'Type' },
   ];
 
   actions = [
@@ -88,6 +89,7 @@ export class OffersComponent implements OnInit {
     private modalService: NgbModal,
     private offerService: OfferService,
     // private exportService: ExportService,
+    private afterActionService: AfterActionService,
     private router: Router,
   ) { }
 
@@ -134,6 +136,7 @@ export class OffersComponent implements OnInit {
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
+      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result
@@ -161,6 +164,7 @@ export class OffersComponent implements OnInit {
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
       this.deleteOffer(id); // Call the delete method with the offer ID
+      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {

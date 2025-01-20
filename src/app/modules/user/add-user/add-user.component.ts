@@ -82,7 +82,7 @@ export class AddUserComponent implements OnInit {
     this.userForm.patchValue({
       id: item.id,
       name: item.name,
-      status: item.isActive,
+      status: item.status,
       size: item.size,
     });
   }

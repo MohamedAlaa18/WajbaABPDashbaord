@@ -1,5 +1,10 @@
 .h5 {
   font-size: 20px;
+  font-weight: bold;
+}
+
+span {
+  white-space: nowrap;
 }
 
 .text-danger {
@@ -8,4 +13,18 @@
 
 .btn-danger {
   background-color: var(--red-color) !important;
+}
+
+.rounded-danger {
+  border: 1px solid var(--red-color) !important;
+  color: var(--red-color);
+}
+
+img {
+  width: 25px;
+  height: 25px;
+}
+
+.accordion-item {
+  border: none;
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DineIntableService } from '@proxy/controllers';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
@@ -12,7 +12,7 @@ import { CreateDineIntable, UpdateDinInTable } from '@proxy/dtos/dine-in-table-c
   templateUrl: './add-dining-tables.component.html',
   styleUrl: './add-dining-tables.component.scss'
 })
-export class AddDiningTablesComponent {
+export class AddDiningTablesComponent implements OnInit {
   @Input() isOpen: boolean = false;
   @Input() table: UpdateDinInTable | null = null;
   @Output() close = new EventEmitter<void>();
@@ -31,11 +31,18 @@ export class AddDiningTablesComponent {
     });
   }
 
+  ngOnInit(): void {
+console.log('Table:', this.table);
+    if (this.table) {
+      this.populateForm(this.table);
+    }
+  }
+
   populateForm(item: UpdateDinInTable) {
     this.diningTableForm.patchValue({
       id: item.id,
       name: item.name,
-      status: item.isActive,
+      status: item.status,
       size: item.size,
     });
   }
@@ -47,41 +54,41 @@ export class AddDiningTablesComponent {
   submitForm() {
     if (this.diningTableForm.valid) {
       // Declare the formValue outside the if-else block
-      let formValue: UpdateDinInTable | CreateDineIntable;
+      const formValue = this.diningTableForm.value;
 
-      // Determine whether it's an update or create operation
-      if (this.diningTableForm.value.id) {
-        formValue = this.diningTableForm.value as UpdateDinInTable;
-      } else {
-        formValue = this.diningTableForm.value as CreateDineIntable;
-      }
+      const data: CreateDineIntable | UpdateDinInTable = {
+        ...formValue,
+        branchId: 2, // Include the full Base64ImageModel
+      };
 
-      console.log(formValue);
+      console.log(data);
 
       if (this.table) {
-        // Update existing branch
-        this.dineIntableService.update(formValue as UpdateDinInTable)
+        // Update existing Table
+        this.dineIntableService.update(data as UpdateDinInTable)
           .subscribe(
             response => {
               // Handle successful response
-              console.log('Branch updated successfully:', response);
+              console.log('Table updated successfully:', response);
+              this.closeModal();
             },
             error => {
               // Handle error response
-              console.error('Error updating branch:', error);
+              console.error('Error updating Table:', error);
             }
           );
       } else {
-        // Create a new branch
-        this.dineIntableService.create(formValue as CreateDineIntable)
+        // Create a new Table
+        this.dineIntableService.create(data as CreateDineIntable)
           .subscribe(
             response => {
               // Handle successful response
-              console.log('Branch created successfully:', response);
+              console.log('Table created successfully:', response);
+              this.closeModal();
             },
             error => {
               // Handle error response
-              console.error('Error creating branch:', error);
+              console.error('Error creating Table:', error);
             }
           );
       }

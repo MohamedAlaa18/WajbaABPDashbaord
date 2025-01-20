@@ -55,8 +55,9 @@ export class OrderSetupComponent implements OnInit {
 
     // Fetch the order setup data
     this.orderSetupService.getList(defaultInput).subscribe(
-      (response: any) => {
-        console.log("", response);
+      (response) => {
+        console.log("order Setup", response);
+
         this.orderForm.patchValue({
           foodPreparationTime: response.data.items[0].foodPreparationTime,
           scheduleOrderSlotDuration: response.data.items[0].scheduleOrderSlotDuration,

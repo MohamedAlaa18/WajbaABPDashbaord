@@ -16,15 +16,15 @@
   <div class="border border-danger bg-white">
     <!-- Information Section -->
     <div *ngIf="activeSection === 'information' && item" class="section p-3 mb-3">
-      <div class="info d-flex flex-column gap-3 col-md-6">
+      <div class="info d-flex flex-column gap-1 col-md-6">
         <div class="d-flex align-items-center flex-wrap gap-3 w-66 justify-content-between">
-          <p class="d-flex align-items-center gap-3 min-w-270">
+          <p class="d-flex align-items-center gap-3">
             <span class="min-w-135">Name</span>
             <span class="text-muted">
               {{ item.name }}
             </span>
           </p>
-          <p class="d-flex align-items-center gap-3 min-w-270">
+          <p class="d-flex align-items-center gap-3">
             <span class="min-w-135">Price</span>
             <span class="text-muted">
               {{ (item.price).toFixed(2) }}
@@ -32,13 +32,13 @@
           </p>
         </div>
         <div class="d-flex align-items-center flex-wrap gap-3 w-66 justify-content-between">
-          <p class="d-flex align-items-center gap-3 min-w-270">
+          <p class="d-flex align-items-center gap-3">
             <span class="min-w-135">Category</span>
             <span class="text-muted">
               {{ item.categoryName }}
             </span>
           </p>
-          <p class="d-flex align-items-center gap-3 min-w-270">
+          <p class="d-flex align-items-center gap-3">
             <span class="min-w-135">Tax</span>
             <span class="text-muted">
               {{ item.taxValue }}
@@ -46,23 +46,23 @@
           </p>
         </div>
         <div class="d-flex align-items-center flex-wrap gap-3 w-66 justify-content-between">
-          <p class="d-flex align-items-center gap-3 min-w-270">
+          <p class="d-flex align-items-center gap-3">
             <span class="min-w-135">Type</span>
             <span class="text-muted">
-              {{ item.itemType }}
+              {{ item.itemType === 1 ? 'Veg' : 'Non-Veg' }}
             </span>
           </p>
-          <p class="d-flex align-items-center gap-3 min-w-270">
+          <p class="d-flex align-items-center gap-3">
             <span class="min-w-135">Featured</span>
             <span class="text-muted">
-              {{ item.isFeatured ? 'Featured' : 'Non-Featured' }}
+              {{ item.isFeatured ? 'Yes' : 'No' }}
             </span>
           </p>
         </div>
         <p class="d-flex align-items-center gap-3">
           <span class="min-w-135">Status</span>
           <span class="text-success" [class.text-danger]="!item.isActive">
-            {{ item.isActive ? 'Active' : 'Inactive' }}
+            {{ item.isActive === 1 ? 'Active' : 'Inactive' }}
           </span>
         </p>
         <p class="d-flex align-items-center gap-3">
@@ -83,7 +83,7 @@
     <!-- Image Section -->
     <div *ngIf="activeSection === 'image'" class="section p-3 rounded mb-3">
       <div class="d-flex flex-wrap align-items-center gap-3">
-        <img [src]="item.imageUrl" alt="Item Image" class="w-50 h-auto rounded-3">
+        <img [src]="item.imageUrl" alt="Item Image" class="h-auto rounded-3">
         <label class="btn btn-danger text-white d-flex align-items-center justify-content-center border-0">
           Update Image
           <input type="file" id="image" (change)="onFileSelect($event)" class="d-none">
@@ -97,7 +97,7 @@
         Add Variation
       </button>
       <!-- Table to Display Variations -->
-      <app-table [data]="items" [columns]="columns" [actions]="actions"></app-table>
+      <app-table [data]="variations" [columns]="columns" [actions]="actions"></app-table>
     </div>
 
     <!-- Extra Section -->
@@ -106,7 +106,7 @@
         Add Extra
       </button>
       <!-- Table to Display Extras -->
-      <app-table [data]="items" [columns]="columns" [actions]="actions"></app-table>
+      <app-table [data]="extras" [columns]="columns" [actions]="actions"></app-table>
     </div>
 
     <!-- Addons Section -->
@@ -115,7 +115,7 @@
         Add on
       </button>
       <!-- Table to Display Addons -->
-      <app-table [data]="items" [columns]="columns" [actions]="actions"></app-table>
+      <app-table [data]="addons" [columns]="columns" [actions]="actions"></app-table>
     </div>
   </div>
 

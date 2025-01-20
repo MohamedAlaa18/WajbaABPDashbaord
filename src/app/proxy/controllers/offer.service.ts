@@ -1,7 +1,8 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateUpdateOfferDto, GetOfferInput, UpdateOfferdto } from '../dtos/offers-contract/models';
-import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
+import type { ApiResponse } from '../apiresponse/models';
+import type { CreateUpdateOfferDto, GetOfferInput, OfferDto, UpdateOfferdto } from '../dtos/offers-contract/models';
+import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class OfferService {
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Offer',
-      body: input.image,
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -28,7 +29,7 @@ export class OfferService {
   
 
   getById = (id: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
+    this.restService.request<any, ActionResult<ApiResponse<OfferDto>>>({
       method: 'GET',
       url: `/api/Offer/${id}`,
     },
@@ -39,7 +40,7 @@ export class OfferService {
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/Offer',
-      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { name: input.name, status: input.status, startDate: input.startDate, endDate: input.endDate, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   
@@ -48,7 +49,7 @@ export class OfferService {
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Offer',
-      body: input.image,
+      body: input,
     },
     { apiName: this.apiName,...config });
 

@@ -84,7 +84,7 @@
       <!-- Conditional Multiple Selection based on Discount On -->
       <div *ngIf="offerForm.get('discountOn')?.value === 'items'" class="mb-3">
         <label for="selectedItems" class="form-label">Choose Items <span class="text-danger">*</span></label>
-        <ng-select [items]="items" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Select selectedItems"
+        <ng-select [items]="items" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Select Items"
           formControlName="selectedItems" class="custom">
         </ng-select>
         <div *ngIf="offerForm.get('selectedItems')?.touched && offerForm.get('selectedItems')?.invalid"
@@ -96,7 +96,7 @@
       <div *ngIf="offerForm.get('discountOn')?.value === 'categories'" class="mb-3">
         <label for="selectedCategories" class="form-label">Choose Items <span class="text-danger">*</span></label>
         <ng-select [items]="categories" bindLabel="name" bindValue="id" [multiple]="true"
-          placeholder="Select selectedCategories" formControlName="selectedCategories" class="custom">
+          placeholder="Select Categories" formControlName="selectedCategories" class="custom">
         </ng-select>
         <div *ngIf="offerForm.get('selectedCategories')?.touched && offerForm.get('selectedCategories')?.invalid"
           class="text-danger">

@@ -29,7 +29,7 @@
       <div class="row mb-3">
         <div class="col-md-6 mb-3">
           <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
-          <input type="file" id="image" formControlName="image" class="form-control bg-white">
+          <input type="file" id="image" formControlName="image" class="form-control bg-white" (change)="onImageChange($event)">
           <div *ngIf="languageForm.get('image')?.touched && languageForm.get('image')?.invalid" class="text-danger">
             <small *ngIf="languageForm.get('image')?.errors?.['required']">Image is required.</small>
           </div>
@@ -39,11 +39,11 @@
           <label>Status</label>
           <div class="d-flex align-items-center gap-2">
             <label class="btn radio-label">
-              <input type="radio" formControlName="status" [value]="'active'" class="d-none">
+              <input type="radio" formControlName="status" [value]="1" class="d-none">
               Active
             </label>
             <label class="btn radio-label">
-              <input type="radio" formControlName="status" [value]="'inactive'" class="d-none">
+              <input type="radio" formControlName="status" [value]="0" class="d-none">
               Inactive
             </label>
           </div>

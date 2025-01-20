@@ -1,16 +1,14 @@
-import type { Status } from '../../enums/status.enum';
-import type { DiscountType } from '../../enums/discount-type.enum';
-import type { IFormFile } from '../../microsoft/asp-net-core/http/models';
-import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { Base64ImageModel } from '../themes-contract/models';
+import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateUpdateOfferDto {
   name?: string;
-  status: Status;
+  status: number;
   startDate?: string;
   endDate?: string;
   discountPercentage: number;
-  discountType: DiscountType;
-  image: IFormFile;
+  discountType: number;
+  model: Base64ImageModel;
   description?: string;
   branchId: number;
   itemIds: number[];
@@ -18,6 +16,22 @@ export interface CreateUpdateOfferDto {
 }
 
 export interface GetOfferInput extends PagedAndSortedResultRequestDto {
+  name?: string;
+  status?: number;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface OfferDto extends EntityDto<number> {
+  name?: string;
+  status: number;
+  startDate?: string;
+  endDate?: string;
+  image?: string;
+  discountPercentage: number;
+  discountType: number;
+  description?: string;
+  branchId: number;
 }
 
 export interface UpdateOfferdto extends CreateUpdateOfferDto {

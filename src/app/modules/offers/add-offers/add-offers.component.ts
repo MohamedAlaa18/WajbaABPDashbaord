@@ -6,7 +6,8 @@ import { ItemDto } from '@proxy/dtos/items-dtos';
 import { GetCategoryInput, UpdateCategory } from '@proxy/dtos/categories';
 import { IconsComponent } from "../../../shared/icons/icons.component";
 import { NgSelectModule } from '@ng-select/ng-select';
-import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
+import { CreateUpdateOfferDto, UpdateOfferdto } from '@proxy/dtos/offers-contract';
+import { Base64Service } from 'src/app/services/base64/base64.service';
 
 @Component({
   selector: 'app-add-offers',
@@ -35,9 +36,10 @@ export class AddOffersComponent implements OnInit {
     private itemService: ItemService,
     private categoryService: CategoryService,
     private datePipe: DatePipe,
+    private base64Service: Base64Service,
   ) {
     this.offerForm = this.fb.group({
-      id: [null],
+      id: [this.offer?.id],
       name: ['', Validators.required],
       discountType: ['', Validators.required],
       discount: ['', Validators.required],
@@ -132,87 +134,92 @@ export class AddOffersComponent implements OnInit {
 
   submitForm(): void {
     if (this.offerForm.valid) {
-      const formData = new FormData();
       const formValues = this.offerForm.value;
 
-      // Format the dates to MM-DD-YYYY
+      // Format the dates to `MM-dd-yyyy`
       const formattedStartDate = this.datePipe.transform(formValues.startDate, 'MM-dd-yyyy');
       const formattedEndDate = this.datePipe.transform(formValues.endDate, 'MM-dd-yyyy');
 
-      // Check if formatted dates are valid
-      if (formattedStartDate === null || formattedEndDate === null) {
+      if (!formattedStartDate || !formattedEndDate) {
         console.error('Invalid date format for startDate or endDate.');
-        return; // Exit the method if dates are invalid
+        return;
       }
 
-      // Append basic fields
-      formData.append('name', formValues.name);
-      // formData.append('status', this.offer ? formValues.status.toString() : '1');
-      formData.append('status', '1');
-      formData.append('startDate', formattedStartDate);
-      formData.append('endDate', formattedEndDate);
-      formData.append('discountType', formValues.discountType.toString());
-      formData.append('discountPercentage', formValues.discount.toString());
-      formData.append('description', formValues.description);
+      // Ensure endDate is not earlier than startDate
+      if (new Date(formattedEndDate) < new Date(formattedStartDate)) {
+        console.error('End date cannot be earlier than start date.');
+        return;
+      }
 
-      // Append Image if selected
+      // Prepare base64Model and handle when no file is selected
+      const base64Model = this.selectedFile
+        ? {
+            id: this.offer?.id || 0,
+            fileName: this.selectedFile.name,
+            base64Content: '' // updated field name
+          }
+        : null;
+
+      const processOffer = (base64Content: string | null) => {
+        if (base64Model) base64Model.base64Content = base64Content || ''; // update field name
+
+        // Prepare the DTO
+        const offerDto = {
+          name: formValues.name,
+          discountType: formValues.discountType,
+          discountPercentage: formValues.discount,
+          description: formValues.description,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+          model: base64Model,
+          itemIds: formValues.selectedItems,
+          categoryIds: formValues.selectedCategories,
+          status: 1, // Hardcoded status
+          branchId: 1, // Hardcoded branchId
+        };
+
+        if (this.offer) {
+          // Update logic
+          const updateOfferDto: UpdateOfferdto = {
+            ...offerDto,
+            id: this.offer.id
+          };
+          this.offerService.update(updateOfferDto).subscribe({
+            next: (response) => {
+              console.log('Offer updated successfully:', response);
+              this.closeModal();
+            },
+            error: (error) => {
+              console.error('Error updating offer:', error);
+            },
+          });
+        } else {
+          // Create logic
+          // console.log('Creating offer:', offerDto);
+          this.offerService.create(offerDto as CreateUpdateOfferDto).subscribe({
+            next: (response) => {
+              console.log('Offer created successfully:', response);
+              this.closeModal();
+            },
+            error: (error) => {
+              console.error('Error creating offer:', error);
+            },
+          });
+        }
+      };
+
+      // Handle base64 image conversion if a file is selected
       if (this.selectedFile) {
-        formData.append('imageUrl', this.selectedFile);
-      }
-
-      const discountOn = formValues.discountOn;
-
-      // Handle discountOn conditionally and avoid appending empty arrays/fields
-      if (discountOn === 'items' && this.offerForm.get('selectedItems')?.value.length > 0) {
-        // Append ItemIds if items are selected
-        this.offerForm.get('selectedItems')?.value.forEach((item: ItemDto) => {
-          formData.append('itemIds[]', item.id.toString());
-        });
-      }
-
-      if (discountOn === 'categories' && this.offerForm.get('selectedItems')?.value.length > 0) {
-        // Append CategoryIds if categories are selected
-        this.offerForm.get('selectedItems')?.value.forEach((category: UpdateCategory) => {
-          formData.append('categoryIds[]', category.id.toString());
-        });
-      }
-
-      // Ensure you are NOT sending empty values for itemIds[] or categoryIds[]
-      // Remove the empty strings you had earlier for empty arrays
-
-      // Debugging: log the form data before submission
-      const formDataArray: [string, any][] = [];
-      formData.forEach((value, key) => {
-        formDataArray.push([key, value]);
-      });
-      console.log('FormData before sending:', formDataArray);
-
-      // Check if we are updating or creating a new offer
-      if (this.offer) {
-        // this.offerService.update(this.offer.id, formData).subscribe(
-        //   (response) => {
-        //     console.log('Offer updated successfully:', response);
-        //     this.closeModal();
-        //     // this.afterActionService.reloadCurrentRoute();
-        //   },
-        //   (error) => {
-        //     console.error('Error updating offer:', error);
-        //   }
-        // );
+        this.base64Service.convertToBase64(this.selectedFile)
+          .then(processOffer)
+          .catch((error: any) => {
+            console.error('Error converting image to Base64:', error);
+          });
       } else {
-        // this.offerService.create(formData).subscribe(
-        //   (response) => {
-        //     console.log('Offer created successfully:', response);
-        //     this.closeModal();
-        //     // this.afterActionService.reloadCurrentRoute();
-        //   },
-        //   (error) => {
-        //     console.error('Error creating offer:', error);
-        //   }
-        // );
+        processOffer(null); // No image file was selected
       }
     } else {
-      console.log('Form is invalid:', this.offerForm);
+      console.error('Form is invalid:', this.offerForm);
       this.offerForm.markAllAsTouched();
     }
   }
