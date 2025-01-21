@@ -10,8 +10,9 @@ import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
 import { AddVouchersComponent } from '../add-vouchers/add-vouchers.component';
-import { OfferService } from '@proxy/controllers';
+import { CouponService } from '@proxy/controllers';
 import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
+import { GetCouponsInput, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
 
 @Component({
   selector: 'app-vouchers',
@@ -21,7 +22,7 @@ import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
   styleUrl: './vouchers.component.scss'
 })
 export class VouchersComponent implements OnInit {
-  vouchers: UpdateOfferdto[] = [];
+  vouchers: UpdateCoupondto[] = [];
   isAddMode = true;
   currentPage: number = 1;
   totalPages: number = 4;
@@ -92,7 +93,7 @@ export class VouchersComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private offerService: OfferService,
+    private couponService: CouponService,
     // private exportService: ExportService,
     private router: Router,
   ) { }
@@ -103,16 +104,25 @@ export class VouchersComponent implements OnInit {
 
   // Load all offers
   loadVouchers(): void {
-    const defaultInput: PagedAndSortedResultRequestDto = {
+    const defaultInput: GetCouponsInput = {
+      branchid: 1,
       sorting: '',
-      skipCount: 0,
-      maxResultCount: 10
+      skipCount: (this.currentPage - 1) * 10,
+      maxResultCount: 10,
+      name: this.filters.name || '',
+      code: this.filters.code || '',
+      discount: this.filters.discount ? +this.filters.discount : undefined,
+      discountype: this.filters.discountType ? +this.filters.discountType : undefined,
+      startdate: this.filters.startDate || '',
+      enddate: this.filters.endDate || '',
+      maximumDiscount: this.filters.maximumDiscount ? +this.filters.maximumDiscount : undefined,
     };
 
-    this.offerService.getList(defaultInput).subscribe({
+    this.couponService.getList(defaultInput).subscribe({
       next: (response) => {
-        console.log(response)
+        console.log(response);
         this.vouchers = response.data.items;
+        this.totalPages = Math.ceil(response.data.totalCount / 10);
       },
       error: (err) => {
         console.error('Error loading offers:', err);
@@ -175,7 +185,7 @@ export class VouchersComponent implements OnInit {
   }
 
   deleteVoucher(id: number): void {
-    this.offerService.delete(id).subscribe({
+    this.couponService.delete(id).subscribe({
       next: () => {
         this.vouchers = this.vouchers.filter((offer) => offer.id !== id);
         this.modalService.dismissAll(); // Close all modals

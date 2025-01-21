@@ -1,6 +1,7 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { CreateItemDto, GetItemInput, ItemDto, UpdateItemDTO } from '../dtos/items-dtos/models';
+import type { Base64ImageModel } from '../dtos/themes-contract/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -64,6 +65,16 @@ export class ItemService {
       method: 'GET',
       url: '/api/Item',
       params: { filter: input.filter, categoryId: input.categoryId, itemType: input.itemType, isFeatured: input.isFeatured, isDeleted: input.isDeleted, status: input.status, minPrice: input.minPrice, maxPrice: input.maxPrice, minTaxValue: input.minTaxValue, maxTaxValue: input.maxTaxValue, branchId: input.branchId, itemId: input.itemId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  updatImageByIdAndModel = (id: number, model: Base64ImageModel, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'PUT',
+      url: '/api/Item/editimage',
+      params: { id },
+      body: model,
     },
     { apiName: this.apiName,...config });
   

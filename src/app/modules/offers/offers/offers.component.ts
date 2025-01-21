@@ -32,7 +32,6 @@ export class OffersComponent implements OnInit {
 
   columns = [
     { field: 'name', header: 'Name' },
-    // { field: 'code', header: 'Code' },
     { field: 'discountPercentage', header: 'Discount' },
     { field: 'startDate', header: 'StartDate' },
     { field: 'endDate', header: 'EndDate' },

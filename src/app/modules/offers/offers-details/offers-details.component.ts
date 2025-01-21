@@ -9,6 +9,8 @@ import { TableComponent } from "../../../shared/table/table.component";
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Base64Service } from 'src/app/services/base64/base64.service';
+import { CategoryDto } from '@proxy/dtos/categories';
+import { ItemDto } from '@proxy/dtos/items-dtos';
 
 
 @Component({
@@ -23,6 +25,9 @@ export class OffersDetailsComponent implements OnInit {
   showItemModal = false;
   offerId!: number;
   offer!: OfferDto;
+
+  tableData: ItemDto[] | CategoryDto[] = [];
+
   selectedItem: any = null;
   selectedFile: File | null = null;
 
@@ -61,7 +66,7 @@ export class OffersDetailsComponent implements OnInit {
       this.offerService.getById(this.offerId).subscribe(
         (response) => {
           this.offer = response.data;
-          console.log('Offer details:', response);
+          this.offer.itemDtos.length > 0 ? this.tableData = this.offer.itemDtos : this.tableData = this.offer.categoryDtos;
         },
         (error) => {
           console.error('Error fetching offer details:', error);
@@ -70,27 +75,60 @@ export class OffersDetailsComponent implements OnInit {
     }
   }
 
+  openConfirmDeleteModal(branchId: number, branchName: string): void {
+    const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: 'static',
+    });
+
+    // Pass data to the modal instance
+    modalRef.componentInstance.id = branchId;
+    modalRef.componentInstance.name = branchName;
+
+    // Handle modal result
+    modalRef.componentInstance.confirmDelete.subscribe((id) => {
+      this.offer.itemDtos.length > 0 ?
+        this.deleteItem(id) :
+        this.deleteCategory(id);
+    });
+
+    modalRef.componentInstance.cancelDelete.subscribe(() => {
+      modalRef.close(); // Close modal on cancel
+    });
+  }
+
   deleteItem(itemId: number) {
-    // this.offerService.removeItemsFromOffer(this.itemToDeleteId).subscribe({
-    //   next: (response) => {
-    //     console.log(`Items removed from offer ${this.itemToDeleteId}`, response);
-    //     this.afterActionService.reloadCurrentRoute();
-    //   },
-    //   error: (err) => console.error('Error removing items:', err)
-    // });
+    this.offerService.deleteItemsByOfferidAndItemid(this.offerId, itemId).subscribe({
+      next: (response) => {
+        console.log(`Items removed from offer ${itemId}`, response);
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (err) => console.error('Error removing items:', err)
+    });
+  }
+
+  deleteCategory(categoryId: number) {
+    this.offerService.deletecategorysByOfferidAndCategoryid(this.offerId, categoryId).subscribe({
+      next: (response) => {
+        console.log(`Category removed from offer ${categoryId}`, response);
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (err) => console.error('Error removing categories:', err)
+    });
   }
 
   onFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
-      this.updateItemImage();
+      this.updateOfferImage();
     } else {
       this.selectedFile = null;
     }
   }
 
-  updateItemImage(): void {
+  updateOfferImage(): void {
     if (this.selectedFile) {
       this.base64Service.convertToBase64(this.selectedFile).then(
         (base64Content) => {
@@ -114,26 +152,5 @@ export class OffersDetailsComponent implements OnInit {
         }
       );
     }
-  }
-
-  openConfirmDeleteModal(branchId: number, branchName: string): void {
-    const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
-      size: 'lg',
-      centered: true,
-      backdrop: 'static',
-    });
-
-    // Pass data to the modal instance
-    modalRef.componentInstance.id = branchId;
-    modalRef.componentInstance.name = branchName;
-
-    // Handle modal result
-    modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteItem(id); // Call the delete method with the branch ID
-    });
-
-    modalRef.componentInstance.cancelDelete.subscribe(() => {
-      modalRef.close(); // Close modal on cancel
-    });
   }
 }

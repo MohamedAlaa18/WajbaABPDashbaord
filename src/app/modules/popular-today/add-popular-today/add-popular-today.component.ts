@@ -36,8 +36,8 @@ export class AddPopularTodayComponent {
     this.popularItemForm = this.fb.group({
       id: [null],
       itemId: ['', Validators.required],
-      preprice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      currentprice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      prePrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      currentPrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       description: ['', Validators.required],
       image: [''],
     });
@@ -71,8 +71,9 @@ export class AddPopularTodayComponent {
   populateForm(item: UpdatePopularItemdto) {
     this.popularItemForm.patchValue({
       id: item.id,
-      preprice: item.preprice,
-      currentprice: item.currentprice,
+      itemId: item.itemId,
+      prePrice: item.prePrice,
+      currentPrice: item.currentPrice,
       description: item.description,
     });
   }

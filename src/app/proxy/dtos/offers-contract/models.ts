@@ -1,5 +1,7 @@
 import type { Base64ImageModel } from '../themes-contract/models';
 import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { ItemDto } from '../items-dtos/models';
+import type { CategoryDto } from '../categories/models';
 
 export interface CreateUpdateOfferDto {
   name?: string;
@@ -33,6 +35,8 @@ export interface OfferDto {
   discountType: number;
   description?: string;
   branchId: number;
+  itemDtos: ItemDto[];
+  categoryDtos: CategoryDto[];
 }
 
 export interface UpdateOfferdto extends CreateUpdateOfferDto {

@@ -206,30 +206,31 @@ export class DiningTablesComponent implements OnInit {
     this.loadDiningTables();
   }
 
-  downloadQRCode(table: UpdateDinInTable) {
-    // if (table?.qrCode) {
-    //   const qrCodeDataUrl = table.qrCode;
+  downloadQRCode(table: any) {
+    console.log('Download QR code:', table);
+    if (table?.url) {
+      const qrCodeUrl = table.url;  // The URL to the SVG file
 
-    //   // Create a link element
-    //   const link = document.createElement('a');
+      // Create a link element
+      const link = document.createElement('a');
 
-    //   // Set the href to the QR code data URL
-    //   link.href = qrCodeDataUrl;
+      // Set the href to the QR code URL
+      link.href = qrCodeUrl;
 
-    //   // Set the download attribute with a default filename
-    //   link.download = `QRCode-${table.id}.svg`;
+      // Set the download attribute with a default filename (you can customize the filename)
+      link.download = `QRCode-${table.id}.svg`;
 
-    //   // Append the link to the body (required for Firefox)
-    //   document.body.appendChild(link);
+      // Append the link to the body (required for Firefox)
+      document.body.appendChild(link);
 
-    //   // Programmatically click the link to trigger the download
-    //   link.click();
+      // Programmatically click the link to trigger the download
+      link.click();
 
-    //   // Remove the link from the DOM
-    //   document.body.removeChild(link);
-    // } else {
-    //   console.error('No QR code available for download.');
-    // }
+      // Remove the link from the DOM
+      document.body.removeChild(link);
+    } else {
+      console.error('No QR code URL available for download.');
+    }
   }
 
   openDiningTableDetailsAndNavigate(table: UpdateDinInTable) {

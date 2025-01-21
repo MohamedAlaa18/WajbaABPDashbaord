@@ -6,7 +6,7 @@ import { ItemDto } from '@proxy/dtos/items-dtos';
 import { GetCategoryInput, UpdateCategory } from '@proxy/dtos/categories';
 import { IconsComponent } from "../../../shared/icons/icons.component";
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CreateUpdateOfferDto, UpdateOfferdto } from '@proxy/dtos/offers-contract';
+import { CreateUpdateOfferDto, OfferDto, UpdateOfferdto } from '@proxy/dtos/offers-contract';
 import { Base64Service } from 'src/app/services/base64/base64.service';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
@@ -19,7 +19,7 @@ import { AfterActionService } from 'src/app/services/after-action/after-action-s
 })
 export class AddOffersComponent implements OnInit {
   @Input() isOpen: boolean = false;
-  @Input() offer: UpdateOfferdto | null = null;
+  @Input() offer: OfferDto | null = null;
   @Output() close = new EventEmitter<void>();
 
   offerForm: FormGroup;
@@ -72,7 +72,7 @@ export class AddOffersComponent implements OnInit {
     });
   }
 
-  populateForm(offer: UpdateOfferdto): void {
+  populateForm(offer: OfferDto): void {
     const formattedStartDate = this.datePipe.transform(offer.startDate, 'yyyy-MM-dd');
     const formattedEndDate = this.datePipe.transform(offer.endDate, 'yyyy-MM-dd');
 
@@ -81,9 +81,9 @@ export class AddOffersComponent implements OnInit {
       name: offer.name,
       discountType: offer.discountType,
       discount: offer.discountPercentage,
-      discountOn: offer.itemIds && offer.itemIds.length > 0 ? 'items' : 'categories',
-      selectedItems: offer.itemIds || [], // Populate itemIds
-      selectedCategories: offer.categoryIds || [], // Populate categoryIds
+      discountOn: offer.itemDtos && offer.itemDtos.length > 0 ? 'items' : 'categories',
+      selectedItems: offer.itemDtos && offer.itemDtos.length > 0 ? offer.itemDtos.map(item => item.id) : [], // Populate itemDtos
+      selectedCategories: offer.categoryDtos && offer.categoryDtos.length > 0 ? offer.categoryDtos.map(category => category.id) : [], // Populate categoryIds
       startDate: formattedStartDate,
       endDate: formattedEndDate,
       description: offer.description || '',

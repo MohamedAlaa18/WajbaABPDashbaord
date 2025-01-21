@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ItemAddonService, ItemService, ItemVariationService } from '@proxy/controllers';
-import { CreateItemAddonDto, UpdateItemAddonDto } from '@proxy/dtos/item-addon-contract';
+import { CreateItemAddonDto, ItemAddonDto, UpdateItemAddonDto } from '@proxy/dtos/item-addon-contract';
 import { UpdateItemVariationDto } from '@proxy/dtos/item-variation-contract';
 import { UpdateItemDTO } from '@proxy/dtos/items-dtos';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
@@ -18,7 +18,7 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 })
 export class AddOnsComponent {
   @Output() close = new EventEmitter<void>();
-  @Input() addon: UpdateItemAddonDto;
+  @Input() addon: ItemAddonDto;
   @Input() itemId: number;
 
   addonForm: FormGroup;
@@ -37,7 +37,7 @@ export class AddOnsComponent {
   ) {
     this.addonForm = this.fb.group({
       itemId: [this.itemId],
-      addonId: [this.addon?.addonId],
+      addonId: [this.addon?.id],
       option: ['', Validators.required],
       variation: ['', Validators.required]
     });
@@ -48,7 +48,11 @@ export class AddOnsComponent {
 
     if (this.addon) {
       this.isEditMode = true;
-      this.addonForm.patchValue(this.addon);
+      this.addonForm.patchValue({
+        addonId: this.addon.id,
+        option: this.addon.name,
+        variation: this.addon.additionalPrice, // Adjust based on how you map variations
+      });
     }
 
     this.loadItems();

@@ -13,6 +13,7 @@ import { ItemDto } from '@proxy/dtos/items-dtos';
 import { UpdateItemVariationDto } from '@proxy/dtos/item-variation-contract';
 import { UpdateItemExtraDto } from '@proxy/dtos/item-extra-contract';
 import { UpdateItemAddonDto } from '@proxy/dtos/item-addon-contract';
+import { Base64Service } from 'src/app/services/base64/base64.service';
 
 @Component({
   selector: 'app-items-details',
@@ -83,6 +84,7 @@ export class ItemsDetailsComponent implements OnInit {
     private addonsService: ItemAddonService,
     private activatedRoute: ActivatedRoute,
     private afterActionService: AfterActionService,
+    private base64Service: Base64Service,
     private modalService: NgbModal,
   ) {
     this.itemId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -309,15 +311,27 @@ export class ItemsDetailsComponent implements OnInit {
 
   updateItemImage(): void {
     if (this.selectedFile) {
-      // this.itemService.updateItemImage(this.itemId, this.selectedFile).subscribe(
-      //   (response) => {
-      //     console.log('Image updated successfully:', response);
-      //     this.afterActionService.reloadCurrentRoute();
-      //   },
-      //   (error) => {
-      //     console.error('Error updating image:', error);
-      //   }
-      // );
+      this.base64Service.convertToBase64(this.selectedFile).then(
+        (base64Content) => {
+          const imageMode = {
+            fileName: this.selectedFile?.name,
+            base64Content: base64Content
+          };
+
+          this.itemService.updatImageByIdAndModel(this.itemId, imageMode).subscribe(
+            (response) => {
+              console.log('Image updated successfully:', response);
+              this.afterActionService.reloadCurrentRoute();
+            },
+            (error) => {
+              console.error('Error updating image:', error);
+            }
+          );
+        },
+        (error) => {
+          console.error('Error converting file to Base64:', error);
+        }
+      );
     }
   }
 }

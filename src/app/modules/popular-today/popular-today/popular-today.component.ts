@@ -5,7 +5,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { Router } from '@angular/router';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
-import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { TableComponent } from 'src/app/shared/table/table.component';
 import { AddPopularTodayComponent } from '../add-popular-today/add-popular-today.component';
 import { PaginationComponent } from "../../../shared/pagination/pagination.component";
@@ -16,7 +15,7 @@ import { PopularItemsService } from '@proxy/controllers';
 @Component({
   selector: 'app-popular-today',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconsComponent, TableComponent, PaginationComponent, ExportButtonComponent],
+  imports: [CommonModule, ReactiveFormsModule, TableComponent, PaginationComponent, ExportButtonComponent],
   templateUrl: './popular-today.component.html',
   styleUrl: './popular-today.component.scss'
 })
@@ -29,9 +28,9 @@ export class PopularTodayComponent implements OnInit {
 
   columns = [
     { field: 'name', header: 'Name' },
-    { field: 'category', header: 'Category' },
-    { field: 'preprice', header: 'Previous Price' },
-    { field: 'currentprice', header: 'Current Price' },
+    { field: 'categoryName', header: 'Category' },
+    { field: 'prePrice', header: 'Previous Price' },
+    { field: 'currentPrice', header: 'Current Price' },
   ];
 
   actions = [

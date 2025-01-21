@@ -83,7 +83,7 @@
     <!-- Image Section -->
     <div *ngIf="activeSection === 'image'" class="section p-3 rounded mb-3">
       <div class="d-flex flex-wrap align-items-center gap-3">
-        <img [src]="item.imageUrl" alt="Item Image" class="h-auto rounded-3">
+        <img [src]="item?.imageUrl" alt="Item Image" class="h-auto rounded-3">
         <label class="btn btn-danger text-white d-flex align-items-center justify-content-center border-0">
           Update Image
           <input type="file" id="image" (change)="onFileSelect($event)" class="d-none">

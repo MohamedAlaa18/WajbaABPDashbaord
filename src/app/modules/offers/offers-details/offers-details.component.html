@@ -11,7 +11,7 @@
     </button>
     <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'items'}"
       (click)="activeSection = 'items'">
-      {{ offer.items?.length ? 'Items' : 'Categories'}}
+      {{ offer.itemDtos?.length ? 'Items' : 'Categories'}}
     </button>
   </div>
 
@@ -58,9 +58,9 @@
       </div>
     </div>
 
-    <!-- Items Section -->
-    <div *ngIf="activeSection === 'items' && offer.items.length != 0" class="section mb-4">
-      <app-table [data]="offer.items?.length ? offer.items : offer.categories" [columns]="columns"
+    <!-- table Section -->
+    <div *ngIf="activeSection === 'items'" class="section mb-4">
+      <app-table [data]="tableData" [columns]="columns"
         [actions]="actions"></app-table>
     </div>
   </div>

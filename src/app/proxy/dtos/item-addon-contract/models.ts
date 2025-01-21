@@ -1,6 +1,5 @@
 
 export interface CreateItemAddonDto {
-  addonName?: string;
   additionalPrice: number;
   itemId: number;
 }
@@ -11,7 +10,7 @@ export interface UpdateItemAddonDto extends CreateItemAddonDto {
 
 export interface ItemAddonDto {
   id: number;
-  addonName?: string;
+  name?: string;
   additionalPrice: number;
   itemId: number;
 }

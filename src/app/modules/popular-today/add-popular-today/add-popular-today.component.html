@@ -38,23 +38,23 @@
       <div class="row">
         <!-- Previous Price -->
         <div class="col-md-6 mb-3">
-          <label for="preprice" class="form-label">Previous Price <span class="text-danger">*</span></label>
-          <input type="number" id="preprice" formControlName="preprice" class="form-control bg-white">
-          <div *ngIf="popularItemForm.get('preprice')?.touched && popularItemForm.get('preprice')?.invalid"
+          <label for="prePrice" class="form-label">Previous Price <span class="text-danger">*</span></label>
+          <input type="number" id="prePrice" formControlName="prePrice" class="form-control bg-white">
+          <div *ngIf="popularItemForm.get('prePrice')?.touched && popularItemForm.get('prePrice')?.invalid"
             class="text-danger">
-            <small *ngIf="popularItemForm.get('preprice')?.errors?.['required']">Previous price is required.</small>
-            <small *ngIf="popularItemForm.get('preprice')?.errors?.['pattern']">Please enter a valid number.</small>
+            <small *ngIf="popularItemForm.get('prePrice')?.errors?.['required']">Previous price is required.</small>
+            <small *ngIf="popularItemForm.get('prePrice')?.errors?.['pattern']">Please enter a valid number.</small>
           </div>
         </div>
 
         <!-- Current Price -->
         <div class="col-md-6 mb-3">
-          <label for="currentprice" class="form-label">Current Price <span class="text-danger">*</span></label>
-          <input type="number" id="currentprice" formControlName="currentprice" class="form-control bg-white">
-          <div *ngIf="popularItemForm.get('currentprice')?.touched && popularItemForm.get('currentprice')?.invalid"
+          <label for="currentPrice" class="form-label">Current Price <span class="text-danger">*</span></label>
+          <input type="number" id="currentPrice" formControlName="currentPrice" class="form-control bg-white">
+          <div *ngIf="popularItemForm.get('currentPrice')?.touched && popularItemForm.get('currentPrice')?.invalid"
             class="text-danger">
-            <small *ngIf="popularItemForm.get('currentprice')?.errors?.['required']">Current price is required.</small>
-            <small *ngIf="popularItemForm.get('currentprice')?.errors?.['pattern']">Please enter a valid number.</small>
+            <small *ngIf="popularItemForm.get('currentPrice')?.errors?.['required']">Current price is required.</small>
+            <small *ngIf="popularItemForm.get('currentPrice')?.errors?.['pattern']">Please enter a valid number.</small>
           </div>
         </div>
       </div>
