@@ -14,14 +14,22 @@ button.QR {
   background-color: #FCC84236;
 }
 
-tbody {
-  tr[_ngcontent-ng-c563922191]:nth-of-type(odd) {
-    background-color: #F5F5F5;
-  }
+// tbody{
+//   tr {
+//     background-color: white !important;
+//   }
 
-  tr[_ngcontent-ng-c563922191]:nth-of-type(even) {
-    background-color: white;
-  }
+//   .table-secondary {
+//     background-color: #F5F5F5 !important;
+//   }
+// }
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+  background-color: #F5F5F5;
+}
+
+.table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n) > th {
+  background-color: white;
 }
 
 .text-danger {

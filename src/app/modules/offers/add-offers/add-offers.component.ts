@@ -109,8 +109,13 @@ export class AddOffersComponent implements OnInit {
   }
 
   loadItems(): void {
-    const storedBranch = JSON.parse(localStorage.getItem('selectedBranch') || '{}');
-    this.itemService.getList(storedBranch.id).subscribe(
+    const defaultInput: GetCategoryInput = {
+      name: '',
+      branchId: 0,
+      maxResultCount: 10
+    };
+
+    this.itemService.getList(defaultInput).subscribe(
       (response: any) => {
         this.items = response.data.items;
       },

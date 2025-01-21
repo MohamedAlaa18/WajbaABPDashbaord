@@ -91,6 +91,8 @@ export class OffersDetailsComponent implements OnInit {
       this.offer.itemDtos.length > 0 ?
         this.deleteItem(id) :
         this.deleteCategory(id);
+
+      modalRef.close();
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
