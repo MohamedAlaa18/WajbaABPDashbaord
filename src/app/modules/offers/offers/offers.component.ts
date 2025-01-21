@@ -11,7 +11,7 @@ import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
 import { AddOffersComponent } from '../add-offers/add-offers.component';
-import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
+import { GetOfferInput, UpdateOfferdto } from '@proxy/dtos/offers-contract';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
@@ -99,16 +99,21 @@ export class OffersComponent implements OnInit {
 
   // Load all offers
   loadOffers(): void {
-    const defaultInput: PagedAndSortedResultRequestDto = {
+    const input: GetOfferInput = {
+      name: this.filters.name || undefined,
+      status: this.filters.status ? parseInt(this.filters.status) : undefined,
+      startDate: this.filters.startDate || undefined,
+      endDate: this.filters.endDate || undefined,
       sorting: '',
-      skipCount: 0,
-      maxResultCount: 10
+      skipCount: (this.currentPage - 1) * 10,
+      maxResultCount: 10,
     };
 
-    this.offerService.getList(defaultInput).subscribe({
+    this.offerService.getList(input).subscribe({
       next: (response) => {
-        console.log(response)
+        console.log('Offers loaded:', response);
         this.offers = response.data.items;
+        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
       },
       error: (err) => {
         console.error('Error loading offers:', err);
@@ -136,7 +141,6 @@ export class OffersComponent implements OnInit {
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
-      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result

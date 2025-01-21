@@ -162,7 +162,6 @@ export class ItemsDetailsComponent implements OnInit {
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
-      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result
@@ -189,7 +188,6 @@ export class ItemsDetailsComponent implements OnInit {
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
-      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result
@@ -216,7 +214,6 @@ export class ItemsDetailsComponent implements OnInit {
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
-      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result

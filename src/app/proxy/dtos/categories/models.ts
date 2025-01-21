@@ -1,7 +1,7 @@
-import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { Base64ImageModel } from '../themes-contract/models';
 
-export interface CategoryDto extends FullAuditedEntityDto<number> {
+export interface CategoryDto extends EntityDto<number> {
   name?: string;
   imageUrl?: string;
   status: number;

@@ -1,5 +1,5 @@
 import type { Base64ImageModel } from '../themes-contract/models';
-import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateUpdateOfferDto {
   name?: string;
@@ -22,7 +22,8 @@ export interface GetOfferInput extends PagedAndSortedResultRequestDto {
   endDate?: string;
 }
 
-export interface OfferDto extends EntityDto<number> {
+export interface OfferDto {
+  id: number;
   name?: string;
   status: number;
   startDate?: string;

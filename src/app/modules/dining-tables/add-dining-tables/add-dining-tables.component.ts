@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { DineIntableService } from '@proxy/controllers';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { CreateDineIntable, UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-add-dining-tables',
@@ -22,6 +23,7 @@ export class AddDiningTablesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dineIntableService: DineIntableService,
+    private afterActionService: AfterActionService,
   ) {
     this.diningTableForm = this.fb.group({
       id: [null],
@@ -70,6 +72,7 @@ console.log('Table:', this.table);
             response => {
               // Handle successful response
               console.log('Table updated successfully:', response);
+              this.afterActionService.reloadCurrentRoute();
               this.closeModal();
             },
             error => {
@@ -84,6 +87,7 @@ console.log('Table:', this.table);
             response => {
               // Handle successful response
               console.log('Table created successfully:', response);
+              this.afterActionService.reloadCurrentRoute();
               this.closeModal();
             },
             error => {

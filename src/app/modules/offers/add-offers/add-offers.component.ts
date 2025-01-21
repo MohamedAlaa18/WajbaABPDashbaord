@@ -8,6 +8,7 @@ import { IconsComponent } from "../../../shared/icons/icons.component";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CreateUpdateOfferDto, UpdateOfferdto } from '@proxy/dtos/offers-contract';
 import { Base64Service } from 'src/app/services/base64/base64.service';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-add-offers',
@@ -37,6 +38,7 @@ export class AddOffersComponent implements OnInit {
     private categoryService: CategoryService,
     private datePipe: DatePipe,
     private base64Service: Base64Service,
+    private afterActionService: AfterActionService,
   ) {
     this.offerForm = this.fb.group({
       id: [this.offer?.id],
@@ -54,6 +56,8 @@ export class AddOffersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('offer:', this.offer);
+
     if (this.offer) {
       this.populateForm(this.offer);
     }
@@ -68,26 +72,23 @@ export class AddOffersComponent implements OnInit {
     });
   }
 
-  populateForm(offer: UpdateOfferdto) {
+  populateForm(offer: UpdateOfferdto): void {
     const formattedStartDate = this.datePipe.transform(offer.startDate, 'yyyy-MM-dd');
     const formattedEndDate = this.datePipe.transform(offer.endDate, 'yyyy-MM-dd');
 
     this.offerForm.patchValue({
+      id: offer.id,
       name: offer.name,
       discountType: offer.discountType,
       discount: offer.discountPercentage,
-      // discountOn: offer.items.length > 0 ? 'items' : 'categories',
-      // selectedItems: offer.items,
-      // selectedCategories: offer.categories,
+      discountOn: offer.itemIds && offer.itemIds.length > 0 ? 'items' : 'categories',
+      selectedItems: offer.itemIds || [], // Populate itemIds
+      selectedCategories: offer.categoryIds || [], // Populate categoryIds
       startDate: formattedStartDate,
       endDate: formattedEndDate,
       description: offer.description || '',
     });
-
-    // this.offerForm.get('selectedItems')?.value = offer.items as ItemDto[];
-    // this.offerForm.get('selectedItems')?.value = offer.categories;
   }
-
 
   loadCategories(): void {
     const defaultInput: GetCategoryInput = {
@@ -154,10 +155,10 @@ export class AddOffersComponent implements OnInit {
       // Prepare base64Model and handle when no file is selected
       const base64Model = this.selectedFile
         ? {
-            id: this.offer?.id || 0,
-            fileName: this.selectedFile.name,
-            base64Content: '' // updated field name
-          }
+          id: this.offer?.id || 0,
+          fileName: this.selectedFile.name,
+          base64Content: '' // updated field name
+        }
         : null;
 
       const processOffer = (base64Content: string | null) => {
@@ -184,9 +185,12 @@ export class AddOffersComponent implements OnInit {
             ...offerDto,
             id: this.offer.id
           };
+          console.log('Updating offer:', updateOfferDto);
+
           this.offerService.update(updateOfferDto).subscribe({
             next: (response) => {
               console.log('Offer updated successfully:', response);
+              this.afterActionService.reloadCurrentRoute();
               this.closeModal();
             },
             error: (error) => {
@@ -199,6 +203,7 @@ export class AddOffersComponent implements OnInit {
           this.offerService.create(offerDto as CreateUpdateOfferDto).subscribe({
             next: (response) => {
               console.log('Offer created successfully:', response);
+              this.afterActionService.reloadCurrentRoute();
               this.closeModal();
             },
             error: (error) => {

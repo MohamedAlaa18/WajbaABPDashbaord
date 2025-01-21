@@ -1,5 +1,5 @@
 import type { Base64ImageModel } from '../themes-contract/models';
-import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { ItemAddonDto } from '../item-addon-contract/models';
 import type { ItemExtraDto } from '../item-extra-contract/models';
 import type { ItemVariationDto } from '../item-variation-contract/models';
@@ -33,7 +33,7 @@ export interface GetItemInput extends PagedAndSortedResultRequestDto {
   itemId?: number;
 }
 
-export interface ItemDto extends FullAuditedEntityDto<number> {
+export interface ItemDto extends EntityDto<number> {
   id: number;
   name?: string;
   description?: string;

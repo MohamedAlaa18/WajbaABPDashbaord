@@ -8,6 +8,7 @@ import { OfferDto } from '@proxy/dtos/offers-contract';
 import { TableComponent } from "../../../shared/table/table.component";
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Base64Service } from 'src/app/services/base64/base64.service';
 
 
 @Component({
@@ -23,7 +24,6 @@ export class OffersDetailsComponent implements OnInit {
   offerId!: number;
   offer!: OfferDto;
   selectedItem: any = null;
-  selectedFileName: string | null = null;
   selectedFile: File | null = null;
 
   columns = [
@@ -46,6 +46,7 @@ export class OffersDetailsComponent implements OnInit {
     private offerService: OfferService,
     private afterActionService: AfterActionService,
     private modalService: NgbModal,
+    private base64Service: Base64Service,
   ) {
     this.offerId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
   }
@@ -82,26 +83,36 @@ export class OffersDetailsComponent implements OnInit {
   onFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.selectedFileName = input.files[0].name;
       this.selectedFile = input.files[0];
       this.updateItemImage();
     } else {
-      this.selectedFileName = null;
       this.selectedFile = null;
     }
   }
 
   updateItemImage(): void {
     if (this.selectedFile) {
-      // this.offerService.updateImage(this.offerId, this.selectedFile).subscribe(
-      //   (response) => {
-      //     console.log('Image updated successfully:', response);
-      //     this.afterActionService.reloadCurrentRoute();
-      //   },
-      //   (error) => {
-      //     console.error('Error updating image:', error);
-      //   }
-      // );
+      this.base64Service.convertToBase64(this.selectedFile).then(
+        (base64Content) => {
+          const imageMode = {
+            fileName: this.selectedFile?.name,
+            base64Content: base64Content
+          };
+
+          this.offerService.updateimageByIdAndModel(this.offerId, imageMode).subscribe(
+            (response) => {
+              console.log('Image updated successfully:', response);
+              this.afterActionService.reloadCurrentRoute();
+            },
+            (error) => {
+              console.error('Error updating image:', error);
+            }
+          );
+        },
+        (error) => {
+          console.error('Error converting file to Base64:', error);
+        }
+      );
     }
   }
 

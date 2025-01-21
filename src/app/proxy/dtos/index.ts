@@ -20,4 +20,5 @@ import * as PopularItemstoday from './popular-itemstoday';
 import * as SitesContact from './sites-contact';
 import * as ThemesContract from './themes-contract';
 import * as TimeSlotsContract from './time-slots-contract';
-export { BranchContract, Categories, CompanyContact, CouponContract, CurrenciesContract, DineInTableContract, FaqsContract, ItemAddonContract, ItemAttributes, ItemExtraContract, ItemTaxContract, ItemVariationContract, ItemsDtos, Languages, NotificationContract, OffersContract, OrderSetupContract, Otpcontract, PopularItemstoday, SitesContact, ThemesContract, TimeSlotsContract };
+import * as UserAddressContract from './user-address-contract';
+export { BranchContract, Categories, CompanyContact, CouponContract, CurrenciesContract, DineInTableContract, FaqsContract, ItemAddonContract, ItemAttributes, ItemExtraContract, ItemTaxContract, ItemVariationContract, ItemsDtos, Languages, NotificationContract, OffersContract, OrderSetupContract, Otpcontract, PopularItemstoday, SitesContact, ThemesContract, TimeSlotsContract, UserAddressContract };

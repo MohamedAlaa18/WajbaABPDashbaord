@@ -116,6 +116,7 @@ export class DiningTablesComponent implements OnInit {
       next: (response) => {
         console.log(response);
         this.tables = response.data.items;
+        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
       },
       error: (err) => {
         console.error('Error loading tables:', err);
@@ -143,7 +144,6 @@ export class DiningTablesComponent implements OnInit {
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
-      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result
@@ -201,6 +201,7 @@ export class DiningTablesComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
+    console.log('Page changed:', page);
     this.currentPage = page;
     this.loadDiningTables();
   }

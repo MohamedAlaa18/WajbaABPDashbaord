@@ -9,6 +9,7 @@ import { CreateUpdateCategoryDto } from '@proxy/dtos/categories';
 import { UpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
 import { CreateItemDto, UpdateItemDTO } from '@proxy/dtos/items-dtos';
 import { Base64Service } from 'src/app/services/base64/base64.service';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 @Component({
   selector: 'app-add-items',
   standalone: true,
@@ -35,6 +36,7 @@ export class AddItemsComponent {
     private categoryService: CategoryService,
     private itemTaxService: ItemTaxService,
     private base64Service: Base64Service,
+    private afterActionService: AfterActionService,
   ) {
     this.itemForm = this.fb.group({
       id: [null],
@@ -198,6 +200,7 @@ export class AddItemsComponent {
       .subscribe(
         (response) => {
           console.log('Item created successfully:', response);
+          this.afterActionService.reloadCurrentRoute();
           this.closeModal();
         },
         (error) => {
@@ -211,6 +214,7 @@ export class AddItemsComponent {
       .subscribe(
         (response) => {
           console.log('Item updated successfully:', response);
+          this.afterActionService.reloadCurrentRoute();
           this.closeModal();
         },
         (error) => {

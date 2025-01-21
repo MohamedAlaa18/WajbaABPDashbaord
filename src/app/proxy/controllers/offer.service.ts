@@ -2,6 +2,7 @@ import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { ApiResponse } from '../apiresponse/models';
 import type { CreateUpdateOfferDto, GetOfferInput, OfferDto, UpdateOfferdto } from '../dtos/offers-contract/models';
+import type { Base64ImageModel } from '../dtos/themes-contract/models';
 import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -50,6 +51,16 @@ export class OfferService {
       method: 'PUT',
       url: '/api/Offer',
       body: input,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  updateimageByIdAndModel = (id: number, model: Base64ImageModel, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'PUT',
+      url: '/api/Offer/Editimage',
+      params: { id },
+      body: model,
     },
     { apiName: this.apiName,...config });
 

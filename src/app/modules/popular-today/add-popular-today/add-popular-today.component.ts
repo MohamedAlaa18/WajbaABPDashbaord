@@ -8,6 +8,7 @@ import { PopularItemsService } from '@proxy/controllers/popular-items.service';
 import { ItemDto } from '@proxy/dtos/items-dtos';
 import { CreatePopularitem, UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
 import { Base64Service } from 'src/app/services/base64/base64.service';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-add-popular-today',
@@ -30,6 +31,7 @@ export class AddPopularTodayComponent {
     private popularItemService: PopularItemsService,
     private itemService: ItemService,
     private base64Service: Base64Service,
+    private afterActionService: AfterActionService,
   ) {
     this.popularItemForm = this.fb.group({
       id: [null],
@@ -124,6 +126,7 @@ export class AddPopularTodayComponent {
       .subscribe(
         (response) => {
           console.log('Item created successfully:', response);
+          this.afterActionService.reloadCurrentRoute();
           this.closeModal();
         },
         (error) => {
@@ -137,6 +140,7 @@ export class AddPopularTodayComponent {
       .subscribe(
         (response) => {
           console.log('Item updated successfully:', response);
+          this.afterActionService.reloadCurrentRoute();
           this.closeModal();
         },
         (error) => {

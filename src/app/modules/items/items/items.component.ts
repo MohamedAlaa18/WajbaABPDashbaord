@@ -234,7 +234,6 @@ export class ItemsComponent implements OnInit {
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
-      this.afterActionService.reloadCurrentRoute();
     });
 
     modalRef.result
