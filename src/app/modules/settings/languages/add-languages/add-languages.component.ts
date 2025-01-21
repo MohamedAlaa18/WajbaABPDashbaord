@@ -5,6 +5,7 @@ import { CreateBranchDto } from '@proxy/dtos/branch-contract';
 import { IconsComponent } from "../../../../shared/icons/icons.component";
 import { CommonModule } from '@angular/common';
 import { CreateUpdateLanguageDto, UpdateLanguagedto } from '@proxy/dtos/languages';
+import { Base64Service } from 'src/app/services/base64/base64.service';
 
 @Component({
   selector: 'app-add-languages',
@@ -19,18 +20,19 @@ export class AddLanguagesComponent {
   @Output() close = new EventEmitter<void>();
 
   languageForm: FormGroup;
-  isMapModalOpen: boolean = false;
+  selectedImageFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
     private languageService: LanguageService,
+    private base64Service: Base64Service,
   ) {
     this.languageForm = this.fb.group({
       id: [null],
       name: ['', Validators.required],
       image: [null, Validators.required],
       code: ['', Validators.required],
-      status: ['active'],
+      status: [1],
     });
   }
 
@@ -45,9 +47,16 @@ export class AddLanguagesComponent {
       id: language.id,
       name: language.name,
       code: language.code,
-      image: language.image,
+      // image: language.image,
       status: language.status,
     });
+  }
+
+  onImageChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedImageFile = input.files[0];
+    }
   }
 
   closeModal() {
@@ -56,44 +65,36 @@ export class AddLanguagesComponent {
 
   submitForm() {
     if (this.languageForm.valid) {
-      // Declare the formValue outside the if-else block
-      let formValue: CreateBranchDto | UpdateLanguagedto;
+      // Ensure status is valid (either 1 or 2)
+      // const status = this.languageForm.value.status;
+      // if (![1, 2].includes(status)) {
+      //   console.error('Invalid status value');
+      //   return;
+      // }
 
-      // Determine whether it's an update or create operation
-      if (this.languageForm.value.id) {
-        formValue = this.languageForm.value as UpdateLanguagedto;
-      } else {
-        formValue = this.languageForm.value as CreateBranchDto;
-      }
-
-      console.log(formValue);
-
-      if (this.language) {
-        // Update existing Language
-        this.languageService.upadteByUpdate(formValue as UpdateLanguagedto)
-          .subscribe(
-            response => {
-              // Handle successful response
-              console.log('Language updated successfully:', response);
-            },
-            error => {
-              // Handle error response
-              console.error('Error updating Language:', error);
+      if (this.selectedImageFile) {
+        // Convert image to Base64
+        this.base64Service.convertToBase64(this.selectedImageFile).then((base64Content) => {
+          const formValue: CreateUpdateLanguageDto | UpdateLanguagedto = {
+            ...this.languageForm.value,
+            model: {
+              id: this.language?.id || 0, // Use existing ID if updating
+              fileName: this.selectedImageFile?.name || '',
+              base64Content: base64Content
             }
-          );
+          };
+
+          // Determine create or update operation
+          if (this.language) {
+            this.updateLanguage(formValue as UpdateLanguagedto);
+          } else {
+            this.createLanguage(formValue as CreateUpdateLanguageDto);
+          }
+        }).catch((error) => {
+          console.error('Error converting image to Base64:', error);
+        });
       } else {
-        // Create a new branch
-        this.languageService.createasyncByLanguageDto(formValue as CreateUpdateLanguageDto)
-          .subscribe(
-            response => {
-              // Handle successful response
-              console.log('Language created successfully:', response);
-            },
-            error => {
-              // Handle error response
-              console.error('Error creating Language:', error);
-            }
-          );
+        console.error('No image file selected. Please select an image.');
       }
     } else {
       // Mark all form controls as touched to trigger validation messages
@@ -101,7 +102,29 @@ export class AddLanguagesComponent {
     }
   }
 
-  closeMapModal() {
-    this.isMapModalOpen = false;
+  private createLanguage(createDto: CreateUpdateLanguageDto) {
+    this.languageService.createasyncByLanguageDto(createDto)
+      .subscribe(
+        (response) => {
+          console.log('Item Language created successfully:', response);
+          this.closeModal();
+        },
+        (error) => {
+          console.error('Error creating Item Language:', error);
+        }
+      );
+  }
+
+  private updateLanguage(updateDto: UpdateLanguagedto) {
+    this.languageService.upadteByUpdate(updateDto)
+      .subscribe(
+        (response) => {
+          console.log('Item Language updated successfully:', response);
+          this.closeModal();
+        },
+        (error) => {
+          console.error('Error updating Item Language:', error);
+        }
+      );
   }
 }

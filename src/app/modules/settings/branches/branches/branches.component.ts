@@ -124,7 +124,6 @@ export class BranchesComponent implements OnInit {
     });
   }
 
-
   deleteBranch(id: number): void {
     this.branchService.delete(id).subscribe({
       next: () => {

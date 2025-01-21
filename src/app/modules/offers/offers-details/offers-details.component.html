@@ -1,0 +1,67 @@
+<section *ngIf="offer">
+  <!-- Navigation Buttons -->
+  <div class="d-flex justify-content-around w-100">
+    <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'information'}"
+      (click)="activeSection = 'information'">
+      Information
+    </button>
+    <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'image'}"
+      (click)="activeSection = 'image'">
+      Image
+    </button>
+    <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'items'}"
+      (click)="activeSection = 'items'">
+      {{ offer.itemDtos?.length ? 'Items' : 'Categories'}}
+    </button>
+  </div>
+
+  <div class="border border-danger bg-white p-3">
+    <!-- Information Section -->
+    <div *ngIf="activeSection === 'information' && offer" class="section mb-4">
+      <div class="info">
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <p><strong>Name:</strong> {{ offer.name }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Discount:</strong> {{ (offer.discountPercentage).toFixed(2) }}%</p>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <p><strong>Start Day:</strong> {{ offer.startDate }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Status:</strong>
+              <span [ngClass]="offer.status === 1 ? 'text-success' : 'text-danger'">
+                {{ offer.status === 1 ? 'Active' : 'Inactive' }}
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>End Day:</strong> {{ offer.endDate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Section -->
+    <div *ngIf="activeSection === 'image'" class="section mb-4">
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        <img [src]="offer.image" alt="Offer Image" class="h-auto rounded-3" style="width: 200px; height: auto;">
+        <label class="btn btn-danger border-0">
+          Update Image
+          <input type="file" id="image" (change)="onFileSelect($event)" hidden>
+        </label>
+      </div>
+    </div>
+
+    <!-- table Section -->
+    <div *ngIf="activeSection === 'items'" class="section mb-4">
+      <app-table [data]="tableData" [columns]="columns"
+        [actions]="actions"></app-table>
+    </div>
+  </div>
+</section>

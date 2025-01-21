@@ -4,14 +4,13 @@ import { SettingsSidebarComponent } from '../../settings-sidebar/settings-sideba
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UpdateBranchDto } from '@proxy/dtos/branch-contract';
 import { CategoryService } from '@proxy/controllers';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { AddItemCategoriesComponent } from '../add-item-categories/add-item-categories.component';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
-import { GetCategoryInput } from '@proxy/dtos/categories';
+import { GetCategoryInput, UpdateCategory } from '@proxy/dtos/categories';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-item-categories',
@@ -21,7 +20,7 @@ import { GetCategoryInput } from '@proxy/dtos/categories';
   styleUrl: './item-categories.component.scss'
 })
 export class ItemCategoriesComponent {
-  itemCategories: UpdateBranchDto[] = [];
+  itemCategories: UpdateCategory[] = [];
   isAddMode = true;
 
   columns = [
@@ -53,6 +52,7 @@ export class ItemCategoriesComponent {
   constructor(
     private modalService: NgbModal,
     private categoryService: CategoryService,
+    private afterActionService: AfterActionService,
     private router: Router,
   ) { }
 
@@ -79,7 +79,7 @@ export class ItemCategoriesComponent {
     });
   }
 
-  openAddEditModal(ItemCategory?: UpdateBranchDto): void {
+  openAddEditModal(ItemCategory?: UpdateCategory): void {
     const modalRef = this.modalService.open(AddItemCategoriesComponent, {
       size: 'lg',
       centered: true,
@@ -87,10 +87,11 @@ export class ItemCategoriesComponent {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.ItemCategory = ItemCategory || null;
+    modalRef.componentInstance.itemCategory = ItemCategory || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
+      this.loadItemCategories();
     });
 
     modalRef.result
@@ -130,6 +131,7 @@ export class ItemCategoriesComponent {
       next: () => {
         this.itemCategories = this.itemCategories.filter((itemCategory) => itemCategory.id !== id);
         this.modalService.dismissAll(); // Close all modals
+        this.afterActionService.reloadCurrentRoute();
       },
       error: (err) => {
         console.error('Error deleting Item Category:', err);
@@ -137,7 +139,7 @@ export class ItemCategoriesComponent {
     });
   }
 
-  openItemCategoryDetailsAndNavigate(ItemCategory: UpdateBranchDto) {
+  openItemCategoryDetailsAndNavigate(ItemCategory: UpdateCategory) {
     this.router.navigate(['/settings/item-categories', ItemCategory.id]);
   }
 }

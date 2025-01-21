@@ -6,6 +6,6 @@ export interface TimeSlotUpdateDetailDto {
 }
 
 export interface UpdateTimeSlotDto {
-  weekDay: any;
+  weekDay: number;
   timeSlots: TimeSlotUpdateDetailDto[];
 }

@@ -1,0 +1,21 @@
+.text-danger,
+.invalid-feedback {
+  color: var(--red-color) !important;
+}
+
+input {
+  border: 1px solid #CCCCCC4D !important;
+  height: 40px;
+}
+
+.btn.border-0 {
+  border-radius: 2rem;
+}
+
+.btn-danger {
+  background-color: var(--red-color);
+}
+
+.col-4 {
+  width: 32.333333% !important;
+}

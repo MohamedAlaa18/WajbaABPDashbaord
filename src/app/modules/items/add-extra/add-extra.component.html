@@ -18,9 +18,10 @@
         </div>
 
         <div class="col-md-6">
-          <label for="price" class="form-label">Price <span class="text-danger">*</span></label>
-          <input type="text" id="price" formControlName="price" class="form-control bg-white">
-          <div *ngIf="extraForm.get('price')?.touched && extraForm.get('price')?.invalid" class="text-danger">
+          <label for="additionalPrice" class="form-label">Price <span class="text-danger">*</span></label>
+          <input type="number" id="additionalPrice" formControlName="additionalPrice" class="form-control bg-white">
+          <div *ngIf="extraForm.get('additionalPrice')?.touched && extraForm.get('additionalPrice')?.invalid"
+            class="text-danger">
             <small>Valid price is required.</small>
           </div>
         </div>
@@ -31,11 +32,11 @@
           <label>Status</label>
           <div class="d-flex align-items-center gap-2">
             <label class="btn radio-label">
-              <input type="radio" class="form-check-label" formControlName="status" [value]="2" class="d-none">
+              <input type="radio" class="form-check-label" formControlName="status" [value]="1" class="d-none">
               Active
             </label>
             <label class="btn radio-label">
-              <input type="radio" class="form-check-label" formControlName="status" [value]="1" class="d-none">
+              <input type="radio" class="form-check-label" formControlName="status" [value]="0" class="d-none">
               Inactive
             </label>
           </div>

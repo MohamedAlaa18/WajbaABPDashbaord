@@ -27,10 +27,10 @@ export class ItemExtraService {
     { apiName: this.apiName,...config });
   
 
-  get = (id: number, config?: Partial<Rest.Config>) =>
+  get = (itemId: number, extraId: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
-      url: `/api/ItemExtra/${id}`,
+      url: `/api/ItemExtra/item/${itemId}/extra/${extraId}`,
     },
     { apiName: this.apiName,...config });
   
@@ -43,10 +43,10 @@ export class ItemExtraService {
     { apiName: this.apiName,...config });
   
 
-  updateExtraForItem = (itemId: number, extraId: number, input: UpdateItemExtraDto, config?: Partial<Rest.Config>) =>
+  updateExtraForItem = (input: UpdateItemExtraDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: `/api/ItemExtra/item/${itemId}/extra/${extraId}`,
+      url: '/api/ItemExtra',
       body: input,
     },
     { apiName: this.apiName,...config });

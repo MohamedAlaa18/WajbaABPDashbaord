@@ -1,8 +1,7 @@
-import type { Status } from '../../enums/status.enum';
 
 export interface CreateItemAttributeDto {
   name: string;
-  status: Status;
+  status: number;
 }
 
 export interface UpdateItemAttributeDto extends CreateItemAttributeDto {

@@ -1,7 +1,8 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateUpdateCategoryDto, GetCategoryInput, UpdateCategory } from '../dtos/categories/models';
-import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
+import type { ApiResponse } from '../apiresponse/models';
+import type { CategoryDto, CreateUpdateCategoryDto, GetCategoryInput, UpdateCategory } from '../dtos/categories/models';
+import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,7 @@ export class CategoryService {
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Category',
-      params: { name: input.name, status: input.status, description: input.description },
-      body: input.image,
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -29,7 +29,7 @@ export class CategoryService {
   
 
   getById = (id: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
+    this.restService.request<any, ActionResult<ApiResponse<CategoryDto>>>({
       method: 'GET',
       url: `/api/Category/${id}`,
     },
@@ -57,8 +57,7 @@ export class CategoryService {
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Category',
-      params: { id: input.id, name: input.name, status: input.status, description: input.description },
-      body: input.image,
+      body: input,
     },
     { apiName: this.apiName,...config });
 

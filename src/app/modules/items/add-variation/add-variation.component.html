@@ -18,9 +18,9 @@
         </div>
 
         <div class="col-md-6">
-          <label for="price" class="form-label">Price <span class="text-danger">*</span></label>
-          <input type="text" id="price" formControlName="price" class="form-control bg-white">
-          <div *ngIf="variationForm.get('price')?.touched && variationForm.get('price')?.invalid" class="text-danger">
+          <label for="additionalPrice" class="form-label">Price <span class="text-danger">*</span></label>
+          <input type="text" id="additionalPrice" formControlName="additionalPrice" class="form-control bg-white">
+          <div *ngIf="variationForm.get('additionalPrice')?.touched && variationForm.get('additionalPrice')?.invalid" class="text-danger">
             <small>Valid price is required.</small>
           </div>
         </div>
@@ -28,8 +28,8 @@
 
       <div class="row mb-3">
         <div class="col-md-6">
-          <label for="attribute" class="form-label">Attribute</label>
-          <select formControlName="attribute" class="form-control bg-white">
+          <label for="itemAttributesId" class="form-label">Attribute</label>
+          <select formControlName="itemAttributesId" class="form-control bg-white">
             <option *ngFor="let attribute of attributes" [value]="attribute.id">{{ attribute.name }}</option>
           </select>
         </div>
@@ -50,8 +50,8 @@
       </div>
 
       <div class="mb-3">
-        <label for="caution" class="form-label">Caution</label>
-        <textarea formControlName="caution" id="caution" class="form-control bg-white" rows="3"></textarea>
+        <label for="note" class="form-label">Caution</label>
+        <textarea formControlName="note" id="note" class="form-control bg-white" rows="3"></textarea>
       </div>
 
       <div class="d-flex justify-content-start">

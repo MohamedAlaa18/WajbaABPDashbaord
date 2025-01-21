@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PopularTodayComponent } from './popular-today/popular-today.component';
 
 const routes: Routes = [
-  { path: '', component: PopularTodayComponent }, // Matches '/settings/branches'
+  { path: '', component: PopularTodayComponent }, // Matches '/popular-today'
 ];
 
 @NgModule({

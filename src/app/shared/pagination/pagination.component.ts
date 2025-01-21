@@ -5,7 +5,7 @@ import { IconsComponent } from '../icons/icons.component';
 @Component({
   selector: 'app-pagination',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,IconsComponent],
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.scss'
 })

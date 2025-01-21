@@ -4,22 +4,22 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { BranchService, CategoryService } from '@proxy/controllers';
-import { AddToCartModalComponent } from 'src/app/shared/add-to-cart-modal/add-to-cart-modal.component';
 import { UpdateCategory } from '@proxy/dtos/categories';
 import { UpdateBranchDto } from '@proxy/dtos/branch-contract';
+import { ProductCardComponent } from "../product-card/product-card.component";
 
 @Component({
   selector: 'app-pos',
   standalone: true,
-  imports: [IconsComponent, CommonModule, AddToCartModalComponent, FormsModule, ReactiveFormsModule],
+  imports: [IconsComponent, CommonModule, FormsModule, ReactiveFormsModule, ProductCardComponent],
   templateUrl: './pos.component.html',
   styleUrl: './pos.component.scss'
 })
 export class POSComponent implements OnInit, AfterViewInit {
   // customers!: ICustomer[];
   categories!: UpdateCategory[];
-  // products!: IProductItem[];
-  // cart!: ICart;
+  products!: any[];
+  cart!: any;
   branches!: UpdateBranchDto[];
 
   discountType: number = 0;
@@ -72,6 +72,7 @@ export class POSComponent implements OnInit, AfterViewInit {
       carType: [''],
       carColor: [''],
       carNumber: [''],
+      paymentMethod: [''],
       persons: [null],
     });
 

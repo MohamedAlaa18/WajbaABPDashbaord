@@ -1,6 +1,7 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateItemDto, GetItemInput, ItemDto } from '../dtos/items-dtos/models';
+import type { CreateItemDto, GetItemInput, ItemDto, UpdateItemDTO } from '../dtos/items-dtos/models';
+import type { Base64ImageModel } from '../dtos/themes-contract/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -14,8 +15,7 @@ export class ItemService {
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Item',
-      params: { name: input.name, price: input.price, isFeatured: input.isFeatured, status: input.status, itemType: input.itemType, note: input.note, description: input.description, taxValue: input.taxValue, categoryId: input.categoryId, branchIds: input.branchIds },
-      body: input.imageUrl,
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -69,12 +69,21 @@ export class ItemService {
     { apiName: this.apiName,...config });
   
 
-  update = (id: number, input: CreateItemDto, config?: Partial<Rest.Config>) =>
+  updatImageByIdAndModel = (id: number, model: Base64ImageModel, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'PUT',
+      url: '/api/Item/editimage',
+      params: { id },
+      body: model,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  update = (input: UpdateItemDTO, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Item',
-      params: { id, name: input.name, price: input.price, isFeatured: input.isFeatured, status: input.status, itemType: input.itemType, note: input.note, description: input.description, taxValue: input.taxValue, categoryId: input.categoryId, branchIds: input.branchIds },
-      body: input.imageUrl,
+      body: input,
     },
     { apiName: this.apiName,...config });
 

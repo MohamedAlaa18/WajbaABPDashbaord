@@ -1,7 +1,8 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateUpdateLanguageDto, GetLanguageInput, UpdateLanguagedto } from '../dtos/languages/models';
-import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
+import type { ApiResponse } from '../apiresponse/models';
+import type { CreateUpdateLanguageDto, GetLanguageInput, LanguageDto, UpdateLanguagedto } from '../dtos/languages/models';
+import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,7 @@ export class LanguageService {
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Language',
-      params: { name: languageDto.name, code: languageDto.code, status: languageDto.status },
-      body: languageDto.image,
+      body: languageDto,
     },
     { apiName: this.apiName,...config });
   
@@ -38,7 +38,7 @@ export class LanguageService {
   
 
   getById = (id: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
+    this.restService.request<any, ActionResult<ApiResponse<LanguageDto>>>({
       method: 'GET',
       url: `/api/Language/${id}`,
     },
@@ -49,8 +49,7 @@ export class LanguageService {
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Language',
-      params: { id: update.id, name: update.name, code: update.code, status: update.status },
-      body: update.image,
+      body: update,
     },
     { apiName: this.apiName,...config });
 

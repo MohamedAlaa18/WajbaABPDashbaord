@@ -1,6 +1,6 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateUpdateItemAddonDto } from '../dtos/item-addon-contract/models';
+import type { CreateItemAddonDto, UpdateItemAddonDto } from '../dtos/item-addon-contract/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -10,7 +10,7 @@ export class ItemAddonService {
   apiName = 'Default';
   
 
-  create = (input: CreateUpdateItemAddonDto, config?: Partial<Rest.Config>) =>
+  create = (input: CreateItemAddonDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/ItemAddon',
@@ -35,18 +35,18 @@ export class ItemAddonService {
     { apiName: this.apiName,...config });
   
 
-  getById = (id: number, config?: Partial<Rest.Config>) =>
+  getById = (itemId: number, addonId: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
-      url: `/api/ItemAddon/${id}`,
+      url: `/api/ItemAddon/item/${itemId}/addon/${addonId}`,
     },
     { apiName: this.apiName,...config });
   
 
-  updateAddonForItem = (itemId: number, addonId: number, input: CreateUpdateItemAddonDto, config?: Partial<Rest.Config>) =>
+  updateAddonForItem = (input: UpdateItemAddonDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: `/api/ItemAddon/item/${itemId}/addon/${addonId}`,
+      url: '/api/ItemAddon',
       body: input,
     },
     { apiName: this.apiName,...config });

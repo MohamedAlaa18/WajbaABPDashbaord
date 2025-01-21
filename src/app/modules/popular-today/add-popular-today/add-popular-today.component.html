@@ -1,1 +1,79 @@
-<p>add-popular-today works!</p>
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header border-bottom">
+      <h5 class="section-title text-black">Popular today</h5>
+      <button type="button" class="border-0 bg-white" aria-label="Close" (click)="closeModal()">
+        <app-icons iconName="close" color="#F45859"></app-icons>
+      </button>
+    </div>
+
+    <form [formGroup]="popularItemForm" (ngSubmit)="submitForm()" class="p-3">
+      <div class="row">
+        <!-- Item -->
+        <div class="col-md-6 mb-3">
+          <label for="itemId" class="form-label">Item<span class="text-danger">*</span></label>
+          <select id="itemId" class="form-select bg-white" formControlName="itemId"
+            [class.is-invalid]="popularItemForm.get('itemId')?.invalid && popularItemForm.get('itemId')?.touched">
+            <option value="" disabled>--</option>
+            <option *ngFor="let item of items" [value]="item.id">{{ item.name }}</option>
+          </select>
+          <div *ngIf="popularItemForm.get('itemId')?.invalid && popularItemForm.get('itemId')?.touched"
+            class="invalid-feedback">
+            Item is required.
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div class="col-md-6 mb-3">
+          <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
+          <input type="file" id="image" formControlName="image" class="form-control bg-white"
+            (change)="handleImageUpload($event)">
+          <div *ngIf="popularItemForm.get('image')?.touched && popularItemForm.get('image')?.invalid"
+            class="text-danger">
+            <small *ngIf="popularItemForm.get('image')?.errors?.['required']">Image is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Previous Price -->
+        <div class="col-md-6 mb-3">
+          <label for="prePrice" class="form-label">Previous Price <span class="text-danger">*</span></label>
+          <input type="number" id="prePrice" formControlName="prePrice" class="form-control bg-white">
+          <div *ngIf="popularItemForm.get('prePrice')?.touched && popularItemForm.get('prePrice')?.invalid"
+            class="text-danger">
+            <small *ngIf="popularItemForm.get('prePrice')?.errors?.['required']">Previous price is required.</small>
+            <small *ngIf="popularItemForm.get('prePrice')?.errors?.['pattern']">Please enter a valid number.</small>
+          </div>
+        </div>
+
+        <!-- Current Price -->
+        <div class="col-md-6 mb-3">
+          <label for="currentPrice" class="form-label">Current Price <span class="text-danger">*</span></label>
+          <input type="number" id="currentPrice" formControlName="currentPrice" class="form-control bg-white">
+          <div *ngIf="popularItemForm.get('currentPrice')?.touched && popularItemForm.get('currentPrice')?.invalid"
+            class="text-danger">
+            <small *ngIf="popularItemForm.get('currentPrice')?.errors?.['required']">Current price is required.</small>
+            <small *ngIf="popularItemForm.get('currentPrice')?.errors?.['pattern']">Please enter a valid number.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+        <textarea id="description" formControlName="description" class="form-control bg-white" rows="3"></textarea>
+        <div *ngIf="popularItemForm.get('description')?.touched && popularItemForm.get('description')?.invalid"
+          class="text-danger">
+          <small>Description is required.</small>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-start">
+        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

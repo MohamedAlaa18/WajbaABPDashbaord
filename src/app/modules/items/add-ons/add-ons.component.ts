@@ -1,8 +1,11 @@
+import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { ItemAddonService } from '@proxy/controllers';
+import { ItemAddonService, ItemService, ItemVariationService } from '@proxy/controllers';
+import { CreateItemAddonDto, ItemAddonDto, UpdateItemAddonDto } from '@proxy/dtos/item-addon-contract';
+import { UpdateItemVariationDto } from '@proxy/dtos/item-variation-contract';
+import { UpdateItemDTO } from '@proxy/dtos/items-dtos';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 
@@ -15,71 +18,85 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 })
 export class AddOnsComponent {
   @Output() close = new EventEmitter<void>();
-  @Input() addon: any;
+  @Input() addon: ItemAddonDto;
+  @Input() itemId: number;
+
   addonForm: FormGroup;
   isEditMode = false;
-  addonDropdown: any[] = [];
-  variationsAddonDropdown: any[] = [];
+  items: UpdateItemDTO[] = [];
+  variationsAddonDropdown: UpdateItemVariationDto[] = [];
   selectedVariationPrice!: number;
   selectedAddonName: string = '';
-  itemId!: number;
 
   constructor(
     private fb: FormBuilder,
-    private addonsService: ItemAddonService,
-    private activatedRoute: ActivatedRoute,
+    private itemAddonService: ItemAddonService,
+    private itemVariationService: ItemVariationService,
+    private itemService: ItemService,
     private afterActionService: AfterActionService,
   ) {
     this.addonForm = this.fb.group({
+      itemId: [this.itemId],
+      addonId: [this.addon?.id],
       option: ['', Validators.required],
       variation: ['', Validators.required]
     });
-
-    this.itemId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
   }
 
   ngOnInit() {
-    if (this.addon) {
+    this.addonForm.patchValue({ itemId: this.itemId }); // Ensure itemId is always set
 
+    if (this.addon) {
       this.isEditMode = true;
-      this.addonForm.patchValue(this.addon);
+      this.addonForm.patchValue({
+        addonId: this.addon.id,
+        option: this.addon.name,
+        variation: this.addon.additionalPrice, // Adjust based on how you map variations
+      });
     }
 
-    this.fetchAddonDropdown();
+    this.loadItems();
 
     this.addonForm.get('option')?.valueChanges.subscribe((itemId: number) => {
-      this.fetchVariationsAddonDropdown(itemId);
+      this.loadVariationsAddonDropdown(itemId);
     });
   }
 
-  fetchAddonDropdown(): void {
-    // this.addonsService.getItemForAddonDropdowns().subscribe(
-    //   (response) => {
-    //     this.addonDropdown = response.data.itemsDropdown || [];
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching Addon Dropdown:', error);
-    //   }
-    // );
+  loadItems(): void {
+    const defaultInput: PagedAndSortedResultRequestDto = {
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
+    };
+
+    this.itemService.getList(defaultInput).subscribe(
+      (response) => {
+        this.items = response.data.items || [];
+      },
+      (error) => {
+        console.error('Error fetching Addon Dropdown:', error);
+      }
+    );
   }
 
-  fetchVariationsAddonDropdown(itemId: number): void {
-    // if (itemId) {
-    //   this.addonsService.getVariationsAddonDropdowns(itemId).subscribe(
-    //     (response) => {
-    //       this.variationsAddonDropdown = response.data || [];
-    //     },
-    //     (error) => {
-    //       console.error('Error fetching variations Addon Dropdown:', error);
-    //     }
-    //   );
-    // }
+  loadVariationsAddonDropdown(itemId: number): void {
+    if (itemId) {
+      this.itemVariationService.getListByItemAttributeId(itemId).subscribe(
+        (response) => {
+          console.log('Response:', response);
+          this.variationsAddonDropdown = response.data || [];
+        },
+        (error) => {
+          console.error('Error fetching variations Addon Dropdown:', error);
+        }
+      );
+    }
   }
 
   onVariationSelectionChange(event: Event): void {
     const selectedValue = (event.target as HTMLSelectElement).value;
 
-    const selectedVariation = this.variationsAddonDropdown.find(variation => variation.variationId === Number(selectedValue));
+    const selectedVariation = this.variationsAddonDropdown.find(variation => variation.itemAttributesId === Number(selectedValue));
 
     if (selectedVariation) {
       this.selectedVariationPrice = selectedVariation.additionalPrice;
@@ -92,50 +109,50 @@ export class AddOnsComponent {
     const selectedValue = (event.target as HTMLSelectElement).value;
     if (selectedValue) {
       const itemId = Number(selectedValue);
-      this.fetchVariationsAddonDropdown(itemId);
+      this.loadVariationsAddonDropdown(itemId);
     }
   }
 
   saveAddon() {
     if (this.addonForm.valid) {
-      const itemId = this.itemId;
 
-      // Find the selected addon name from the dropdown
-      const selectedAddon = this.addonDropdown.find(item => item.itemId === Number(itemId));
-      if (selectedAddon) {
-        this.selectedAddonName = selectedAddon.itemName;
+      let formValue: CreateItemAddonDto | UpdateItemAddonDto;
+
+      // Determine whether it's an update or create operation
+      if (this.addonForm.value.addonId) {
+        formValue = this.addonForm.value as UpdateItemAddonDto;
+      } else {
+        formValue = this.addonForm.value as CreateItemAddonDto;
       }
 
-      console.log('Selected Variation Price:', this.selectedVariationPrice);
-
-      const price = this.selectedVariationPrice;
+      console.log('Form value:', formValue);
 
       if (this.isEditMode) {
-        const itemAddonId = this.addon.id;
-
-        // this.addonsService.updateAddonForItem(itemAddonId, this.selectedAddonName, price, itemId)
-        //   .subscribe(
-        //     response => {
-        //       console.log('Addon updated:', response);
-        //       this.afterActionService.reloadCurrentRoute();
-        //       this.closeModal();
-        //     },
-        //     error => {
-        //       console.error('Error updating addon:', error);
-        //     }
-        //   );
+        // Update existing addon
+        this.itemAddonService.updateAddonForItem(formValue as UpdateItemAddonDto)
+          .subscribe(
+            response => {
+              console.log('addon updated:', response);
+              this.closeModal();
+              this.afterActionService.reloadCurrentRoute();
+            },
+            error => {
+              console.error('Error updating addon:', error);
+            }
+          );
       } else {
-        // this.addonsService.create(this.selectedAddonName, price, itemId)
-        //   .subscribe(
-        //     response => {
-        //       console.log('Addon created:', response);
-        //       this.afterActionService.reloadCurrentRoute();
-        //       this.closeModal();
-        //     },
-        //     error => {
-        //       console.error('Error creating addon:', error);
-        //     }
-        //   );
+        // Create a new addon
+        this.itemAddonService.create(formValue as CreateItemAddonDto)
+          .subscribe(
+            response => {
+              console.log('addon created:', response);
+              this.closeModal();
+              this.afterActionService.reloadCurrentRoute();
+            },
+            error => {
+              console.error('Error creating addon:', error);
+            }
+          );
       }
     } else {
       console.log('Form is invalid:', this.addonForm);

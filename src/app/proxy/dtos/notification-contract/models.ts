@@ -1,4 +1,4 @@
-import type { IFormFile } from '../../microsoft/asp-net-core/http/models';
+import type { Base64ImageModel } from '../themes-contract/models';
 import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateNotificationDto {
@@ -10,22 +10,13 @@ export interface CreateNotificationDto {
   fireBaseMessageSenderId?: string;
   fireBaseAppId?: string;
   fireBaseMeasurementId?: string;
-  imageUrl: IFormFile;
+  model: Base64ImageModel;
 }
 
 export interface GetNotificationInput extends PagedAndSortedResultRequestDto {
   filter?: string;
 }
 
-export interface UpdateNotificationDto {
+export interface UpdateNotificationDto extends CreateNotificationDto {
   id: number;
-  fireBasePublicVapidKey?: string;
-  fireBaseAPIKey?: string;
-  fireBaseProjectId?: string;
-  fireBaseAuthDomain?: string;
-  fireBaseStorageBucket?: string;
-  fireBaseMessageSenderId?: string;
-  fireBaseAppId?: string;
-  fireBaseMeasurementId?: string;
-  imageUrl: IFormFile;
 }

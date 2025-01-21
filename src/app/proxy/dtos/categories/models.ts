@@ -1,11 +1,17 @@
-import type { IFormFile } from '../../microsoft/asp-net-core/http/models';
-import type { Status } from '../../enums/status.enum';
-import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { Base64ImageModel } from '../themes-contract/models';
+
+export interface CategoryDto extends EntityDto<number> {
+  name?: string;
+  imageUrl?: string;
+  status: number;
+  description?: string;
+}
 
 export interface CreateUpdateCategoryDto {
   name: string;
-  image: IFormFile;
-  status: Status;
+  model: Base64ImageModel;
+  status: number;
   description: string;
 }
 
@@ -14,10 +20,6 @@ export interface GetCategoryInput extends PagedAndSortedResultRequestDto {
   branchId?: number;
 }
 
-export interface UpdateCategory {
+export interface UpdateCategory extends CreateUpdateCategoryDto {
   id: number;
-  name: string;
-  image: IFormFile;
-  status: Status;
-  description: string;
 }

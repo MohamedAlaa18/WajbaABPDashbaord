@@ -10,6 +10,7 @@ import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { AddItemAttributesComponent } from '../add-item-attributes/add-item-attributes.component';
 import { UpdateItemAttributeDto } from '@proxy/dtos/item-attributes';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-item-attributes',
@@ -25,7 +26,6 @@ export class ItemAttributesComponent {
   columns = [
     { field: 'name', header: 'Name' },
     { field: 'status', header: 'Status' },
-    { field: 'action', header: 'Action' },
   ];
 
   actions = [
@@ -46,6 +46,7 @@ export class ItemAttributesComponent {
   constructor(
     private modalService: NgbModal,
     private itemAttributeService: ItemAttributeService,
+    private afterActionService:AfterActionService,
   ) { }
 
   ngOnInit(): void {
@@ -63,7 +64,7 @@ export class ItemAttributesComponent {
     this.itemAttributeService.getList(defaultInput).subscribe({
       next: (response) => {
         console.log(response)
-        // this.itemAttributes = response.data.items;
+        this.itemAttributes = response.data.items;
       },
       error: (err) => {
         console.error('Error loading item attributes:', err);
@@ -82,13 +83,15 @@ export class ItemAttributesComponent {
     modalRef.componentInstance.itemAttribute = itemAttribute || null;
 
     modalRef.componentInstance.close.subscribe(() => {
+      this.afterActionService.reloadCurrentRoute();
       modalRef.close();
     });
 
     modalRef.result
       .then((result) => {
         if (result === 'saved') {
-          this.loadItemAttributes();
+          this.afterActionService.reloadCurrentRoute();
+          modalRef.close();
         }
       })
       .catch((reason) => {
@@ -110,9 +113,12 @@ export class ItemAttributesComponent {
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
       this.deleteItemAttribute(id); // Call the delete method with the item attribute ID
+      this.afterActionService.reloadCurrentRoute();
+      modalRef.close();
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
+      this.afterActionService.reloadCurrentRoute();
       modalRef.close(); // Close modal on cancel
     });
   }

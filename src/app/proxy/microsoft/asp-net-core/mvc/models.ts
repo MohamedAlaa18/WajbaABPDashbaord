@@ -1,9 +1,13 @@
 
-export interface ActionResult {
+// export interface ActionResult {
+// }
+
+export interface ActionResult<TValue> extends IActionResult {
+  // result: ActionResult;
+  value: TValue;
 }
 
 export interface IActionResult {
-  message: unknown;
-  success: unknown;
-  data?: any;
+  data: any;
+  success: boolean;
 }

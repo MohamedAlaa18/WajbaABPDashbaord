@@ -67,3 +67,13 @@ select.form-select option:checked {
     border-bottom-left-radius: 0;
   }
 }
+
+.navigation {
+  border: none;
+  width: 15.97px;
+  height: 7.74px;
+}
+
+input[type="radio"] {
+  accent-color: var(--red-color) !important;
+}

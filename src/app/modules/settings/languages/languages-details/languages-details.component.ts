@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UpdateLanguagedto } from '@proxy/dtos/languages';
 import { SettingsSidebarComponent } from '../../settings-sidebar/settings-sidebar.component';
 import { LanguageService } from '@proxy/controllers';
 import { CommonModule } from '@angular/common';
+import { UpdateCategory } from '@proxy/dtos/categories';
+import { LanguageDto } from '@proxy/dtos/languages';
 
 @Component({
   selector: 'app-languages-details',
@@ -13,7 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './languages-details.component.scss',
 })
 export class LanguagesDetailsComponent implements OnInit {
-  selectedCategory!: UpdateLanguagedto;
+  selectedLanguage!: LanguageDto;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,7 +29,7 @@ export class LanguagesDetailsComponent implements OnInit {
       this.languageService.getById(Number(languageId)).subscribe(
         (response) => {
           console.log(response);
-          this.selectedCategory = response.data;
+          this.selectedLanguage = response.data;
         },
         (error) => {
           console.error('Error fetching language details:', error);

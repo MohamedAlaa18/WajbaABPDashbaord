@@ -1,20 +1,17 @@
-import type { IFormFile } from '../../microsoft/asp-net-core/http/models';
+import type { Base64ImageModel } from '../themes-contract/models';
 import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreatePopularitem {
-  id: number;
-  name?: string;
-  status: number;
-  imgFile: IFormFile;
-  preprice: number;
-  currentprice: number;
+  itemId: number;
+  model: Base64ImageModel;
+  prePrice: number;
+  currentPrice: number;
   description?: string;
-  branchId: number;
 }
 
 export interface GetPopulariteminput extends PagedAndSortedResultRequestDto {
 }
 
 export interface UpdatePopularItemdto extends CreatePopularitem {
-  itemId: number;
+  id: number;
 }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { PopularTodayRoutingModule } from './popular-today-routing.module';
 
 

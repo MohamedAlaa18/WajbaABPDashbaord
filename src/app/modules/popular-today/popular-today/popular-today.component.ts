@@ -2,26 +2,25 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PopularItemService } from '@proxy/controllers';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { Router } from '@angular/router';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
-import { UpdateBranchDto } from '@proxy/dtos/branch-contract';
-import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { TableComponent } from 'src/app/shared/table/table.component';
 import { AddPopularTodayComponent } from '../add-popular-today/add-popular-today.component';
 import { PaginationComponent } from "../../../shared/pagination/pagination.component";
-import { ExportService } from 'src/app/services/export/export.service';
+import { UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
+import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
+import { PopularItemsService } from '@proxy/controllers';
 
 @Component({
   selector: 'app-popular-today',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconsComponent, TableComponent, PaginationComponent],
+  imports: [CommonModule, ReactiveFormsModule, TableComponent, PaginationComponent, ExportButtonComponent],
   templateUrl: './popular-today.component.html',
   styleUrl: './popular-today.component.scss'
 })
 export class PopularTodayComponent implements OnInit {
-  branches: UpdateBranchDto[] = [];
+  items: UpdatePopularItemdto[] = [];
   isAddMode = true;
   currentPage: number = 1;
   totalPages: number = 4;
@@ -29,7 +28,9 @@ export class PopularTodayComponent implements OnInit {
 
   columns = [
     { field: 'name', header: 'Name' },
-    { field: 'status', header: 'Status' },
+    { field: 'categoryName', header: 'Category' },
+    { field: 'prePrice', header: 'Previous Price' },
+    { field: 'currentPrice', header: 'Current Price' },
   ];
 
   actions = [
@@ -52,8 +53,8 @@ export class PopularTodayComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private popularItemService: PopularItemService,
-    private exportService: ExportService,
+    private popularItemService: PopularItemsService,
+    // private exportService: ExportService,
     private router: Router,
   ) { }
 
@@ -61,7 +62,7 @@ export class PopularTodayComponent implements OnInit {
     this.loadItems();
   }
 
-  // Load all branches
+  // Load all items
   loadItems(): void {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
@@ -72,15 +73,16 @@ export class PopularTodayComponent implements OnInit {
     this.popularItemService.get(defaultInput).subscribe({
       next: (response) => {
         console.log(response)
-        this.branches = response.data.items;
+        this.items = response.data.items;
+        this.totalPages = response.data.totalCount;
       },
       error: (err) => {
-        console.error('Error loading branches:', err);
+        console.error('Error loading items:', err);
       },
     });
   }
 
-  openAddEditModal(branch?: UpdateBranchDto): void {
+  openAddEditModal(item?: UpdatePopularItemdto): void {
     const modalRef = this.modalService.open(AddPopularTodayComponent, {
       size: 'lg',
       centered: true,
@@ -88,7 +90,7 @@ export class PopularTodayComponent implements OnInit {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.branch = branch || null;
+    modalRef.componentInstance.item = item || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -105,7 +107,7 @@ export class PopularTodayComponent implements OnInit {
       });
   }
 
-  openConfirmDeleteModal(branchId: number, branchName: string): void {
+  openConfirmDeleteModal(itemId: number, itemName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -113,12 +115,12 @@ export class PopularTodayComponent implements OnInit {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = branchId;
-    modalRef.componentInstance.name = branchName;
+    modalRef.componentInstance.id = itemId;
+    modalRef.componentInstance.name = itemName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteBranch(id); // Call the delete method with the branch ID
+      this.deleteItem(id); // Call the delete method with the item ID
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -127,30 +129,38 @@ export class PopularTodayComponent implements OnInit {
   }
 
 
-  deleteBranch(id: number): void {
+  deleteItem(id: number): void {
     this.popularItemService.delete(id).subscribe({
       next: () => {
-        this.branches = this.branches.filter((branch) => branch.id !== id);
+        this.items = this.items.filter((item) => item.id !== id);
         this.modalService.dismissAll(); // Close all modals
       },
       error: (err) => {
-        console.error('Error deleting branch:', err);
+        console.error('Error deleting item:', err);
       },
     });
   }
 
   exportXLS() {
-    this.exportService.exportTableToXls(this.tableData, this.headers, 'PopularItemsData');
+    // this.exportService.exportTableToXls(this.tableData, this.headers, 'PopularItemsData');
     this.isMenuOpen = false;
   }
 
   print() {
-    this.exportService.exportTableToPdf(this.tableData, this.headers, 'PopularItemsData');
+    // this.exportService.exportTableToPdf(this.tableData, this.headers, 'PopularItemsData');
     this.isMenuOpen = false;
   }
 
   onPageChange(page: number): void {
     this.currentPage = page;
     this.loadItems();
+  }
+
+  handleMenuAction(action: string) {
+    if (action === 'exportXLS') {
+      this.exportXLS();
+    } else if (action === 'print') {
+      this.print();
+    }
   }
 }

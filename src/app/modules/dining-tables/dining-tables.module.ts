@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { DiningTablesRoutingModule } from './dining-tables-routing.module';
 
 

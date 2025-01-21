@@ -4,16 +4,18 @@
     li {
       .page-link {
         color: #1d1b20;
+        display: flex;
+        gap: 1rem;
 
         &:hover {
-          color: #f45859;
+          color: #f45859 !important;
         }
       }
 
       &.active .page-link {
         font-weight: bold;
-        color: #f45859;
-        background-color: transparent;
+        color: black !important;
+        background-color: transparent !important;
         border: none;
       }
 

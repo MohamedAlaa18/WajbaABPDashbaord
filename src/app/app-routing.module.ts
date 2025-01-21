@@ -24,12 +24,20 @@ const routes: Routes = [
   },
   {
     path: 'pos',
-    loadChildren: () => import('./modules/pos/pos.module').then(m => m.POSModule),
+    loadChildren: () => import('./modules/pos/pos.module').then(m => m.PosModule),
   },
-  // {
-  //   path: 'administrators',
-  //   loadChildren: () => import('./modules/administrators/administrators.module').then(m => m.AdministratorsModule),
-  // },
+  {
+    path: 'user',
+    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
+  },
+  {
+    path: 'offers',
+    loadChildren: () => import('./modules/offers/offers.module').then(m => m.OffersModule),
+  },
+  {
+    path: 'vouchers',
+    loadChildren: () => import('./modules/vouchers/vouchers.module').then(m => m.VouchersModule),
+  },
   {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),

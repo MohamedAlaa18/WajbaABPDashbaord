@@ -6,16 +6,15 @@ import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 @Injectable({
   providedIn: 'root',
 })
-export class PopularItemService {
+export class PopularItemsService {
   apiName = 'Default';
   
 
   create = (input: CreatePopularitem, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
-      url: '/api/PopularItem',
-      params: { id: input.id, name: input.name, status: input.status, preprice: input.preprice, currentprice: input.currentprice, description: input.description, branchId: input.branchId },
-      body: input.imgFile,
+      url: '/api/PopularItems',
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -23,7 +22,7 @@ export class PopularItemService {
   delete = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'DELETE',
-      url: '/api/PopularItem',
+      url: '/api/PopularItems',
       params: { id },
     },
     { apiName: this.apiName,...config });
@@ -32,8 +31,8 @@ export class PopularItemService {
   get = (input: GetPopulariteminput, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
-      url: '/api/PopularItem',
-      body: input,
+      url: '/api/PopularItems',
+      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   
@@ -41,7 +40,7 @@ export class PopularItemService {
   getById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
-      url: `/api/PopularItem/${id}`,
+      url: `/api/PopularItems/${id}`,
     },
     { apiName: this.apiName,...config });
   
@@ -49,9 +48,8 @@ export class PopularItemService {
   update = (input: UpdatePopularItemdto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: '/api/PopularItem',
-      params: { itemId: input.itemId, id: input.id, name: input.name, status: input.status, preprice: input.preprice, currentprice: input.currentprice, description: input.description, branchId: input.branchId },
-      body: input.imgFile,
+      url: '/api/PopularItems',
+      body: input,
     },
     { apiName: this.apiName,...config });
 

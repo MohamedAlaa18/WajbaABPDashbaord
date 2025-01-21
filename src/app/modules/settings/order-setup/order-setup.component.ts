@@ -55,8 +55,9 @@ export class OrderSetupComponent implements OnInit {
 
     // Fetch the order setup data
     this.orderSetupService.getList(defaultInput).subscribe(
-      (response: any) => {
-        console.log("", response);
+      (response) => {
+        console.log("order Setup", response);
+
         this.orderForm.patchValue({
           foodPreparationTime: response.data.items[0].foodPreparationTime,
           scheduleOrderSlotDuration: response.data.items[0].scheduleOrderSlotDuration,
@@ -126,8 +127,7 @@ export class OrderSetupComponent implements OnInit {
     if (this.orderForm.valid) {
       let formValue = this.orderForm.value as CreateUpdateOrderSetupDto;
 
-      console.log('Form data being sent:', formValue);
-
+      // Call the update method from the service
       this.orderSetupService.update(formValue).subscribe(response => {
         console.log('Order setup updated successfully', response);
       }, error => {
