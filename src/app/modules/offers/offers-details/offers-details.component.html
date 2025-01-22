@@ -9,8 +9,8 @@
       (click)="activeSection = 'image'">
       Image
     </button>
-    <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'items'}"
-      (click)="activeSection = 'items'">
+    <button *ngIf="offer.itemsDtos?.length > 0 || offer.categoryDtos?.length > 0" lass="btn w-100 rounded-0"
+      [ngClass]="{'bg-white text-danger': activeSection === 'items'}" (click)="activeSection = 'items'">
       {{ offer.itemDtos?.length ? 'Items' : 'Categories'}}
     </button>
   </div>
@@ -60,8 +60,7 @@
 
     <!-- table Section -->
     <div *ngIf="activeSection === 'items'" class="section mb-4">
-      <app-table [data]="tableData" [columns]="columns"
-        [actions]="actions"></app-table>
+      <app-table [data]="tableData" [columns]="columns" [actions]="actions"></app-table>
     </div>
   </div>
 </section>

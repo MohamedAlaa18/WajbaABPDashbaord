@@ -64,6 +64,9 @@ export class ItemsComponent implements OnInit {
     },
   ];
 
+  headers: string[] = ['Name', 'Category', 'Price', 'Status'];
+  tableData: { Name: string; Category: string; Price: number; Status: string }[] = [];
+
   filterFields = [
     { label: 'Name', name: 'name', type: 'text' },
     { label: 'Price', name: 'price', type: 'number' },
@@ -151,6 +154,13 @@ export class ItemsComponent implements OnInit {
         console.log(response);
         this.items = response.data.items;
         this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
+
+        this.tableData = this.items.map(item => ({
+          Name: item.name,
+          Category: item.categoryName,
+          Price: item.price,
+          Status: item.status ? 'Active' : 'Inactive'
+        }));
       },
       error: (err) => {
         console.error('Error loading items:', err);
@@ -283,24 +293,6 @@ export class ItemsComponent implements OnInit {
 
   toggleFilterVisibility(): void {
     this.isFilterVisible = !this.isFilterVisible;
-  }
-
-  handleMenuAction(action: string) {
-    if (action === 'exportXLS') {
-      this.exportXLS();
-    } else if (action === 'print') {
-      this.print();
-    }
-  }
-
-  exportXLS() {
-    // this.exportService.exportTableToXls(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
-  }
-
-  print() {
-    // this.exportService.exportTableToPdf(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
   }
 
   openItemDetailsAndNavigate(item: ItemDto) {

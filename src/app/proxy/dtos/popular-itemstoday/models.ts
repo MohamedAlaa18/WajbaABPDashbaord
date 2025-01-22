@@ -3,6 +3,8 @@ import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreatePopularitem {
   itemId: number;
+  name: string;
+  categoryName: string;
   model: Base64ImageModel;
   prePrice: number;
   currentPrice: number;

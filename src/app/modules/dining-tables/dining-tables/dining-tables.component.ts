@@ -12,7 +12,6 @@ import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
 import { GetDiniTableInput, UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
-import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-dining-tables',
@@ -63,8 +62,8 @@ export class DiningTablesComponent implements OnInit {
     }
   ];
 
-  headers: string[] = ['Name', 'Category', 'PreviousPrice', 'CurrentPrice', 'Status'];
-  tableData: { Name: string; Category: string; PreviousPrice: number; CurrentPrice: number, Status: boolean }[] = [];
+  headers: string[] = ['Name', 'Size', 'Status'];
+  tableData: { Name: string; Size: number; Status: string }[] = [];
 
   filterFields = [
     { label: 'Name', name: 'name', type: 'text' },
@@ -87,8 +86,6 @@ export class DiningTablesComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private dineIntableService: DineIntableService,
-    private afterActionService: AfterActionService,
-    // private exportService: ExportService,
     private router: Router,
   ) { }
 
@@ -117,19 +114,17 @@ export class DiningTablesComponent implements OnInit {
         console.log(response);
         this.tables = response.data.items;
         this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
+
+        this.tableData = this.tables.map(table => ({
+          Name: table.name,
+          Size: table.size,
+          Status: table.status ? 'Active' : 'Inactive'
+        }));
       },
       error: (err) => {
         console.error('Error loading tables:', err);
       },
     });
-  }
-
-  handleMenuAction(action: string) {
-    if (action === 'exportXLS') {
-      this.exportXLS();
-    } else if (action === 'print') {
-      this.print();
-    }
   }
 
   openAddEditModal(table?: UpdateDinInTable): void {
@@ -188,16 +183,6 @@ export class DiningTablesComponent implements OnInit {
         console.error('Error deleting table:', err);
       },
     });
-  }
-
-  exportXLS() {
-    // this.exportService.exportTableToXls(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
-  }
-
-  print() {
-    // this.exportService.exportTableToPdf(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
   }
 
   onPageChange(page: number): void {

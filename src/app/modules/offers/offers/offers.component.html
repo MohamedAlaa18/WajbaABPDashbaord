@@ -16,7 +16,7 @@
         <app-export-button [buttonLabel]="'Export'" [buttonIcon]="'assets/images/export.svg'" [menuItems]="[
         { label: 'XLS', icon: 'assets/images/xls.svg', action: 'exportXLS' },
         { label: 'Print', icon: 'assets/images/print.svg', action: 'print' }
-        ]" (menuAction)="handleMenuAction($event)">
+      ]" [tableData]="tableData" [headers]="headers" [fileName]="'OfferData'">
         </app-export-button>
 
         <!-- Add Item Button -->

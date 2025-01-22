@@ -59,8 +59,8 @@ export class OffersComponent implements OnInit {
     }
   ];
 
-  headers: string[] = ['Name', 'Category', 'PreviousPrice', 'CurrentPrice', 'Status'];
-  tableData: { Name: string; Category: string; PreviousPrice: number; CurrentPrice: number, Status: boolean }[] = [];
+  headers: string[] = ['Name', 'Discount', 'StartDate', 'EndDate', 'Type'];
+  tableData: { Name: string; Discount: number; StartDate: string; EndDate: string, Type: string }[] = [];
 
   filterFields = [
     { label: 'Name', name: 'name', type: 'text' },
@@ -113,19 +113,19 @@ export class OffersComponent implements OnInit {
         console.log('Offers loaded:', response);
         this.offers = response.data.items;
         this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
+
+        this.tableData = this.offers.map(offer => ({
+          Name: offer.name,
+          Discount: offer.discountPercentage,
+          StartDate: offer.startDate,
+          EndDate: offer.endDate,
+          Type: offer.discountType === 1 ? 'Percentage' : 'Amount'
+        }));
       },
       error: (err) => {
         console.error('Error loading offers:', err);
       },
     });
-  }
-
-  handleMenuAction(action: string) {
-    if (action === 'exportXLS') {
-      this.exportXLS();
-    } else if (action === 'print') {
-      this.print();
-    }
   }
 
   openAddEditModal(offer?: UpdateOfferdto): void {
@@ -185,16 +185,6 @@ export class OffersComponent implements OnInit {
         console.error('Error deleting offer:', err);
       },
     });
-  }
-
-  exportXLS() {
-    // this.exportService.exportTableToXls(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
-  }
-
-  print() {
-    // this.exportService.exportTableToPdf(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
   }
 
   onPageChange(page: number): void {

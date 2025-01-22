@@ -130,14 +130,6 @@ export class VouchersComponent implements OnInit {
     });
   }
 
-  handleMenuAction(action: string) {
-    if (action === 'exportXLS') {
-      this.exportXLS();
-    } else if (action === 'print') {
-      this.print();
-    }
-  }
-
   openAddEditModal(offer?: UpdateOfferdto): void {
     const modalRef = this.modalService.open(AddVouchersComponent, {
       size: 'lg',
@@ -194,16 +186,6 @@ export class VouchersComponent implements OnInit {
         console.error('Error deleting offer:', err);
       },
     });
-  }
-
-  exportXLS() {
-    // this.exportService.exportTableToXls(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
-  }
-
-  print() {
-    // this.exportService.exportTableToPdf(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
   }
 
   onPageChange(page: number): void {

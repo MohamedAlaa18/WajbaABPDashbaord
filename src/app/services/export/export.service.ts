@@ -1,93 +1,88 @@
 // import { Injectable } from '@angular/core';
-// import jsPDF from 'jspdf';
-// import autoTable from 'jspdf-autotable';
-// import * as ExcelJS from 'exceljs';
 // import { saveAs } from 'file-saver';
 
 // @Injectable({
-//   providedIn: 'root'
+//   providedIn: 'root',
 // })
 // export class ExportService {
-
 //   constructor() { }
 
-//   // Export table data to XLS
-//   exportTableToXls(tableData: any[], columns: string[], fileName: string): void {
-//     const workbook = new ExcelJS.Workbook();
-//     const worksheet = workbook.addWorksheet('Data');
+//   /**
+//    * Exports table data to a CSV file.
+//    * @param tableData - Array of data objects to export.
+//    * @param columns - Column keys and their display names in the format { key: string, name: string }[].
+//    * @param fileName - Name of the output file.
+//    */
+//   exportTableToCsv(tableData: any[], columns: { key: string; name: string }[], fileName: string): void {
+//     const headerRow = columns.map(col => col.name).join(','); // Header row with column names
+//     const dataRows = tableData.map(item =>
+//       columns
+//         .map(col => {
+//           const value = item[col.key];
+//           if (Array.isArray(value)) {
+//             return value
+//               .map(element =>
+//                 typeof element === 'object' && element !== null
+//                   ? element.name ?? Object.values(element).join(' ')
+//                   : element
+//               )
+//               .join(', ');
+//           }
+//           return this.escapeCsvValue(value);
+//         })
+//         .join(',')
+//     );
 
-//     // Add header row
-//     worksheet.addRow(columns);
-
-//     // Add transformed data rows
-//     tableData.forEach(item => {
-//       const rowData = columns.map(key => {
-//         const value = item[key];
-//         if (Array.isArray(value)) {
-//           return value.map(element =>
-//             typeof element === 'object' && element !== null ? (element.name ?? Object.values(element).join(' ')) : element
-//           ).join(', ');
-//         } else {
-//           return value;
-//         }
-//       });
-//       worksheet.addRow(rowData);
-//     });
-
-//     // Style headers
-//     worksheet.getRow(1).eachCell(cell => {
-//       cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-//       cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF4F81BD' } };
-//       cell.border = {
-//         top: { style: 'thin' },
-//         left: { style: 'thin' },
-//         bottom: { style: 'thin' },
-//         right: { style: 'thin' },
-//       };
-//       cell.alignment = { vertical: 'middle', horizontal: 'center' };
-//     });
-
-//     // Style data cells with borders
-//     worksheet.eachRow((row, rowIndex) => {
-//       row.eachCell(cell => {
-//         cell.border = {
-//           top: { style: 'thin' },
-//           left: { style: 'thin' },
-//           bottom: { style: 'thin' },
-//           right: { style: 'thin' },
-//         };
-//       });
-//     });
-
-//     // Write to buffer and save as file
-//     workbook.xlsx.writeBuffer().then(buffer => {
-//       const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-//       saveAs(blob, `${fileName}.xlsx`);
-//     });
+//     const csvContent = [headerRow, ...dataRows].join('\r\n');
+//     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+//     saveAs(blob, `${fileName}.csv`);
 //   }
 
-//   // Export table data to PDF
-//   exportTableToPdf(tableData: any[], headers: string[], fileName: string): void {
+//   /**
+//    * Escapes special characters in a CSV value.
+//    * @param value - The value to escape.
+//    * @returns Escaped value as a string.
+//    */
+//   private escapeCsvValue(value: any): string {
+//     if (value === null || value === undefined) {
+//       return '';
+//     }
+//     const stringValue = String(value);
+//     if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+//       return `"${stringValue.replace(/"/g, '""')}"`; // Escape double quotes
+//     }
+//     return stringValue;
+//   }
+
+//   /**
+//    * Exports table data to a PDF file (same as before).
+//    */
+//   exportTableToPdf(tableData: any[], columns: { key: string; name: string }[], fileName: string): void {
 //     const doc = new jsPDF();
+//     const headers = [columns.map(col => col.name)];
+//     const body = tableData.map(item =>
+//       columns.map(col => {
+//         const value = item[col.key];
+//         if (Array.isArray(value)) {
+//           return value
+//             .map(element =>
+//               typeof element === 'object' && element !== null
+//                 ? element.name ?? Object.values(element).join(' ')
+//                 : element
+//             )
+//             .join(', ');
+//         }
+//         return value;
+//       })
+//     );
+
 //     autoTable(doc, {
-//       head: [headers],
-//       body: tableData.map(item => headers.map(header => item[header])),
+//       head: headers,
+//       body: body,
 //       startY: 10,
 //       theme: 'grid',
 //     });
 
-//     // Create a Blob from the PDF
-//     const pdfOutput = doc.output('blob');
-//     const pdfUrl = URL.createObjectURL(pdfOutput);
-
-//     // Open the PDF in a new window and trigger print
-//     const newWindow = window.open(pdfUrl);
-//     if (newWindow) {
-//       newWindow.onload = () => {
-//         newWindow.print();
-//         // Optional: Close the window after printing
-//         newWindow.onafterprint = () => newWindow.close();
-//       };
-//     }
+//     doc.save(`${fileName}.pdf`);
 //   }
 // }

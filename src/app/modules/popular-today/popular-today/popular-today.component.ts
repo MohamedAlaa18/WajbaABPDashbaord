@@ -24,7 +24,6 @@ export class PopularTodayComponent implements OnInit {
   isAddMode = true;
   currentPage: number = 1;
   totalPages: number = 4;
-  isMenuOpen: boolean = false;
 
   columns = [
     { field: 'name', header: 'Name' },
@@ -48,8 +47,8 @@ export class PopularTodayComponent implements OnInit {
     },
   ];
 
-  headers: string[] = ['Name', 'Category', 'PreviousPrice', 'CurrentPrice', 'Status'];
-  tableData: { Name: string; Category: string; PreviousPrice: number; CurrentPrice: number, Status: boolean }[] = [];
+  headers: string[] = ['Name', 'Category', 'PreviousPrice', 'CurrentPrice'];
+  tableData: { Name: string; Category: string; PreviousPrice: number; CurrentPrice: number }[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -75,6 +74,13 @@ export class PopularTodayComponent implements OnInit {
         console.log(response)
         this.items = response.data.items;
         this.totalPages = response.data.totalCount;
+
+        this.tableData = this.items.map(item => ({
+          Name: item.name,
+          Category: item.categoryName,
+          PreviousPrice: item.prePrice,
+          CurrentPrice: item.currentPrice,
+        }));
       },
       error: (err) => {
         console.error('Error loading items:', err);
@@ -141,26 +147,8 @@ export class PopularTodayComponent implements OnInit {
     });
   }
 
-  exportXLS() {
-    // this.exportService.exportTableToXls(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
-  }
-
-  print() {
-    // this.exportService.exportTableToPdf(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
-  }
-
   onPageChange(page: number): void {
     this.currentPage = page;
     this.loadItems();
-  }
-
-  handleMenuAction(action: string) {
-    if (action === 'exportXLS') {
-      this.exportXLS();
-    } else if (action === 'print') {
-      this.print();
-    }
   }
 }
