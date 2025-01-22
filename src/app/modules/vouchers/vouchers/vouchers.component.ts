@@ -39,6 +39,8 @@ export class VouchersComponent implements OnInit {
     { field: 'type', header: 'Type' },
   ];
 
+  tableData: { name: string; code: number; discount: number; startDate: string, endDate: string, type: string }[] = [];
+
   actions = [
     {
       icon: 'assets/images/edit.svg',
@@ -59,9 +61,6 @@ export class VouchersComponent implements OnInit {
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     }
   ];
-
-  headers: string[] = ['Name', 'Category', 'PreviousPrice', 'CurrentPrice', 'Status'];
-  tableData: { Name: string; Category: string; PreviousPrice: number; CurrentPrice: number, Status: boolean }[] = [];
 
   filterFields = [
     { label: 'Name', name: 'name', type: 'text' },
@@ -94,7 +93,6 @@ export class VouchersComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private couponService: CouponService,
-    // private exportService: ExportService,
     private router: Router,
   ) { }
 
@@ -123,6 +121,15 @@ export class VouchersComponent implements OnInit {
         console.log(response);
         this.vouchers = response.data.items;
         this.totalPages = Math.ceil(response.data.totalCount / 10);
+
+        this.tableData = this.vouchers.map(offer => ({
+          name: offer.name,
+          code: offer.code,
+          discount: offer.discount,
+          startDate: offer.startDate,
+          endDate: offer.endDate,
+          type: offer.discountType === 1 ? 'Percentage' : 'Fixed'
+        }));
       },
       error: (err) => {
         console.error('Error loading offers:', err);

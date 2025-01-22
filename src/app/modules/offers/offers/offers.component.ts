@@ -38,6 +38,8 @@ export class OffersComponent implements OnInit {
     { field: 'discountType', header: 'Type' },
   ];
 
+  tableData: { name: string; discountPercentage: number; startDate: string; endDate: string, discountType: string }[] = [];
+
   actions = [
     {
       icon: 'assets/images/edit.svg',
@@ -58,9 +60,6 @@ export class OffersComponent implements OnInit {
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     }
   ];
-
-  headers: string[] = ['Name', 'Discount', 'StartDate', 'EndDate', 'Type'];
-  tableData: { Name: string; Discount: number; StartDate: string; EndDate: string, Type: string }[] = [];
 
   filterFields = [
     { label: 'Name', name: 'name', type: 'text' },
@@ -87,7 +86,6 @@ export class OffersComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private offerService: OfferService,
-    // private exportService: ExportService,
     private afterActionService: AfterActionService,
     private router: Router,
   ) { }
@@ -115,11 +113,11 @@ export class OffersComponent implements OnInit {
         this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
 
         this.tableData = this.offers.map(offer => ({
-          Name: offer.name,
-          Discount: offer.discountPercentage,
-          StartDate: offer.startDate,
-          EndDate: offer.endDate,
-          Type: offer.discountType === 1 ? 'Percentage' : 'Amount'
+          name: offer.name,
+          discountPercentage: offer.discountPercentage,
+          startDate: offer.startDate,
+          endDate: offer.endDate,
+          discountType: offer.discountType === 1 ? 'Percentage' : 'Amount'
         }));
       },
       error: (err) => {

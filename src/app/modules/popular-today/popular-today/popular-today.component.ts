@@ -32,6 +32,8 @@ export class PopularTodayComponent implements OnInit {
     { field: 'currentPrice', header: 'Current Price' },
   ];
 
+  tableData: { name: string; categoryName: string; prePrice: number; currentPrice: number }[] = [];
+
   actions = [
     {
       icon: 'assets/images/edit.svg',
@@ -46,9 +48,6 @@ export class PopularTodayComponent implements OnInit {
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     },
   ];
-
-  headers: string[] = ['Name', 'Category', 'PreviousPrice', 'CurrentPrice'];
-  tableData: { Name: string; Category: string; PreviousPrice: number; CurrentPrice: number }[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -76,10 +75,10 @@ export class PopularTodayComponent implements OnInit {
         this.totalPages = response.data.totalCount;
 
         this.tableData = this.items.map(item => ({
-          Name: item.name,
-          Category: item.categoryName,
-          PreviousPrice: item.prePrice,
-          CurrentPrice: item.currentPrice,
+          name: item.name,
+          categoryName: item.categoryName,
+          prePrice: item.prePrice,
+          currentPrice: item.currentPrice,
         }));
       },
       error: (err) => {

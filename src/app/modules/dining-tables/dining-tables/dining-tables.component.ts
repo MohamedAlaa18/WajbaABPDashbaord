@@ -35,6 +35,8 @@ export class DiningTablesComponent implements OnInit {
     { field: 'status', header: 'status' },
   ];
 
+  tableData: { name: string; size: number; status: string }[] = [];
+
   actions = [
     {
       icon: 'assets/images/edit.svg',
@@ -61,9 +63,6 @@ export class DiningTablesComponent implements OnInit {
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     }
   ];
-
-  headers: string[] = ['Name', 'Size', 'Status'];
-  tableData: { Name: string; Size: number; Status: string }[] = [];
 
   filterFields = [
     { label: 'Name', name: 'name', type: 'text' },
@@ -116,9 +115,9 @@ export class DiningTablesComponent implements OnInit {
         this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
 
         this.tableData = this.tables.map(table => ({
-          Name: table.name,
-          Size: table.size,
-          Status: table.status ? 'Active' : 'Inactive'
+          name: table.name,
+          size: table.size,
+          status: table.status ? 'Active' : 'Inactive'
         }));
       },
       error: (err) => {

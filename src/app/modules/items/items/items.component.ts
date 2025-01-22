@@ -43,6 +43,8 @@ export class ItemsComponent implements OnInit {
     { field: 'status', header: 'Status' },
   ];
 
+  tableData: { name: string; categoryName: string; price: number; status: string }[] = [];
+
   actions = [
     {
       icon: 'assets/images/edit.svg',
@@ -63,9 +65,6 @@ export class ItemsComponent implements OnInit {
       callback: (row: any) => this.openConfirmDeleteModal(row.id, row.name),
     },
   ];
-
-  headers: string[] = ['Name', 'Category', 'Price', 'Status'];
-  tableData: { Name: string; Category: string; Price: number; Status: string }[] = [];
 
   filterFields = [
     { label: 'Name', name: 'name', type: 'text' },
@@ -156,10 +155,10 @@ export class ItemsComponent implements OnInit {
         this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
 
         this.tableData = this.items.map(item => ({
-          Name: item.name,
-          Category: item.categoryName,
-          Price: item.price,
-          Status: item.status ? 'Active' : 'Inactive'
+          name: item.name,
+          categoryName: item.categoryName,
+          price: item.price,
+          status: item.status ? 'Active' : 'Inactive'
         }));
       },
       error: (err) => {
