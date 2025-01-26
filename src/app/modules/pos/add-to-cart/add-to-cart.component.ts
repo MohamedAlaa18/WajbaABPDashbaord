@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ItemService } from '@proxy/controllers';
+import { ItemDto } from '@proxy/dtos/items-dtos';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 
@@ -14,12 +16,9 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 })
 export class AddToCartComponent implements OnChanges, OnInit {
   @Input() isModalOpen: boolean = false;
-  @Input() isEditMode: boolean = false;
-  @Input() productItem!: any;
-  @Input() cartItem!: any;
-  @Output() closeModalEvent = new EventEmitter<void>();
+  @Input() productItem!: ItemDto;
+  @Output() close = new EventEmitter<void>();
 
-  product!: any;
   quantity: number = 1;
   specialInstructions: string = '';
   cartForm!: FormGroup;
@@ -27,106 +26,113 @@ export class AddToCartComponent implements OnChanges, OnInit {
   addedExtras: { name: string; additionalPrice: number }[] = [];
 
   constructor(
-    // private productService: ProductService,
+    private itemService: ItemService,
     // private cartService: CartService,
     private fb: FormBuilder,
     // private snackbarService: SnackbarService,
     private afterActionService: AfterActionService,
   ) {
-    this.createForm();
-  }
-
-  ngOnInit(): void {
-    this.addedExtras = [];
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['isModalOpen'] && this.isModalOpen) {
-      if (this.isEditMode) {
-        this.loadProductDetails(this.cartItem.itemId);
-        this.quantity = this.cartItem.quantity;
-      } else {
-        this.loadProductDetails(this.productItem.id);
-      }
-      this.resetExtras();
-    }
-  }
-
-  resetExtras() {
-    this.addedExtras = [];
-  }
-
-  createForm() {
     this.cartForm = this.fb.group({
-      quantity: [this.quantity],
+      quantity: [this.quantity, [Validators.required, Validators.min(1)]],
       specialInstructions: [''],
       variations: this.fb.array([]),
       addons: this.fb.array([]),
       extras: this.fb.array([])
     });
+
+    // this.productItem.itemVariations.forEach(() => {
+    //   (this.cartForm.get('variations') as FormArray).push(this.fb.control(null)); // or default value
+    // });
+
+    // this.productItem.itemAddons.forEach(() => {
+    //   (this.cartForm.get('addons') as FormArray).push(this.fb.control(false)); // or default value
+    // });
   }
-
-  loadProductDetails(itemId: number) {
-    // this.productService.getProductItemDetails(itemId).subscribe(
-    //   (productDetails) => {
-    //     this.product = productDetails.data;
-    //     this.populateForm();
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching product details:', error);
-    //   }
-    // );
-  }
-
-  populateForm() {
-    this.cartForm.patchValue({
-      quantity: this.quantity,
-      specialInstructions: this.specialInstructions,
-    });
-
-    this.variations.clear();
-    this.addons.clear();
-    this.extra.clear();
-
-    // Populate variations with required validation if attributes are present
-    this.product.attributes.forEach((attribute) => {
-      const control = this.fb.control(null, Validators.required);
-      this.variations.push(control);
-    });
-
-    // Populate addons
-    this.product.itemAddons.forEach(() => {
-      const control = this.fb.control(false);
-      this.addons.push(control);
-    });
-
-    // Populate extras
-    this.product.itemExtras.forEach(() => {
-      const control = this.fb.control(false);
-      this.extra.push(control);
-    });
-
-    if (this.isEditMode) {
-      this.cartForm.patchValue({
-        specialInstructions: this.cartItem.notes,
-        quantity: this.cartItem.quantity,
-      });
-
-      this.addedExtras = this.cartItem.extras || [];
-    }
-  }
-
 
   get variations(): FormArray {
     return this.cartForm.get('variations') as FormArray;
   }
 
-  get addons(): FormArray {
-    return this.cartForm.get('addons') as FormArray;
+  get addons() {
+    return (this.cartForm.get('addons') as FormArray);
   }
 
   get extra(): FormArray {
     return this.cartForm.get('extras') as FormArray;
+  }
+
+  ngOnInit(): void {
+    // Ensure the form setup happens only when productItem is available
+    if (this.productItem) {
+      this.initializeForm();
+    }
+  }
+
+  ngOnChanges(): void {
+    // Handle updates to productItem after initialization
+    if (this.productItem) {
+      this.initializeForm();
+    }
+  }
+
+  initializeForm(): void {
+    const variationsArray = this.fb.array([]);
+    const addonsArray = this.fb.array([]);
+
+    // Initialize variations and addons arrays
+    if (this.productItem?.itemVariations) {
+      this.productItem.itemVariations.forEach(() => {
+        variationsArray.push(this.fb.control(null));
+      });
+    }
+
+    if (this.productItem?.itemAddons) {
+      this.productItem.itemAddons.forEach(() => {
+        addonsArray.push(this.fb.control(false));
+      });
+    }
+
+    // Update the form with initialized arrays
+    this.cartForm.setControl('variations', variationsArray);
+    this.cartForm.setControl('addons', addonsArray);
+  }
+
+  populateVariationsFormArray() {
+    this.variations.clear(); // Clear existing controls
+    if (this.productItem.itemVariations) {
+      this.productItem.itemVariations.forEach(() => {
+        this.variations.push(this.fb.control(null, Validators.required)); // Add a control for each variation
+      });
+    }
+  }
+
+  populateAddonsFormArray() {
+    this.addons.clear(); // Clear existing controls
+    if (this.productItem.itemAddons) {
+      this.productItem.itemAddons.forEach(() => {
+        this.addons.push(this.fb.control(false)); // Add a checkbox control for each addon
+      });
+    }
+  }
+
+  populateExtrasFormArray() {
+    this.extra.clear(); // Clear existing controls
+    if (this.productItem.itemExtras) {
+      this.productItem.itemExtras.forEach(() => {
+        this.extra.push(this.fb.control(false)); // Add a checkbox control for each extra
+      });
+    }
+  }
+
+  loadProductDetails(itemId: number) {
+    this.itemService.getItemWithTransformedDetailsById(itemId).subscribe(
+      (response) => {
+        this.productItem = response.data;
+      },
+      (error) => {
+        console.error('Error fetching product details:', error);
+      }
+    );
   }
 
   incrementQuantity(e: Event) {
@@ -145,48 +151,46 @@ export class AddToCartComponent implements OnChanges, OnInit {
 
   closeModal() {
     this.cartForm.reset();
-    this.closeModalEvent.emit();
+    this.close.emit();
   }
 
   calculateTotalPrice(): number {
     const formValues = this.cartForm.value;
-    let totalPrice = this.product.price * formValues.quantity;
+    let totalPrice = this.productItem.price * formValues.quantity;
 
     // Calculate variations
-    this.product.attributes.forEach((attribute, index) => {
-      const selectedVariationId = this.variations.at(index)?.value;
-      const selectedVariation = attribute.variations.find(v => v.id === selectedVariationId);
-      if (selectedVariation) {
-        totalPrice += selectedVariation.additionalPrice * formValues.quantity;
+    this.productItem.itemVariations.forEach((variation, index) => {
+      if (variation) {
+        totalPrice += variation.additionalPrice * formValues.quantity;
       }
     });
 
     // Calculate addons
-    this.product.itemAddons.forEach((addon, index) => {
-      if (this.addons.at(index).value) {
-        totalPrice += addon.price * formValues.quantity;
+    this.productItem.itemAddons.forEach((addon, index) => {
+      const addonControl = this.addons.at(index);
+      if (addonControl && addonControl.value) {
+        totalPrice += addon.additionalPrice * formValues.quantity;
       }
     });
 
     // Calculate extras
-    this.addedExtras.forEach(extra => {
-      totalPrice += extra.additionalPrice * formValues.quantity;
+    this.productItem.itemExtras.forEach((extra, index) => {
+      const extraControl = this.extra.at(index);
+      if (extraControl && extraControl.value) {
+        totalPrice += extra.additionalPrice;
+      }
     });
 
     return totalPrice;
   }
 
   addExtra(extra: { name: string; additionalPrice: number }) {
-    const index = this.product.itemExtras.findIndex(e => e.name === extra.name);
+    const index = this.productItem.itemExtras.findIndex(e => e.name === extra.name);
     if (index !== -1) {
-      this.product.itemExtras.splice(index, 1);
+      this.productItem.itemExtras.splice(index, 1);
     }
 
     this.addedExtras.push(extra);
-  }
-
-  isExtraAdded(extra: { name: string; additionalPrice: number }): boolean {
-    return this.addedExtras.some(addedExtra => addedExtra.name === extra.name);
   }
 
   onSubmit() {
@@ -200,21 +204,20 @@ export class AddToCartComponent implements OnChanges, OnInit {
     const formValues = this.cartForm.value;
 
     const item = {
-      itemId: this.product.id,
-      itemName: this.product.name,
+      itemId: this.productItem.id,
+      itemName: this.productItem.name,
       quantity: formValues.quantity,
-      ImgUrl: this.product.imageUrl,
+      ImgUrl: this.productItem.imageUrl,
       notes: formValues.specialInstructions || '',
-      price: this.product.price,
-      variations: this.product.attributes.map((attr, index) => ({
-        name: attr.attributeName,
-        additionalPrice: attr.variations.find(v => v.id === formValues['variation_' + index])?.additionalPrice || 0,
-        attributeName: attr.attributeName,
+      price: this.productItem.price,
+      variations: this.productItem.itemVariations.map((variation, index) => ({
+        name: variation.name,
+        additionalPrice: variation.additionalPrice || 0,
       })),
-      addons: this.product.itemAddons
+      addons: this.productItem.itemAddons
         .map((addon, index) => ({
           name: addon.name,
-          price: addon.price,
+          price: addon.additionalPrice,
           selected: formValues['addon_' + index] || false
         }))
         .filter(addon => addon.selected),
@@ -224,43 +227,25 @@ export class AddToCartComponent implements OnChanges, OnInit {
       }))
     };
 
-    if (this.isEditMode) {
-      // Update the existing cart item
-      // this.cartService.updateCartItem(this.cartItem.cartItemId, item).subscribe(
-      //   (response) => {
-      //     if (response.success === false) {
-      //       console.error('Error updating cart item:', response);
-      //     } else {
-      //       console.log('Cart item updated:', response);
-      //       this.afterActionService.reloadCurrentRoute();
-      //       this.closeModal();
-      //     }
-      //   },
-      //   (error) => {
-      //     console.error('Error updating cart item:', error);
-      //   }
-      // );
-    } else {
-      // Add a new item to the cart
-      // this.cartService.addItemToCart(item).subscribe(
-      //   (response) => {
-      //     if (response.success === false) {
-      //       if (response.message === 'Invalid token or customer not found') {
-      //         localStorage.setItem('cartItem', JSON.stringify(item));
-      //         console.log('Item saved to local storage due to invalid token or customer not found');
-      //         this.closeModal();
-      //       }
-      //       console.error('Error adding item to cart:', response);
-      //     } else {
-      //       console.log('Item added to cart:', response);
-      //       this.afterActionService.reloadCurrentRoute();
-      //       this.closeModal();
-      //     }
-      //   },
-      //   (error) => {
-      //     console.error('Error adding item to cart:', error);
-      //   }
-      // );
-    }
+    // Add a new item to the cart
+    // this.cartService.addItemToCart(item).subscribe(
+    //   (response) => {
+    //     if (response.success === false) {
+    //       if (response.message === 'Invalid token or customer not found') {
+    //         localStorage.setItem('cartItem', JSON.stringify(item));
+    //         console.log('Item saved to local storage due to invalid token or customer not found');
+    //         this.closeModal();
+    //       }
+    //       console.error('Error adding item to cart:', response);
+    //     } else {
+    //       console.log('Item added to cart:', response);
+    //       this.afterActionService.reloadCurrentRoute();
+    //       this.closeModal();
+    //     }
+    //   },
+    //   (error) => {
+    //     console.error('Error adding item to cart:', error);
+    //   }
+    // );
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { OfferService } from '@proxy/controllers';
-import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
+import { CouponService } from '@proxy/controllers';
+import { UpdateCoupondto } from '@proxy/dtos/coupon-contract';
 
 @Component({
   selector: 'app-vouchers-details',
@@ -13,11 +13,11 @@ import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
 })
 export class VouchersDetailsComponent implements OnInit {
   voucherId!: number;
-  voucher!: UpdateOfferdto;
+  voucher!: UpdateCoupondto;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private vouchersService: OfferService,
+    private couponService: CouponService,
   ) {
     this.voucherId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
   }
@@ -26,12 +26,12 @@ export class VouchersDetailsComponent implements OnInit {
     this.getVoucherDetails();
   }
 
-  // Method to get offer details
+  // Method to get voucher details
   getVoucherDetails() {
     if (this.voucherId) {
-      this.vouchersService.getById(this.voucherId).subscribe(
+      this.couponService.getById(this.voucherId).subscribe(
         (response) => {
-          // this.voucher = response.data;
+          this.voucher = response.data;
           console.log('voucher details:', this.voucher);
         },
         (error) => {

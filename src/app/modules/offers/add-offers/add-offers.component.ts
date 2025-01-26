@@ -51,7 +51,7 @@ export class AddOffersComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       description: ['', Validators.required],
-      image: ['']
+      image: ['', Validators.required]
     });
   }
 

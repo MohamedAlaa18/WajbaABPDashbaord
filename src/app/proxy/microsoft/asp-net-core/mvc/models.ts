@@ -8,6 +8,8 @@ export interface ActionResult<TValue> extends IActionResult {
 }
 
 export interface IActionResult {
+  items: any;
+  totalCount: number;
   data: any;
   success: boolean;
 }

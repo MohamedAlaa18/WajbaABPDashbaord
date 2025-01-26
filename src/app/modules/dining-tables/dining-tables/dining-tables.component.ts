@@ -193,29 +193,47 @@ export class DiningTablesComponent implements OnInit {
   downloadQRCode(table: any) {
     console.log('Download QR code:', table);
     if (table?.url) {
-      const qrCodeUrl = table.url;  // The URL to the SVG file
+      const qrCodeUrl = table.url; // The URL to the image file
 
-      // Create a link element
-      const link = document.createElement('a');
+      // Fetch the image as a Blob
+      fetch(qrCodeUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.blob(); // Convert the response to a Blob
+        })
+        .then(blob => {
+          // Create an object URL for the Blob
+          const objectUrl = URL.createObjectURL(blob);
 
-      // Set the href to the QR code URL
-      link.href = qrCodeUrl;
+          // Create a link element
+          const link = document.createElement('a');
+          link.href = objectUrl;
 
-      // Set the download attribute with a default filename (you can customize the filename)
-      link.download = `QRCode-${table.id}.svg`;
+          // Set the download attribute with a default filename
+          link.download = `QRCode-${table.id}.png`; // Change the extension if needed
 
-      // Append the link to the body (required for Firefox)
-      document.body.appendChild(link);
+          // Append the link to the body (required for Firefox)
+          document.body.appendChild(link);
 
-      // Programmatically click the link to trigger the download
-      link.click();
+          // Programmatically click the link to trigger the download
+          link.click();
 
-      // Remove the link from the DOM
-      document.body.removeChild(link);
+          // Revoke the object URL to free up memory
+          URL.revokeObjectURL(objectUrl);
+
+          // Remove the link from the DOM
+          document.body.removeChild(link);
+        })
+        .catch(error => {
+          console.error('Failed to download QR code:', error);
+        });
     } else {
       console.error('No QR code URL available for download.');
     }
   }
+
 
   openDiningTableDetailsAndNavigate(table: UpdateDinInTable) {
     this.router.navigate(['/dining-tables', table.id]);

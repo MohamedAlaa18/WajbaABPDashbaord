@@ -8,7 +8,7 @@ import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal
 import { TableComponent } from 'src/app/shared/table/table.component';
 import { AddPopularTodayComponent } from '../add-popular-today/add-popular-today.component';
 import { PaginationComponent } from "../../../shared/pagination/pagination.component";
-import { UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
+import { Popularitemdto, UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { PopularItemsService } from '@proxy/controllers';
 
@@ -20,7 +20,7 @@ import { PopularItemsService } from '@proxy/controllers';
   styleUrl: './popular-today.component.scss'
 })
 export class PopularTodayComponent implements OnInit {
-  items: UpdatePopularItemdto[] = [];
+  items: Popularitemdto[] = [];
   isAddMode = true;
   currentPage: number = 1;
   totalPages: number = 4;
@@ -72,7 +72,7 @@ export class PopularTodayComponent implements OnInit {
       next: (response) => {
         console.log(response)
         this.items = response.data.items;
-        this.totalPages = response.data.totalCount;
+        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
 
         this.tableData = this.items.map(item => ({
           name: item.name,

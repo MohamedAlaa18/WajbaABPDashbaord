@@ -1,4 +1,3 @@
-import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,7 +10,6 @@ import { ExportButtonComponent } from "../../../shared/export-button/export-butt
 import { FilterComponent } from "../../../shared/filter/filter.component";
 import { AddVouchersComponent } from '../add-vouchers/add-vouchers.component';
 import { CouponService } from '@proxy/controllers';
-import { UpdateOfferdto } from '@proxy/dtos/offers-contract';
 import { GetCouponsInput, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
 
 @Component({
@@ -52,7 +50,7 @@ export class VouchersComponent implements OnInit {
       icon: 'assets/images/view.svg',
       tooltip: 'View',
       show: (row: any) => true,
-      callback: (row: any) => this.openBranchDetailsAndNavigate(row),
+      callback: (row: any) => this.openVoucherDetailsAndNavigate(row),
     },
     {
       icon: 'assets/images/delete.svg',
@@ -100,7 +98,7 @@ export class VouchersComponent implements OnInit {
     this.loadVouchers();
   }
 
-  // Load all offers
+  // Load all vouchers
   loadVouchers(): void {
     const defaultInput: GetCouponsInput = {
       branchid: 1,
@@ -122,22 +120,22 @@ export class VouchersComponent implements OnInit {
         this.vouchers = response.data.items;
         this.totalPages = Math.ceil(response.data.totalCount / 10);
 
-        this.tableData = this.vouchers.map(offer => ({
-          name: offer.name,
-          code: offer.code,
-          discount: offer.discount,
-          startDate: offer.startDate,
-          endDate: offer.endDate,
-          type: offer.discountType === 1 ? 'Percentage' : 'Fixed'
+        this.tableData = this.vouchers.map(voucher => ({
+          name: voucher.name,
+          code: voucher.code,
+          discount: voucher.discount,
+          startDate: voucher.startDate,
+          endDate: voucher.endDate,
+          type: voucher.discountType === 1 ? 'Percentage' : 'Fixed'
         }));
       },
       error: (err) => {
-        console.error('Error loading offers:', err);
+        console.error('Error loading vouchers:', err);
       },
     });
   }
 
-  openAddEditModal(offer?: UpdateOfferdto): void {
+  openAddEditModal(voucher?: UpdateCoupondto): void {
     const modalRef = this.modalService.open(AddVouchersComponent, {
       size: 'lg',
       centered: true,
@@ -145,7 +143,7 @@ export class VouchersComponent implements OnInit {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.offer = offer || null;
+    modalRef.componentInstance.voucher = voucher || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -162,7 +160,7 @@ export class VouchersComponent implements OnInit {
       });
   }
 
-  openConfirmDeleteModal(offerId: number, offerName: string): void {
+  openConfirmDeleteModal(voucherId: number, voucherName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -170,12 +168,12 @@ export class VouchersComponent implements OnInit {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = offerId;
-    modalRef.componentInstance.name = offerName;
+    modalRef.componentInstance.id = voucherId;
+    modalRef.componentInstance.name = voucherName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteVoucher(id); // Call the delete method with the offer ID
+      this.deleteVoucher(id); // Call the delete method with the voucher ID
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -186,11 +184,11 @@ export class VouchersComponent implements OnInit {
   deleteVoucher(id: number): void {
     this.couponService.delete(id).subscribe({
       next: () => {
-        this.vouchers = this.vouchers.filter((offer) => offer.id !== id);
+        this.vouchers = this.vouchers.filter((voucher) => voucher.id !== id);
         this.modalService.dismissAll(); // Close all modals
       },
       error: (err) => {
-        console.error('Error deleting offer:', err);
+        console.error('Error deleting voucher:', err);
       },
     });
   }
@@ -200,8 +198,8 @@ export class VouchersComponent implements OnInit {
     this.loadVouchers();
   }
 
-  openBranchDetailsAndNavigate(offer: UpdateOfferdto) {
-    this.router.navigate(['/offers', offer.id]);
+  openVoucherDetailsAndNavigate(voucher: UpdateCoupondto) {
+    this.router.navigate(['/vouchers', voucher.id]);
   }
 
   toggleFilterVisibility(): void {

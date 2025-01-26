@@ -6,7 +6,7 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { PopularItemsService } from '@proxy/controllers/popular-items.service';
 import { ItemDto } from '@proxy/dtos/items-dtos';
-import { CreatePopularitem, UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
+import { CreatePopularitem, Popularitemdto, UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
 import { Base64Service } from 'src/app/services/base64/base64.service';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
@@ -19,7 +19,7 @@ import { AfterActionService } from 'src/app/services/after-action/after-action-s
 })
 export class AddPopularTodayComponent {
   @Input() isOpen: boolean = false;
-  @Input() item: UpdatePopularItemdto | null = null;
+  @Input() item: Popularitemdto | null = null;
   @Input() items: ItemDto[];
   @Output() close = new EventEmitter<void>();
 
@@ -39,7 +39,7 @@ export class AddPopularTodayComponent {
       prePrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       currentPrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       description: ['', Validators.required],
-      image: [''],
+      image: ['', Validators.required],
     });
   }
 
@@ -68,7 +68,7 @@ export class AddPopularTodayComponent {
     });
   }
 
-  populateForm(item: UpdatePopularItemdto) {
+  populateForm(item: Popularitemdto) {
     this.popularItemForm.patchValue({
       id: item.id,
       itemId: item.itemId,

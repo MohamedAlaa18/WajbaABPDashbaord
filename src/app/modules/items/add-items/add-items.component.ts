@@ -48,7 +48,7 @@ export class AddItemsComponent {
       status: [1, Validators.required],
       branchIds: this.fb.control([], Validators.required),
       isFeatured: [true, Validators.required],
-      image: [''],
+      image: ['', Validators.required],
       description: ['', Validators.required],
       note: ['', Validators.required],
     });
@@ -200,8 +200,8 @@ export class AddItemsComponent {
       .subscribe(
         (response) => {
           console.log('Item created successfully:', response);
-          this.afterActionService.reloadCurrentRoute();
           this.closeModal();
+          this.afterActionService.reloadCurrentRoute();
         },
         (error) => {
           console.error('Error creating Item:', error);
@@ -214,8 +214,9 @@ export class AddItemsComponent {
       .subscribe(
         (response) => {
           console.log('Item updated successfully:', response);
-          this.afterActionService.reloadCurrentRoute();
           this.closeModal();
+          this.afterActionService.reloadCurrentRoute();
+
         },
         (error) => {
           console.error('Error updating Item:', error);

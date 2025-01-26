@@ -9,7 +9,7 @@ import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 })
 export class ItemService {
   apiName = 'Default';
-  
+
 
   create = (input: CreateItemDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
@@ -18,7 +18,7 @@ export class ItemService {
       body: input,
     },
     { apiName: this.apiName,...config });
-  
+
 
   delete = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
@@ -26,7 +26,7 @@ export class ItemService {
       url: `/api/Item/${id}`,
     },
     { apiName: this.apiName,...config });
-  
+
 
   get = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
@@ -34,7 +34,7 @@ export class ItemService {
       url: `/api/Item/${id}`,
     },
     { apiName: this.apiName,...config });
-  
+
 
   getItemWithDetailsById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, ItemDto>({
@@ -42,7 +42,15 @@ export class ItemService {
       url: `/api/Item/${id}/details`,
     },
     { apiName: this.apiName,...config });
-  
+
+
+  getItemWithTransformedDetailsById = (id: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'GET',
+      url: `/api/Item/${id}/details-transformed`,
+    },
+    { apiName: this.apiName,...config });
+
 
   getItemsByBranchByBranchId = (branchId: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, ItemDto[]>({
@@ -50,15 +58,16 @@ export class ItemService {
       url: `/api/Item/by-branch/${branchId}`,
     },
     { apiName: this.apiName,...config });
-  
 
-  getItemsByCategoryByCategoryId = (categoryId: number, config?: Partial<Rest.Config>) =>
+
+  getItemsByCategoryByCategoryIdAndName = (categoryId: number, name?: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, ItemDto[]>({
       method: 'GET',
       url: `/api/Item/by-category/${categoryId}`,
+      params: { name },
     },
     { apiName: this.apiName,...config });
-  
+
 
   getList = (input: GetItemInput, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
@@ -67,7 +76,7 @@ export class ItemService {
       params: { filter: input.filter, categoryId: input.categoryId, itemType: input.itemType, isFeatured: input.isFeatured, isDeleted: input.isDeleted, status: input.status, minPrice: input.minPrice, maxPrice: input.maxPrice, minTaxValue: input.minTaxValue, maxTaxValue: input.maxTaxValue, branchId: input.branchId, itemId: input.itemId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
-  
+
 
   updatImageByIdAndModel = (id: number, model: Base64ImageModel, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
@@ -77,7 +86,7 @@ export class ItemService {
       body: model,
     },
     { apiName: this.apiName,...config });
-  
+
 
   update = (input: UpdateItemDTO, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({

@@ -1,5 +1,5 @@
 
-export interface LogInDto {
-  phone?: string;
-  password?: string;
+export interface ForgetPasswordDTO {
+  userId: number;
+  newPassword?: string;
 }

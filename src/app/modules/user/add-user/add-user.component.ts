@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { BranchService, DineIntableService } from '@proxy/controllers';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { BranchService, WajbaUserService } from '@proxy/controllers';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
-import { CreateDineIntable, UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
 import { GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-contract';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
+import { CreateUserDto, UpdateWajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 
 @Component({
   selector: 'app-add-user',
@@ -14,40 +15,88 @@ import { NgSelectModule } from '@ng-select/ng-select';
   templateUrl: './add-user.component.html',
   styleUrl: './add-user.component.scss'
 })
-export class AddUserComponent implements OnInit {
+export class AddUserComponent implements OnInit, OnChanges {
   @Input() isOpen: boolean = false;
-  @Input() table: UpdateDinInTable | null = null;
+  @Input() user: UpdateWajbaUserDto | null = null;
   @Input() userTypeLabel: string | null = null;
   @Input() branchesList: UpdateBranchDto[] = [];
   @Output() close = new EventEmitter<void>();
 
-  roles: any;
+  roles = [
+    { id: 1, name: 'POS Operator' },
+    { id: 2, name: 'Staff' },
+    { id: 3, name: 'Branch Manager' },
+  ];
+
   userForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private dineIntableService: DineIntableService,
     private branchService: BranchService,
+    private wajbaUserService: WajbaUserService,
+    private afterActionService: AfterActionService
   ) {
     this.userForm = this.fb.group({
       id: [null],
-      name: ['', Validators.required],
+      fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       status: [1, Validators.required],
-      role: ['', Validators.required],
+      role: [''],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      branches: this.fb.array([], Validators.required), // Initialize the FormArray
+      branchIds: this.fb.control([]),
+      type: [null],
     }, { validators: this.passwordsMatch });
   }
 
-  get branches(): FormArray {
-    return this.userForm.get('branches') as FormArray;
+  ngOnInit(): void {
+    console.log(this.user);
+    this.loadBranches();
+
+    this.userForm.patchValue({
+      type: this.userTypeLabel === 'Administrators' ? 1 : this.userTypeLabel === 'Delivery Boys' ? 3 : this.userTypeLabel === 'Employees' ? 2 : this.userTypeLabel === 'Customers' ? 4 : null
+    });
+
+    console.log(this.userTypeLabel);
+    if (this.user) {
+      this.populateForm(this.user);
+    }
+
+    // Set initial validators based on userTypeLabel
+    this.updateValidators();
   }
 
-  ngOnInit(): void {
-    this.loadBranches();
+  ngOnChanges(changes: SimpleChanges): void {
+    // If userTypeLabel changes, update the validators
+    if (changes['userTypeLabel']) {
+      this.updateValidators();
+    }
+  }
+
+  updateValidators(): void {
+    const roleControl = this.userForm.get('role');
+    const branchIdsControl = this.userForm.get('branchIds');
+
+    if (this.userTypeLabel === 'Employees') {
+      // Make role required
+      roleControl?.setValidators(Validators.required);
+    } else {
+      // Make role not required
+      roleControl?.clearValidators();
+    }
+
+    if (this.userTypeLabel === 'Customers') {
+      // Make role not required
+      branchIdsControl?.clearValidators();
+    } else {
+      // Make role required
+      branchIdsControl?.setValidators(Validators.required);
+    }
+
+    // Update the validity of the controls
+    roleControl?.updateValueAndValidity();
+    branchIdsControl?.updateValueAndValidity();
   }
 
   passwordsMatch(control: AbstractControl): ValidationErrors | null {
@@ -67,10 +116,6 @@ export class AddUserComponent implements OnInit {
     this.branchService.getList(defaultInput).subscribe({
       next: (branches) => {
         this.branchesList = branches.data.items;
-        this.branches.clear(); // Clear any existing controls
-        this.branchesList.forEach(branch => {
-          this.branches.push(this.fb.control(branch.id)); // Push branch IDs as FormControl
-        });
       },
       error: (error) => {
         console.error('Error fetching branches:', error);
@@ -78,19 +123,15 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-  populateForm(item: UpdateDinInTable) {
+  populateForm(user: UpdateWajbaUserDto) {
     this.userForm.patchValue({
-      id: item.id,
-      name: item.name,
-      status: item.status,
-      size: item.size,
-    });
-  }
-
-  onBranchSelectionChange(selectedBranches: number[]): void {
-    this.branches.clear(); // Clear previous selections
-    selectedBranches.forEach(branchId => {
-      this.branches.push(this.fb.control(branchId)); // Add new selections
+      id: user.id,
+      fullName: user.fullName,
+      status: user.status,
+      type: user.type,
+      email: user.email,
+      phone: user.phone,
+      // branchIds: user.branchIds || []
     });
   }
 
@@ -99,47 +140,51 @@ export class AddUserComponent implements OnInit {
   }
 
   submitForm() {
+    console.log('Form submission triggered'); // Debugging: Check if the method is called
+    console.log('Form validity:', this.userForm.valid); // Debugging: Check form validity
+    console.log('Form errors:', this.userForm.errors); // Debugging: Check form-level errors
+
     if (this.userForm.valid) {
-      // Declare the formValue outside the if-else block
-      let formValue: UpdateDinInTable | CreateDineIntable;
+      let formValue: UpdateWajbaUserDto | CreateUserDto;
 
       // Determine whether it's an update or create operation
       if (this.userForm.value.id) {
-        formValue = this.userForm.value as UpdateDinInTable;
+        formValue = this.userForm.value as UpdateWajbaUserDto;
       } else {
-        formValue = this.userForm.value as CreateDineIntable;
+        formValue = this.userForm.value as CreateUserDto;
       }
 
-      console.log(formValue);
+      console.log('Form value:', formValue); // Debugging: Check the form value
 
-      if (this.table) {
-        // Update existing branch
-        this.dineIntableService.update(formValue as UpdateDinInTable)
+      if (this.user) {
+        // Update existing user
+        this.wajbaUserService.updateWajbaUserByInput(formValue as UpdateWajbaUserDto)
           .subscribe(
             response => {
-              // Handle successful response
-              console.log('Branch updated successfully:', response);
+              console.log('User updated successfully:', response); // Debugging: Check success response
+              this.closeModal();
+              this.afterActionService.reloadCurrentRoute();
             },
             error => {
-              // Handle error response
-              console.error('Error updating branch:', error);
+              console.error('Error updating user:', error); // Debugging: Check error response
             }
           );
       } else {
-        // Create a new branch
-        this.dineIntableService.create(formValue as CreateDineIntable)
+        // Create a new user
+        this.wajbaUserService.registerByInput(formValue as CreateUserDto)
           .subscribe(
             response => {
-              // Handle successful response
-              console.log('Branch created successfully:', response);
+              console.log('User created successfully:', response); // Debugging: Check success response
+              this.closeModal();
+              this.afterActionService.reloadCurrentRoute();
             },
             error => {
-              // Handle error response
-              console.error('Error creating branch:', error);
+              console.error('Error creating user:', error); // Debugging: Check error response
             }
           );
       }
     } else {
+      console.log('Form is invalid'); // Debugging: Check if the form is invalid
       // Mark all form controls as touched to trigger validation messages
       this.userForm.markAllAsTouched();
     }

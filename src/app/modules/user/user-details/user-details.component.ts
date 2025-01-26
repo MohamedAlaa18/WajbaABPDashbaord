@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreateDineIntable } from '@proxy/dtos/dine-in-table-contract';
 import { filter } from 'rxjs';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { AddAddressComponent } from '../add-address/add-address.component';
+import { WajbaUserService } from '@proxy/controllers';
+import { WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
+import { UserAddressDto } from '@proxy/dtos/user-address-contract';
 
 
 @Component({
@@ -17,11 +19,10 @@ import { AddAddressComponent } from '../add-address/add-address.component';
 })
 export class UserDetailsComponent implements OnInit {
   userId: any;
-  user!: CreateDineIntable;
+  user!: WajbaUserDto;
   isModalOpen = false;
-  selectedAddress: CreateDineIntable | null = null;
+  selectedAddress: UserAddressDto | null = null;
   breadcrumbs: any;
-  selectedFileName: string | null = null;
   selectedFile: File | null = null;
   userTypeLabel: string = '';
   userTypeURL: string = '';
@@ -54,7 +55,8 @@ export class UserDetailsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private wajbaUserService: WajbaUserService,
   ) {
     this.userId = this.activatedRoute.snapshot.paramMap.get('id') || '';
 
@@ -75,21 +77,21 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadUser(): void {
-    // console.log(this.userId);
-    // this.customerService.getCustomerById(this.userId).subscribe(
-    //   (response) => {
-    //     this.user = response.data;
-    //     this.userTypeLabel = 'Customer';
-    //     this.userTypeURL = '/customers';
-    //     console.log(response);
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching customer data:', error);
-    //   }
-    // );
+    console.log(this.userId);
+    this.wajbaUserService.getWajbaUserById(this.userId).subscribe(
+      (response) => {
+        this.user = response.data;
+        this.userTypeLabel = 'Customer';
+        this.userTypeURL = '/customers';
+        console.log(response);
+      },
+      (error) => {
+        console.error('Error fetching customer data:', error);
+      }
+    );
   }
 
-  openAddEditAddressModal(table?: CreateDineIntable): void {
+  openAddEditAddressModal(address?: UserAddressDto): void {
     const modalRef = this.modalService.open(AddAddressComponent, {
       size: 'lg',
       centered: true,
@@ -97,7 +99,7 @@ export class UserDetailsComponent implements OnInit {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.table = table || null;
+    modalRef.componentInstance.address = address || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -169,12 +171,10 @@ export class UserDetailsComponent implements OnInit {
   onFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.selectedFileName = input.files[0].name;
       this.selectedFile = input.files[0];
       this.uploadNewImage();
 
     } else {
-      this.selectedFileName = null;
       this.selectedFile = null;
     }
   }

@@ -77,3 +77,32 @@ select.form-select option:checked {
 input[type="radio"] {
   accent-color: var(--red-color) !important;
 }
+
+.category-button {
+  width: 113.12px;
+  height: 113.12px;
+
+  img {
+    width: 75.65px;
+    height: 68.19px;
+  }
+}
+
+.category-button:hover {
+  border-bottom: 2px solid var(--red-color);
+  background-color: #328DE01F !important;
+}
+
+.category-button.selected-category {
+  border-bottom: 2px solid var(--red-color);
+  background-color: #F458591F !important;
+}
+
+.overflow-auto {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+// .max-w-xl{
+//   max-width: 475px;
+// }

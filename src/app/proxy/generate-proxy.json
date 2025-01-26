@@ -1602,8 +1602,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.CouponContract.CouponDto>>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.CouponContract.CouponDto>>"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.CouponController"
@@ -1641,8 +1641,8 @@
                   "nameOnMethod": "input",
                   "name": "branchid",
                   "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -1860,6 +1860,43 @@
                   "jsonName": null,
                   "type": "Wajba.Dtos.CouponContract.UpdateCoupondto",
                   "typeSimple": "Wajba.Dtos.CouponContract.UpdateCoupondto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.CouponController"
+            },
+            "UpdateImageByCoupon": {
+              "uniqueName": "UpdateImageByCoupon",
+              "name": "UpdateImage",
+              "httpMethod": "PUT",
+              "url": "api/Coupon/UpdateImage",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "coupon",
+                  "typeAsString": "Wajba.Dtos.CouponContract.UpdateImageCoupon, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.CouponContract.UpdateImageCoupon",
+                  "typeSimple": "Wajba.Dtos.CouponContract.UpdateImageCoupon",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "coupon",
+                  "name": "coupon",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.CouponContract.UpdateImageCoupon",
+                  "typeSimple": "Wajba.Dtos.CouponContract.UpdateImageCoupon",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -2247,8 +2284,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.DineInTableContract.DiniINTableDto>>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.DineInTableContract.DiniINTableDto>>"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.DineIntableController"
@@ -3112,8 +3149,8 @@
           "type": "Wajba.Controllers.ItemController",
           "interfaces": [],
           "actions": {
-            "GetItemsByCategoryByCategoryId": {
-              "uniqueName": "GetItemsByCategoryByCategoryId",
+            "GetItemsByCategoryByCategoryIdAndName": {
+              "uniqueName": "GetItemsByCategoryByCategoryIdAndName",
               "name": "GetItemsByCategory",
               "httpMethod": "GET",
               "url": "api/Item/by-category/{categoryId}",
@@ -3121,9 +3158,17 @@
               "parametersOnMethod": [
                 {
                   "name": "categoryId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
+                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "name",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -3133,12 +3178,24 @@
                   "nameOnMethod": "categoryId",
                   "name": "categoryId",
                   "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": [],
                   "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "name",
+                  "name": "name",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
                   "descriptorName": ""
                 }
               ],
@@ -3219,6 +3276,43 @@
               "returnValue": {
                 "type": "Wajba.Dtos.ItemsDtos.ItemDto",
                 "typeSimple": "Wajba.Dtos.ItemsDtos.ItemDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ItemController"
+            },
+            "GetItemWithTransformedDetailsById": {
+              "uniqueName": "GetItemWithTransformedDetailsById",
+              "name": "GetItemWithTransformedDetails",
+              "httpMethod": "GET",
+              "url": "api/Item/{id}/details-transformed",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ItemController"
@@ -5667,6 +5761,102 @@
               "parameters": [
                 {
                   "nameOnMethod": "input",
+                  "name": "Name",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "status",
+                  "jsonName": null,
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Description",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Currentprice",
+                  "jsonName": null,
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "prePrice",
+                  "jsonName": null,
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "branchid",
+                  "jsonName": null,
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "createdAtStart",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "createdAtEnd",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
                   "name": "Sorting",
                   "jsonName": null,
                   "type": "System.String",
@@ -5740,8 +5930,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.PopularItemstoday.Popularitemdto>>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.PopularItemstoday.Popularitemdto>>"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.PopularItemsController"
@@ -5769,6 +5959,43 @@
                   "jsonName": null,
                   "type": "Wajba.Dtos.PopularItemstoday.UpdatePopularItemdto",
                   "typeSimple": "Wajba.Dtos.PopularItemstoday.UpdatePopularItemdto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.PopularItemsController"
+            },
+            "UpdateImageByUpdateImage": {
+              "uniqueName": "UpdateImageByUpdateImage",
+              "name": "UpdateImage",
+              "httpMethod": "PUT",
+              "url": "api/PopularItems/UpdateImage",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "updateImage",
+                  "typeAsString": "Wajba.Dtos.PopularItemstoday.UpdateImage, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.PopularItemstoday.UpdateImage",
+                  "typeSimple": "Wajba.Dtos.PopularItemstoday.UpdateImage",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "updateImage",
+                  "name": "updateImage",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.PopularItemstoday.UpdateImage",
+                  "typeSimple": "Wajba.Dtos.PopularItemstoday.UpdateImage",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -6403,9 +6630,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.CustomerContract.CreateUserDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.CustomerContract.CreateUserDto",
-                  "typeSimple": "Wajba.Dtos.CustomerContract.CreateUserDto",
+                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.CreateUserDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -6415,8 +6642,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.CustomerContract.CreateUserDto",
-                  "typeSimple": "Wajba.Dtos.CustomerContract.CreateUserDto",
+                  "type": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -6425,24 +6652,24 @@
                 }
               ],
               "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.ActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.WajbaUserController"
             },
-            "LogInByLogInDto": {
-              "uniqueName": "LogInByLogInDto",
-              "name": "LogIn",
+            "LogInAsyncByLogInDto": {
+              "uniqueName": "LogInAsyncByLogInDto",
+              "name": "LogInAsync",
               "httpMethod": "POST",
               "url": "api/WajbaUser/LogIn",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
                   "name": "LogInDto",
-                  "typeAsString": "Wajba.Dtos.UserDTO.LogInDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.UserDTO.LogInDto",
-                  "typeSimple": "Wajba.Dtos.UserDTO.LogInDto",
+                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -6452,8 +6679,8 @@
                   "nameOnMethod": "LogInDto",
                   "name": "LogInDto",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.UserDTO.LogInDto",
-                  "typeSimple": "Wajba.Dtos.UserDTO.LogInDto",
+                  "type": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -6477,9 +6704,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.CustomerContract.UpdateWajbaUserDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.CustomerContract.UpdateWajbaUserDto",
-                  "typeSimple": "Wajba.Dtos.CustomerContract.UpdateWajbaUserDto",
+                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.UpdateWajbaUserDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUsersContract.UpdateWajbaUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.UpdateWajbaUserDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -6489,8 +6716,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.CustomerContract.UpdateWajbaUserDto",
-                  "typeSimple": "Wajba.Dtos.CustomerContract.UpdateWajbaUserDto",
+                  "type": "Wajba.Dtos.WajbaUsersContract.UpdateWajbaUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.UpdateWajbaUserDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -6499,10 +6726,173 @@
                 }
               ],
               "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.ActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.WajbaUserController"
+            },
+            "ForgetPasswordOTPByOTPCode": {
+              "uniqueName": "ForgetPasswordOTPByOTPCode",
+              "name": "ForgetPasswordOTP",
+              "httpMethod": "POST",
+              "url": "api/WajbaUser/ForgetPasswordOTP",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "OTPCode",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "OTPCode",
+                  "name": "OTPCode",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "Wajba.Controllers.WajbaUserController"
+            },
+            "getAllOtpCodes": {
+              "uniqueName": "getAllOtpCodes",
+              "name": "getAllOtpCodes",
+              "httpMethod": "POST",
+              "url": "api/WajbaUser/getAllOtpCodes",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "Wajba.Controllers.WajbaUserController"
+            },
+            "ForgetPasswordPostByForgetPasswordDTO": {
+              "uniqueName": "ForgetPasswordPostByForgetPasswordDTO",
+              "name": "ForgetPasswordPost",
+              "httpMethod": "POST",
+              "url": "api/WajbaUser/ForgetPasswordPost",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "forgetPasswordDTO",
+                  "typeAsString": "Wajba.Dtos.UserDTO.ForgetPasswordDTO, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.UserDTO.ForgetPasswordDTO",
+                  "typeSimple": "Wajba.Dtos.UserDTO.ForgetPasswordDTO",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "forgetPasswordDTO",
+                  "name": "forgetPasswordDTO",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.UserDTO.ForgetPasswordDTO",
+                  "typeSimple": "Wajba.Dtos.UserDTO.ForgetPasswordDTO",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "Wajba.Controllers.WajbaUserController"
+            },
+            "ActivateViaCodeByGetCode": {
+              "uniqueName": "ActivateViaCodeByGetCode",
+              "name": "ActivateViaCode",
+              "httpMethod": "GET",
+              "url": "api/WajbaUser/ActivateAccountOTP",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "getCode",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "getCode",
+                  "name": "getCode",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "Wajba.Controllers.WajbaUserController"
+            },
+            "ActivateAccountByPhone": {
+              "uniqueName": "ActivateAccountByPhone",
+              "name": "ActivateAccount",
+              "httpMethod": "POST",
+              "url": "api/WajbaUser/ActivateEmailAccount",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "Phone",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "Phone",
+                  "name": "Phone",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": true,
               "implementFrom": "Wajba.Controllers.WajbaUserController"
             },
             "GetWajbaUserById": {
@@ -6536,8 +6926,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.Dtos.CustomerContract.GetUserDto>",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.Dtos.CustomerContract.GetUserDto>"
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.Dtos.WajbaUsersContract.GetUserDto>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.Dtos.WajbaUsersContract.GetUserDto>"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.WajbaUserController"
@@ -6551,9 +6941,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.CustomerContract.GetUserListDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.CustomerContract.GetUserListDto",
-                  "typeSimple": "Wajba.Dtos.CustomerContract.GetUserListDto",
+                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.GetUserListDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUsersContract.GetUserListDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.GetUserListDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -6621,8 +7011,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.CustomerContract.WajbaUserDto>>",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.CustomerContract.WajbaUserDto>>"
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.WajbaUsersContract.WajbaUserDto>>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.WajbaUsersContract.WajbaUserDto>>"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.WajbaUserController"
@@ -6658,8 +7048,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.ActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.WajbaUserController"
@@ -15687,6 +16077,171 @@
         }
       ]
     },
+    "Wajba.Dtos.CouponContract.CouponDto": {
+      "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Code",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Discount",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DiscountType",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "StartDate",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "EndDate",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MinimumOrderAmount",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MaximumDiscount",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LimitPerUser",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CountOfUsers",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ImageUrl",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsExpired",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.CouponContract.CreateUpdateCouponDto": {
       "baseType": null,
       "isEnum": false,
@@ -15850,8 +16405,8 @@
         {
           "name": "branchid",
           "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -16026,6 +16581,39 @@
         }
       ]
     },
+    "Wajba.Dtos.CouponContract.UpdateImageCoupon": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "model",
+          "jsonName": null,
+          "type": "Wajba.Dtos.ThemesContract.Base64ImageModel",
+          "typeSimple": "Wajba.Dtos.ThemesContract.Base64ImageModel",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.CurrenciesContract.CreateUpdateCurrenciesDto": {
       "baseType": null,
       "isEnum": false,
@@ -16116,435 +16704,6 @@
         }
       ]
     },
-    "Wajba.Dtos.CustomerContract.CreateUserDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "FullName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Email",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Phone",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "status",
-          "jsonName": null,
-          "type": "Wajba.Enums.Status",
-          "typeSimple": "enum",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Type",
-          "jsonName": null,
-          "type": "Wajba.Enums.UserTypes",
-          "typeSimple": "enum",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ProfilePhoto",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Points",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Password",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ConfirmPassword",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "Wajba.Dtos.CustomerContract.GetUserDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Guid",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "FullName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Email",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Phone",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Type",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Status",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "Wajba.Dtos.CustomerContract.GetUserListDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "FullName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Type",
-          "jsonName": null,
-          "type": "System.Int32?",
-          "typeSimple": "number?",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Status",
-          "jsonName": null,
-          "type": "System.Int32?",
-          "typeSimple": "number?",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "MaxResultCount",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "SkipCount",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "Wajba.Dtos.CustomerContract.UpdateWajbaUserDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "FullName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Email",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Phone",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Type",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Status",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "Wajba.Dtos.CustomerContract.WajbaUserDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "FullName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Email",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Phone",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Type",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Status",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
     "Wajba.Dtos.DineInTableContract.CreateDineIntable": {
       "baseType": null,
       "isEnum": false,
@@ -16594,6 +16753,111 @@
           "type": "System.Int32",
           "typeSimple": "number",
           "isRequired": true,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.DineInTableContract.DiniINTableDto": {
+      "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Size",
+          "jsonName": null,
+          "type": "System.Byte",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BranchId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BranchName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Phone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Address",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "url",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
           "minLength": null,
           "maxLength": null,
           "minimum": null,
@@ -18973,7 +19237,254 @@
       "enumNames": null,
       "enumValues": null,
       "genericArguments": null,
-      "properties": []
+      "properties": [
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "status",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Currentprice",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "prePrice",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "branchid",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "createdAtStart",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "createdAtEnd",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.PopularItemstoday.Popularitemdto": {
+      "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ImageUrl",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PrePrice",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CurrentPrice",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CategoryName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BranchId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ItemId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.PopularItemstoday.UpdateImage": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "model",
+          "jsonName": null,
+          "type": "Wajba.Dtos.ThemesContract.Base64ImageModel",
+          "typeSimple": "Wajba.Dtos.ThemesContract.Base64ImageModel",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
     },
     "Wajba.Dtos.PopularItemstoday.UpdatePopularItemdto": {
       "baseType": "Wajba.Dtos.PopularItemstoday.CreatePopularitem",
@@ -19423,8 +19934,8 @@
         {
           "name": "AddressType",
           "jsonName": null,
-          "type": "Wajba.Enums.EmployeeAddressType",
-          "typeSimple": "enum",
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -19564,8 +20075,8 @@
         {
           "name": "AddressType",
           "jsonName": null,
-          "type": "Wajba.Enums.EmployeeAddressType",
-          "typeSimple": "enum",
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -19705,8 +20216,8 @@
         {
           "name": "AddressType",
           "jsonName": null,
-          "type": "Wajba.Enums.EmployeeAddressType",
-          "typeSimple": "enum",
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -19716,7 +20227,307 @@
         }
       ]
     },
-    "Wajba.Dtos.UserDTO.LogInDto": {
+    "Wajba.Dtos.UserDTO.ForgetPasswordDTO": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "UserId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "NewPassword",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.WajbaUsersContract.CreateUserDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "FullName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Email",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Phone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "status",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Type",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ProfilePhoto",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Points",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Password",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ConfirmPassword",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.WajbaUsersContract.GetUserDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FullName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Email",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Phone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Type",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.WajbaUsersContract.GetUserListDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "FullName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Type",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MaxResultCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "SkipCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -19749,53 +20560,167 @@
         }
       ]
     },
-    "Wajba.Enums.EmployeeAddressType": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "Apartment",
-        "Office",
-        "House"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+    "Wajba.Dtos.WajbaUsersContract.UpdateWajbaUserDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
       "genericArguments": null,
-      "properties": null
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FullName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Email",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Phone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Type",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
     },
-    "Wajba.Enums.Status": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "InActive",
-        "Active"
-      ],
-      "enumValues": [
-        1,
-        2
-      ],
+    "Wajba.Dtos.WajbaUsersContract.WajbaUserDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
       "genericArguments": null,
-      "properties": null
-    },
-    "Wajba.Enums.UserTypes": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "Admin",
-        "Employee",
-        "Deliveryboy",
-        "Customer"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
-      "genericArguments": null,
-      "properties": null
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FullName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Email",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Phone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Type",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
     }
   }
 }

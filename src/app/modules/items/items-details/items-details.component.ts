@@ -166,15 +166,15 @@ export class ItemsDetailsComponent implements OnInit {
       modalRef.close();
     });
 
-    modalRef.result
-      .then((result) => {
-        if (result === 'saved') {
-          this.loadVariations(this.item.id); // Refresh the variations list
-        }
-      })
-      .catch((reason) => {
-        console.log('Modal dismissed:', reason);
-      });
+    // modalRef.result
+    //   .then((result) => {
+    //     if (result === 'saved') {
+    //       this.loadVariations(this.item.id); // Refresh the variations list
+    //     }
+    //   })
+    //   .catch((reason) => {
+    //     console.log('Modal dismissed:', reason);
+    //   });
   }
 
   openExtraModal(extra?: any): void {

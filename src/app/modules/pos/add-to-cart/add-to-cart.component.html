@@ -1,77 +1,136 @@
 <div class="modal-overlay" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <!-- Modal header -->
-    <div class="modal-header border-bottom">
-      <h5 class="section-title text-black">{{ product?.name }}</h5>
+    <div class="modal-header border-0 d-flex justify-content-between align-items-center pb-0">
+      <div></div>
       <button type="button" class="border-0 bg-white" aria-label="Close" (click)="closeModal()">
         <app-icons iconName="close" color="#F45859"></app-icons>
       </button>
     </div>
 
     <!-- Modal body -->
-    <div class="modal-body">
-      <form (ngSubmit)="onSubmit()" [formGroup]="cartForm">
-        <div class="row">
-          <div class="col-4">
-            <img [src]="product.imageUrl" alt="Product Image" class="img-fluid rounded">
-          </div>
-          <div class="col-8">
-            <h5 class="fw-bold">{{ product.name }}</h5>
-            <p class="text-muted">{{ product.description }}</p>
-            <p class="fw-bold">QAR {{ product.price.toFixed(2) }}</p>
+    <form (ngSubmit)="onSubmit()" [formGroup]="cartForm" *ngIf="productItem">
+      <div class="modal-content">
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex">
+              <img [src]="productItem.imageUrl" alt="product-image" class="rounded"
+                style="width: 86.34px; height: 80.87px;" />
+              <div class="ms-3">
+                <h3 class="fw-bold m-0">{{ productItem.name }}</h3>
+                <dl>
+                  <div class="text-muted">
+                    <dt class="d-inline">Description: </dt>
+                    <dd class="d-inline">{{ productItem.description }}</dd>
+                  </div>
+                  <div class="fw-bold">
+                    <dt class="d-inline">QAR</dt>
+                    <dd class="d-inline">{{ (productItem.price).toFixed(2) }}</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
 
-            <div class="input-group mt-3">
-              <button class="btn btn-outline-secondary" type="button" (click)="decrementQuantity($event)"
-                [disabled]="quantity === 1">
-                <i class="bi bi-dash"></i>
+            <!-- Quantity Controls -->
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <button *ngIf="quantity === 1" type="button" class="btn btn-sm p-0" (click)="closeModal()">
+                <app-icons iconName="remove" color="#F45859"></app-icons>
               </button>
-              <input type="number" min="1" [(ngModel)]="quantity" name="quantity" class="form-control text-center">
-              <button class="btn btn-outline-secondary" type="button" (click)="incrementQuantity($event)">
-                <i class="bi bi-plus"></i>
+              <button *ngIf="quantity > 1" type="button" class="btn btn-sm p-0" (click)="decrementQuantity($event)">
+                <app-icons iconName="decrement" color="#F45859"></app-icons>
+              </button>
+              <input type="number" formControlName="quantity" min="1"
+                class="form-control text-center bg-white border-0 p-0 ps-3" style="width: 60px;" readonly />
+              <button type="button" class="btn btn-sm p-0" (click)="incrementQuantity($event)">
+                <app-icons iconName="increment" color="#F45859"></app-icons>
               </button>
             </div>
           </div>
-        </div>
 
-        <div class="mt-4">
-          <h5 class="fw-bold">Attributes</h5>
-          <div *ngFor="let attribute of product.attributes">
-            <p class="mb-1">{{ attribute.attributeName }}</p>
-            <div class="d-flex flex-wrap">
-              <div *ngFor="let variation of attribute.variations" class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" [id]="variation.id"
-                  [formControlName]="attribute.attributeName" [value]="variation.id">
-                <label class="form-check-label" [for]="variation.id">
-                  {{ variation.name }} (+ QAR {{ variation.additionalPrice }})
+          <div class="mb-3">
+            <h5 class="fw-bold text-black">Description</h5>
+            <p class="d-inline">{{productItem.description}}</p>
+          </div>
+
+          <!-- Variations -->
+          <div *ngFor="let attribute of productItem.attributes; let i = index">
+            <h5 class="h5 font-weight-bold mt-3">{{ attribute.attributeName }}</h5>
+            <div class="d-flex flex-wrap justify-content-center gap-3 mt-2" [formArrayName]="'variations'">
+              <div *ngFor="let variation of attribute.variations; let vIndex = index" class="position-relative">
+                <input type="radio" [id]="variation.id" [formControlName]="i.toString()" [value]="variation.id"
+                  class="position-absolute top-50 start-0 translate-middle" />
+                <label [for]="variation.id"
+                  class="d-flex flex-column px-3 py-2 bg-light w-100 rounded text-small font-weight-medium cursor-pointer border border-light hover:border-danger">
+                  {{ variation.name }}
+                  <span class="font-weight-bold">
+                    QAR {{ variation.additionalPrice }}
+                  </span>
                 </label>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="mt-4">
-          <h5 class="fw-bold">Add-ons</h5>
-          <div *ngIf="product.itemAddons.length">
-            <div *ngFor="let addon of product.itemAddons" class="form-check">
-              <input class="form-check-input" type="checkbox" [formControlName]="addon.name" [id]="addon.id">
-              <label class="form-check-label" [for]="addon.id">
-                {{ addon.name }} (+ QAR {{ addon.price }})
-              </label>
+          <!-- Addons -->
+          <div *ngIf="productItem.itemAddons.length != 0">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="fw-bold">Addons</h5>
+              <span class="badge bg-light px-2 py-1 text-black rounded-4">Optional</span>
             </div>
+            <div formArrayName="addons">
+              <div *ngFor="let addon of productItem.itemAddons; let i = index"
+                class="form-check d-flex justify-content-between p-0">
+                <label class="form-check-label d-flex w-100 justify-content-between">
+                  <span class="text-capitalize">{{ addon.name }}</span>
+                  <div class="d-flex align-items-center justify-content-center gap-2">
+                    <span class="mx-4">QAR {{ addon.additionalPrice }}</span>
+                    <input type="checkbox" [formControlName]="i" class="form-check-input bg-white">
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extras -->
+          <div *ngIf="productItem.itemExtras.length != 0" class="mt-4">
+            <h5 class="fw-bold">Often Ordered With</h5>
+            <p class="text-muted">People usually order these items as well</p>
+            <div class="overflow-auto max-w-screen-md d-flex gap-2">
+              <div *ngFor="let extra of productItem.itemExtras" class="col-auto">
+                <div class="card border extra-card rounded-4">
+                  <img src="assets/images/extra-image.jpeg" alt="extra" class="card-img-top"
+                    style="height: 113.63px;" />
+                  <div class="card-body">
+                    <div class="p-2">
+                      <h6 class="card-title text-capitalize">{{ extra.name }}</h6>
+                      <p class="card-text fw-bold">QAR {{ (extra.additionalPrice).toFixed(2) }}</p>
+                    </div>
+                    <div class="px-2">
+                      <button type="button" (click)="addExtra(extra)"
+                        class="btn btn-danger btn-sm w-100 border-0 rounded-5">
+                        +Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Special Instructions -->
+          <div class="mt-4">
+            <label for="note" class="form-label fw-bold">Special Instructions</label>
+            <textarea id="note" rows="4" class="form-control bg-white" placeholder="Note"></textarea>
           </div>
         </div>
 
-        <div class="mt-4">
-          <h5 class="fw-bold">Special Instructions</h5>
-          <textarea class="form-control" rows="3" placeholder="Add any special instructions..."></textarea>
-        </div>
-
-        <div class="text-end mt-4">
-          <button type="submit" class="btn btn-primary">
-            Add to Cart (QAR {{ calculateTotalPrice().toFixed(2) }})
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger w-100 rounded-5 border-0">
+            Add To Cart QAR {{ (calculateTotalPrice()).toFixed(2) }}
           </button>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </div>

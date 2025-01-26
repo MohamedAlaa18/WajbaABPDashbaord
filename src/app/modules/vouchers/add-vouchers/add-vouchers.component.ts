@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -40,7 +40,7 @@ export class AddVouchersComponent implements OnInit {
       minDiscount: ['',],
       maxDiscount: ['', Validators.required],
       description: [''],
-      image: [''],
+      image: ['', Validators.required],
     });
   }
 
@@ -53,17 +53,26 @@ export class AddVouchersComponent implements OnInit {
 
   populateForm(voucher: UpdateCoupondto) {
     this.voucherForm.patchValue({
+      id: voucher.id,
       name: voucher.name,
       code: voucher.code,
       discount: voucher.discount,
       limitPerUser: voucher.limitPerUser,
       discountType: voucher.discountType,
-      startDate: voucher.startDate,
-      endDate: voucher.endDate,
+      startDate: this.formatDateForInput(voucher.startDate), // Format the date
+      endDate: this.formatDateForInput(voucher.endDate), // Format the date
       maxDiscount: voucher.maximumDiscount,
       minDiscount: voucher.minimumOrderAmount,
       description: voucher.description,
     });
+  }
+
+  formatDateForInput(dateString: string | null): string | null {
+    if (!dateString) {
+      return null;
+    }
+    // Use `formatDate` to format the date to 'yyyy-MM-dd'
+    return formatDate(dateString, 'yyyy-MM-dd', 'en-US');
   }
 
   closeModal() {
@@ -103,6 +112,7 @@ export class AddVouchersComponent implements OnInit {
         this.couponService.update(formValue as UpdateCoupondto).subscribe(
           response => {
             console.log(response);
+            this.closeModal();
             this.afterActionService.reloadCurrentRoute();
           },
           error => {
@@ -114,6 +124,7 @@ export class AddVouchersComponent implements OnInit {
         this.couponService.create(formValue as CreateUpdateCouponDto).subscribe(
           response => {
             console.log(response);
+            this.closeModal();
             this.afterActionService.reloadCurrentRoute();
           },
           error => {

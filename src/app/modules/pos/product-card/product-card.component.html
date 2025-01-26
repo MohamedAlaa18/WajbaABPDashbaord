@@ -1,13 +1,13 @@
 <div *ngIf="productItem" class="card product-card">
   <img [src]="productItem.imageUrl" alt="logo" class="card-img-top rounded-top">
 
-  <div class="card-body">
-    <h5 class="card-title text-center text-capitalize">{{ productItem.name }}</h5>
+  <div class="card-body p-1">
+    <h5 class="card-title text-center text-capitalize mb-2">{{ productItem.name }}</h5>
 
-    <div class="d-flex justify-content-between align-items-center">
-      <p class="font-weight-bold">${{ productItem.price.toFixed(2) }}</p>
-      <button class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1 add-btn"
-        (click)="openAddToCardModal()">
+    <div class="d-flex justify-content-between align-items-center gap-1 font-weight-bold">
+      <p class="m-0 text-black">${{ productItem.price.toFixed(2) }}</p>
+      <button class="btn text-danger btn-sm d-flex align-items-center gap-1 add-btn font-weight-bold"
+        (click)="openAddToCardModal(productItem)">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M6.53833 0.592285C6.89156 0.592285 7.24132 0.661858 7.56766 0.797031C7.89399 0.932203 8.19051 1.13033 8.44028 1.3801C8.69004 1.62986 8.88817 1.92638 9.02334 2.25271C9.15852 2.57905 9.22809 2.92882 9.22809 3.28204V4.35794H10.8419C10.9846 4.35794 11.1214 4.41462 11.2223 4.5155C11.3232 4.61639 11.3799 4.75322 11.3799 4.89589V11.3513C11.3799 11.494 11.3232 11.6308 11.2223 11.7317C11.1214 11.8326 10.9846 11.8893 10.8419 11.8893H2.23473C2.09205 11.8893 1.95522 11.8326 1.85434 11.7317C1.75345 11.6308 1.69678 11.494 1.69678 11.3513V4.89589C1.69678 4.75322 1.75345 4.61639 1.85434 4.5155C1.95522 4.41462 2.09205 4.35794 2.23473 4.35794H3.84858V3.28204C3.84858 2.56867 4.13196 1.88452 4.63639 1.3801C5.14082 0.875669 5.82497 0.592285 6.53833 0.592285V0.592285ZM9.22809 5.97179H8.15219V6.50974C8.15234 6.64686 8.20484 6.77874 8.29897 6.87844C8.39309 6.97814 8.52173 7.03814 8.65861 7.04617C8.79549 7.05421 8.93027 7.00968 9.03541 6.92167C9.14056 6.83367 9.20813 6.70884 9.22432 6.57268L9.22809 6.50974V5.97179ZM4.92448 5.97179H3.84858V6.50974C3.84873 6.64686 3.90123 6.77874 3.99536 6.87844C4.08948 6.97814 4.21813 7.03814 4.355 7.04617C4.49188 7.05421 4.62666 7.00968 4.73181 6.92167C4.83695 6.83367 4.90452 6.70884 4.92072 6.57268L4.92448 6.50974V5.97179ZM6.53833 1.66819C6.12669 1.66816 5.73059 1.82544 5.43109 2.10785C5.13159 2.39025 4.95132 2.77642 4.92717 3.18736L4.92448 3.28204V4.35794H8.15219V3.28204C8.15221 2.87039 7.99493 2.4743 7.71253 2.1748C7.43013 1.87529 7.04395 1.69503 6.63301 1.67088L6.53833 1.66819Z"

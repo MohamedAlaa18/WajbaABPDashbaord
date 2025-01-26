@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddToCartComponent } from '../add-to-cart/add-to-cart.component';
+import { ItemDto } from '@proxy/dtos/items-dtos';
 
 @Component({
   selector: 'app-product-card',
@@ -11,7 +12,7 @@ import { AddToCartComponent } from '../add-to-cart/add-to-cart.component';
   styleUrl: './product-card.component.scss'
 })
 export class ProductCardComponent {
-  @Input() productItem!: any;
+  @Input() productItem!: ItemDto;
 
   isAddModalOpen = false;
 
@@ -27,7 +28,7 @@ export class ProductCardComponent {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.product = product || null;
+    modalRef.componentInstance.productItem = product || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();

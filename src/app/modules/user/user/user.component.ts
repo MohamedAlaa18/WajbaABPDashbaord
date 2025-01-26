@@ -1,15 +1,15 @@
-import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UpdateDinInTable } from '@proxy/dtos/dine-in-table-contract';
 import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
 import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
 import { AddUserComponent } from '../add-user/add-user.component';
+import { WajbaUserService } from '@proxy/controllers';
+import { GetUserListDto, UpdateWajbaUserDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 
 @Component({
   selector: 'app-user',
@@ -19,17 +19,15 @@ import { AddUserComponent } from '../add-user/add-user.component';
   styleUrl: './user.component.scss'
 })
 export class UserComponent implements OnInit {
-  users: UpdateDinInTable[] = [];
+  users: WajbaUserDto[] = [];
   userTypeLabel: string = '';
-
-  isAddMode = true;
   currentPage: number = 1;
   totalPages: number = 4;
 
-  isMenuOpen: boolean = false;
   isFilterVisible: boolean = false;
 
   columns: Array<{ field: string; header: string }> = [];
+  tableData: any[] = []; // This will be dynamically generated
 
   actions = [
     {
@@ -42,12 +40,9 @@ export class UserComponent implements OnInit {
       icon: 'assets/images/view.svg',
       tooltip: 'View',
       show: (row: any) => true,
-      callback: (row: any) => this.openBranchDetailsAndNavigate(row),
+      callback: (row: any) => this.openUserDetailsAndNavigate(row),
     }
   ];
-
-  headers: string[] = ['Name', 'Category', 'PreviousPrice', 'CurrentPrice', 'Status'];
-  tableData: { Name: string; Category: string; PreviousPrice: number; CurrentPrice: number, Status: boolean }[] = [];
 
   filterFields = [
     { label: 'Name', name: 'name', type: 'text' },
@@ -56,9 +51,10 @@ export class UserComponent implements OnInit {
     {
       label: 'Role', name: 'role', type: 'select',
       options: [
-        { label: 'POS Operator', value: 'POS' },
-        { label: 'Staff', value: 'Staff' },
-        { label: 'Branch Manager', value: 'Branch_Manager' }
+        { label: 'POS Operator', value: 1 },
+        { label: 'Staff', value: 2 },
+        { label: 'Branch Manager', value: 3 },
+        { label: 'Customer', value: 2 },
       ]
     },
     {
@@ -74,89 +70,91 @@ export class UserComponent implements OnInit {
     name: '',
     email: '',
     phone: '',
-    role: '',
+    role: null,
     status: ''
   };
 
   constructor(
     private modalService: NgbModal,
-    // private dineIntableService: DineIntableService,
-    // private exportService: ExportService,
+    private wajbaUserService: WajbaUserService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
-    // this.loadDiningTables();
-
     this.activatedRoute.url.subscribe((urlSegments) => {
       const path = urlSegments[0]?.path;
-
       switch (path) {
         case 'administrators':
           this.userTypeLabel = 'Administrators';
+          this.filters.role = 1; // Admin
           break;
         case 'delivery-boys':
           this.userTypeLabel = 'Delivery Boys';
+          this.filters.role = 3; // Deliveryboy
           break;
         case 'customers':
           this.userTypeLabel = 'Customers';
+          this.filters.role = 4; // Customer
           break;
         case 'employees':
           this.userTypeLabel = 'Employees';
+          this.filters.role = 2; // Employee
           break;
         default:
           this.userTypeLabel = 'User';
+          this.filters.role = undefined; // No specific type filter
       }
-    })
+      this.initializeColumns(); // Initialize columns based on user type
+      this.loadUsers(); // Load users after setting the user type
+    });
+  }
 
-    this.initializeColumns();
+  loadUsers(): void {
+    const defaultInput: GetUserListDto = {
+      fullName: this.filters.name,
+      type: this.filters.role, // Set the filtered type dynamically
+      status: this.filters.status ? Number(this.filters.status) : undefined,
+      skipCount: (this.currentPage - 1) * 10,
+      maxResultCount: 10,
+    };
+
+    this.wajbaUserService.getWajbaUserByInput(defaultInput).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.users = response.items;
+        this.totalPages = Math.ceil(response.totalCount / 10); // Update total pages
+
+        // Dynamically generate tableData based on columns and users
+        this.tableData = this.users.map((user) => {
+          const row: any = {};
+          this.columns.forEach((column) => {
+            row[column.field] = user[column.field as keyof WajbaUserDto];
+          });
+          return row;
+        });
+      },
+      error: (err) => {
+        console.error('Error loading users:', err);
+      },
+    });
   }
 
   initializeColumns(): void {
     this.columns = [
-      { field: 'name', header: 'Name' },
+      { field: 'fullName', header: 'Name' },
       { field: 'email', header: 'Email' },
       { field: 'phone', header: 'Phone' },
       { field: 'status', header: 'Status' },
     ];
 
-    // Add the role column only if userTypeLabel is "Employee"
+    // Add the role column only if userTypeLabel is "Employees"
     if (this.userTypeLabel === 'Employees') {
       this.columns.splice(3, 0, { field: 'role', header: 'Role' }); // Add 'role' column at the correct position
     }
   }
 
-  // Load all tables
-  loadDiningTables(): void {
-    const defaultInput: PagedAndSortedResultRequestDto = {
-      sorting: '',
-      skipCount: 0,
-      maxResultCount: 10
-    };
-
-    // this.dineIntableService.getList(defaultInput).subscribe({
-    //   next: (response) => {
-    //     console.log(response)
-    //     this.tables = response.data.tables;
-    //   },
-    //   error: (err) => {
-    //     console.error('Error loading tables:', err);
-    //   },
-    // });
-  }
-
-  handleMenuAction(action: string) {
-    if (action === 'exportXLS') {
-      this.exportXLS();
-    } else if (action === 'print') {
-      this.print();
-    }
-  }
-
-  openAddEditModal(table?: UpdateDinInTable, userTypeLabel?: string): void {
+  openAddEditModal(user?: UpdateWajbaUserDto, userTypeLabel?: string): void {
     const modalRef = this.modalService.open(AddUserComponent, {
       size: 'lg',
       centered: true,
@@ -164,7 +162,7 @@ export class UserComponent implements OnInit {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.table = table || null;
+    modalRef.componentInstance.user = user || null;
     modalRef.componentInstance.userTypeLabel = userTypeLabel || this.userTypeLabel;
 
     modalRef.componentInstance.close.subscribe(() => {
@@ -174,7 +172,7 @@ export class UserComponent implements OnInit {
     modalRef.result
       .then((result) => {
         if (result === 'saved') {
-          this.loadDiningTables();
+          this.loadUsers(); // Reload users after saving
         }
       })
       .catch((reason) => {
@@ -182,39 +180,29 @@ export class UserComponent implements OnInit {
       });
   }
 
-  exportXLS() {
-    // this.exportService.exportTableToXls(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
-  }
-
-  print() {
-    // this.exportService.exportTableToPdf(this.tableData, this.headers, 'PopularItemsData');
-    this.isMenuOpen = false;
-  }
-
   onPageChange(page: number): void {
     this.currentPage = page;
-    this.loadDiningTables();
+    this.loadUsers(); // Reload users for the new page
   }
 
-  openBranchDetailsAndNavigate(table: UpdateDinInTable) {
-    this.router.navigate(['/user', table.id]);
+  openUserDetailsAndNavigate(user: WajbaUserDto) {
+    this.router.navigate(['/user', user.id]); // Navigate to user details
   }
 
   toggleFilterVisibility(): void {
-    this.isFilterVisible = !this.isFilterVisible;
+    this.isFilterVisible = !this.isFilterVisible; // Toggle filter visibility
   }
 
   applyFilters(filters: any): void {
     this.filters = filters;
     this.currentPage = 1; // Reset to the first page
-    this.loadDiningTables();
+    this.loadUsers(); // Reload users with new filters
   }
 
   clearFilters(): void {
     this.filters = {
-      name: '', email: '', phone: '', role: '', status: ''
+      name: '', email: '', phone: '', role: null, status: ''
     };
-    this.loadDiningTables();
+    this.loadUsers(); // Reload users without filters
   }
 }

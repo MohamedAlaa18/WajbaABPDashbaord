@@ -1,15 +1,15 @@
 <section class="p-4 bg-white" *ngIf="voucher">
   <div class="border-bottom mb-4 pb-2">
-    <span class="fw-bold fs-5">Voucher</span>
+    <span class="fw-semibold text-black fs-4">Voucher</span>
   </div>
 
-  <div class="d-flex flex-wrap gap-4">
+  <div class="d-flex gap-4">
     <div class="card border rounded">
       <img [src]="voucher.imageUrl" alt="{{ voucher.name }}" class="card-img-top rounded" />
     </div>
 
     <div class="d-flex gap-4 px-3">
-      <ol class="list-unstyled">
+      <ul class="list-disc text-black">
         <li><strong>Name:</strong></li>
         <li><strong>Code:</strong></li>
         <li><strong>Discount:</strong></li>
@@ -20,8 +20,8 @@
         <li><strong>Maximum Discount:</strong></li>
         <li><strong>Limit Per User:</strong></li>
         <li><strong>Description:</strong></li>
-      </ol>
-      <div class="text-secondary">
+      </ul>
+      <div class="">
         <p>{{ voucher.name }}</p>
         <p>{{ voucher.code }}</p>
         <p>{{ (voucher.discount).toFixed(2) }}</p>

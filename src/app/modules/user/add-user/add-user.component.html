@@ -10,9 +10,9 @@
     <form [formGroup]="userForm" (ngSubmit)="submitForm()" class="p-3">
       <div class="row mb-3">
         <div class="col-md-6">
-          <label for="userName" class="form-label">Name <span class="text-danger">*</span></label>
-          <input type="text" id="userName" formControlName="name" class="form-control bg-white">
-          <div *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid" class="text-danger">
+          <label for="fullName" class="form-label">Name <span class="text-danger">*</span></label>
+          <input type="text" id="fullName" formControlName="fullName" class="form-control bg-white">
+          <div *ngIf="userForm.get('fullName')?.touched && userForm.get('fullName')?.invalid" class="text-danger">
             <small>Name is required.</small>
           </div>
         </div>
@@ -37,8 +37,8 @@
         </div>
 
         <div class="col-md-6" *ngIf="userTypeLabel === 'Employees'">
-          <label for="userRole" class="form-label">Role <span class="text-danger">*</span></label>
-          <select id="userRole" formControlName="role" class="form-control bg-white">
+          <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
+          <select id="role" formControlName="role" class="form-control bg-white">
             <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
           </select>
           <div *ngIf="userForm.get('role')?.touched && userForm.get('role')?.invalid" class="text-danger">
@@ -57,8 +57,8 @@
         </div>
 
         <div class="col-md-6">
-          <label for="userConfirmPassword" class="form-label">Confirm Password <span
-              class="text-danger">*</span></label>
+          <label for="userConfirmPassword" class="form-label">
+            Confirm Password <span class="text-danger">*</span></label>
           <input type="password" id="userConfirmPassword" formControlName="confirmPassword"
             class="form-control bg-white">
           <div *ngIf="userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid"
@@ -66,15 +66,22 @@
             <small>Confirm Password is required.</small>
           </div>
         </div>
+
+        <!-- Add this block to show the passwordsMatch validation error -->
+        <div
+          *ngIf="userForm.errors?.['passwordsMismatch'] && (userForm.get('password')?.touched || userForm.get('confirmPassword')?.touched)"
+          class="text-danger">
+          <small>Passwords do not match.</small>
+        </div>
       </div>
 
       <div class="row mb-3">
         <div class="col-md-6" *ngIf="userTypeLabel !== 'Customers'">
           <label for="branches" class="form-label">Branches <span class="text-danger">*</span></label>
           <ng-select [items]="branchesList" bindLabel="name" bindValue="id" [multiple]="true"
-            placeholder="Select branches" (change)="onBranchSelectionChange($event)" class="custom">
+            placeholder="Select branches" formControlName="branchIds" class="custom">
           </ng-select>
-          <div *ngIf="branches.invalid && branches.touched" class="text-danger">
+          <div *ngIf="userForm.get('branchIds')?.touched && userForm.get('branchIds')?.invalid" class="text-danger">
             <small>At least one branch must be selected.</small>
           </div>
         </div>

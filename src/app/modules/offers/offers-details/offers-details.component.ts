@@ -65,6 +65,7 @@ export class OffersDetailsComponent implements OnInit {
     if (this.offerId) {
       this.offerService.getById(this.offerId).subscribe(
         (response) => {
+          console.log(response);
           this.offer = response.data;
           this.offer.itemDtos.length > 0 ? this.tableData = this.offer.itemDtos : this.tableData = this.offer.categoryDtos;
         },

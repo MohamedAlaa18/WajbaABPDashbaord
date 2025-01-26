@@ -12,49 +12,45 @@
     </form>
 
     <!-- Meal items scrollable list -->
-    <div class="overflow-auto max-w-screen-md categories-container" *ngIf="categories" (scroll)="onScroll($event)">
-      <div [ngStyle]="{ width: (calculateWidth(categories.length + 1)) + 'px' }">
-        <div class="d-flex flex-wrap gap-3 my-4"
-          [ngStyle]="{ 'transform': 'translateX(-' + (selectedPageIndex * calculateWidth(4)) + 'px)' }">
-          <!-- 'All' category button -->
-          <button (click)="selectCategory(0)"
-            class="btn rounded-circle border border-light hover:border-danger hover:bg-danger bg-light transition"
-            [ngClass]="{ 'bg-success': selectedCategoryId === undefined }">
-            <img [src]="" alt="category" class="w-75 h-75" />
-            <span class="text-small font-weight-bold">All</span>
-          </button>
+    <div class="overflow-auto categories-container d-flex gap-3 mt-4 max-w-xl" *ngIf="categories"
+      (scroll)="onScroll($event)">
+      <!-- 'All' category button -->
+      <button (click)="selectCategory(0)" class="btn rounded-4 bg-white transition category-button"
+        [ngClass]="{ 'selected-category': selectedCategoryId === undefined }">
+        <img src="assets/images/all-categories.png" alt="category" />
+        <span class="text-small text-black">All Items</span>
+      </button>
 
-          <!-- Category buttons -->
-          <button *ngFor="let category of categories;" (click)="selectCategory(category.id)"
-            class="btn rounded-circle border border-light hover:border-danger hover:bg-danger transition"
-            [ngClass]="{ 'bg-success': selectedCategoryId === category.id }">
-            <img [src]="category.imageUrl" alt="category" class="w-75 h-75" />
-            <span class="text-small font-weight-bold">{{ category.name }}</span>
-          </button>
-        </div>
-      </div>
+      <!-- Category buttons -->
+      <button *ngFor="let category of categories;" (click)="selectCategory(category.id)"
+        class="btn rounded-4 bg-white transition category-button"
+        [ngClass]="{ 'selected-category': selectedCategoryId === category.id }">
+        <img [src]="category.imageUrl" alt="category" />
+        <span class="text-small text-black">{{ category.name }}</span>
+      </button>
     </div>
 
     <!-- Pagination buttons -->
     <div class="d-flex justify-content-center gap-2 w-100 mt-4 mb-4">
       <button *ngFor="let page of [].constructor(pageCount); let i = index" (click)="selectPage(i)"
         class="rounded navigation"
-        [ngStyle]="{ 'background-color': selectedPageIndex === i ? '#F45859' : '#F4585945' }"></button>
+        [ngStyle]="{ 'background-color': selectedPageIndex === i ? '#F45859' : '#F4585945' }">
+      </button>
     </div>
 
     <!-- Product list -->
     <div class="d-flex overflow-auto gap-3 my-4 w-100 max-w-screen-md flex-wrap">
-      <div *ngFor="let product of products">
+      <div *ngFor="let product of items">
         <app-product-card [productItem]="product"></app-product-card>
       </div>
     </div>
   </div>
 
   <!-- Service selection buttons -->
-  <div class="bg-white p-4 rounded-2xl d-flex flex-column gap-4 col-md-6">
+  <div class="bg-white p-4 rounded-2xl d-flex flex-column gap-4 col-md-6 rounded-4">
     <div class="d-flex flex-wrap gap-2">
       <button *ngFor="let type of orderType" (click)="selectService(type)"
-        class="btn d-flex align-items-center gap-2 rounded" [ngClass]="{
+        class="btn d-flex align-items-center gap-2 rounded" style="min-width: 122px;" [ngClass]="{
         'bg-danger': selectedTypeName === type.name,
         'bg-light': selectedTypeName !== type.name
       }">
@@ -68,7 +64,7 @@
 
       <div *ngIf="selectedTypeName === 'POS'">
         <!-- POS Form -->
-        <div class="mt-4 d-flex flex-column gap-2">
+        <div class="mt-2 d-flex flex-column gap-2">
           <select formControlName="customer" class="form-select bg-white" aria-label="Select customer">
             <option [ngValue]="null" disabled>Select customer</option>
             <option *ngFor="let customer of customers" [ngValue]="customer.id">{{ customer.fullName }}</option>
@@ -92,7 +88,7 @@
       <div *ngIf="selectedTypeName === 'Delivery'">
         <!-- Delivery Form -->
         <div class="d-flex flex-column gap-2">
-          <h2 class="mt-4">Delivery Info</h2>
+          <h2 class="my-2">Delivery Info</h2>
           <input formControlName="buildingName" type="text" class="form-control bg-white" placeholder="Building name" />
           <div *ngIf="form.get('buildingName')?.invalid && form.get('buildingName')?.touched" class="text-danger">
             Building name is required.
@@ -270,20 +266,18 @@
 
     <div>
       <h3 class="text-small font-weight-bold">Select payment method</h3>
-      <div class="d-flex gap-3">
-        <div class="d-flex gap-1 items-center">
-          <input class="" type="radio" name="paymentMethod" id="cash" value="cash" formControlName="paymentMethod">
-          <label class="form-check-label" for="cash">
-            Cash
-          </label>
+      <form [formGroup]="form">
+        <div class="d-flex gap-3">
+          <div class="d-flex gap-1 items-center">
+            <input class="" type="radio" id="cash" value="cash" formControlName="paymentMethod" />
+            <label class="form-check-label" for="cash">Cash</label>
+          </div>
+          <div class="d-flex gap-1 items-center">
+            <input class="" type="radio" id="visa" value="visa" formControlName="paymentMethod" />
+            <label class="form-check-label" for="visa">Visa</label>
+          </div>
         </div>
-        <div class="d-flex gap-1 items-center">
-          <input class="" type="radio" name="paymentMethod" id="visa" value="visa" formControlName="paymentMethod">
-          <label class="form-check-label" for="visa">
-            Visa
-          </label>
-        </div>
-      </div>
+      </form>
     </div>
 
     <div *ngIf="cart">
@@ -322,7 +316,7 @@
 
     <div class="d-flex justify-content-start gap-2">
       <button type="button" class="btn bg-white close">Cancel</button>
-      <button (click)="placeOrder()" type="submit" class="btn me-2 text-white save">Order</button>
+      <button (click)="onSubmit()" type="submit" class="btn me-2 text-white save">Order</button>
     </div>
   </div>
 </section>

@@ -1,12 +1,13 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
-import { BranchService, CategoryService } from '@proxy/controllers';
+import { CategoryService, ItemService } from '@proxy/controllers';
 import { UpdateCategory } from '@proxy/dtos/categories';
-import { UpdateBranchDto } from '@proxy/dtos/branch-contract';
+import { GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-contract';
 import { ProductCardComponent } from "../product-card/product-card.component";
+import { ItemDto } from '@proxy/dtos/items-dtos';
 
 @Component({
   selector: 'app-pos',
@@ -15,12 +16,10 @@ import { ProductCardComponent } from "../product-card/product-card.component";
   templateUrl: './pos.component.html',
   styleUrl: './pos.component.scss'
 })
-export class POSComponent implements OnInit, AfterViewInit {
-  // customers!: ICustomer[];
-  categories!: UpdateCategory[];
-  products!: any[];
+export class POSComponent implements OnInit {
+  categories: UpdateCategory[] = [];
+  items: ItemDto[] = [];
   cart!: any;
-  branches!: UpdateBranchDto[];
 
   discountType: number = 0;
   discountValue: number | null = null;
@@ -33,7 +32,9 @@ export class POSComponent implements OnInit, AfterViewInit {
   selectedBranch: UpdateBranchDto;
   itemsPerPage = 5;
   selectedPageIndex = 0;
-  pageCount = 5;
+  pageCount = 3;
+  middleIndex: number = Math.floor(this.pageCount / 2);
+  maxIndex: number = this.pageCount - 1;
 
   orderType = [
     { name: 'POS', imageUrl: 'takeaway', id: 5 },
@@ -45,15 +46,11 @@ export class POSComponent implements OnInit, AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
-    // private sidebarService: SidebarService,
     private categoryService: CategoryService,
-    // private customerService: CustomerService,
-    // private itemsService: ItemsService,
+    private itemService: ItemService,
     // private cartService: CartService,
     // private orderService: OrderService,
-    private branchService: BranchService,
     private afterActionService: AfterActionService,
-    // private snackbarService: SnackbarService,
     private datePipe: DatePipe
   ) {
     this.form = this.fb.group({
@@ -80,72 +77,47 @@ export class POSComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // Fetching sidebar state
-    // this.sidebarService.getSidebarState().subscribe(isOpen => {
-    //   this.isSidebarOpen = isOpen;
-    // });
-
-    // Fetch categories from CategoryService
-    // this.categoryService.getAllCategories().subscribe(
-    //   (response) => {
-    //     this.categories = response.data;
-    //     this.pageCount = Math.ceil(this.categories.length / 5);
-    //     console.log(this.pageCount)
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching categories', error);
-    //   }
-    // );
-
-    // Fetch customers from CustomerService
-    // this.customerService.getAllCustomers().subscribe(
-    //   (response) => {
-    //     this.customers = response.data;
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching customers', error);
-    //   }
-    // );
-
+    this.loadCategory();
     this.loadItems();
     this.loadCart();
-    this.loadBranches();
     this.updateValidators();
   }
 
-  ngAfterViewInit(): void {
-    // this.toggleSidebar();
+  loadItems(): void {
+    this.itemService.getItemsByCategoryByCategoryIdAndName(this.selectedCategoryId, this.searchQuery).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.items = response;
+      },
+      error: (err) => {
+        console.error('Error loading items:', err);
+      },
+    });
   }
 
-  loadItems() {
-    const storedBranch = JSON.parse(localStorage.getItem('selectedBranch') || '{}');
+  loadCategory(): void {
+    const defaultInput: GetBranchInput = {
+      filter: '',
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
+    };
 
-    // this.itemsService.getItems(this.selectedCategoryId, storedBranch.id, this.searchQuery).subscribe(
-    //   (response) => {
-    //     this.products = response.data;
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching customers', error);
-    //   }
-    // );
+    this.categoryService.getList(defaultInput).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.categories = response.data.items;
+      },
+      error: (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    });
   }
 
   loadCart() {
     // this.cartService.getCart().subscribe(
     //   (response) => {
     //     this.cart = response.data;
-    //     console.log(response)
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching customers', error);
-    //   }
-    // );
-  }
-
-  loadBranches() {
-    // this.branchService.getList().subscribe(
-    //   (response) => {
-    //     this.branches = response.data;
     //     console.log(response)
     //   },
     //   (error) => {
@@ -246,19 +218,6 @@ export class POSComponent implements OnInit, AfterViewInit {
     personsControl?.updateValueAndValidity();
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      console.log('Form data', this.form.value);
-    }
-  }
-
-  calculateWidth(itemCount: number): number {
-    const itemWidth = 113.12; // width of each item
-    const gapWidth = 12;      // gap between items
-    const totalWidth = itemCount * itemWidth + (itemCount - 1) * gapWidth;
-    return totalWidth; // Correctly format the return value
-  }
-
   selectCategory(categoryId: number) {
     categoryId === 0 ?
       this.selectedCategoryId = undefined :
@@ -273,33 +232,61 @@ export class POSComponent implements OnInit, AfterViewInit {
     this.updateValidators();
   }
 
-  // toggleSidebar(): void {
-  //   if (this.isSidebarOpen) {
-  //     this.sidebarService.toggleSidebar();
-  //   }
-  // }
+  // Handle scroll to update selected page index based on position
+  @HostListener('wheel', ['$event'])
+  onScroll(event: WheelEvent): void {
+    const scrollContainer = document.querySelector('.categories-container');
+    const categories = Array.from(document.querySelectorAll('.category-button'));
+    const containerRect = scrollContainer?.getBoundingClientRect();
+
+    if (scrollContainer && containerRect) {
+      const containerWidth = containerRect.width;
+      const leftThreshold = containerWidth * 0.25;
+      const rightThreshold = containerWidth * 0.75;
+
+      categories.forEach((category, index) => {
+        const categoryRect = category.getBoundingClientRect();
+
+        // Calculate category's center position relative to container
+        const categoryCenterX = categoryRect.left + categoryRect.width / 2;
+
+        // Check if category is near the center, adjusting for different container widths
+        const isNearCenter =
+          categoryCenterX >= containerRect.left + leftThreshold &&
+          categoryCenterX <= containerRect.left + rightThreshold;
+
+        if (isNearCenter) {
+          this.selectedPageIndex = Math.max(0, index - 1);
+        }
+      });
+    }
+  }
 
   selectPage(index: number): void {
     this.selectedPageIndex = index;
     this.scrollToPage(index);
   }
 
-  // Scroll to the selected page
   scrollToPage(index: number): void {
+    // Get the container element
     const container = document.querySelector('.categories-container') as HTMLElement;
-    const scrollPosition = index * this.calculateWidth(5);
-    container.scrollTo({
-      left: scrollPosition,
-      behavior: 'smooth'
-    });
-  }
 
-  // Listen for scroll events to update the active button
-  onScroll(event: Event): void {
-    const container = event.target as HTMLElement;
-    const scrollLeft = container.scrollLeft;
-    const pageWidth = this.calculateWidth(3);
-    this.selectedPageIndex = Math.round(scrollLeft / pageWidth);
+    // Get the first category card position
+    const firstCategory = container.querySelector('.category-button') as HTMLElement;
+
+    if (firstCategory) {
+      // Calculate the width of each category card including gap
+      const categoryWidth = firstCategory.offsetWidth + parseFloat(getComputedStyle(firstCategory).marginRight || '0');
+
+      // Calculate the scroll position based on the first category card and the index
+      const scrollPosition = categoryWidth * index;
+
+      // Scroll smoothly to the calculated position
+      container.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth',
+      });
+    }
   }
 
   searchAction(event: Event) {
@@ -308,65 +295,22 @@ export class POSComponent implements OnInit, AfterViewInit {
     this.loadItems();
   }
 
-  onRemove(cartItemId: number) {
-    // this.cartService.deleteCartItemById(cartItemId).subscribe({
-    //   next: () => {
-    //     console.log(`Item with ID ${cartItemId} removed successfully`);
-    //     this.loadCart();
-    //     this.afterActionService.reloadCurrentRoute();
-    //   },
-    //   error: () => {
-    //     console.error('Failed to remove item from cart');
-    //   }
-    // });
-  }
-
-  incrementQuantity(cartItem: any) { // ICart type
-    // const newQuantity = cartItem.quantity + 1;
-    // this.cartService.updateCartItemQuantity(cartItem.cartItemId, newQuantity).subscribe({
-    //   next: () => {
-    //     console.log(`Quantity for item ${cartItem.cartItemId} increased to ${newQuantity}`);
-    //     this.loadCart();
-    //     this.afterActionService.reloadCurrentRoute();
-    //   },
-    //   error: (err) => {
-    //     console.error('Error incrementing item quantity:', err);
-    //   }
-    // });
-  }
-
-  decrementQuantity(cartItem: any) {// ICart type
-    // if (cartItem.quantity > 1) {
-    //   const newQuantity = cartItem.quantity - 1;
-    //   this.cartService.updateCartItemQuantity(cartItem.cartItemId, newQuantity).subscribe({
-    //     next: () => {
-    //       console.log(`Quantity for item ${cartItem.cartItemId} decreased to ${newQuantity}`);
+  applyVoucherCode(discountType: number, discountValue: number | null) {
+    // if (discountValue)
+    //   this.cartService.applyVoucherCode(discountType, discountValue).subscribe({
+    //     next: (response) => {
+    //       console.log("Voucher applied successfully:", response);
     //       this.loadCart();
     //       this.afterActionService.reloadCurrentRoute();
     //     },
-    //     error: (err) => {
-    //       console.error('Error decrementing item quantity:', err);
+    //     error: (error) => {
+    //       console.error("Error applying voucher code:", error);
     //     }
     //   });
-    // } else {
-    //   console.warn(`Cannot decrement quantity for item ${cartItem.cartItemId} below 1`);
-    // }
-  }
-
-  clear() {
-    // this.cartService.clearCart().subscribe(
-    //   response => {
-    //     console.log('Cart cleared successfully:', response);
-    //     this.loadCart();
-    //   },
-    //   error => {
-    //     console.error('Error clearing cart:', error);
-    //   }
-    // );
   }
 
   // Updated placeOrder function in your component
-  placeOrder(): void {
+  onSubmit() {
     if (this.form.valid) {
       const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch') || '{}');
 
@@ -466,19 +410,5 @@ export class POSComponent implements OnInit, AfterViewInit {
       console.log('Form is invalid:', this.form);
       this.form.markAllAsTouched();
     }
-  }
-
-  applyVoucherCode(discountType: number, discountValue: number | null) {
-    // if (discountValue)
-    //   this.cartService.applyVoucherCode(discountType, discountValue).subscribe({
-    //     next: (response) => {
-    //       console.log("Voucher applied successfully:", response);
-    //       this.loadCart();
-    //       this.afterActionService.reloadCurrentRoute();
-    //     },
-    //     error: (error) => {
-    //       console.error("Error applying voucher code:", error);
-    //     }
-    //   });
   }
 }

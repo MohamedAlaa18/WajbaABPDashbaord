@@ -1,5 +1,21 @@
+import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { Base64ImageModel } from '../themes-contract/models';
-import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+
+export interface CouponDto extends EntityDto<number> {
+  name?: string;
+  code: number;
+  discount: number;
+  discountType: number;
+  startDate?: string;
+  endDate?: string;
+  minimumOrderAmount: number;
+  maximumDiscount: number;
+  limitPerUser: number;
+  countOfUsers: number;
+  imageUrl?: string;
+  description?: string;
+  isExpired: boolean;
+}
 
 export interface CreateUpdateCouponDto {
   name: string;
@@ -17,7 +33,7 @@ export interface CreateUpdateCouponDto {
 
 export interface GetCouponsInput extends PagedAndSortedResultRequestDto {
   name?: string;
-  branchid: number;
+  branchid?: number;
   discount?: number;
   discountype?: number;
   startdate?: string;
@@ -34,4 +50,9 @@ export interface GetCouponsInput extends PagedAndSortedResultRequestDto {
 
 export interface UpdateCoupondto extends CreateUpdateCouponDto {
   id: number;
+}
+
+export interface UpdateImageCoupon {
+  id: number;
+  model: Base64ImageModel;
 }

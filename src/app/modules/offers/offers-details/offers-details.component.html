@@ -1,15 +1,15 @@
 <section *ngIf="offer">
   <!-- Navigation Buttons -->
   <div class="d-flex justify-content-around w-100">
-    <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'information'}"
+    <button class="btn flex-grow-1 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'information'}"
       (click)="activeSection = 'information'">
       Information
     </button>
-    <button class="btn w-100 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'image'}"
+    <button class="btn flex-grow-1 rounded-0" [ngClass]="{'bg-white text-danger': activeSection === 'image'}"
       (click)="activeSection = 'image'">
       Image
     </button>
-    <button *ngIf="offer.itemsDtos?.length > 0 || offer.categoryDtos?.length > 0" lass="btn w-100 rounded-0"
+    <button *ngIf="offer.itemDtos?.length > 0 || offer.categoryDtos?.length > 0" class="btn flex-grow-1 rounded-0"
       [ngClass]="{'bg-white text-danger': activeSection === 'items'}" (click)="activeSection = 'items'">
       {{ offer.itemDtos?.length ? 'Items' : 'Categories'}}
     </button>

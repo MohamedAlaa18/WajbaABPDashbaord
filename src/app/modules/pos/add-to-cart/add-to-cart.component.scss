@@ -1,3 +1,6 @@
+@import '../../../../assets/styles/main';
+@include radio-label(#F458591F, var(--red-color), #CCCCCC4D, transparent);
+
 .modal-content {
   border-radius: 1rem;
 }
@@ -16,4 +19,34 @@
 
 textarea {
   resize: none;
+}
+
+.btn-danger {
+  background-color: var(--red-color);
+}
+
+.extra-card {
+  width: 147px;
+  height: 233px;
+}
+
+.overflow-auto {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.badge.bg-light {
+  color: black !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--red-color) !important;
+}
+
+.ps-3 {
+  padding-left: 1rem !important;
+}
+
+.radio-label{
+  width: fit-content;
 }
