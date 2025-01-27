@@ -6612,6 +6612,115 @@
             }
           }
         },
+        "Wajba.Controllers.WajbaUserBranchController": {
+          "controllerName": "WajbaUserBranch",
+          "controllerGroupName": null,
+          "isRemoteService": false,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Wajba.Controllers.WajbaUserBranchController",
+          "interfaces": [],
+          "actions": {
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/WajbaUserBranch",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchCreateDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchCreateDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchCreateDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.WajbaUserBranchController"
+            },
+            "GetListAsyncByWajbaUserBranchDto": {
+              "uniqueName": "GetListAsyncByWajbaUserBranchDto",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/WajbaUserBranch",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "WajbaUserBranchDto",
+                  "typeAsString": "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "WajbaUserBranchDto",
+                  "name": "WajbaUserId",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "WajbaUserBranchDto"
+                },
+                {
+                  "nameOnMethod": "WajbaUserBranchDto",
+                  "name": "BranchId",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "WajbaUserBranchDto"
+                },
+                {
+                  "nameOnMethod": "WajbaUserBranchDto",
+                  "name": "Id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "WajbaUserBranchDto"
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.WajbaUserBranchController"
+            }
+          }
+        },
         "Wajba.Controllers.WajbaUserController": {
           "controllerName": "WajbaUser",
           "controllerGroupName": null,
@@ -7060,6 +7169,18 @@
                   "jsonName": null,
                   "type": "System.String",
                   "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Role",
+                  "jsonName": null,
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -18526,7 +18647,7 @@
           "regex": null
         },
         {
-          "name": "Branchesids",
+          "name": "BranchesIds",
           "jsonName": null,
           "type": "[System.Int32]",
           "typeSimple": "[number]",
@@ -21055,6 +21176,72 @@
         }
       ]
     },
+    "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchCreateDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "WajbaUserId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BranchId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.WajbaUserBranchContract.WajbaUserBranchDto": {
+      "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "WajbaUserId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BranchId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.WajbaUsersContract.CreateUserDto": {
       "baseType": null,
       "isEnum": false,
@@ -21171,10 +21358,10 @@
           "regex": null
         },
         {
-          "name": "BranchList",
+          "name": "Role",
           "jsonName": null,
-          "type": "[System.Int32?]",
-          "typeSimple": "[number?]",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -21183,7 +21370,7 @@
           "regex": null
         },
         {
-          "name": "CustomerRoleList",
+          "name": "BranchList",
           "jsonName": null,
           "type": "[System.Int32?]",
           "typeSimple": "[number?]",
@@ -21274,6 +21461,18 @@
           "minimum": null,
           "maximum": null,
           "regex": null
+        },
+        {
+          "name": "Role",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
         }
       ]
     },
@@ -21337,6 +21536,18 @@
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Role",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -21471,10 +21682,10 @@
           "regex": null
         },
         {
-          "name": "BranchList",
+          "name": "Role",
           "jsonName": null,
-          "type": "[System.Int32?]",
-          "typeSimple": "[number?]",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -21483,7 +21694,7 @@
           "regex": null
         },
         {
-          "name": "CustomerRoleList",
+          "name": "BranchList",
           "jsonName": null,
           "type": "[System.Int32?]",
           "typeSimple": "[number?]",
@@ -21568,6 +21779,30 @@
           "jsonName": null,
           "type": "System.Int32",
           "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Role",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BranchList",
+          "jsonName": null,
+          "type": "[Wajba.Dtos.BranchContract.BranchDto]",
+          "typeSimple": "[Wajba.Dtos.BranchContract.BranchDto]",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

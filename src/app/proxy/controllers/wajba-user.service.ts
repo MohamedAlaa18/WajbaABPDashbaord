@@ -59,7 +59,7 @@ export class WajbaUserService {
     this.restService.request<any, ActionResult<PagedResultDto<WajbaUserDto>>>({
       method: 'GET',
       url: '/api/WajbaUser/listWajbaUser',
-      params: { fullName: input.fullName, type: input.type, status: input.status, email: input.email, phone: input.phone, maxResultCount: input.maxResultCount, skipCount: input.skipCount },
+      params: { fullName: input.fullName, type: input.type, status: input.status, email: input.email, phone: input.phone, role: input.role, maxResultCount: input.maxResultCount, skipCount: input.skipCount },
     },
     { apiName: this.apiName,...config });
   

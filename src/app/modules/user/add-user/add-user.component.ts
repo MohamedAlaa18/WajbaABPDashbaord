@@ -42,7 +42,7 @@ export class AddUserComponent implements OnInit, OnChanges {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       status: [1, Validators.required],
-      customerRoleList: [''],
+      role: [''],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
       branchList: this.fb.control([]),
@@ -75,7 +75,7 @@ export class AddUserComponent implements OnInit, OnChanges {
   }
 
   updateValidators(): void {
-    const roleControl = this.userForm.get('customerRoleList');
+    const roleControl = this.userForm.get('role');
     const branchIdsControl = this.userForm.get('branchList');
 
     if (this.userTypeLabel === 'Employees') {
@@ -131,7 +131,7 @@ export class AddUserComponent implements OnInit, OnChanges {
       type: user.type,
       email: user.email,
       phone: user.phone,
-      customerRoleList: user.customerRoleList, // Uncomment this if user has roles
+      role: user.role, // Uncomment this if user has roles
       branchList: user.branchList || []    // Ensure branchList is handled
     });
   }
@@ -145,10 +145,10 @@ export class AddUserComponent implements OnInit, OnChanges {
     if (this.userForm.valid) {
       let formValue: UpdateWajbaUserDto | CreateUserDto;
 
-      // Ensure customerRoleList is an array of integers (nullable)
-      if (this.userForm.value.customerRoleList && !Array.isArray(this.userForm.value.customerRoleList)) {
-        this.userForm.value.customerRoleList = [this.userForm.value.customerRoleList];
-      }
+      // Ensure role is an array of integers (nullable)
+      // if (this.userForm.value.role && !Array.isArray(this.userForm.value.role)) {
+      //   this.userForm.value.role = [this.userForm.value.role];
+      // }
 
       // Set up the form value based on whether it's an update or create operation
       if (this.userForm.value.id) {

@@ -59,8 +59,8 @@ export class UserComponent implements OnInit {
     {
       label: 'Status', name: 'status', type: 'select',
       options: [
-        { label: 'Active', value: 'active' },
-        { label: 'Inactive', value: 'inactive' }
+        { label: 'Active', value: 1 },
+        { label: 'Inactive', value: 2 }
       ]
     },
   ];
@@ -106,8 +106,36 @@ export class UserComponent implements OnInit {
           this.filters.type = undefined; // No specific type filter
       }
       this.initializeColumns(); // Initialize columns based on user type
+      this.initializeFilterFields(); // Initialize filters based on user type
       this.loadUsers(); // Load users after setting the user type
     });
+  }
+
+  initializeFilterFields(): void {
+    this.filterFields = [
+      { label: 'Name', name: 'name', type: 'text' },
+      { label: 'Email', name: 'email', type: 'email' },
+      { label: 'Phone', name: 'phone', type: 'tel' },
+      {
+        label: 'Status', name: 'status', type: 'select',
+        options: [
+          { label: 'Active', value: 1 },
+          { label: 'Inactive', value: 2 }
+        ]
+      },
+    ];
+
+    // Add the "Role" filter field only if filters.type === 2 (Employees)
+    if (this.filters.type === 2) {
+      this.filterFields.splice(3, 0, {
+        label: 'Role', name: 'role', type: 'select',
+        options: [
+          { label: 'POS Operator', value: 1 },
+          { label: 'Staff', value: 2 },
+          { label: 'Branch Manager', value: 3 },
+        ]
+      });
+    }
   }
 
   loadUsers(): void {
@@ -116,6 +144,7 @@ export class UserComponent implements OnInit {
       type: this.filters.type, // Set the filtered type dynamically
       email: this.filters.email,
       phone: this.filters.phone,
+      role: this.filters.role ? Number(this.filters.role) : undefined, // Convert role to number
       status: this.filters.status ? Number(this.filters.status) : undefined,
       skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10,

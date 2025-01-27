@@ -37,11 +37,11 @@
         </div>
 
         <div class="col-md-6" *ngIf="userTypeLabel === 'Employees'">
-          <label for="customerRoleList" class="form-label">Role <span class="text-danger">*</span></label>
-          <select id="customerRoleList" formControlName="customerRoleList" class="form-control bg-white">
+          <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
+          <select id="role" formControlName="role" class="form-control bg-white">
             <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
           </select>
-          <div *ngIf="userForm.get('customerRoleList')?.touched && userForm.get('customerRoleList')?.invalid"
+          <div *ngIf="userForm.get('role')?.touched && userForm.get('role')?.invalid"
             class="text-danger">
             <small>Role is required.</small>
           </div>

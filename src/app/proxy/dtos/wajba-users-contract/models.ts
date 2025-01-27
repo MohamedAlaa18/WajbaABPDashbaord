@@ -1,3 +1,4 @@
+import type { BranchDto } from '../branch-contract/models';
 
 export interface CreateUserDto {
   fullName?: string;
@@ -9,8 +10,8 @@ export interface CreateUserDto {
   points: number;
   password?: string;
   confirmPassword?: string;
+  role?: number;
   branchList: number[];
-  customerRoleList: number[];
 }
 
 export interface GetUserDto {
@@ -20,6 +21,7 @@ export interface GetUserDto {
   phone?: string;
   type: number;
   status: number;
+  role?: number;
 }
 
 export interface GetUserListDto {
@@ -28,6 +30,7 @@ export interface GetUserListDto {
   status?: number;
   email?: string;
   phone?: string;
+  role?: number;
   maxResultCount: number;
   skipCount: number;
 }
@@ -43,8 +46,8 @@ export interface UpdateWajbaUserDto {
   phone?: string;
   type: number;
   status: number;
+  role?: number;
   branchList: number[];
-  customerRoleList: number[];
 }
 
 export interface WajbaUserDto {
@@ -54,4 +57,6 @@ export interface WajbaUserDto {
   phone?: string;
   type: number;
   status: number;
+  role?: number;
+  branchList: BranchDto[];
 }

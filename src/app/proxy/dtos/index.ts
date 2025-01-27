@@ -22,5 +22,6 @@ import * as ThemesContract from './themes-contract';
 import * as TimeSlotsContract from './time-slots-contract';
 import * as UserAddressContract from './user-address-contract';
 import * as UserDto from './user-dto';
+import * as WajbaUserBranchContract from './wajba-user-branch-contract';
 import * as WajbaUsersContract from './wajba-users-contract';
-export { BranchContract, Categories, CompanyContact, CouponContract, CurrenciesContract, DineInTableContract, FaqsContract, ItemAddonContract, ItemAttributes, ItemExtraContract, ItemTaxContract, ItemVariationContract, ItemsDtos, Languages, NotificationContract, OffersContract, OrderSetupContract, Otpcontract, PopularItemstoday, SitesContact, ThemesContract, TimeSlotsContract, UserAddressContract, UserDto, WajbaUsersContract };
+export { BranchContract, Categories, CompanyContact, CouponContract, CurrenciesContract, DineInTableContract, FaqsContract, ItemAddonContract, ItemAttributes, ItemExtraContract, ItemTaxContract, ItemVariationContract, ItemsDtos, Languages, NotificationContract, OffersContract, OrderSetupContract, Otpcontract, PopularItemstoday, SitesContact, ThemesContract, TimeSlotsContract, UserAddressContract, UserDto, WajbaUserBranchContract, WajbaUsersContract };
