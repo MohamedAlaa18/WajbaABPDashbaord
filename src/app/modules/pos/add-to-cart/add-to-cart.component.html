@@ -18,14 +18,14 @@
               <img [src]="productItem.imageUrl" alt="product-image" class="rounded"
                 style="width: 86.34px; height: 80.87px;" />
               <div class="ms-3">
-                <h3 class="fw-bold m-0">{{ productItem.name }}</h3>
+                <h3 class="m-0 fw-semibold fs-4">{{ productItem.name }}</h3>
                 <dl>
                   <div class="text-muted">
                     <dt class="d-inline">Description: </dt>
                     <dd class="d-inline">{{ productItem.description }}</dd>
                   </div>
                   <div class="fw-bold">
-                    <dt class="d-inline">QAR</dt>
+                    <dt class="d-inline">QAR </dt>
                     <dd class="d-inline">{{ (productItem.price).toFixed(2) }}</dd>
                   </div>
                 </dl>

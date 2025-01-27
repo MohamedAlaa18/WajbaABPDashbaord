@@ -22,7 +22,7 @@
       </button>
 
       <!-- Category buttons -->
-      <button *ngFor="let category of categories;" (click)="selectCategory(category.id)"
+      <button *ngFor="let category of categories; trackBy:trackByKey" (click)="selectCategory(category.id)"
         class="btn rounded-4 bg-white transition category-button"
         [ngClass]="{ 'selected-category': selectedCategoryId === category.id }">
         <img [src]="category.imageUrl" alt="category" />
@@ -32,15 +32,14 @@
 
     <!-- Pagination buttons -->
     <div class="d-flex justify-content-center gap-2 w-100 mt-4 mb-4">
-      <button *ngFor="let page of [].constructor(pageCount); let i = index" (click)="selectPage(i)"
+      <button *ngFor="let page of [].constructor(pageCount); let i = index trackBy:trackByKey" (click)="selectPage(i)"
         class="rounded navigation"
         [ngStyle]="{ 'background-color': selectedPageIndex === i ? '#F45859' : '#F4585945' }">
       </button>
     </div>
 
     <!-- Product list -->
-    <div
-      class="d-flex overflow-auto gap-2 justify-content-lg-start justify-content-center my-4 w-100 flex-wrap">
+    <div class="d-flex overflow-auto gap-2 justify-content-lg-start justify-content-center my-4 w-100 flex-wrap">
       <div *ngFor="let product of items">
         <app-product-card [productItem]="product"></app-product-card>
       </div>
@@ -250,7 +249,7 @@
             <button class="border-0 bg-white" (click)="incrementQuantity(item.id)"><app-icons iconName="increment"
                 color="#F45859"></app-icons></button>
           </div>
-          <p class="w-33 text-end m-0">QAR {{(item.price).toFixed(2)}}</p>
+          <p class="w-33 text-end m-0">QAR {{(item.price * item.quantity).toFixed(2)}}</p>
         </div>
       </div>
     </div>

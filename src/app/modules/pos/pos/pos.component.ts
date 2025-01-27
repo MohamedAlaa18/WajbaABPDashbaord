@@ -2,7 +2,6 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
-import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { CategoryService, ItemService, WajbaUserService } from '@proxy/controllers';
 import { UpdateCategory } from '@proxy/dtos/categories';
 import { GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-contract';
@@ -53,7 +52,6 @@ export class POSComponent implements OnInit {
     private wajbaUserService: WajbaUserService,
     // private cartService: CartService,
     // private orderService: OrderService,
-    private afterActionService: AfterActionService,
     private datePipe: DatePipe
   ) {
     this.form = this.fb.group({
@@ -350,8 +348,9 @@ export class POSComponent implements OnInit {
     if (itemIndex !== -1) {
       cart[itemIndex].quantity += 1;  // Increment quantity
       localStorage.setItem('cart', JSON.stringify(cart));
+      this.cart.items = cart; // Update the cart in the component
+      this.calculateCartTotals(); // Recalculate cart totals
       console.log(`Quantity increased for item ID: ${cartItemId}`);
-      this.afterActionService.reloadCurrentRoute();
     }
   }
 
@@ -363,12 +362,12 @@ export class POSComponent implements OnInit {
       if (cart[itemIndex].quantity > 1) {
         cart[itemIndex].quantity -= 1; // Decrement quantity
         localStorage.setItem('cart', JSON.stringify(cart));
+        this.cart.items = cart; // Update the cart in the component
+        this.calculateCartTotals(); // Recalculate cart totals
         console.log(`Quantity decreased for item ID: ${cartItemId}`);
-        this.afterActionService.reloadCurrentRoute();
       } else {
         console.warn('Minimum quantity reached. Use remove instead.');
         this.onRemove(cartItemId);
-        this.afterActionService.reloadCurrentRoute();
       }
     }
   }
@@ -378,22 +377,30 @@ export class POSComponent implements OnInit {
     const updatedCart = cart.filter((item: any) => item.id !== cartItemId);
 
     localStorage.setItem('cart', JSON.stringify(updatedCart));
+    this.cart.items = updatedCart; // Update the cart in the component
+    this.calculateCartTotals(); // Recalculate cart totals
     console.log(`Item with ID: ${cartItemId} removed from cart`);
-    this.afterActionService.reloadCurrentRoute();
+  }
+
+  calculateCartTotals() {
+    const subTotal = this.cart.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+    const discountAmount = this.discountValue || 0;
+    const serviceFee = 10; // Example fixed service fee
+    const deliveryFee = 10; // Example fixed delivery fee
+    const totalAmount = subTotal - discountAmount + serviceFee + deliveryFee;
+
+    this.cart.subTotal = subTotal;
+    this.cart.discountAmount = discountAmount;
+    this.cart.serviceFee = serviceFee;
+    this.cart.deliveryFee = deliveryFee;
+    this.cart.totalAmount = totalAmount;
   }
 
   applyVoucherCode(discountType: number, discountValue: number | null) {
-    // if (discountValue)
-    //   this.cartService.applyVoucherCode(discountType, discountValue).subscribe({
-    //     next: (response) => {
-    //       console.log("Voucher applied successfully:", response);
-    //       this.loadCart();
-    //       this.afterActionService.reloadCurrentRoute();
-    //     },
-    //     error: (error) => {
-    //       console.error("Error applying voucher code:", error);
-    //     }
-    //   });
+  }
+
+  trackByKey(index: number, item: any) {
+    return item?.id;
   }
 
   // Updated placeOrder function in your component
