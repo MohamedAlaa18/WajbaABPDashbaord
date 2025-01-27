@@ -3,13 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CouponService } from '@proxy/controllers';
 import { UpdateCoupondto } from '@proxy/dtos/coupon-contract';
+import { DatePipe } from '@angular/common';  // Import DatePipe
 
 @Component({
   selector: 'app-vouchers-details',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './vouchers-details.component.html',
-  styleUrl: './vouchers-details.component.scss'
+  styleUrls: ['./vouchers-details.component.scss'],
+  providers: [DatePipe]  // Provide DatePipe
 })
 export class VouchersDetailsComponent implements OnInit {
   voucherId!: number;
@@ -18,6 +20,7 @@ export class VouchersDetailsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private couponService: CouponService,
+    private datePipe: DatePipe  // Inject DatePipe
   ) {
     this.voucherId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
   }
@@ -39,5 +42,10 @@ export class VouchersDetailsComponent implements OnInit {
         }
       );
     }
+  }
+
+  // Format date to a readable format
+  formatDate(date: string): string | null {
+    return this.datePipe.transform(date, 'mediumDate');  // 'mediumDate' gives a readable format
   }
 }

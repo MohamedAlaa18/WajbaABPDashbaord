@@ -1,7 +1,8 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateItemExtraDto, UpdateItemExtraDto } from '../dtos/item-extra-contract/models';
-import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
+import type { ApiResponse } from '../apiresponse/models';
+import type { CreateItemExtraDto, ItemExtraDto, UpdateItemExtraDto } from '../dtos/item-extra-contract/models';
+import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class ItemExtraService {
   
 
   get = (itemId: number, extraId: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
+    this.restService.request<any, ActionResult<ApiResponse<ItemExtraDto>>>({
       method: 'GET',
       url: `/api/ItemExtra/item/${itemId}/extra/${extraId}`,
     },

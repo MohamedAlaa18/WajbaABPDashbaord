@@ -1,7 +1,8 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateFaqs, GetFaqInput, UpadtefaqDto } from '../dtos/faqs-contract/models';
-import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
+import type { ApiResponse } from '../apiresponse/models';
+import type { CreateFaqs, FaqDto, GetFaqInput, UpadtefaqDto } from '../dtos/faqs-contract/models';
+import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class FaqService {
   
 
   getById = (id: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
+    this.restService.request<any, ActionResult<ApiResponse<FaqDto>>>({
       method: 'GET',
       url: `/api/Faq/${id}`,
     },

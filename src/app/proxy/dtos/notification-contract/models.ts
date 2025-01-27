@@ -17,6 +17,19 @@ export interface GetNotificationInput extends PagedAndSortedResultRequestDto {
   filter?: string;
 }
 
+export interface NotificationDto {
+  id: number;
+  fireBasePublicVapidKey?: string;
+  fireBaseAPIKey?: string;
+  fireBaseProjectId?: string;
+  fireBaseAuthDomain?: string;
+  fireBaseStorageBucket?: string;
+  fireBaseMessageSenderId?: string;
+  fireBaseAppId?: string;
+  fireBaseMeasurementId?: string;
+  imageUrl?: string;
+}
+
 export interface UpdateNotificationDto extends CreateNotificationDto {
   id: number;
 }

@@ -3,6 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from "../../../shared/icons/icons.component";
+import { UserAddressService } from '@proxy/controllers';
+import { CreateUserAddressDto, UpdateUserAddressDto } from '@proxy/dtos/user-address-contract';
 
 @Component({
   selector: 'app-add-address',
@@ -11,10 +13,10 @@ import { IconsComponent } from "../../../shared/icons/icons.component";
   templateUrl: './add-address.component.html',
   styleUrl: './add-address.component.scss'
 })
-export class AddAddressComponent {
+export class AddAddressComponent implements OnInit {
   @Input() isOpen: boolean = false;
-  @Input() employeeId!: any;
-  // @Input() address: Address | null = null;
+  @Input() customerId!: any;
+  @Input() address: UpdateUserAddressDto | null = null;
   @Output() close = new EventEmitter<void>();
 
   selectedForm: 'apartment' | 'house' | 'office' = 'apartment';
@@ -22,37 +24,39 @@ export class AddAddressComponent {
 
   constructor(
     private fb: FormBuilder,
-    // private employeeService: EmployeeService,
-    // private customerService: CustomerService,
+    private userAddressService: UserAddressService,
     private afterActionService: AfterActionService,
   ) {
     this.addressForm = this.fb.group({
+      id: [null],
       buildingName: ['', Validators.required],
       apartmentNumber: [''],
       floor: [''],
       street: ['', Validators.required],
-      addressLabel: ['']
+      addressLabel: [''],
+      addressType: [null],
     });
 
     this.updateFormValidators();
   }
 
   ngOnInit(): void {
-    // if (this.address) {
-    //   this.populateForm(this.address);
-    // }
+    if (this.address) {
+      this.populateForm(this.address);
+    }
   }
 
-  // populateForm(address: Address) {
-  //   console.log(address)
-  //   this.addressForm.patchValue({
-  //     buildingName: address.buildingName,
-  //     apartmentNumber: address.apartmentNumber,
-  //     floor: address.floor,
-  //     street: address.street,
-  //     addressLabel: address.addressLabel,
-  //   });
-  // }
+  populateForm(address: UpdateUserAddressDto) {
+    console.log(address)
+    this.addressForm.patchValue({
+      id: this.customerId,
+      buildingName: address.buildingName,
+      apartmentNumber: address.apartmentNumber,
+      floor: address.floor,
+      street: address.street,
+      addressLabel: address.addressLabel,
+    });
+  }
 
   selectForm(formType: 'apartment' | 'house' | 'office') {
     this.selectedForm = formType;
@@ -73,36 +77,43 @@ export class AddAddressComponent {
 
   submitForm() {
     if (this.addressForm.valid) {
-      const addressData = {
-        ...this.addressForm.value,
-        addressType: this.getAddressType()
-      };
-      console.log(addressData)
-      // if (!this.address) {
-      //   // Add address if in "add" mode
-      //   this.employeeService.addEmployeeAddress(this.employeeId, addressData).subscribe(
-      //     (response) => {
-      //       console.log('Address added successfully:', response);
-      //       this.afterActionService.reloadCurrentRoute();
-      //       this.closeModal();
-      //     },
-      //     (error) => {
-      //       console.error('Error adding address:', error);
-      //     }
-      //   );
-      // } else {
-      //   // Update address if in "edit" mode
-      //   this.employeeService.updateEmployeeAddress(this.employeeId, this.address.id, addressData).subscribe(
-      //     (response) => {
-      //       console.log('Address updated successfully:', response);
-      //       this.afterActionService.reloadCurrentRoute();
-      //       this.closeModal();
-      //     },
-      //     (error) => {
-      //       console.error('Error updating address:', error);
-      //     }
-      //   );
-      // }
+      let formValue: UpdateUserAddressDto | CreateUserAddressDto;
+
+      // Determine whether it's an update or create operation
+      if (this.addressForm.value.id) {
+        formValue = this.addressForm.value as UpdateUserAddressDto;
+      } else {
+        formValue = this.addressForm.value as CreateUserAddressDto;
+      }
+
+      // Add AddressType before sending the data
+      formValue.addressType = this.getAddressType();
+
+      if (!this.address) {
+        // Add address if in "add" mode
+        this.userAddressService.create(formValue as CreateUserAddressDto).subscribe(
+          (response) => {
+            console.log('Address added successfully:', response);
+            this.afterActionService.reloadCurrentRoute();
+            this.closeModal();
+          },
+          (error) => {
+            console.error('Error adding address:', error);
+          }
+        );
+      } else {
+        // Update address if in "edit" mode
+        this.userAddressService.update(formValue as UpdateUserAddressDto).subscribe(
+          (response) => {
+            console.log('Address updated successfully:', response);
+            this.afterActionService.reloadCurrentRoute();
+            this.closeModal();
+          },
+          (error) => {
+            console.error('Error updating address:', error);
+          }
+        );
+      }
     } else {
       console.error('Form is invalid');
     }

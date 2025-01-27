@@ -38,15 +38,6 @@ export class WajbaUserService {
     { apiName: this.apiName,...config });
   
 
-  forgetPasswordOTPByOTPCode = (OTPCode: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
-      method: 'POST',
-      url: '/api/WajbaUser/ForgetPasswordOTP',
-      body: OTPCode,
-    },
-    { apiName: this.apiName,...config });
-  
-
   forgetPasswordPostByForgetPasswordDTO = (forgetPasswordDTO: ForgetPasswordDTO, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
@@ -68,7 +59,7 @@ export class WajbaUserService {
     this.restService.request<any, ActionResult<PagedResultDto<WajbaUserDto>>>({
       method: 'GET',
       url: '/api/WajbaUser/listWajbaUser',
-      params: { fullName: input.fullName, type: input.type, status: input.status, maxResultCount: input.maxResultCount, skipCount: input.skipCount },
+      params: { fullName: input.fullName, type: input.type, status: input.status, email: input.email, phone: input.phone, maxResultCount: input.maxResultCount, skipCount: input.skipCount },
     },
     { apiName: this.apiName,...config });
   
@@ -91,11 +82,29 @@ export class WajbaUserService {
     { apiName: this.apiName,...config });
   
 
+  resendActivationByPhone = (Phone: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'POST',
+      url: '/api/WajbaUser/ResendActivation',
+      params: { phone: Phone },
+    },
+    { apiName: this.apiName,...config });
+  
+
   updateWajbaUserByInput = (input: UpdateWajbaUserDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/WajbaUser/update-WajbaUser',
       body: input,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  verifyOTPCodeByVerifyOTPCodeAndPhone = (VerifyOTPCode: number, Phone: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'POST',
+      url: '/api/WajbaUser/VerifyOTPCode',
+      params: { verifyOTPCode: VerifyOTPCode, phone: Phone },
     },
     { apiName: this.apiName,...config });
   

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemService } from '@proxy/controllers';
-import { ItemDto } from '@proxy/dtos/items-dtos';
+import { ItemTransformedDto } from '@proxy/dtos/items-dtos';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 
@@ -16,7 +16,8 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 })
 export class AddToCartComponent implements OnChanges, OnInit {
   @Input() isModalOpen: boolean = false;
-  @Input() productItem!: ItemDto;
+  @Input() isEditMode: boolean = false;
+  @Input() productItem!: ItemTransformedDto;
   @Output() close = new EventEmitter<void>();
 
   quantity: number = 1;
@@ -32,107 +33,101 @@ export class AddToCartComponent implements OnChanges, OnInit {
     // private snackbarService: SnackbarService,
     private afterActionService: AfterActionService,
   ) {
-    this.cartForm = this.fb.group({
-      quantity: [this.quantity, [Validators.required, Validators.min(1)]],
-      specialInstructions: [''],
-      variations: this.fb.array([]),
-      addons: this.fb.array([]),
-      extras: this.fb.array([])
-    });
-
-    // this.productItem.itemVariations.forEach(() => {
-    //   (this.cartForm.get('variations') as FormArray).push(this.fb.control(null)); // or default value
-    // });
-
-    // this.productItem.itemAddons.forEach(() => {
-    //   (this.cartForm.get('addons') as FormArray).push(this.fb.control(false)); // or default value
-    // });
-  }
-
-  get variations(): FormArray {
-    return this.cartForm.get('variations') as FormArray;
-  }
-
-  get addons() {
-    return (this.cartForm.get('addons') as FormArray);
-  }
-
-  get extra(): FormArray {
-    return this.cartForm.get('extras') as FormArray;
+    this.createForm();
   }
 
   ngOnInit(): void {
-    // Ensure the form setup happens only when productItem is available
-    if (this.productItem) {
-      this.initializeForm();
-    }
+    this.loadItemDetails(this.productItem.id);
   }
 
-  ngOnChanges(): void {
-    // Handle updates to productItem after initialization
-    if (this.productItem) {
-      this.initializeForm();
-    }
+  ngOnChanges(changes: SimpleChanges): void {
+    // if (changes['isModalOpen'] && this.isModalOpen) {
+    //   if (this.isEditMode) {
+    //     this.loadItemDetails(this.productItem.id);
+    //     // this.quantity = this.productItem.quantity;
+    //   } else {
+    //     this.loadItemDetails(this.productItem.id);
+    //   }
+    //   this.resetExtras();
+    // }
   }
 
-  initializeForm(): void {
-    const variationsArray = this.fb.array([]);
-    const addonsArray = this.fb.array([]);
-
-    // Initialize variations and addons arrays
-    if (this.productItem?.itemVariations) {
-      this.productItem.itemVariations.forEach(() => {
-        variationsArray.push(this.fb.control(null));
-      });
-    }
-
-    if (this.productItem?.itemAddons) {
-      this.productItem.itemAddons.forEach(() => {
-        addonsArray.push(this.fb.control(false));
-      });
-    }
-
-    // Update the form with initialized arrays
-    this.cartForm.setControl('variations', variationsArray);
-    this.cartForm.setControl('addons', addonsArray);
+  resetExtras() {
+    this.addedExtras = [];
   }
 
-  populateVariationsFormArray() {
-    this.variations.clear(); // Clear existing controls
-    if (this.productItem.itemVariations) {
-      this.productItem.itemVariations.forEach(() => {
-        this.variations.push(this.fb.control(null, Validators.required)); // Add a control for each variation
-      });
-    }
+  createForm() {
+    this.cartForm = this.fb.group({
+      quantity: [this.quantity],
+      specialInstructions: [''],
+      variations: this.fb.array([],),
+      addons: this.fb.array([]),
+      extras: this.fb.array([])
+    });
   }
 
-  populateAddonsFormArray() {
-    this.addons.clear(); // Clear existing controls
-    if (this.productItem.itemAddons) {
-      this.productItem.itemAddons.forEach(() => {
-        this.addons.push(this.fb.control(false)); // Add a checkbox control for each addon
-      });
-    }
-  }
-
-  populateExtrasFormArray() {
-    this.extra.clear(); // Clear existing controls
-    if (this.productItem.itemExtras) {
-      this.productItem.itemExtras.forEach(() => {
-        this.extra.push(this.fb.control(false)); // Add a checkbox control for each extra
-      });
-    }
-  }
-
-  loadProductDetails(itemId: number) {
+  loadItemDetails(itemId: number) {
     this.itemService.getItemWithTransformedDetailsById(itemId).subscribe(
       (response) => {
+        console.log(response)
         this.productItem = response.data;
+        this.populateForm();
       },
       (error) => {
         console.error('Error fetching product details:', error);
       }
     );
+  }
+
+  populateForm() {
+    this.cartForm.patchValue({
+      quantity: this.quantity,
+      specialInstructions: this.specialInstructions,
+    });
+
+    this.variations.clear();
+    this.addons.clear();
+    this.extra.clear();
+
+    // Populate variations with required validation if attributes are present
+    this.productItem.attributes.forEach((attribute) => {
+      const control = this.fb.control(null, Validators.required);
+      this.variations.push(control);
+    });
+
+    // Populate addons
+    this.productItem.itemAddons.forEach(() => {
+      const control = this.fb.control(false);
+      this.addons.push(control);
+    });
+
+    // Populate extras
+    this.productItem.itemExtras.forEach(() => {
+      const control = this.fb.control(false);
+      this.extra.push(control);
+    });
+
+    // if (this.isEditMode) {
+    //   this.cartForm.patchValue({
+    //     specialInstructions: this.cartItem.notes,
+    //     quantity: this.cartItem.quantity,
+    //   });
+
+    //   this.addedExtras = this.cartItem.extras || [];
+    // }
+  }
+
+
+  get variations(): FormArray {
+    return this.cartForm.get('variations') as FormArray;
+  }
+
+  get addons(): FormArray {
+    return this.cartForm.get('addons') as FormArray;
+  }
+
+  get extra(): FormArray {
+    return this.cartForm.get('extras') as FormArray;
   }
 
   incrementQuantity(e: Event) {
@@ -159,26 +154,24 @@ export class AddToCartComponent implements OnChanges, OnInit {
     let totalPrice = this.productItem.price * formValues.quantity;
 
     // Calculate variations
-    this.productItem.itemVariations.forEach((variation, index) => {
-      if (variation) {
-        totalPrice += variation.additionalPrice * formValues.quantity;
+    this.productItem.attributes?.forEach((attribute, index) => {
+      const selectedVariationId = this.variations.at(index)?.value;
+      const selectedVariation = attribute.variations.find(v => v.id === selectedVariationId);
+      if (selectedVariation) {
+        totalPrice += selectedVariation.additionalPrice * formValues.quantity;
       }
     });
 
     // Calculate addons
     this.productItem.itemAddons.forEach((addon, index) => {
-      const addonControl = this.addons.at(index);
-      if (addonControl && addonControl.value) {
+      if (this.addons.at(index)?.value) {
         totalPrice += addon.additionalPrice * formValues.quantity;
       }
     });
 
     // Calculate extras
-    this.productItem.itemExtras.forEach((extra, index) => {
-      const extraControl = this.extra.at(index);
-      if (extraControl && extraControl.value) {
-        totalPrice += extra.additionalPrice;
-      }
+    this.addedExtras.forEach(extra => {
+      totalPrice += extra.additionalPrice * formValues.quantity;
     });
 
     return totalPrice;
@@ -193,59 +186,64 @@ export class AddToCartComponent implements OnChanges, OnInit {
     this.addedExtras.push(extra);
   }
 
+  isExtraAdded(extra: { name: string; additionalPrice: number }): boolean {
+    return this.addedExtras.some(addedExtra => addedExtra.name === extra.name);
+  }
+
   onSubmit() {
-    console.log(this.cartForm)
+    console.log(this.cartForm);
+
     if (this.cartForm.invalid) {
-      console.error('Form is invalid, please ensure all required fields are filled.');
-      // this.snackbarService.showMessage('Please choose the variations', true)
+      console.error('Form is invalid, please ensure all required fields are filled.', this.cartForm);
+      this.cartForm.markAllAsTouched();
       return;
     }
 
     const formValues = this.cartForm.value;
 
     const item = {
-      itemId: this.productItem.id,
+      id: this.productItem.id,
       itemName: this.productItem.name,
       quantity: formValues.quantity,
       ImgUrl: this.productItem.imageUrl,
       notes: formValues.specialInstructions || '',
       price: this.productItem.price,
-      variations: this.productItem.itemVariations.map((variation, index) => ({
-        name: variation.name,
-        additionalPrice: variation.additionalPrice || 0,
+      variations: this.variations.value.map((value, index) => ({
+        name: this.productItem.attributes[index].attributeName,
+        additionalPrice: this.productItem.attributes[index].variations.find(v => v.id === value)?.additionalPrice || 0,
+        attributeName: this.productItem.attributes[index].attributeName,
       })),
-      addons: this.productItem.itemAddons
-        .map((addon, index) => ({
-          name: addon.name,
-          price: addon.additionalPrice,
-          selected: formValues['addon_' + index] || false
-        }))
-        .filter(addon => addon.selected),
+      addons: this.addons.value
+        .map((selected, index) => selected && {
+          name: this.productItem.itemAddons[index].name,
+          additionalPrice: this.productItem.itemAddons[index].additionalPrice,
+        })
+        .filter(Boolean),
       extras: this.addedExtras.map(extra => ({
         name: extra.name,
-        additionalPrice: extra.additionalPrice
-      }))
+        additionalPrice: extra.additionalPrice,
+      })),
     };
 
-    // Add a new item to the cart
-    // this.cartService.addItemToCart(item).subscribe(
-    //   (response) => {
-    //     if (response.success === false) {
-    //       if (response.message === 'Invalid token or customer not found') {
-    //         localStorage.setItem('cartItem', JSON.stringify(item));
-    //         console.log('Item saved to local storage due to invalid token or customer not found');
-    //         this.closeModal();
-    //       }
-    //       console.error('Error adding item to cart:', response);
-    //     } else {
-    //       console.log('Item added to cart:', response);
-    //       this.afterActionService.reloadCurrentRoute();
-    //       this.closeModal();
-    //     }
-    //   },
-    //   (error) => {
-    //     console.error('Error adding item to cart:', error);
-    //   }
-    // );
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    if (this.isEditMode) {
+      // Update the item in localStorage
+      const updatedCart = existingCart.map(cartItem =>
+        cartItem.itemId === item.id ? { ...cartItem, ...item } : cartItem
+      );
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      console.log('Cart item updated in local storage:', item);
+      this.afterActionService.reloadCurrentRoute();
+    } else {
+      // Add the new item to localStorage
+      existingCart.push(item);
+      localStorage.setItem('cart', JSON.stringify(existingCart));
+      console.log('Item added to cart in local storage:', item);
+      this.afterActionService.reloadCurrentRoute();
+    }
+
+    // Close the modal or take necessary post-action
+    this.closeModal();
   }
 }

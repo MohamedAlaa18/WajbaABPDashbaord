@@ -25,17 +25,3 @@ export interface UpdateUserAddressDto {
   addressLabel?: string;
   addressType: number;
 }
-
-export interface UserAddressDto {
-  id: number;
-  title?: string;
-  longitude: number;
-  latitude: number;
-  customerId?: string;
-  buildingName?: string;
-  street?: string;
-  apartmentNumber?: string;
-  floor?: string;
-  addressLabel?: string;
-  addressType: number;
-}

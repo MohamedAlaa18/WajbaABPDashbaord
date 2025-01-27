@@ -19,7 +19,7 @@ export interface CreateItemDto {
 }
 
 export interface GetItemInput extends PagedAndSortedResultRequestDto {
-  filter?: string;
+  name?: string;
   categoryId?: number;
   itemType?: number;
   isFeatured?: boolean;
@@ -38,14 +38,14 @@ export interface ItemDto extends EntityDto<number> {
   name?: string;
   description?: string;
   note?: string;
-  status?: string;
+  status: number;
   isFeatured: boolean;
   imageUrl?: string;
   price: number;
   taxValue?: number;
   categoryId: number;
   categoryName?: string;
-  itemType?: string;
+  itemType: number;
   isDeleted: boolean;
   branchesids: number[];
   itemAddons: ItemAddonDto[];
@@ -55,4 +55,29 @@ export interface ItemDto extends EntityDto<number> {
 
 export interface UpdateItemDTO extends CreateItemDto {
   id: number;
+}
+
+export interface ItemTransformedDto {
+  id: number;
+  name: string;
+  description: string;
+  note: string;
+  status: string; // Assuming status is a string (e.g., "InActive")
+  isFeatured: boolean;
+  imageUrl: string;
+  price: number;
+  taxValue: number;
+  categoryId: number;
+  categoryName: string;
+  itemType: string; // Assuming itemType is a string (e.g., "NonVeg")
+  isDeleted: boolean;
+  branchesIds: number[]; // Array of branch IDs
+  itemAddons: ItemAddonDto[]; // Array of item addons
+  itemExtras: ItemExtraDto[]; // Array of item extras
+  attributes: ItemAttributeDto[]; // Array of item attributes
+}
+
+export interface ItemAttributeDto {
+  attributeName: string;
+  variations: ItemVariationDto[]; // Array of variations for the attribute
 }

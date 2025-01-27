@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OfferService } from '@proxy/controllers';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
@@ -18,7 +18,8 @@ import { ItemDto } from '@proxy/dtos/items-dtos';
   standalone: true,
   imports: [CommonModule, FormsModule, TableComponent],
   templateUrl: './offers-details.component.html',
-  styleUrl: './offers-details.component.scss'
+  styleUrl: './offers-details.component.scss',
+  providers: [DatePipe]
 })
 export class OffersDetailsComponent implements OnInit {
   activeSection: string = 'information';
@@ -52,6 +53,7 @@ export class OffersDetailsComponent implements OnInit {
     private afterActionService: AfterActionService,
     private modalService: NgbModal,
     private base64Service: Base64Service,
+    private datePipe: DatePipe,
   ) {
     this.offerId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
   }
@@ -155,5 +157,9 @@ export class OffersDetailsComponent implements OnInit {
         }
       );
     }
+  }
+
+  formatDate(date: string): string | null {
+    return this.datePipe.transform(date, 'mediumDate');  // 'mediumDate' gives a readable format
   }
 }

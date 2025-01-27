@@ -1,5 +1,5 @@
 <section class="row">
-  <div class="col-md-6">
+  <div class="col-md-5-5">
     <form>
       <div class="bg-white rounded border border-light d-flex align-items-center gap-2 search">
         <input type="text" id="search" placeholder="Search by menu item" (input)="searchAction($event)"
@@ -39,7 +39,8 @@
     </div>
 
     <!-- Product list -->
-    <div class="d-flex overflow-auto gap-3 my-4 w-100 max-w-screen-md flex-wrap">
+    <div
+      class="d-flex overflow-auto gap-2 justify-content-lg-start justify-content-center my-4 w-100 flex-wrap">
       <div *ngFor="let product of items">
         <app-product-card [productItem]="product"></app-product-card>
       </div>
@@ -48,9 +49,9 @@
 
   <!-- Service selection buttons -->
   <div class="bg-white p-4 rounded-2xl d-flex flex-column gap-4 col-md-6 rounded-4">
-    <div class="d-flex flex-wrap gap-2">
+    <div class="d-flex flex-wrap justify-content-lg-start justify-content-center gap-2">
       <button *ngFor="let type of orderType" (click)="selectService(type)"
-        class="btn d-flex align-items-center gap-2 rounded" style="min-width: 122px;" [ngClass]="{
+        class="btn d-flex align-items-center gap-2 rounded text-black" style="min-width: 145px;" [ngClass]="{
         'bg-danger': selectedTypeName === type.name,
         'bg-light': selectedTypeName !== type.name
       }">
@@ -88,7 +89,7 @@
       <div *ngIf="selectedTypeName === 'Delivery'">
         <!-- Delivery Form -->
         <div class="d-flex flex-column gap-2">
-          <h2 class="my-2">Delivery Info</h2>
+          <h2 class="m-0 fw-semibold text-black fs-5">Delivery Info</h2>
           <input formControlName="buildingName" type="text" class="form-control bg-white" placeholder="Building name" />
           <div *ngIf="form.get('buildingName')?.invalid && form.get('buildingName')?.touched" class="text-danger">
             Building name is required.
@@ -133,7 +134,7 @@
       <div *ngIf="selectedTypeName === 'Drive thru'">
         <!-- Drive Thru Form -->
         <div class="d-flex flex-column gap-2">
-          <h2 class="my-2">Drive Thru Info</h2>
+          <h2 class="m-0 fw-semibold text-black fs-5">Drive Thru Info</h2>
           <input formControlName="time" type="time" class="form-control bg-white" placeholder="Time" />
           <div *ngIf="form.get('time')?.invalid && form.get('time')?.touched" class="text-danger">
             Time is required.
@@ -153,7 +154,7 @@
           </div>
 
           <!-- Car Info Fields -->
-          <h2 class="my-2">Car Info</h2>
+          <h2 class="m-0 fw-semibold text-black fs-5">Car Info</h2>
           <input formControlName="carType" type="text" class="form-control bg-white" placeholder="Car type" />
           <div *ngIf="form.get('carType')?.invalid && form.get('carType')?.touched" class=" text-danger">
             Car type is required.
@@ -174,7 +175,7 @@
       <div *ngIf="selectedTypeName === 'Dine in'">
         <!-- Dine In Form -->
         <div class="d-flex flex-column gap-2">
-          <h2 class="my-2">Dine In Info</h2>
+          <h2 class="m-0 fw-semibold text-black fs-5">Dine In Info</h2>
 
           <input formControlName="time" type="time" class="form-control bg-white" placeholder="Time" />
           <div *ngIf="form.get('time')?.invalid && form.get('time')?.touched" class="text-danger">
@@ -205,7 +206,7 @@
       <div *ngIf="selectedTypeName === 'Pick up'">
         <!-- Pick Up Form -->
         <div class="d-flex flex-column gap-2">
-          <h2 class="my-2">Pick Up Info</h2>
+          <h2 class="m-0 fw-semibold text-black fs-5">Pick Up Info</h2>
 
           <input formControlName="time" type="time" class="form-control bg-white" placeholder="Time" />
           <div *ngIf="form.get('time')?.invalid && form.get('time')?.touched" class="text-danger">
@@ -224,31 +225,34 @@
     </form>
 
     <div>
-      <div class="d-flex align-items-center justify-content-between px-3 py-2 text-black font-weight-bold h-100"
+      <div class="d-flex align-items-center justify-content-between px-3 py-2 text-black font-weight-bold"
         style="background-color: #F4585940;">
         <span class="w-33">Item</span>
         <span class="w-33 text-center">Qty</span>
-        <span class="w-33 text-right">Price</span>
+        <span class="w-33 text-end">Price</span>
       </div>
-      <!-- <div *ngIf="cart">
-      <div *ngFor="let item of cart.items;" class="d-flex align-items-center justify-content-between mt-3">
-        <div class="d-flex align-items-center gap-2 w-33">
-          <button (click)="onRemove(item.cartItemId)"><app-icon iconName="delete" color="#F45859"></app-icon></button>
-          <p class="font-weight-medium">{{item.itemName}}</p>
-        </div>
-        <div class="d-flex align-items-center justify-content-center gap-2 w-33">
-          <button *ngIf="item.quantity === 1" (click)="onRemove(item.cartItemId)"><app-icon iconName="smallDelete"
-              color="#F45859"></app-icon></button>
-          <button *ngIf="item.quantity > 1" (click)="decrementQuantity(item)"><app-icon iconName="decrement"
-              color="#F 45859"></app-icon></button>
 
-          <p>{{item.quantity}}</p>
+      <div *ngIf="cart">
+        <div *ngFor="let item of cart.items;" class="d-flex align-items-center justify-content-between mt-3">
+          <div class="d-flex align-items-center gap-2 w-33">
+            <button class="border-0 bg-white" (click)="onRemove(item.id)"><app-icons iconName="delete"
+                color="#F45859"></app-icons></button>
+            <p class="font-weight-medium m-0">{{item.itemName}}</p>
+          </div>
+          <div class="d-flex align-items-center justify-content-center gap-2 w-33">
+            <button class="border-0 bg-white" *ngIf="item.quantity === 1" (click)="onRemove(item.id)"><app-icons
+                iconName="smallDelete" color="#F45859"></app-icons></button>
+            <button class="border-0 bg-white" *ngIf="item.quantity > 1" (click)="decrementQuantity(item.id)"><app-icons
+                iconName="decrement" color="#F 45859"></app-icons></button>
 
-          <button (click)="incrementQuantity(item)"><app-icon iconName="increment" color="#F45859"></app-icon></button>
+            <p class="m-0">{{item.quantity}}</p>
+
+            <button class="border-0 bg-white" (click)="incrementQuantity(item.id)"><app-icons iconName="increment"
+                color="#F45859"></app-icons></button>
+          </div>
+          <p class="w-33 text-end m-0">QAR {{(item.price).toFixed(2)}}</p>
         </div>
-        <p class="w-33 text-right">QAR {{(item.price).toFixed(2)}}</p>
       </div>
-    </div> -->
     </div>
 
     <div class="d-flex align-items-center promo">
@@ -265,7 +269,7 @@
     </div>
 
     <div>
-      <h3 class="text-small font-weight-bold">Select payment method</h3>
+      <h3 class="fw-semibold text-black fs-5">Select payment method</h3>
       <form [formGroup]="form">
         <div class="d-flex gap-3">
           <div class="d-flex gap-1 items-center">
@@ -281,31 +285,31 @@
     </div>
 
     <div *ngIf="cart">
-      <h3 class="text-small font-weight-bold">Payment summary</h3>
-      <div class="d-flex justify-content-end border-top border-light">
+      <h3 class="fw-semibold text-black fs-5">Payment summary</h3>
+      <div class="d-flex justify-content-end">
         <div class="w-100 max-w-lg">
           <dl class="text-small">
             <div class="d-flex justify-content-between">
-              <dt>Subtotal</dt>
+              <dt class="fw-normal">Subtotal</dt>
               <dd>QAR {{cart.subTotal}}</dd>
             </div>
 
             <div class="d-flex justify-content-between text-danger">
-              <dt>Discount</dt>
+              <dt class="fw-normal">Discount</dt>
               <dd>- QAR {{cart.discountAmount }}</dd>
             </div>
 
             <div class="d-flex justify-content-between">
-              <dt>Service fee</dt>
-              <dd>QAR {{cart.deliveryFee}}</dd>
+              <dt class="fw-normal">Service fee</dt>
+              <dd>QAR {{cart.serviceFee}}</dd>
             </div>
 
             <div class="d-flex justify-content-between">
-              <dt>Delivery fee</dt>
+              <dt class="fw-normal">Delivery fee</dt>
               <dd>QAR {{cart.deliveryFee}}</dd>
             </div>
 
-            <div class="d-flex justify-content-between fw-bold">
+            <div class="d-flex justify-content-between fw-bold text-black">
               <dt>Total amount</dt>
               <dd>QAR {{(cart.totalAmount).toFixed(2)}}</dd>
             </div>

@@ -1,8 +1,9 @@
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateItemTaxDto, UpdateItemTaxDto } from '../dtos/item-tax-contract/models';
-import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
+import type { ApiResponse } from '../apiresponse/models';
+import type { CreateItemTaxDto, ItemTaxDto, UpdateItemTaxDto } from '../dtos/item-tax-contract/models';
+import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class ItemTaxService {
   
 
   get = (id: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
+    this.restService.request<any, ActionResult<ApiResponse<ItemTaxDto>>>({
       method: 'GET',
       url: `/api/ItemTax/${id}`,
     },

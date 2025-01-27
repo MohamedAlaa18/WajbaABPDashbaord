@@ -137,7 +137,7 @@ export class ItemsComponent implements OnInit {
       sorting: '',
       skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10,
-      filter: this.filters.name,
+      name: this.filters.name,
       categoryId: this.filters.category ? Number(this.filters.category) : undefined,
       itemType: this.filters.itemType ? Number(this.filters.itemType) : undefined,
       isFeatured: this.filters.isFeatured ? Boolean(Number(this.filters.isFeatured)) : undefined,

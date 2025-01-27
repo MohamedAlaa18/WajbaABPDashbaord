@@ -9,10 +9,12 @@ export interface CreateUserDto {
   points: number;
   password?: string;
   confirmPassword?: string;
+  branchList: number[];
+  customerRoleList: number[];
 }
 
 export interface GetUserDto {
-  id?: string;
+  id: number;
   fullName?: string;
   email?: string;
   phone?: string;
@@ -24,13 +26,14 @@ export interface GetUserListDto {
   fullName?: string;
   type?: number;
   status?: number;
+  email?: string;
+  phone?: string;
   maxResultCount: number;
   skipCount: number;
 }
 
 export interface LogInWajbaUserDto {
   phone?: string;
-  password?: string;
 }
 
 export interface UpdateWajbaUserDto {
@@ -40,6 +43,8 @@ export interface UpdateWajbaUserDto {
   phone?: string;
   type: number;
   status: number;
+  branchList: number[];
+  customerRoleList: number[];
 }
 
 export interface WajbaUserDto {

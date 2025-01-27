@@ -47,6 +47,15 @@ textarea {
   padding-left: 1rem !important;
 }
 
-.radio-label{
+.radio-label {
   width: fit-content;
+}
+
+input[type="radio"] {
+  accent-color: var(--red-color) !important;
+}
+
+.text-danger,
+.invalid-feedback {
+  color: var(--red-color) !important;
 }

@@ -29,7 +29,7 @@
         </div>
         <div class="row mb-1">
           <div class="col-md-6">
-            <p><strong>Start Day:</strong> {{ offer.startDate }}</p>
+            <p><strong>Start Day:</strong> {{ formatDate(offer.startDate) }}</p>
           </div>
           <div class="col-md-6">
             <p><strong>Status:</strong>
@@ -41,7 +41,7 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <p><strong>End Day:</strong> {{ offer.endDate }}</p>
+            <p><strong>End Day:</strong> {{ formatDate(offer.endDate) }}</p>
           </div>
         </div>
       </div>

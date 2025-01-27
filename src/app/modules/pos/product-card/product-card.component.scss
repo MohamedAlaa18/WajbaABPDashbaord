@@ -1,7 +1,7 @@
 .product-card {
   border: 1px solid #e3e3e3;
   border-radius: 1.5rem;
-  width: 136.43px;
+  width: 119.43px;
   height: 211.47px;
   transition: all 0.3s ease;
 }
@@ -17,11 +17,19 @@
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2rem;
   transition: background-color 0.3s, color 0.3s;
+  padding-inline: 0.4rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  font-size: 0.7rem;
 }
 
 .add-btn:hover {
   background-color: #f45859;
   color: white;
+}
+
+.price{
+  font-size: 0.8rem;
 }
 
 .text-danger {
@@ -32,6 +40,6 @@
   color: white !important;
 }
 
-.font-weight-bold{
+.font-weight-bold {
   font-weight: bold;
 }

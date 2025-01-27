@@ -5,15 +5,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { AddAddressComponent } from '../add-address/add-address.component';
-import { WajbaUserService } from '@proxy/controllers';
+import { UserAddressService, WajbaUserService } from '@proxy/controllers';
 import { WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
-import { UserAddressDto } from '@proxy/dtos/user-address-contract';
+import { IconsComponent } from 'src/app/shared/icons/icons.component';
+import { UpdateUserAddressDto } from '@proxy/dtos/user-address-contract';
 
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconsComponent],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
@@ -21,7 +22,7 @@ export class UserDetailsComponent implements OnInit {
   userId: any;
   user!: WajbaUserDto;
   isModalOpen = false;
-  selectedAddress: UserAddressDto | null = null;
+  selectedAddress: UpdateUserAddressDto | null = null;
   breadcrumbs: any;
   selectedFile: File | null = null;
   userTypeLabel: string = '';
@@ -57,6 +58,7 @@ export class UserDetailsComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private wajbaUserService: WajbaUserService,
+    private userAddressService: UserAddressService,
   ) {
     this.userId = this.activatedRoute.snapshot.paramMap.get('id') || '';
 
@@ -77,12 +79,25 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadUser(): void {
-    console.log(this.userId);
     this.wajbaUserService.getWajbaUserById(this.userId).subscribe(
       (response) => {
         this.user = response.data;
-        this.userTypeLabel = 'Customer';
-        this.userTypeURL = '/customers';
+        console.log(response);
+
+        if (this.user && this.user.type === 4) {
+          this.loadAddress();
+        }
+      },
+      (error) => {
+        console.error('Error fetching customer data:', error);
+      }
+    );
+  }
+
+  loadAddress(): void {
+    this.userAddressService.getAllByCustomer(this.userId).subscribe(
+      (response) => {
+        this.user = response.data;
         console.log(response);
       },
       (error) => {
@@ -91,7 +106,7 @@ export class UserDetailsComponent implements OnInit {
     );
   }
 
-  openAddEditAddressModal(address?: UserAddressDto): void {
+  openAddEditAddressModal(address?: UpdateUserAddressDto): void {
     const modalRef = this.modalService.open(AddAddressComponent, {
       size: 'lg',
       centered: true,
@@ -100,6 +115,7 @@ export class UserDetailsComponent implements OnInit {
 
     modalRef.componentInstance.isOpen = true;
     modalRef.componentInstance.address = address || null;
+    modalRef.componentInstance.customerId = this.userId || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();

@@ -26,10 +26,6 @@ button.close {
   color: var(--red-color) !important;
 }
 
-// input {
-//   border: 1px solid #CCCCCC4D !important;
-//   height: 40px;
-// }
 
 select {
   outline: none !important;
@@ -103,6 +99,14 @@ input[type="radio"] {
   scrollbar-width: none;
 }
 
-// .max-w-xl{
-//   max-width: 475px;
-// }
+.w-33 {
+  width: 33.33%;
+}
+
+@media (min-width: 768px) {
+  .col-md-5-5 {
+    flex: 0 0 auto;
+    width: 45%;
+    margin-right: 5%;
+  }
+}

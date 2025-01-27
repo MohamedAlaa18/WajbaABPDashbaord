@@ -1,8 +1,13 @@
-import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateFaqs {
   question: string;
   answer: string;
+}
+
+export interface FaqDto extends EntityDto<number> {
+  question?: string;
+  answer?: string;
 }
 
 export interface GetFaqInput extends PagedAndSortedResultRequestDto {

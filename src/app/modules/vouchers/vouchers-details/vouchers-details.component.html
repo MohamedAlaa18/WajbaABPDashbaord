@@ -26,8 +26,8 @@
         <p>{{ voucher.code }}</p>
         <p>{{ (voucher.discount).toFixed(2) }}</p>
         <p>{{ voucher.discountType === 0 ? 'Percentage' : 'Fixed' }}</p>
-        <p>{{ voucher.startDate }}</p>
-        <p>{{ voucher.endDate }}</p>
+        <p>{{ formatDate(voucher.startDate) }}</p> <!-- Use formatDate for startDate -->
+        <p>{{ formatDate(voucher.endDate) }}</p> <!-- Use formatDate for endDate -->
         <p>{{ voucher.minimumOrderAmount }}</p>
         <p>{{ voucher.maximumDiscount }}</p>
         <p>{{ voucher.limitPerUser }}</p>

@@ -29,9 +29,9 @@
                 {{ row[col.field] === 1 ? 'Percentage' : 'Fixed' }}
               </span>
             </ng-container>
-            <!-- Default Case -->
+            <!-- Date Column -->
             <ng-container *ngSwitchDefault>
-              {{ row[col.field] }}
+              {{ isDateString(row[col.field]) ? formatDate(row[col.field]) : row[col.field] }}
             </ng-container>
           </ng-container>
         </td>

@@ -54,7 +54,6 @@ export class UserComponent implements OnInit {
         { label: 'POS Operator', value: 1 },
         { label: 'Staff', value: 2 },
         { label: 'Branch Manager', value: 3 },
-        { label: 'Customer', value: 2 },
       ]
     },
     {
@@ -70,7 +69,8 @@ export class UserComponent implements OnInit {
     name: '',
     email: '',
     phone: '',
-    role: null,
+    role: '',
+    type: null,
     status: ''
   };
 
@@ -87,23 +87,23 @@ export class UserComponent implements OnInit {
       switch (path) {
         case 'administrators':
           this.userTypeLabel = 'Administrators';
-          this.filters.role = 1; // Admin
+          this.filters.type = 1; // Admin
           break;
         case 'delivery-boys':
           this.userTypeLabel = 'Delivery Boys';
-          this.filters.role = 3; // Deliveryboy
+          this.filters.type = 3; // Deliveryboy
           break;
         case 'customers':
           this.userTypeLabel = 'Customers';
-          this.filters.role = 4; // Customer
+          this.filters.type = 4; // Customer
           break;
         case 'employees':
           this.userTypeLabel = 'Employees';
-          this.filters.role = 2; // Employee
+          this.filters.type = 2; // Employee
           break;
         default:
           this.userTypeLabel = 'User';
-          this.filters.role = undefined; // No specific type filter
+          this.filters.type = undefined; // No specific type filter
       }
       this.initializeColumns(); // Initialize columns based on user type
       this.loadUsers(); // Load users after setting the user type
@@ -113,7 +113,9 @@ export class UserComponent implements OnInit {
   loadUsers(): void {
     const defaultInput: GetUserListDto = {
       fullName: this.filters.name,
-      type: this.filters.role, // Set the filtered type dynamically
+      type: this.filters.type, // Set the filtered type dynamically
+      email: this.filters.email,
+      phone: this.filters.phone,
       status: this.filters.status ? Number(this.filters.status) : undefined,
       skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10,
@@ -201,7 +203,7 @@ export class UserComponent implements OnInit {
 
   clearFilters(): void {
     this.filters = {
-      name: '', email: '', phone: '', role: null, status: ''
+      name: '', email: '', phone: '', role: '', type: null, status: ''
     };
     this.loadUsers(); // Reload users without filters
   }

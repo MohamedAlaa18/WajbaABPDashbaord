@@ -1,17 +1,17 @@
 <section class="user-details-section" *ngIf="user">
-  <div class="card p-4 mb-4">
-    <div class="row align-items-center">
-      <div class="col-md-4 text-center">
-        <img
-          [src]="!user.profilePhoto || user.profilePhoto === 'Empty' ? 'assets/images/profile.jpeg' : user.profilePhoto"
-          alt="profile" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;">
-      </div>
+  <div class="card p-3 mb-4">
+    <div class="d-flex align-items-center gap-3 flex-wrap">
+      <img
+        [src]="!user.profilePhoto || user.profilePhoto === 'Empty' ? 'assets/images/profile.jpeg' : user.profilePhoto"
+        alt="profile" class="rounded-3" style="width: 150px; height: 150px;">
+
       <div class="col-md-8">
-        <h2 class="text-dark">{{ user.name }}</h2>
-        <p class="text-primary">{{ user.roleName ? user.roleName : 'Customer' }}</p>
+        <h2 class="fw-semibold text-black fs-4">{{ user.fullName }}</h2>
+        <p class="role-text">{{ user.type == 1 ? 'Admin' : user.type == 2 ? 'Employee ' : user.type == 3 ? 'Delivery
+          boy' : 'Customer' }}</p>
         <div class="d-flex align-items-center mt-2">
-          <label class="btn btn-danger btn-sm">
-            Upload New Image
+          <label class="btn btn-danger border-0">
+            Update New Image
             <input type="file" id="image" (change)="onFileSelect($event)" hidden>
           </label>
         </div>
@@ -19,36 +19,36 @@
     </div>
   </div>
 
-  <div class="card p-4 mb-4">
-    <h2 class="text-dark">Basic Information</h2>
+  <div class="card p-3 mb-4">
+    <h2 class="fw-semibold text-black fs-4 m-0">Basic Information</h2>
     <hr>
     <div class="row">
-      <div class="col-md-6 mb-3">
-        <strong>Email:</strong>
+      <div class="col-md-6 mb-3 d-flex align-items-center gap-3">
+        <strong>Email </strong>
         <span class="text-muted">{{ user.email }}</span>
       </div>
-      <div class="col-md-6 mb-3">
-        <strong>Phone:</strong>
-        <span class="text-muted">{{ user.phoneNumber }}</span>
+      <div class="col-md-6 mb-3 d-flex align-items-center gap-3">
+        <strong>Phone </strong>
+        <span class="text-muted">{{ user.phone }}</span>
       </div>
     </div>
-    <div>
-      <strong>Status:</strong>
+    <div class="col-md-6 mb-3 d-flex align-items-center gap-3">
+      <strong>Status </strong>
       <span [ngClass]="{'text-success': user.status === 1, 'text-danger': user.status === 0}">
         {{ user.status === 1 ? 'Active' : 'Inactive' }}
       </span>
     </div>
   </div>
 
-  <div class="card p-4">
+  <div class="card p-3" *ngIf="user.type == 4">
     <div class="table-responsive w-100">
-      <div class="d-flex justify-content-between align-items-center w-100 rounded-top bg-white px-4 py-3 border-bottom">
-        <span class="section-title text-black">Address</span>
+      <div class="d-flex justify-content-between align-items-center w-100 rounded-top pb-3 bg-white border-bottom">
+        <span class="fw-semibold text-black fs-4">Address</span>
 
         <div class="d-flex justify-content-center align-items-center gap-3">
-          <button (click)="openAddEditModal()"
+          <button (click)="openAddEditAddressModal()"
             class="btn btn-danger text-white d-flex align-items-center justify-content-evenly rounded-2 px-3 py-1 border-0">
-            <app-icons iconName="add" color="white" class="me-2"></app-icons>
+            <app-icons iconName="address" color="white" class="me-2"></app-icons>
             <span class="h5 p-0 m-0">Add Address</span>
           </button>
         </div>

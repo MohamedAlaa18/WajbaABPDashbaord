@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import { CommonModule, DatePipe } from '@angular/common';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
-import { CategoryService, ItemService } from '@proxy/controllers';
+import { CategoryService, ItemService, WajbaUserService } from '@proxy/controllers';
 import { UpdateCategory } from '@proxy/dtos/categories';
 import { GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-contract';
 import { ProductCardComponent } from "../product-card/product-card.component";
 import { ItemDto } from '@proxy/dtos/items-dtos';
+import { GetUserListDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 
 @Component({
   selector: 'app-pos',
@@ -19,6 +20,7 @@ import { ItemDto } from '@proxy/dtos/items-dtos';
 export class POSComponent implements OnInit {
   categories: UpdateCategory[] = [];
   items: ItemDto[] = [];
+  customers: WajbaUserDto[] = [];
   cart!: any;
 
   discountType: number = 0;
@@ -48,6 +50,7 @@ export class POSComponent implements OnInit {
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private itemService: ItemService,
+    private wajbaUserService: WajbaUserService,
     // private cartService: CartService,
     // private orderService: OrderService,
     private afterActionService: AfterActionService,
@@ -80,14 +83,23 @@ export class POSComponent implements OnInit {
     this.loadCategory();
     this.loadItems();
     this.loadCart();
+    this.loadCustomers();
     this.updateValidators();
+
+    this.cart = { items: [], subTotal: 50, discountAmount: 10, serviceFee: 10, deliveryFee: 10, totalAmount: 60 };
+    const cartData = localStorage.getItem('cart');
+    if (cartData) {
+      this.cart.items = JSON.parse(cartData);
+    } else {
+      this.cart.items = [];
+    }
   }
 
   loadItems(): void {
     this.itemService.getItemsByCategoryByCategoryIdAndName(this.selectedCategoryId, this.searchQuery).subscribe({
       next: (response) => {
         console.log(response);
-        this.items = response;
+        this.items = response.data.items;
       },
       error: (err) => {
         console.error('Error loading items:', err);
@@ -124,6 +136,24 @@ export class POSComponent implements OnInit {
     //     console.error('Error fetching customers', error);
     //   }
     // );
+  }
+
+  loadCustomers(): void {
+    const defaultInput: GetUserListDto = {
+      type: 4, // Set the filtered type dynamically
+      skipCount: 0,
+      maxResultCount: 10,
+    };
+
+    this.wajbaUserService.getWajbaUserByInput(defaultInput).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.customers = response.items;
+      },
+      error: (err) => {
+        console.error('Error loading users:', err);
+      },
+    });
   }
 
   updateValidators() {
@@ -237,28 +267,46 @@ export class POSComponent implements OnInit {
   onScroll(event: WheelEvent): void {
     const scrollContainer = document.querySelector('.categories-container');
     const categories = Array.from(document.querySelectorAll('.category-button'));
-    const containerRect = scrollContainer?.getBoundingClientRect();
 
-    if (scrollContainer && containerRect) {
+    if (scrollContainer) {
+      const containerRect = scrollContainer.getBoundingClientRect();
       const containerWidth = containerRect.width;
-      const leftThreshold = containerWidth * 0.25;
-      const rightThreshold = containerWidth * 0.75;
+      const containerLeft = containerRect.left;
+
+      // Define zones within the container
+      const leftThird = containerLeft + containerWidth * 0.33;
+      const rightThird = containerLeft + containerWidth * 0.66;
+
+      let closestCategoryIndex = 0;
+      let minDistance = Infinity;
 
       categories.forEach((category, index) => {
         const categoryRect = category.getBoundingClientRect();
-
-        // Calculate category's center position relative to container
         const categoryCenterX = categoryRect.left + categoryRect.width / 2;
 
-        // Check if category is near the center, adjusting for different container widths
-        const isNearCenter =
-          categoryCenterX >= containerRect.left + leftThreshold &&
-          categoryCenterX <= containerRect.left + rightThreshold;
+        // Determine which zone the category is in
+        let zonePosition;
+        if (categoryCenterX < leftThird) {
+          zonePosition = 'left';
+        } else if (categoryCenterX > rightThird) {
+          zonePosition = 'right';
+        } else {
+          zonePosition = 'center';
+        }
 
-        if (isNearCenter) {
-          this.selectedPageIndex = Math.max(0, index - 1);
+        // Calculate distance from the container's center
+        const distanceFromCenter = Math.abs(categoryCenterX - (containerLeft + containerWidth / 2));
+
+        // Update closest category if this one is closer to the center
+        if (distanceFromCenter < minDistance) {
+          minDistance = distanceFromCenter;
+          closestCategoryIndex = index;
         }
       });
+
+      // Update selected page index
+      this.selectedPageIndex = Math.max(0, closestCategoryIndex - 1)
+      // console.log(this.selectedPageIndex);
     }
   }
 
@@ -293,6 +341,45 @@ export class POSComponent implements OnInit {
     const inputElement = event.target as HTMLInputElement;
     this.searchQuery = inputElement.value;
     this.loadItems();
+  }
+
+  incrementQuantity(cartItemId: number) {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const itemIndex = cart.findIndex((item: any) => item.id === cartItemId);
+
+    if (itemIndex !== -1) {
+      cart[itemIndex].quantity += 1;  // Increment quantity
+      localStorage.setItem('cart', JSON.stringify(cart));
+      console.log(`Quantity increased for item ID: ${cartItemId}`);
+      this.afterActionService.reloadCurrentRoute();
+    }
+  }
+
+  decrementQuantity(cartItemId: number) {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const itemIndex = cart.findIndex((item: any) => item.id === cartItemId);
+
+    if (itemIndex !== -1) {
+      if (cart[itemIndex].quantity > 1) {
+        cart[itemIndex].quantity -= 1; // Decrement quantity
+        localStorage.setItem('cart', JSON.stringify(cart));
+        console.log(`Quantity decreased for item ID: ${cartItemId}`);
+        this.afterActionService.reloadCurrentRoute();
+      } else {
+        console.warn('Minimum quantity reached. Use remove instead.');
+        this.onRemove(cartItemId);
+        this.afterActionService.reloadCurrentRoute();
+      }
+    }
+  }
+
+  onRemove(cartItemId: number) {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const updatedCart = cart.filter((item: any) => item.id !== cartItemId);
+
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    console.log(`Item with ID: ${cartItemId} removed from cart`);
+    this.afterActionService.reloadCurrentRoute();
   }
 
   applyVoucherCode(discountType: number, discountValue: number | null) {

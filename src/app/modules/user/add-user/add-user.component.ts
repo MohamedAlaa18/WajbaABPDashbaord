@@ -19,7 +19,7 @@ export class AddUserComponent implements OnInit, OnChanges {
   @Input() isOpen: boolean = false;
   @Input() user: UpdateWajbaUserDto | null = null;
   @Input() userTypeLabel: string | null = null;
-  @Input() branchesList: UpdateBranchDto[] = [];
+  @Input() branchList: UpdateBranchDto[] = [];
   @Output() close = new EventEmitter<void>();
 
   roles = [
@@ -42,10 +42,10 @@ export class AddUserComponent implements OnInit, OnChanges {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       status: [1, Validators.required],
-      role: [''],
+      customerRoleList: [''],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      branchIds: this.fb.control([]),
+      branchList: this.fb.control([]),
       type: [null],
     }, { validators: this.passwordsMatch });
   }
@@ -75,8 +75,8 @@ export class AddUserComponent implements OnInit, OnChanges {
   }
 
   updateValidators(): void {
-    const roleControl = this.userForm.get('role');
-    const branchIdsControl = this.userForm.get('branchIds');
+    const roleControl = this.userForm.get('customerRoleList');
+    const branchIdsControl = this.userForm.get('branchList');
 
     if (this.userTypeLabel === 'Employees') {
       // Make role required
@@ -115,7 +115,7 @@ export class AddUserComponent implements OnInit, OnChanges {
 
     this.branchService.getList(defaultInput).subscribe({
       next: (branches) => {
-        this.branchesList = branches.data.items;
+        this.branchList = branches.data.items;
       },
       error: (error) => {
         console.error('Error fetching branches:', error);
@@ -131,23 +131,26 @@ export class AddUserComponent implements OnInit, OnChanges {
       type: user.type,
       email: user.email,
       phone: user.phone,
-      // branchIds: user.branchIds || []
+      customerRoleList: user.customerRoleList, // Uncomment this if user has roles
+      branchList: user.branchList || []    // Ensure branchList is handled
     });
   }
+
 
   closeModal() {
     this.close.emit();
   }
 
   submitForm() {
-    console.log('Form submission triggered'); // Debugging: Check if the method is called
-    console.log('Form validity:', this.userForm.valid); // Debugging: Check form validity
-    console.log('Form errors:', this.userForm.errors); // Debugging: Check form-level errors
-
     if (this.userForm.valid) {
       let formValue: UpdateWajbaUserDto | CreateUserDto;
 
-      // Determine whether it's an update or create operation
+      // Ensure customerRoleList is an array of integers (nullable)
+      if (this.userForm.value.customerRoleList && !Array.isArray(this.userForm.value.customerRoleList)) {
+        this.userForm.value.customerRoleList = [this.userForm.value.customerRoleList];
+      }
+
+      // Set up the form value based on whether it's an update or create operation
       if (this.userForm.value.id) {
         formValue = this.userForm.value as UpdateWajbaUserDto;
       } else {
