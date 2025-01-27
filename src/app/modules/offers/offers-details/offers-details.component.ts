@@ -78,7 +78,7 @@ export class OffersDetailsComponent implements OnInit {
     }
   }
 
-  openConfirmDeleteModal(branchId: number, branchName: string): void {
+  openConfirmDeleteModal(itemId: number, itemName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -86,8 +86,8 @@ export class OffersDetailsComponent implements OnInit {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = branchId;
-    modalRef.componentInstance.name = branchName;
+    modalRef.componentInstance.id = itemId;
+    modalRef.componentInstance.name = itemName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {

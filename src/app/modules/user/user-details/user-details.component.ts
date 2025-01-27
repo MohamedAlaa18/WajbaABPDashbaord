@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { filter } from 'rxjs';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { AddAddressComponent } from '../add-address/add-address.component';
 import { UserAddressService, WajbaUserService } from '@proxy/controllers';
 import { WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { UpdateUserAddressDto } from '@proxy/dtos/user-address-contract';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 
 @Component({
@@ -22,15 +22,7 @@ export class UserDetailsComponent implements OnInit {
   userId: any;
   user!: WajbaUserDto;
   isModalOpen = false;
-  selectedAddress: UpdateUserAddressDto | null = null;
-  breadcrumbs: any;
   selectedFile: File | null = null;
-  userTypeLabel: string = '';
-  userTypeURL: string = '';
-  previousUrl!: string;
-
-  isConfirmDeleteModalOpen: boolean = false;
-  addressToDeleteId!: number;
 
   columns = [
     { field: 'label', header: 'Label' },
@@ -55,23 +47,12 @@ export class UserDetailsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private modalService: NgbModal,
     private wajbaUserService: WajbaUserService,
     private userAddressService: UserAddressService,
+    private afterActionService: AfterActionService
   ) {
     this.userId = this.activatedRoute.snapshot.paramMap.get('id') || '';
-
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationStart)
-      )
-      .subscribe((event: NavigationStart) => {
-        if (this.router.url) {
-          this.previousUrl = this.router.url;
-          console.log(this.previousUrl)
-        }
-      });
   }
 
   ngOnInit(): void {
@@ -136,7 +117,7 @@ export class UserDetailsComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  openConfirmDeleteModal(itemId: number, itemName: string): void {
+  openConfirmDeleteModal(addressId: number, addressName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -144,12 +125,12 @@ export class UserDetailsComponent implements OnInit {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = itemId;
-    modalRef.componentInstance.name = itemName;
+    modalRef.componentInstance.id = addressId;
+    modalRef.componentInstance.name = addressName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteAddress(id); // Call the delete method with the item ID
+      this.deleteAddress(id); // Call the delete method with the address ID
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -158,17 +139,15 @@ export class UserDetailsComponent implements OnInit {
   }
 
   deleteAddress(id: number) {
-    // if (this.addressToDeleteId) {
-    //   this.employeeService.deleteEmployeeAddress(Number(this.userId), this.addressToDeleteId).subscribe(
-    //     (response) => {
-    //       console.log('Address deleted successfully:', response);
-    //       this.afterActionService.reloadCurrentRoute();
-    //     },
-    //     (error) => {
-    //       console.error('Error deleting address:', error);
-    //     }
-    //   );
-    // }
+    this.userAddressService.delete(id).subscribe(
+      (response) => {
+        console.log('Address deleted successfully:', response);
+        this.afterActionService.reloadCurrentRoute();
+      },
+      (error) => {
+        console.error('Error deleting address:', error);
+      }
+    );
   }
 
   uploadNewImage() {
