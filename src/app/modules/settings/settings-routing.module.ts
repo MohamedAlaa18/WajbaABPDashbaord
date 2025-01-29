@@ -8,6 +8,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { ThemeComponent } from './theme/theme.component';
 import { TimeSlotsComponent } from './time-slots/time-slots.component';
 import { FAQsComponent } from './faqs/faqs.component';
+import { NotificationAlertComponent } from './notification-alert/notification-alert.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'company', pathMatch: 'full' },
@@ -21,7 +22,7 @@ const routes: Routes = [
   { path: 'orderSetup', component: OrderSetupComponent },
   { path: 'otp', component: OTPComponent },
   { path: 'notification', component: NotificationComponent },
-  // { path: 'notificationAlert', component: NotificationAlertComponent },
+  { path: 'notification-alert', component: NotificationAlertComponent },
   // { path: 'socialMedia', component: SocialMediaComponent },
   { path: 'faqs', component: FAQsComponent },
   // { path: 'analytics', component: AnalyticsComponent },

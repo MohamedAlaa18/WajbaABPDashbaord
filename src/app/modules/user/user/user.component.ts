@@ -44,26 +44,7 @@ export class UserComponent implements OnInit {
     }
   ];
 
-  filterFields = [
-    { label: 'Name', name: 'name', type: 'text' },
-    { label: 'Email', name: 'email', type: 'email' },
-    { label: 'Phone', name: 'phone', type: 'tel' },
-    {
-      label: 'Role', name: 'role', type: 'select',
-      options: [
-        { label: 'POS Operator', value: 1 },
-        { label: 'Staff', value: 2 },
-        { label: 'Branch Manager', value: 3 },
-      ]
-    },
-    {
-      label: 'Status', name: 'status', type: 'select',
-      options: [
-        { label: 'Active', value: 1 },
-        { label: 'Inactive', value: 2 }
-      ]
-    },
-  ];
+  filterFields = [];
 
   filters = {
     name: '',

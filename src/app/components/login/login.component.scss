@@ -1,0 +1,43 @@
+@import '../../../assets/styles/main';
+@include radio-label(#F458591F, var(--red-color), #CCCCCC4D, transparent);
+
+.login-container {
+  max-width: 462px;
+  margin-inline: auto;
+}
+
+button.save {
+  @include submit-button(var(--red-color));
+}
+
+button.close {
+  @include close-button(var(--red-color));
+}
+
+.text-danger,
+.invalid-feedback {
+  color: var(--red-color) !important;
+}
+
+input {
+  border: 1px solid #CCCCCC4D !important;
+  height: 40px;
+}
+
+.btn-danger {
+  background-color: var(--red-color) !important;
+}
+
+.form-check-input {
+  height: 16px;
+  width: 16px;
+}
+
+.form-check-input:checked {
+  background-color: var(--red-color) !important;
+}
+
+.absolute{
+  position: absolute;
+  right: 1rem;
+}

@@ -9,7 +9,6 @@ const routes: Routes = [
   { path: 'customers', component: UserComponent }, // Matches '/user/customers'
   { path: 'employees', component: UserComponent }, // Matches '/user/employees'
   { path: ':id', component: UserDetailsComponent }, // Matches '/user/:id'
-
 ];
 
 @NgModule({

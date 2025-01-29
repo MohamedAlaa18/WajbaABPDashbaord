@@ -1,0 +1,54 @@
+<div class="login-container">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title text-center fw-semibold text-black fs-3">Welcome Back!</h2>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Email Field -->
+        <div class="form-group mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control bg-white" formControlName="email" placeholder="Enter your email">
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger mt-1">
+            <small *ngIf="loginForm.get('email')?.hasError('required')">Email is required</small>
+            <small *ngIf="loginForm.get('email')?.hasError('email')">Please enter a valid email</small>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group mb-3 position-relative">
+          <label class="form-label">Password</label>
+          <div class="d-flex align-items-center relative">
+            <input [type]="showPassword ? 'text' : 'password'" class="form-control bg-white" formControlName="password"
+              placeholder="Enter your password">
+            <button type="button" class="btn btn-link p-0 border-0 absolute" (click)="togglePasswordVisibility()">
+              <app-icons *ngIf="!showPassword" iconName="closedEye" color="#81818180"></app-icons>
+              <app-icons *ngIf="showPassword" iconName="openedEye" color="#81818180"></app-icons>
+            </button>
+          </div>
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+            class="text-danger mt-1">
+            <small>Password is required</small>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between items-center gap-2">
+          <!-- Remember Me Checkbox -->
+          <div class="mb-3 d-flex items-center gap-2">
+            <input type="checkbox" class="form-check-input bg-white" formControlName="rememberMe" id="rememberMe">
+            <label class="form-check-label" for="rememberMe">Remember me</label>
+          </div>
+
+          <!-- Forgot Password Link -->
+          <div class="text-center">
+            <a href="#" class="text-decoration-underline text-danger">Forgot Password</a>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-danger rounded-5 w-100 mb-3 border-0">
+          Login
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

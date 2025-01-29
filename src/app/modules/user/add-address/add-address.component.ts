@@ -29,12 +29,14 @@ export class AddAddressComponent implements OnInit {
   ) {
     this.addressForm = this.fb.group({
       id: [null],
+      wajbaUserId: [null],
       buildingName: ['', Validators.required],
       apartmentNumber: [''],
       floor: [''],
       street: ['', Validators.required],
       addressLabel: [''],
       addressType: [null],
+      title: ['']
     });
 
     this.updateFormValidators();
@@ -43,13 +45,18 @@ export class AddAddressComponent implements OnInit {
   ngOnInit(): void {
     if (this.address) {
       this.populateForm(this.address);
+    } else {
+      this.addressForm.patchValue({
+        wajbaUserId: this.customerId,
+      });
     }
   }
 
   populateForm(address: UpdateUserAddressDto) {
     console.log(address)
     this.addressForm.patchValue({
-      id: this.customerId,
+      id: address.id,
+      wajbaUserId: this.customerId,
       buildingName: address.buildingName,
       apartmentNumber: address.apartmentNumber,
       floor: address.floor,

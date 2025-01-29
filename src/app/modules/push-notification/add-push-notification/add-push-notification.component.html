@@ -1,0 +1,82 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header border-bottom">
+      <h5 class="section-title text-black">Push Notification</h5>
+      <button type="button" class="border-0 bg-white" aria-label="Close" (click)="closeModal()">
+        <app-icons iconName="close" color="#F45859"></app-icons>
+      </button>
+    </div>
+
+    <form [formGroup]="pushNotificationForm" (ngSubmit)="submitForm()" class="p-3">
+      <!-- Role -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
+          <select id="role" formControlName="role" class="form-select bg-white">
+            <option value="" disabled>--</option>
+            <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+          </select>
+          <div *ngIf="pushNotificationForm.get('role')?.touched && pushNotificationForm.get('role')?.invalid"
+            class="text-danger">
+            <small>Role is required.</small>
+          </div>
+        </div>
+
+        <!-- User -->
+        <div class="col-md-6 mb-3">
+          <label for="user" class="form-label">User <span class="text-danger">*</span></label>
+          <select id="user" formControlName="user" class="form-select bg-white">
+            <option value="" disabled>--</option>
+            <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+          </select>
+          <div *ngIf="pushNotificationForm.get('user')?.touched && pushNotificationForm.get('user')?.invalid"
+            class="text-danger">
+            <small>User is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="mb-3">
+        <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+        <input type="text" id="title" formControlName="title" class="form-control bg-white">
+        <div *ngIf="pushNotificationForm.get('title')?.touched && pushNotificationForm.get('title')?.invalid"
+          class="text-danger">
+          <small>Title is required.</small>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Date -->
+        <div class="col-md-6 mb-3">
+          <label for="date" class="form-label">Date</label>
+          <input type="date" id="date" formControlName="date" class="form-control bg-white">
+        </div>
+
+        <!-- Image -->
+        <div class="col-md-6 mb-3">
+          <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
+          <input type="file" id="image" (change)="onFileSelected($event)" class="form-control bg-white">
+          <div *ngIf="pushNotificationForm.get('image')?.touched && pushNotificationForm.get('image')?.invalid"
+            class="text-danger">
+            <small>Image is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" formControlName="description" class="form-control bg-white" rows="3"></textarea>
+      </div>
+
+
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-start">
+        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

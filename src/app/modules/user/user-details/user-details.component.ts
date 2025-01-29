@@ -21,6 +21,8 @@ import { AfterActionService } from 'src/app/services/after-action/after-action-s
 export class UserDetailsComponent implements OnInit {
   userId: any;
   user!: WajbaUserDto;
+  address!: UpdateUserAddressDto;
+
   isModalOpen = false;
   selectedFile: File | null = null;
 
@@ -65,7 +67,7 @@ export class UserDetailsComponent implements OnInit {
         this.user = response.data;
         console.log(response);
 
-        if (this.user && this.user.type === 4) {
+        if (this.userId && this.user.type === 4) {
           this.loadAddress();
         }
       },
@@ -78,7 +80,7 @@ export class UserDetailsComponent implements OnInit {
   loadAddress(): void {
     this.userAddressService.getAllByCustomer(this.userId).subscribe(
       (response) => {
-        this.user = response.data;
+        this.address = response.data;
         console.log(response);
       },
       (error) => {

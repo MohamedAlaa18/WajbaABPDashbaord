@@ -1,0 +1,107 @@
+<section class="d-flex flex-column">
+  <div class="order-summary mb-3">
+    <div class="d-flex gap-5">
+      <div>
+        <p class="mb-1 fs-4">Order ID: #1608242</p>
+        <p class="mb-1">02:43 PM, 16-08-2024</p>
+        <p class="mb-1"><span class="label">Payment Type:</span> Cash</p>
+        <p class="mb-1"><span class="label">Order Type:</span> Dine in</p>
+        <p class="mb-1"><span class="label">Preparing Time:</span> 03:30</p>
+      </div>
+      <div class="d-flex gap-2">
+        <p class="paid m-1">Paid</p>
+        <p class="pending m-1">Pending</p>
+      </div>
+    </div>
+    <div class="action-buttons mt-3">
+      <button class="btn rounded-danger">Payment refund</button>
+      <!-- Paid Dropdown -->
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn rounded-danger d-flex align-items-center gap-2 px-3" ngbDropdownToggle>
+          {{ selectedPaidOption }}
+        </button>
+        <div ngbDropdownMenu>
+          <button class="dropdown-item" *ngFor="let option of paidMenuOptions" (click)="onMenuSelect('paid', option)">
+            {{ option }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Pending Dropdown -->
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn rounded-danger d-flex align-items-center gap-2 px-3" ngbDropdownToggle>
+          {{ selectedPendingOption }}
+        </button>
+        <div ngbDropdownMenu>
+          <button class="dropdown-item" *ngFor="let option of pendingMenuOptions"
+            (click)="onMenuSelect('pending', option)">
+            {{ option }}
+          </button>
+        </div>
+      </div>
+
+      <button class="btn btn-danger border-0 d-flex align-items-center gap-2 px-3">
+        Print <img src="assets/images/print-white.svg" alt="print-white">
+      </button>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between gap-3 flex-wrap flex-md-nowrap">
+    <div class="order-card col-md-6 col-12">
+      <div class="my-2 border-bottom">
+        <p class="fw-semibold text-black fs-4">Order Details</p>
+      </div>
+      <div class="item">
+        <div class="image-container">
+          <img src="assets/images/burger-with-bg-black.jpg" alt="burger" />
+          <span class="quantity">1</span>
+        </div>
+        <div>
+          <p class="m-1 font-bold">Cheese Burger</p>
+          <p class="m-1 text-danger">Burger</p>
+          <p class="m-1 font-bold">QAR 5.00</p>
+        </div>
+      </div>
+      <hr />
+      <div class="item">
+        <div class="image-container">
+          <img src="assets/images/burger-with-bg-black.jpg" alt="burger" />
+          <span class="quantity">1</span>
+        </div>
+        <div>
+          <p class="m-1 font-bold">Cheese Burger</p>
+          <p class="m-1 text-danger">Burger</p>
+          <p class="m-1 font-bold">QAR 5.00</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5-5 mb-3">
+      <div class="order-card mb-3">
+        <div class="my-2 border-bottom">
+          <p class="fw-semibold text-black fs-4">Note</p>
+        </div>
+        <p>
+          Accusantium ea non reiciendis nisi. Qui aperiam dolores ipsam pariatur aperiam omnis est.
+        </p>
+      </div>
+
+      <div class="order-summary card">
+        <div class="card-body">
+          <p class="d-flex justify-content-between mb-1">
+            <span>Subtotal</span>
+            <span>QAR 100.00</span>
+          </p>
+          <p class="d-flex justify-content-between mb-1">
+            <span>Discount</span>
+            <span>QAR 00.00</span>
+          </p>
+          <p class="d-flex justify-content-between font-weight-bold pt-2 mt-3 border-top-dashed">
+            <span>Total</span>
+            <span>QAR 100.00</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ReferAFriendComponent } from './components/refer-a-friend/refer-a-friend.component';
+import { SalesReportsComponent } from './components/sales-reports/sales-reports.component';
+import { ItemReportsComponent } from './components/item-reports/item-reports.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {
@@ -38,6 +42,30 @@ const routes: Routes = [
     path: 'vouchers',
     loadChildren: () => import('./modules/vouchers/vouchers.module').then(m => m.VouchersModule),
   },
+  {
+    path: 'push-notification',
+    loadChildren: () => import('./modules/push-notification/push-notification.module').then(m => m.PushNotificationModule),
+  },
+  {
+    path: 'refer-a-friend',
+    component: ReferAFriendComponent,
+  },
+  {
+    path: 'sales-reports',
+    component: SalesReportsComponent,
+  },
+  {
+    path: 'item-reports',
+    component: ItemReportsComponent,
+  },
+  // {
+  //   path: 'login',
+  //   component: LoginComponent,
+  // },
+  // {
+  //   path: 'orders',
+  //   loadChildren: () => import('./modules/orders/orders.module').then(m => m.OrdersModule),
+  // },
   {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
