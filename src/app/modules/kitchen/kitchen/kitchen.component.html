@@ -1,0 +1,30 @@
+<section>
+  <div class="header w-100 flex items-center justify-between px-4 py-2 mb-3">
+    <div class="text-white text-sm font-semibold">
+      {{ currentDate | date: 'EEE MMM d yyyy HH:mm:ss' }}
+    </div>
+    <div class="status-tabs bg-white flex rounded-md shadow p-1 rounded-0">
+      <button class="tab px-4 py-1 font-semibold text-red-600 relative"
+        [ngClass]="{ 'active-tab': currentOrders === 'active' }" (click)="currentOrders = 'active'">
+        Active ({{ ActiveOrders.length }})
+      </button>
+      <button class="tab px-4 py-1 font-semibold text-gray-800"
+        [ngClass]="{ 'active-tab': currentOrders === 'finished' }" (click)="currentOrders = 'finished'">
+        Finished
+      </button>
+    </div>
+  </div>
+
+  <div class="container p-0">
+    <div class="row" *ngIf="currentOrders === 'active'">
+      <div class="col-md-4" *ngFor="let order of ActiveOrders">
+        <app-kitchen-card [order]="order"></app-kitchen-card>
+      </div>
+    </div>
+    <div class="row" *ngIf="currentOrders === 'finished'">
+      <div class="col-md-4" *ngFor="let order of FinishedOrders">
+        <app-kitchen-card [order]="order" [isDone]="true"></app-kitchen-card>
+      </div>
+    </div>
+  </div>
+</section>

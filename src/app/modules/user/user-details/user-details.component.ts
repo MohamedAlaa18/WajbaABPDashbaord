@@ -62,7 +62,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadUser(): void {
-    this.wajbaUserService.getWajbaUserById(this.userId).subscribe(
+    this.wajbaUserService.accountInfoGetByWajbaUserIdById(this.userId).subscribe(
       (response) => {
         this.user = response.data;
         console.log(response);
@@ -78,15 +78,15 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadAddress(): void {
-    this.userAddressService.getAllByCustomer(this.userId).subscribe(
-      (response) => {
-        this.address = response.data;
-        console.log(response);
-      },
-      (error) => {
-        console.error('Error fetching customer data:', error);
-      }
-    );
+    // this.userAddressService.getAllByCustomer(this.userId).subscribe(
+    //   (response) => {
+    //     this.address = response.data;
+    //     console.log(response);
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching customer data:', error);
+    //   }
+    // );
   }
 
   openAddEditAddressModal(address?: UpdateUserAddressDto): void {

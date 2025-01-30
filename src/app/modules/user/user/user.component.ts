@@ -9,7 +9,7 @@ import { ExportButtonComponent } from "../../../shared/export-button/export-butt
 import { FilterComponent } from "../../../shared/filter/filter.component";
 import { AddUserComponent } from '../add-user/add-user.component';
 import { WajbaUserService } from '@proxy/controllers';
-import { GetUserListDto, UpdateWajbaUserDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
+import { GetUserListDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 
 @Component({
   selector: 'app-user',
@@ -166,7 +166,7 @@ export class UserComponent implements OnInit {
     }
   }
 
-  openAddEditModal(user?: UpdateWajbaUserDto, userTypeLabel?: string): void {
+  openAddEditModal(user?: WajbaUserDto, userTypeLabel?: string): void {
     const modalRef = this.modalService.open(AddUserComponent, {
       size: 'lg',
       centered: true,

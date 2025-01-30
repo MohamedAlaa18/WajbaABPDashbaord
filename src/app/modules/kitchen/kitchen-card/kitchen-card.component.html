@@ -1,0 +1,53 @@
+<div class="card order-card mb-3 border border-black">
+  <div class="card-header rounded-0" [ngClass]="statusClassHeader">
+    <div class="d-flex justify-content-between align-items-center gap-3 mb-2 text-black">
+      <span class="fw-bold">Order no. #{{ order.orderNumber }}</span>
+      <div class="rounded-0 d-flex justify-content-center align-items-center gap-2 p-1 border border-black">
+        <img [src]="'assets/images/' + orderImage() + '.svg'" [alt]="order.orderType">
+        <span [ngClass]="orderTypeClass">{{ order.orderType }}</span>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div [ngClass]="statusClassBg">
+        <span class="badge status-tag">{{ status === 'Delivered' || isDone ? 'done': status }}</span>
+      </div>
+      <span class="fw-monospace fw-bold text-black">{{ formattedTime }}</span>
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn" ngbDropdownToggle>
+          <app-icons iconName="verticalDots" color="black"></app-icons>
+        </button>
+        <div ngbDropdownMenu>
+          <button class="dropdown-item" (click)="undoStatus()">Undo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let item of order.items" class="list-group-item">
+        <div class="form-check">
+          <input type="checkbox" [(ngModel)]="item.completed" (change)="toggleItemCompletion(item)"
+            class="form-check-input border border-black bg-white" id="item-{{item.name}}" />
+          <label class="form-check-label fw-semibold whitespace-pre-wrap text-black"
+            [ngClass]="{'completed': item.completed}" for="item-{{item.name}}">
+            {{ item.name }}
+          </label>
+        </div>
+        <div class="d-flex gap-2 items-center">
+          <app-icons iconName="curvedArrow" color="black"></app-icons>
+          <p class="m-0" [ngClass]="{'completed': item.completed}">{{ item.notes }}</p>
+        </div>
+      </li>
+    </ul>
+    <div class="d-flex items-center justify-content-center gap-3" *ngIf="!isDone">
+      <button (click)="nextStatus()" [ngClass]="buttonClass" class="btn mt-3 text-white fw-bold rounded-0 px-4 py-1">
+        {{ buttonText }}
+      </button>
+      <button class="btn mt-3 text-white fw-bold rounded-0 px-2 py-0" [ngClass]="borderClass"
+        *ngIf="status !== 'Pending'">
+        <app-icons iconName="print" [color]="status === 'Cooking' ? '#62BF71' : 'black'">
+        </app-icons>
+      </button>
+    </div>
+  </div>
+</div>

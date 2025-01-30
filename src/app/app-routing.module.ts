@@ -4,6 +4,7 @@ import { ReferAFriendComponent } from './components/refer-a-friend/refer-a-frien
 import { SalesReportsComponent } from './components/sales-reports/sales-reports.component';
 import { ItemReportsComponent } from './components/item-reports/item-reports.component';
 import { LoginComponent } from './components/login/login.component';
+import { MessagesComponent } from './components/messages/messages.component';
 
 const routes: Routes = [
   {
@@ -58,13 +59,21 @@ const routes: Routes = [
     path: 'item-reports',
     component: ItemReportsComponent,
   },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'messages',
+    component: MessagesComponent,
+  },
+  {
+    path: 'orders',
+    loadChildren: () => import('./modules/orders/orders.module').then(m => m.OrdersModule),
+  },
   // {
-  //   path: 'login',
-  //   component: LoginComponent,
-  // },
-  // {
-  //   path: 'orders',
-  //   loadChildren: () => import('./modules/orders/orders.module').then(m => m.OrdersModule),
+  //   path: 'kitchen',
+  //   loadChildren: () => import('./modules/kitchen/kitchen.module').then(m => m.KitchenModule),
   // },
   {
     path: 'account',

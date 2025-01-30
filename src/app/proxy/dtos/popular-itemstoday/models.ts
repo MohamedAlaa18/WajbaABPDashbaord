@@ -28,7 +28,7 @@ export interface Popularitemdto extends EntityDto<number> {
   status: number;
   description?: string;
   categoryName?: string;
-  branchId: number;
+  branchId: number[];
   itemId: number;
 }
 

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ItemService } from '@proxy/controllers';
-import { ItemTransformedDto } from '@proxy/dtos/items-dtos';
+import { CartService, ItemService } from '@proxy/controllers';
+import { CartItemAddonDto, CartItemDto } from '@proxy/dtos/cart-contract';
+import { ItemWithDependenciesDto } from '@proxy/dtos/items-dtos/item-dependencies';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 
@@ -17,20 +18,21 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 export class AddToCartComponent implements OnChanges, OnInit {
   @Input() isModalOpen: boolean = false;
   @Input() isEditMode: boolean = false;
-  @Input() productItem!: ItemTransformedDto;
+  @Input() productItem!: ItemWithDependenciesDto;
   @Output() close = new EventEmitter<void>();
 
   quantity: number = 1;
   specialInstructions: string = '';
   cartForm!: FormGroup;
 
-  addedExtras: { name: string; additionalPrice: number }[] = [];
+  addedExtras: {
+    [x: string]: any; name: string; additionalPrice: number
+}[] = [];
 
   constructor(
     private itemService: ItemService,
-    // private cartService: CartService,
+    private cartService: CartService,
     private fb: FormBuilder,
-    // private snackbarService: SnackbarService,
     private afterActionService: AfterActionService,
   ) {
     this.createForm();
@@ -201,25 +203,25 @@ export class AddToCartComponent implements OnChanges, OnInit {
 
     const formValues = this.cartForm.value;
 
-    const item = {
-      id: this.productItem.id,
-      itemName: this.productItem.name,
+    const cartItem: CartItemDto = {
+      itemId: this.productItem.id,
       quantity: formValues.quantity,
-      ImgUrl: this.productItem.imageUrl,
       notes: formValues.specialInstructions || '',
-      price: this.productItem.price,
       variations: this.variations.value.map((value, index) => ({
+        id: value, // Assuming value is the selected variation ID
         name: this.productItem.attributes[index].attributeName,
         additionalPrice: this.productItem.attributes[index].variations.find(v => v.id === value)?.additionalPrice || 0,
         attributeName: this.productItem.attributes[index].attributeName,
       })),
       addons: this.addons.value
-        .map((selected, index) => selected && {
+        .map((selected, index) => selected && ({
+          id: this.productItem.itemAddons[index].id,
           name: this.productItem.itemAddons[index].name,
-          additionalPrice: this.productItem.itemAddons[index].additionalPrice,
-        })
-        .filter(Boolean),
+          price: this.productItem.itemAddons[index].additionalPrice,
+        }))
+        .filter(Boolean) as CartItemAddonDto[], // Ensuring the correct type
       extras: this.addedExtras.map(extra => ({
+        id: extra.id,
         name: extra.name,
         additionalPrice: extra.additionalPrice,
       })),
@@ -230,18 +232,27 @@ export class AddToCartComponent implements OnChanges, OnInit {
     if (this.isEditMode) {
       // Update the item in localStorage
       const updatedCart = existingCart.map(cartItem =>
-        cartItem.itemId === item.id ? { ...cartItem, ...item } : cartItem
+        cartItem.itemId === cartItem.itemId ? { ...cartItem, ...cartItem } : cartItem
       );
       localStorage.setItem('cart', JSON.stringify(updatedCart));
-      console.log('Cart item updated in local storage:', item);
-      this.afterActionService.reloadCurrentRoute();
+      console.log('Cart item updated in local storage:', cartItem);
     } else {
       // Add the new item to localStorage
-      existingCart.push(item);
+      existingCart.push(cartItem);
       localStorage.setItem('cart', JSON.stringify(existingCart));
-      console.log('Item added to cart in local storage:', item);
-      this.afterActionService.reloadCurrentRoute();
+      console.log('Item added to cart in local storage:', cartItem);
     }
+
+    // Send the cart data to the backend using the CartService
+    this.cartService.addCartItemByCartItemDto([cartItem]).subscribe(
+      response => {
+        console.log('Item successfully added to the cart in backend:', response);
+        this.afterActionService.reloadCurrentRoute(); // Refresh route after successful addition
+      },
+      error => {
+        console.error('Error adding item to the cart:', error);
+      }
+    );
 
     // Close the modal or take necessary post-action
     this.closeModal();

@@ -27,14 +27,6 @@ export class UserAddressService {
     { apiName: this.apiName,...config });
   
 
-  getAllByCustomer = (customerId: string, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
-      method: 'GET',
-      url: `/api/UserAddress/customer/${customerId}`,
-    },
-    { apiName: this.apiName,...config });
-  
-
   getById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',

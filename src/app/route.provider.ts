@@ -37,6 +37,13 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
+        path: '/pos',
+        name: 'POS',
+        iconClass: 'fa fa-clipboard-list',
+        order: 6,
+        layout: eLayoutType.application,
+      },
+      {
         path: '/orders',
         name: 'Orders',
         iconClass: 'fa fa-clipboard-list',
@@ -44,10 +51,10 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
-        path: '/pos',
-        name: 'POS',
+        path: '/kitchen',
+        name: 'Kitchen',
         iconClass: 'fa fa-clipboard-list',
-        order: 6,
+        order: 5,
         layout: eLayoutType.application,
       },
       {
@@ -74,6 +81,13 @@ function configureRoutes(routesService: RoutesService) {
       {
         path: '/push-notification',
         name: 'Push notification',
+        iconClass: 'fa fa-clipboard-list',
+        order: 10,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/messages',
+        name: 'Messages',
         iconClass: 'fa fa-clipboard-list',
         order: 10,
         layout: eLayoutType.application,

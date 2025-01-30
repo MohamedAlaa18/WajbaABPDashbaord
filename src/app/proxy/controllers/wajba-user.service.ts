@@ -2,7 +2,7 @@ import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { ForgetPasswordDTO } from '../dtos/user-dto/models';
-import type { CreateUserDto, GetUserDto, GetUserListDto, LogInWajbaUserDto, UpdateWajbaUserDto, WajbaUserDto } from '../dtos/wajba-users-contract/models';
+import type { AccountInfoEditByWajbaUserId, CreateUserDto, GetUserDto, GetUserListDto, LogInWajbaUserDto, WajbaUserDto } from '../dtos/wajba-users-contract/models';
 import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -10,6 +10,24 @@ import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/
 })
 export class WajbaUserService {
   apiName = 'Default';
+  
+
+  accountInfoEditByAccountInfoEditByWajbaUserId = (AccountInfoEditByWajbaUserId: AccountInfoEditByWajbaUserId, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'PUT',
+      url: '/api/WajbaUser/AccountInfoEdit',
+      body: AccountInfoEditByWajbaUserId,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  accountInfoGetByWajbaUserIdById = (id: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ActionResult<GetUserDto>>({
+      method: 'GET',
+      url: '/api/WajbaUser/AccountInfoGetByWajbaUserId',
+      params: { id },
+    },
+    { apiName: this.apiName,...config });
   
 
   activateAccountByPhone = (Phone: string, config?: Partial<Rest.Config>) =>
@@ -59,7 +77,7 @@ export class WajbaUserService {
     this.restService.request<any, ActionResult<PagedResultDto<WajbaUserDto>>>({
       method: 'GET',
       url: '/api/WajbaUser/listWajbaUser',
-      params: { fullName: input.fullName, type: input.type, status: input.status, email: input.email, phone: input.phone, role: input.role, maxResultCount: input.maxResultCount, skipCount: input.skipCount },
+      params: { fullName: input.fullName, type: input.type, status: input.status, email: input.email, phone: input.phone, role: input.role, genderType: input.genderType, maxResultCount: input.maxResultCount, skipCount: input.skipCount },
     },
     { apiName: this.apiName,...config });
   
@@ -91,20 +109,12 @@ export class WajbaUserService {
     { apiName: this.apiName,...config });
   
 
-  updateWajbaUserByInput = (input: UpdateWajbaUserDto, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
-      method: 'PUT',
-      url: '/api/WajbaUser/update-WajbaUser',
-      body: input,
-    },
-    { apiName: this.apiName,...config });
-  
-
-  verifyOTPCodeByVerifyOTPCodeAndPhone = (VerifyOTPCode: number, Phone: string, config?: Partial<Rest.Config>) =>
+  verifyOTPCodeByVerifyOTPCodeAndLoginDto = (VerifyOTPCode: number, loginDto: LogInWajbaUserDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/WajbaUser/VerifyOTPCode',
-      params: { verifyOTPCode: VerifyOTPCode, phone: Phone },
+      params: { verifyOTPCode: VerifyOTPCode },
+      body: loginDto,
     },
     { apiName: this.apiName,...config });
   

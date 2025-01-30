@@ -8,7 +8,6 @@ const routes: Routes = [
   { path: ':id', component: OffersDetailsComponent }, // Matches '/offers/:id'
 ];
 
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

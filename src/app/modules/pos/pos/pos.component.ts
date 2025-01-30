@@ -2,12 +2,16 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
-import { CategoryService, ItemService, WajbaUserService } from '@proxy/controllers';
+import { BranchService, CartService, CategoryService, ItemService, WajbaUserService } from '@proxy/controllers';
 import { UpdateCategory } from '@proxy/dtos/categories';
-import { GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-contract';
+import { BranchDto, GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-contract';
 import { ProductCardComponent } from "../product-card/product-card.component";
 import { ItemDto } from '@proxy/dtos/items-dtos';
 import { GetUserListDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
+import { PosOrderService } from '@proxy/fos-api/controllers';
+import { OrderDTO } from '@proxy/dtos/order-contract';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-pos',
@@ -20,6 +24,7 @@ export class POSComponent implements OnInit {
   categories: UpdateCategory[] = [];
   items: ItemDto[] = [];
   customers: WajbaUserDto[] = [];
+  branches: BranchDto[] = [];
   cart!: any;
 
   discountType: number = 0;
@@ -50,9 +55,12 @@ export class POSComponent implements OnInit {
     private categoryService: CategoryService,
     private itemService: ItemService,
     private wajbaUserService: WajbaUserService,
-    // private cartService: CartService,
-    // private orderService: OrderService,
-    private datePipe: DatePipe
+    private posOrderService: PosOrderService,
+    private cartService: CartService,
+    private branchService: BranchService,
+    private datePipe: DatePipe,
+    private afterActionService: AfterActionService,
+    private cookieService: CookieService
   ) {
     this.form = this.fb.group({
       customer: [null],
@@ -81,6 +89,7 @@ export class POSComponent implements OnInit {
     this.loadCategory();
     this.loadItems();
     this.loadCart();
+    this.loadBranches();
     this.loadCustomers();
     this.updateValidators();
 
@@ -125,15 +134,41 @@ export class POSComponent implements OnInit {
   }
 
   loadCart() {
-    // this.cartService.getCart().subscribe(
-    //   (response) => {
-    //     this.cart = response.data;
-    //     console.log(response)
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching customers', error);
-    //   }
-    // );
+    const defaultInput: GetBranchInput = {
+      filter: '',
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
+    };
+
+    this.cartService.getCart().subscribe({
+      next: (response) => {
+        console.log(response)
+        this.cart.items = response.data.items;
+      },
+      error: (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    });
+  }
+
+  loadBranches() {
+    const defaultInput: GetBranchInput = {
+      filter: '',
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
+    };
+
+    this.branchService.getList(defaultInput).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.branches = response.data.items;
+      },
+      error: (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    });
   }
 
   loadCustomers(): void {
@@ -406,49 +441,48 @@ export class POSComponent implements OnInit {
   // Updated placeOrder function in your component
   onSubmit() {
     if (this.form.valid) {
-      const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch') || '{}');
+      const token = this.cookieService.get('userToken'); // Retrieve token from cookies
 
-      // Set default date and time if they are missing
-      const formDate = this.form.value.date ? new Date(this.form.value.date) : new Date();
-      const formTime = this.form.value.time || '00:00';
-
-      // Combine date and time into a single Date object
-      const combinedDateTime = new Date(`${formDate.toISOString().split('T')[0]}T${formTime}`);
-
-      if (isNaN(combinedDateTime.getTime())) {
-        console.error("Invalid date or time provided.");
-        // this.snackbarService.showMessage('Invalid date or time, please provide a valid input');
+      if (!token) {
+        console.error('Authentication token is missing.');
         return;
       }
 
-      // Format date and time for orderData
-      const formattedDate = this.datePipe.transform(combinedDateTime, 'MM-dd-yyyy') || '';
-      const formattedTime = this.datePipe.transform(combinedDateTime, 'hh:mm a') || '';
+      const formDate = this.form.value.date ? new Date(this.form.value.date) : new Date();
+      const formTime = this.form.value.time || '00:00';
 
-      const orderData: any = {
+      const formattedDate = this.datePipe.transform(formDate, 'yyyy-MM-dd') || '';
+      const formattedTime = this.datePipe.transform(`${formattedDate}T${formTime}`, 'hh:mm a') || '';
+
+      if (!formattedDate || !formattedTime) {
+        console.error("Invalid date or time.");
+        return;
+      }
+
+      const orderData: Partial<OrderDTO> = {
         status: 1,
         ordertype: this.selectedTypeId,
         paymentMethod: 1,
-        branchId: selectedBranch.id,
+        branchId: 1,
       };
 
       switch (this.selectedTypeName) {
         case 'POS':
           orderData.posOrder = {
-            phoneNumber: this.form.value.phoneNumber,
-            tokenNumber: this.form.value.tokenNo,
+            phoneNumber: this.form.value.phoneNumber || '',
+            tokenNumber: this.form.value.tokenNo || '',
           };
           break;
 
         case 'Delivery':
           orderData.posDeliveryOrder = {
-            buildingName: this.form.value.buildingName,
-            apartmentNumber: this.form.value.apartmentNumber,
-            floor: this.form.value.floor,
-            street: this.form.value.street,
-            phoneNumber: this.form.value.phoneNumber,
-            additionalDirection: this.form.value.additionalDirections,
-            addressLabel: this.form.value.addressLabel,
+            buildingName: this.form.value.buildingName || '',
+            apartmentNumber: this.form.value.apartmentNumber || '',
+            floor: this.form.value.floor || '',
+            street: this.form.value.street || '',
+            phoneNumber: this.form.value.phoneNumber || '',
+            additionalDirection: this.form.value.additionalDirections || '',
+            addressLabel: this.form.value.addressLabel || '',
           };
           break;
 
@@ -456,9 +490,9 @@ export class POSComponent implements OnInit {
           orderData.driveThruOrder = {
             time: formattedTime,
             date: formattedDate,
-            carColor: this.form.value.carColor || 'unknown',
-            carType: this.form.value.carType || 'unknown',
-            carNumber: this.form.value.carNumber || 'unknown',
+            carColor: this.form.value.carColor || 'Unknown',
+            carType: this.form.value.carType || 'Unknown',
+            carNumber: this.form.value.carNumber || 'Unknown',
           };
           break;
 
@@ -477,32 +511,39 @@ export class POSComponent implements OnInit {
           break;
 
         default:
-          console.error('Unknown order type');
+          console.error('Unknown order type:', this.selectedTypeName);
           return;
       }
 
       console.log('Order Data:', orderData);
 
-      // this.orderService.placeOrder(orderData).subscribe({
-      //   next: (response) => {
-      //     if (response.success === false) {
-      //       console.error('Error placing order:', response);
-      //     } else {
-      //       console.log('Order placed successfully:', response);
-      //       this.form.reset();
-      //       this.loadCart();
-      //       this.afterActionService.reloadCurrentRoute();
-      //       this.clear();
-      //       this.snackbarService.showMessage('Your order has been added successfully');
-      //     }
-      //   },
-      //   error: (error) => {
-      //     console.error('Error placing order:', error);
-      //   }
-      // });
+      // Define config with the correct headers format
+      const config = {
+        skipAddingHeader: false, // Do not skip adding headers
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+
+      this.posOrderService.addOrderByOrderDto(orderData as OrderDTO, config).subscribe({
+        next: (response) => {
+          if (response.success === false) {
+            console.error('Error placing order:', response);
+          } else {
+            console.log('Order placed successfully:', response);
+            this.form.reset();
+            this.loadCart();
+            this.afterActionService.reloadCurrentRoute();
+          }
+        },
+        error: (error) => {
+          console.error('Error placing order:', error);
+        }
+      });
     } else {
       console.log('Form is invalid:', this.form);
       this.form.markAllAsTouched();
     }
   }
 }
+

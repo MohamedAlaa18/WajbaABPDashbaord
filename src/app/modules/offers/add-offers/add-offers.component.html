@@ -94,7 +94,7 @@
       </div>
 
       <div *ngIf="offerForm.get('discountOn')?.value === 'categories'" class="mb-3">
-        <label for="selectedCategories" class="form-label">Choose Items <span class="text-danger">*</span></label>
+        <label for="selectedCategories" class="form-label">Choose Categories <span class="text-danger">*</span></label>
         <ng-select [items]="categories" bindLabel="name" bindValue="id" [multiple]="true"
           placeholder="Select Categories" formControlName="selectedCategories" class="custom">
         </ng-select>

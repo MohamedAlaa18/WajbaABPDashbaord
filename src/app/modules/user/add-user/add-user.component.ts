@@ -6,7 +6,7 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-contract';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
-import { CreateUserDto, UpdateWajbaUserDto } from '@proxy/dtos/wajba-users-contract';
+import { CreateUserDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 
 @Component({
   selector: 'app-add-user',
@@ -17,7 +17,7 @@ import { CreateUserDto, UpdateWajbaUserDto } from '@proxy/dtos/wajba-users-contr
 })
 export class AddUserComponent implements OnInit, OnChanges {
   @Input() isOpen: boolean = false;
-  @Input() user: UpdateWajbaUserDto | null = null;
+  @Input() user: WajbaUserDto | null = null;
   @Input() userTypeLabel: string | null = null;
   @Input() branchList: UpdateBranchDto[] = [];
   @Output() close = new EventEmitter<void>();
@@ -123,7 +123,7 @@ export class AddUserComponent implements OnInit, OnChanges {
     });
   }
 
-  populateForm(user: UpdateWajbaUserDto) {
+  populateForm(user: WajbaUserDto) {
     this.userForm.patchValue({
       id: user.id,
       fullName: user.fullName,
@@ -143,7 +143,7 @@ export class AddUserComponent implements OnInit, OnChanges {
 
   submitForm() {
     if (this.userForm.valid) {
-      let formValue: UpdateWajbaUserDto | CreateUserDto;
+      let formValue: WajbaUserDto | CreateUserDto;
 
       // Ensure role is an array of integers (nullable)
       // if (this.userForm.value.role && !Array.isArray(this.userForm.value.role)) {
@@ -152,7 +152,7 @@ export class AddUserComponent implements OnInit, OnChanges {
 
       // Set up the form value based on whether it's an update or create operation
       if (this.userForm.value.id) {
-        formValue = this.userForm.value as UpdateWajbaUserDto;
+        formValue = this.userForm.value as WajbaUserDto;
       } else {
         formValue = this.userForm.value as CreateUserDto;
       }
@@ -161,17 +161,17 @@ export class AddUserComponent implements OnInit, OnChanges {
 
       if (this.user) {
         // Update existing user
-        this.wajbaUserService.updateWajbaUserByInput(formValue as UpdateWajbaUserDto)
-          .subscribe(
-            response => {
-              console.log('User updated successfully:', response); // Debugging: Check success response
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error updating user:', error); // Debugging: Check error response
-            }
-          );
+        // this.wajbaUserService.updateWajbaUserByInput(formValue as WajbaUserDto)
+        //   .subscribe(
+        //     response => {
+        //       console.log('User updated successfully:', response); // Debugging: Check success response
+        //       this.closeModal();
+        //       this.afterActionService.reloadCurrentRoute();
+        //     },
+        //     error => {
+        //       console.error('Error updating user:', error); // Debugging: Check error response
+        //     }
+        //   );
       } else {
         // Create a new user
         this.wajbaUserService.registerByInput(formValue as CreateUserDto)

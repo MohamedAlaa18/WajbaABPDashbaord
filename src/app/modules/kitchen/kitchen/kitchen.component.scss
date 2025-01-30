@@ -1,0 +1,41 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #535151;
+  padding: 0.5rem 1rem;
+}
+
+.status-tabs {
+  display: flex;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab {
+  position: relative;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  color: black;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: color 0.3s ease;
+}
+
+.active-tab {
+  color: red;
+}
+
+.active-tab::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background-color: red;
+  border-radius: 2px;
+}

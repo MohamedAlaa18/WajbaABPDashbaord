@@ -82,3 +82,16 @@
   visibility: visible;
   opacity: 1;
 }
+
+.form-label,
+label {
+  color: black !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+input,
+textarea,
+select {
+  color: #A1A1A1 !important;
+}

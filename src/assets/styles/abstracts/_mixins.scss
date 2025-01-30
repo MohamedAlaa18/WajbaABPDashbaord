@@ -12,6 +12,7 @@
     padding: 7.5px;
     padding-inline: 1.5rem;
     transition: background-color 0.3s ease, border 0.3s ease;
+    color: black;
   }
 
   input[type="radio"]:checked+.radio-label {

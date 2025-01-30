@@ -8,10 +8,11 @@ import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal
 import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
-import { CouponService, ItemTaxService } from '@proxy/controllers';
+import { ItemTaxService } from '@proxy/controllers';
 import { GetCouponsInput, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
 import { ItemTaxDto } from '@proxy/dtos/item-tax-contract';
 import { GetBranchInput } from '@proxy/dtos/branch-contract';
+import { PosOrderService } from '@proxy/fos-api/controllers';
 
 @Component({
   selector: 'app-orders',
@@ -21,7 +22,7 @@ import { GetBranchInput } from '@proxy/dtos/branch-contract';
   styleUrl: './orders.component.scss'
 })
 export class OrdersComponent implements OnInit {
-  vouchers: UpdateCoupondto[] = [];
+  orders: UpdateCoupondto[] = [];
   taxes: ItemTaxDto[] = [];
   isAddMode = true;
   currentPage: number = 1;
@@ -99,7 +100,7 @@ export class OrdersComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private couponService: CouponService,
+    private posOrderService: PosOrderService,
     private itemTaxService: ItemTaxService,
     private router: Router,
   ) { }
@@ -125,10 +126,10 @@ export class OrdersComponent implements OnInit {
       // maximumDiscount: this.filters.maximumDiscount ? +this.filters.maximumDiscount : undefined,
     };
 
-    this.couponService.getList(defaultInput).subscribe({
+    this.posOrderService.getAllOrdersByBranchIdAndStartDateAndOrderidAndOrderTypeAndEndDateAndDateorderAndStatusAndFrompriceAndTopriceAndPageNumberAndPageSize(1).subscribe({
       next: (response) => {
         console.log(response);
-        this.vouchers = response.data.items;
+        this.orders = response.data.items;
         this.totalPages = Math.ceil(response.data.totalCount / 10);
 
         // this.tableData = this.vouchers.map(voucher => ({
@@ -212,9 +213,9 @@ export class OrdersComponent implements OnInit {
   }
 
   deleteVoucher(id: number): void {
-    this.couponService.delete(id).subscribe({
+    this.posOrderService.deleteOrderByOrderId(id).subscribe({
       next: () => {
-        this.vouchers = this.vouchers.filter((voucher) => voucher.id !== id);
+        this.orders = this.orders.filter((voucher) => voucher.id !== id);
         this.modalService.dismissAll(); // Close all modals
       },
       error: (err) => {

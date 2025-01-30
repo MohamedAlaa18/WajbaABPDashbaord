@@ -9,8 +9,8 @@ import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
 import { AddVouchersComponent } from '../add-vouchers/add-vouchers.component';
-import { CouponService } from '@proxy/controllers';
 import { GetCouponsInput, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
+import { CouponService } from '@proxy/controllers';
 
 @Component({
   selector: 'app-vouchers',
