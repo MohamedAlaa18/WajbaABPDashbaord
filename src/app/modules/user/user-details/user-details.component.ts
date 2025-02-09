@@ -5,16 +5,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { AddAddressComponent } from '../add-address/add-address.component';
 import { UserAddressService, WajbaUserService } from '@proxy/controllers';
-import { WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
+import { UpdateWajbaUserProfile, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { UpdateUserAddressDto } from '@proxy/dtos/user-address-contract';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
+import { TableComponent } from 'src/app/shared/table/table.component';
+import { Base64Service } from 'src/app/services/base64/base64.service';
 
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [CommonModule, IconsComponent],
+  imports: [CommonModule, IconsComponent, TableComponent],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
@@ -27,9 +29,9 @@ export class UserDetailsComponent implements OnInit {
   selectedFile: File | null = null;
 
   columns = [
-    { field: 'label', header: 'Label' },
-    { field: 'address', header: 'Address' },
-    { field: 'apartment', header: 'Apartment' },
+    { field: 'addressLabel', header: 'Label' },
+    { field: 'street', header: 'Address' },
+    { field: 'apartmentNumber', header: 'Apartment' },
   ];
 
   actions = [
@@ -52,7 +54,8 @@ export class UserDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private wajbaUserService: WajbaUserService,
     private userAddressService: UserAddressService,
-    private afterActionService: AfterActionService
+    private afterActionService: AfterActionService,
+    private base64Service: Base64Service,
   ) {
     this.userId = this.activatedRoute.snapshot.paramMap.get('id') || '';
   }
@@ -78,15 +81,15 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadAddress(): void {
-    // this.userAddressService.getAllByCustomer(this.userId).subscribe(
-    //   (response) => {
-    //     this.address = response.data;
-    //     console.log(response);
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching customer data:', error);
-    //   }
-    // );
+    this.userAddressService.getAllByWajbaUser(this.userId).subscribe(
+      (response) => {
+        this.address = response.data;
+        console.log(response);
+      },
+      (error) => {
+        console.error('Error fetching customer data:', error);
+      }
+    );
   }
 
   openAddEditAddressModal(address?: UpdateUserAddressDto): void {
@@ -133,6 +136,7 @@ export class UserDetailsComponent implements OnInit {
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
       this.deleteAddress(id); // Call the delete method with the address ID
+      modalRef.close();
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -152,24 +156,42 @@ export class UserDetailsComponent implements OnInit {
     );
   }
 
-  uploadNewImage() {
-    // if (this.selectedFile)
-    //   this.employeeService.updateProfileImage(Number(this.userId), this.selectedFile).subscribe(
-    //     (response) => {
-    //       console.log('Image updated successfully:', response);
-    //       this.afterActionService.reloadCurrentRoute();
-    //     },
-    //     (error) => {
-    //       console.error('Error updating image:', error);
-    //     }
-    //   );
+  updateUserImage(): void {
+    if (this.selectedFile) {
+      this.base64Service.convertToBase64(this.selectedFile).then(
+        (base64Content) => {
+          const imageMode = {
+            fileName: this.selectedFile?.name,
+            base64Content: base64Content
+          };
+
+          const UserProfile: UpdateWajbaUserProfile = {
+            id: this.userId,
+            profilePhoto: imageMode
+          }
+
+          this.wajbaUserService.updateProfilePhotoByInput(UserProfile).subscribe(
+            (response) => {
+              console.log('Image updated successfully:', response);
+              this.afterActionService.reloadCurrentRoute();
+            },
+            (error) => {
+              console.error('Error updating image:', error);
+            }
+          );
+        },
+        (error) => {
+          console.error('Error converting file to Base64:', error);
+        }
+      );
+    }
   }
 
   onFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
-      this.uploadNewImage();
+      this.updateUserImage();
 
     } else {
       this.selectedFile = null;

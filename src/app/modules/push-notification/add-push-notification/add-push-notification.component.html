@@ -11,12 +11,12 @@
       <!-- Role -->
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
-          <select id="role" formControlName="role" class="form-select bg-white">
+          <label for="roleId" class="form-label">Role <span class="text-danger">*</span></label>
+          <select id="roleId" formControlName="roleId" class="form-select bg-white">
             <option value="" disabled>--</option>
             <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
           </select>
-          <div *ngIf="pushNotificationForm.get('role')?.touched && pushNotificationForm.get('role')?.invalid"
+          <div *ngIf="pushNotificationForm.get('roleId')?.touched && pushNotificationForm.get('roleId')?.invalid"
             class="text-danger">
             <small>Role is required.</small>
           </div>
@@ -24,12 +24,14 @@
 
         <!-- User -->
         <div class="col-md-6 mb-3">
-          <label for="user" class="form-label">User <span class="text-danger">*</span></label>
-          <select id="user" formControlName="user" class="form-select bg-white">
+          <label for="userId" class="form-label">User <span class="text-danger">*</span></label>
+          <select id="userId" formControlName="userId" class="form-select bg-white" (change)="onUserSelect()">
             <option value="" disabled>--</option>
-            <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+            <option *ngFor="let user of users" [value]="user.id">
+              {{ user.fullName }}
+            </option>
           </select>
-          <div *ngIf="pushNotificationForm.get('user')?.touched && pushNotificationForm.get('user')?.invalid"
+          <div *ngIf="pushNotificationForm.get('userId')?.touched && pushNotificationForm.get('userId')?.invalid"
             class="text-danger">
             <small>User is required.</small>
           </div>
@@ -55,9 +57,9 @@
 
         <!-- Image -->
         <div class="col-md-6 mb-3">
-          <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
-          <input type="file" id="image" (change)="onFileSelected($event)" class="form-control bg-white">
-          <div *ngIf="pushNotificationForm.get('image')?.touched && pushNotificationForm.get('image')?.invalid"
+          <label for="imageUrl" class="form-label">Image <span class="text-danger">*</span></label>
+          <input type="file" id="imageUrl" (change)="onFileSelected($event)" class="form-control bg-white">
+          <div *ngIf="pushNotificationForm.get('imageUrl')?.touched && pushNotificationForm.get('imageUrl')?.invalid"
             class="text-danger">
             <small>Image is required.</small>
           </div>
@@ -69,8 +71,6 @@
         <label for="description" class="form-label">Description</label>
         <textarea id="description" formControlName="description" class="form-control bg-white" rows="3"></textarea>
       </div>
-
-
 
       <!-- Buttons -->
       <div class="d-flex justify-content-start">

@@ -1,8 +1,9 @@
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { RolesDto } from '../dtos/role-contract/models';
 import type { ForgetPasswordDTO } from '../dtos/user-dto/models';
-import type { AccountInfoEditByWajbaUserId, CreateUserDto, GetUserDto, GetUserListDto, LogInWajbaUserDto, WajbaUserDto } from '../dtos/wajba-users-contract/models';
+import type { AccountInfoEditByWajbaUserId, CreateUserDto, GetUserListDto, LogInWajbaUserDto, UpdateWajbaUserProfile, WajbaUserDto } from '../dtos/wajba-users-contract/models';
 import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -22,7 +23,7 @@ export class WajbaUserService {
   
 
   accountInfoGetByWajbaUserIdById = (id: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, ActionResult<GetUserDto>>({
+    this.restService.request<any, ActionResult<WajbaUserDto>>({
       method: 'GET',
       url: '/api/WajbaUser/AccountInfoGetByWajbaUserId',
       params: { id },
@@ -66,7 +67,7 @@ export class WajbaUserService {
   
 
   getWajbaUserById = (id: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, ActionResult<GetUserDto>>({
+    this.restService.request<any, ActionResult<WajbaUserDto>>({
       method: 'GET',
       url: `/api/WajbaUser/${id}`,
     },
@@ -77,7 +78,16 @@ export class WajbaUserService {
     this.restService.request<any, ActionResult<PagedResultDto<WajbaUserDto>>>({
       method: 'GET',
       url: '/api/WajbaUser/listWajbaUser',
-      params: { fullName: input.fullName, type: input.type, status: input.status, email: input.email, phone: input.phone, role: input.role, genderType: input.genderType, maxResultCount: input.maxResultCount, skipCount: input.skipCount },
+      params: { fullName: input.fullName, type: input.type, status: input.status, email: input.email, phone: input.phone, role: input.role, genderType: input.genderType, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getrolesbyuseridById = (id: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ActionResult<PagedResultDto<RolesDto>>>({
+      method: 'GET',
+      url: '/api/WajbaUser/GetRolebyUserId',
+      params: { id },
     },
     { apiName: this.apiName,...config });
   
@@ -105,6 +115,15 @@ export class WajbaUserService {
       method: 'POST',
       url: '/api/WajbaUser/ResendActivation',
       params: { phone: Phone },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  updateProfilePhotoByInput = (input: UpdateWajbaUserProfile, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'PUT',
+      url: '/api/WajbaUser/UpdateProfilePhoto',
+      body: input,
     },
     { apiName: this.apiName,...config });
   

@@ -99,7 +99,7 @@ export class SalesReportsComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private couponService: CouponService,
+    // private orderService: OrderService,
     private itemService: ItemService,) { }
 
   ngOnInit(): void {
@@ -114,35 +114,31 @@ export class SalesReportsComponent implements OnInit {
       sorting: '',
       skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10,
-      // name: this.filters.name || '',
-      // code: this.filters.code || '',
-      // discount: this.filters.discount ? +this.filters.discount : undefined,
-      // discountype: this.filters.discountType ? +this.filters.discountType : undefined,
-      // startdate: this.filters.startDate || '',
-      // enddate: this.filters.endDate || '',
-      // maximumDiscount: this.filters.maximumDiscount ? +this.filters.maximumDiscount : undefined,
     };
 
-    this.couponService.getList(defaultInput).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.vouchers = response.data.items;
-        this.totalPages = Math.ceil(response.data.totalCount / 10);
-
-        // this.tableData = this.vouchers.map(voucher => ({
-        //   id: voucher.id,
-        //   date: voucher.date,
-        //   total: voucher.total,
-        //   discount: voucher.discount,
-        //   deliveryCharge: voucher.deliveryCharge,
-        //   paymentType: voucher.paymentType === 1 ? 'Cash' : 'Online',
-        //   paymentStatus: voucher.paymentStatus === 1 ? 'Paid' : 'Unpaid'
-        // }));
-      },
-      error: (err) => {
-        console.error('Error loading vouchers:', err);
-      },
-    });
+    // this.orderService.salesReportByBranchIdAndStartDateAndEndDateAndDateorderAndStatusAndOrdertypeAndOrderIdAndFrompriceAndTopriceAndPaidstatusAndPageNumberAndPageSize(
+    //   1,
+    //   undefined,// startDate (you can add this if needed)
+    //   undefined, // endDate (you can add this if needed)
+    //   this.filters.date || undefined, // dateorder
+    //   this.filters.status ? +this.filters.status : undefined,
+    //   undefined, // ordertype
+    //   this.filters.id ? +this.filters.id : undefined,
+    //   undefined, // fromprice
+    //   undefined, // toprice
+    //   this.filters.paidStatus ? this.filters.paidStatus : undefined,
+    //   this.currentPage,
+    //   10
+    // ).subscribe({
+    //   next: (response) => {
+    //     console.log(response);
+    //     this.vouchers = response.data.items;
+    //     this.totalPages = Math.ceil(response.data.totalCount / 10);
+    //   },
+    //   error: (err) => {
+    //     console.error('Error loading vouchers:', err);
+    //   },
+    // });
   }
 
   loadItems(): void {
@@ -202,15 +198,15 @@ export class SalesReportsComponent implements OnInit {
   }
 
   deleteVoucher(id: number): void {
-    this.couponService.delete(id).subscribe({
-      next: () => {
-        this.vouchers = this.vouchers.filter((voucher) => voucher.id !== id);
-        this.modalService.dismissAll(); // Close all modals
-      },
-      error: (err) => {
-        console.error('Error deleting voucher:', err);
-      },
-    });
+    // this.orderService.delete(id).subscribe({
+    //   next: () => {
+    //     this.vouchers = this.vouchers.filter((voucher) => voucher.id !== id);
+    //     this.modalService.dismissAll(); // Close all modals
+    //   },
+    //   error: (err) => {
+    //     console.error('Error deleting voucher:', err);
+    //   },
+    // });
   }
 
   onPageChange(page: number): void {

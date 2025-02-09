@@ -13,7 +13,8 @@
         <div class="col-md-6 mb-3">
           <label for="itemId" class="form-label">Item<span class="text-danger">*</span></label>
           <select id="itemId" class="form-select bg-white" formControlName="itemId"
-            [class.is-invalid]="popularItemForm.get('itemId')?.invalid && popularItemForm.get('itemId')?.touched">
+            [class.is-invalid]="popularItemForm.get('itemId')?.invalid && popularItemForm.get('itemId')?.touched"
+            (change)="loadItem()">
             <option value="" disabled>--</option>
             <option *ngFor="let item of items" [value]="item.id">{{ item.name }}</option>
           </select>
@@ -25,7 +26,7 @@
 
         <!-- Image -->
         <div class="col-md-6 mb-3">
-          <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
+          <label for="image" class="form-label">Image</label>
           <input type="file" id="image" formControlName="image" class="form-control bg-white"
             (change)="handleImageUpload($event)">
           <div *ngIf="popularItemForm.get('image')?.touched && popularItemForm.get('image')?.invalid"
@@ -38,7 +39,7 @@
       <div class="row">
         <!-- Previous Price -->
         <div class="col-md-6 mb-3">
-          <label for="prePrice" class="form-label">Previous Price <span class="text-danger">*</span></label>
+          <label for="prePrice" class="form-label">Previous Price</label>
           <input type="number" id="prePrice" formControlName="prePrice" class="form-control bg-white">
           <div *ngIf="popularItemForm.get('prePrice')?.touched && popularItemForm.get('prePrice')?.invalid"
             class="text-danger">
@@ -55,6 +56,11 @@
             class="text-danger">
             <small *ngIf="popularItemForm.get('currentPrice')?.errors?.['required']">Current price is required.</small>
             <small *ngIf="popularItemForm.get('currentPrice')?.errors?.['pattern']">Please enter a valid number.</small>
+          </div>
+          <div *ngIf="popularItemForm.get('currentPrice')?.touched" class="text-danger">
+            <small *ngIf="popularItemForm.errors?.['currentPriceSmallerThanPrePrice']">
+              Current price must be smaller than the previous price.
+            </small>
           </div>
         </div>
       </div>

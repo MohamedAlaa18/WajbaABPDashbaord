@@ -71,10 +71,10 @@ const routes: Routes = [
     path: 'orders',
     loadChildren: () => import('./modules/orders/orders.module').then(m => m.OrdersModule),
   },
-  // {
-  //   path: 'kitchen',
-  //   loadChildren: () => import('./modules/kitchen/kitchen.module').then(m => m.KitchenModule),
-  // },
+  {
+    path: 'kitchen',
+    loadChildren: () => import('./modules/kitchen/kitchen.module').then(m => m.KitchenModule),
+  },
   {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),

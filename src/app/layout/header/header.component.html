@@ -1,0 +1,93 @@
+<header class="bg-white fixed-top w-100">
+  <div class="container-fluid row align-items-center px-4">
+    <a href="#" class="col-md-3 d-flex align-items-center p-0">
+      <img src="assets/images/logo.png" alt="logo" class="img-fluid" style="max-width: 100px;">
+    </a>
+
+    <div class="col-md-9 d-flex justify-content-end align-items-center">
+      <nav>
+        <ul class="nav d-flex align-items-center gap-4">
+          <!-- Branch Dropdown -->
+          <li class="nav-item" ngbDropdown class="d-inline-block">
+            <button class="btn btn-branch d-flex align-items-center gap-2 px-3" ngbDropdownToggle>
+              {{ selectedBranch }}
+            </button>
+            <div ngbDropdownMenu>
+              <button class="dropdown-item" *ngFor="let branch of branches" (click)="selectBranch(branch)">
+                {{ branch.name }}
+              </button>
+            </div>
+          </li>
+
+          <!-- Language Dropdown -->
+          <li class="nav-item" ngbDropdown class="d-inline-block">
+            <button class="btn btn-language border-0 d-flex align-items-center gap-1 px-3" ngbDropdownToggle>
+              <img [src]="selectedLanguageImage" [alt]="selectedLanguage" class="me-2"
+                style="width: 16px; height: 16px;">
+              {{ selectedLanguage }}
+            </button>
+            <div ngbDropdownMenu>
+              <button class="dropdown-item" *ngFor="let language of languages"
+                (click)="changeLanguage($event, language.code, language.imageUrl, language.name)">
+                <img [src]="language.imageUrl" [alt]="language.name" class="me-2" style="width: 16px; height: 16px;">
+                {{ language.name }}
+              </button>
+            </div>
+          </li>
+
+          <div class="d-flex items-center gap-2">
+            <!-- Sidebar Toggle -->
+            <li class="nav-item bg-danger-light">
+              <button class="btn border-0 rounded-0" (click)="toggleSidebar()">
+                <app-icons *ngIf="isSidebarOpen" iconName="burgerMenuClose" color="#03053D"></app-icons>
+                <app-icons *ngIf="!isSidebarOpen" iconName="burgerMenuOpen" color="#1D1B20"></app-icons>
+              </button>
+            </li>
+
+            <!-- Profile Dropdown -->
+            <li class="nav-item profile" ngbDropdown class="d-inline-block">
+              <button class="btn border-0 btn-profile d-flex align-items-center p-0" ngbDropdownToggle>
+                <div class="relative">
+                  <img src="assets/images/profile.jpeg" alt="Profile"
+                    class="rounded-circle border border-danger-dashed me-2"
+                    style="width: 77.87646484375px; height: 73.00918579101562px;">
+                  <img src="assets/images/edit-profile-image.svg" alt="edit-profile-image" class="absolute border-0"
+                    style="width: 18.65790367126465px; height: 17.846691131591797px;">
+                </div>
+                <div class="text-start">
+                  <p class="mb-0">Hello</p>
+                  <span class="fw-bold text-black">Mohamed</span>
+                </div>
+              </button>
+              <div ngbDropdownMenu class="dropdown-menu-end p-0 overflow-hidden">
+                <div class="dropdown-header d-flex justify-between align-items-center gap-2 py-3">
+                  <div class="relative">
+                    <img src="assets/images/profile.jpeg" alt="Profile"
+                      class="rounded-circle border border-danger-dashed" style="width: 70px; height: 70px;">
+                    <img src="assets/images/edit-profile-image.svg" alt="edit-profile-image"
+                      class="absolute border-0 right-0"
+                      style="width: 18.65790367126465px; height: 17.846691131591797px;">
+                  </div>
+                  <div class="text-center">
+                    <p class="mb-0 fw-bold text-black fs-5">Mohamed Alaa</p>
+                    <p class="mb-0 text-muted">mohamed.alaa.elhefny&#64;gmail.com</p>
+                    <p class="mb-0 text-muted">01090528528</p>
+                  </div>
+                </div>
+                <!-- <hr class="dropdown-divider"> -->
+                <button class="dropdown-item text-black fw-bold d-flex align-items-center gap-2 border-bottom"
+                  *ngFor="let item of profileMenuItems" (click)="item.icon === 'logout' ? logout() : null">
+                  <div class="icon">
+                    <img [src]="item.src" [alt]="item.label">
+                  </div>
+                  <span> {{ item.label }}</span>
+                </button>
+              </div>
+            </li>
+          </div>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+<div style="height: 100px;"></div>

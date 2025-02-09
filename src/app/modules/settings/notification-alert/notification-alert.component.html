@@ -4,16 +4,17 @@
   <div class="container mx-auto flex-grow-1">
     <!-- Notification Type Buttons -->
     <div class="d-flex gap-2 mb-4 justify-content-between flex-wrap flex-md-nowrap">
-      <button *ngFor="let type of notificationTypes" [class.selected]="selectedNotificationType === type"
-        class="btn notification-type-button border-0" (click)="selectNotificationType(type)">
-        {{ type === 'Push' ? 'Push Notification' : type === 'Email' ? 'Mail' : type }}
+      <button *ngFor="let type of notificationTypes | keyvalue"
+        [class.selected]="selectedNotificationType === type.value" class="btn notification-type-button border-0"
+        (click)="selectNotificationType(type.value)">
+        {{ type.value === 'Push' ? 'Push Notification' : type.value === 'Email' ? 'Mail' : type.value }}
       </button>
     </div>
 
     <!-- Notification Forms -->
     <ng-container *ngIf="selectedNotificationType">
       <form [formGroup]="notificationForms[selectedNotificationType]" class="p-3 notification-form">
-        <h3 class="notification-title text-black">
+        <h3 class="notification-title text-black mb-3 border-bottom pb-3">
           <span [class.uppercase]="selectedNotificationType === 'Sms'">
             {{ selectedNotificationType === 'Email' ? 'Mail' : selectedNotificationType }}
           </span>
@@ -21,22 +22,22 @@
         </h3>
 
         <!-- Iterate through messages -->
-        <div *ngFor="let message of orderMessages" class="border rounded p-3 mb-3">
-          <div *ngIf="selectedNotificationType === message.notificationType">
-            <div *ngFor="let event of message.events" class="mb-3">
-              <div class="d-flex align-items-center justify-content-between">
-                <label class="me-3">{{ event.eventName }}</label>
+        <div *ngFor="let message of orderMessages">
+          <div *ngIf="notificationTypes[message.notificationType] === selectedNotificationType" class="mb-3 w-fit">
+            <div class="d-flex align-items-center justify-content-between">
+              <label class="me-3">{{ message.eventName }}</label>
+              <div class="d-flex align-items-center gap-1">
                 <div class="form-check form-switch">
-                  <input type="checkbox" class="form-check-input" id="{{ event.eventName }}"
-                    (change)="toggleMessage(event)" [checked]="event.isEnabled" />
-                  <label class="form-check-label" for="{{ event.eventName }}"></label>
+                  <input type="checkbox" class="form-check-input" id="{{ message.eventName }}"
+                    (change)="toggleMessage(message)" [checked]="message.isEnabled" />
+                  <label class="form-check-label" for="{{ message.eventName }}"></label>
                 </div>
-                <span class="ms-2 text-danger" *ngIf="event.isEnabled">On</span>
-                <span class="ms-2 text-muted" *ngIf="!event.isEnabled">Off</span>
+                <span class="ms-2 text-danger" *ngIf="message.isEnabled">On</span>
+                <span class="ms-2 text-muted" *ngIf="!message.isEnabled">Off</span>
               </div>
-              <div class="event-description border rounded p-2 mt-2">
-                {{ event.eventDescription }}
-              </div>
+            </div>
+            <div class="event-description border rounded p-2 mt-2">
+              {{ message.eventDescription }}
             </div>
           </div>
         </div>

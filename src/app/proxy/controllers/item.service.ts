@@ -56,7 +56,7 @@ export class ItemService {
   
 
   getItemsByBranchByBranchId = (branchId: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, ItemDto[]>({
+    this.restService.request<any, ActionResult<ApiResponse<PagedResultDto<ItemDto>>>>({
       method: 'GET',
       url: `/api/Item/by-branch/${branchId}`,
     },
@@ -68,6 +68,15 @@ export class ItemService {
       method: 'GET',
       url: '/api/Item/nameAndcategoryid',
       params: { categoryId, name },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getItemsByCategoryNameByBranchidAndItemnameAndCategoryname = (branchid: number, itemname: string, categoryname: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ActionResult<ApiResponse<PagedResultDto<ItemDto>>>>({
+      method: 'GET',
+      url: '/api/Item/nameAndcategoryname',
+      params: { branchid, itemname, categoryname },
     },
     { apiName: this.apiName,...config });
   

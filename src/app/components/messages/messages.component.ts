@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
+import { GetUserListDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
+import { WajbaUserService } from '@proxy/controllers';
 
 @Component({
   selector: 'app-messages',
@@ -9,15 +11,10 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.scss'
 })
-export class MessagesComponent {
-
-  // List of profiles
-  profiles = [
-    { name: 'Kevin Mayer IV', phone: '123456789', imageUrl: 'assets/images/profile.jpeg' },
-    { name: 'John Doe', phone: '987654321', imageUrl: 'assets/images/profile.jpeg' },
-    { name: 'Jane Smith', phone: '456123789', imageUrl: 'assets/images/profile.jpeg' },
-    // Add more profiles as needed
-  ];
+export class MessagesComponent implements OnInit {
+  profiles: WajbaUserDto[] = [];
+  selectedProfile = 0;
+  searchQuery: string = '';
 
   // List of chat messages
   messages = [
@@ -26,8 +23,31 @@ export class MessagesComponent {
     // Add more messages as needed
   ];
 
-  // Selected profile index
-  selectedProfile = 0;
+  constructor(
+    private wajbaUserService: WajbaUserService
+  ) { }
+
+  ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
+    const defaultInput: GetUserListDto = {
+      skipCount: 0,
+      maxResultCount: undefined,
+      fullName: this.searchQuery,
+    };
+
+    this.wajbaUserService.getWajbaUserByInput(defaultInput).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.profiles = response.items;
+      },
+      error: (err) => {
+        console.error('Error loading users:', err);
+      },
+    });
+  }
 
   // Toggle between profiles
   selectProfile(index: number): void {
@@ -48,5 +68,11 @@ export class MessagesComponent {
       console.log('Uploaded file:', file);
       // You can now handle the file (e.g., upload to server)
     }
+  }
+
+  searchAction(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.searchQuery = inputElement.value;
+    this.loadUsers();
   }
 }

@@ -27,6 +27,15 @@ export class UserAddressService {
     { apiName: this.apiName,...config });
   
 
+  getAllByWajbaUser = (WajbaUserId: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'GET',
+      url: '/api/UserAddress',
+      params: { wajbaUserId: WajbaUserId },
+    },
+    { apiName: this.apiName,...config });
+  
+
   getById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',

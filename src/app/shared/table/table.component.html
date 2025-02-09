@@ -20,18 +20,19 @@
                   'text-success': row[col.field] === 1,
                   'text-danger': row[col.field] === 0
                 }">
-                {{ row[col.field] === 1 ? 'Active' : 'Inactive' }}
+                {{ row[col.field] === 1 ? 'Active' : row[col.field] === 0 ? 'Inactive' : '--' }}
               </span>
             </ng-container>
             <!-- Type Column -->
             <ng-container *ngSwitchCase="'Type'">
               <span>
-                {{ row[col.field] === 1 ? 'Percentage' : 'Fixed' }}
+                {{ row[col.field] === 1 ? 'Percentage' : row[col.field] === 0 ? 'Fixed' : '--' }}
               </span>
             </ng-container>
-            <!-- Date Column -->
+            <!-- Default Column with Null Check -->
             <ng-container *ngSwitchDefault>
-              {{ isDateString(row[col.field]) ? formatDate(row[col.field]) : row[col.field] }}
+              {{ row[col.field] == null ? '--' : (isDateString(row[col.field]) ? formatDate(row[col.field]) :
+              row[col.field]) }}
             </ng-container>
           </ng-container>
         </td>

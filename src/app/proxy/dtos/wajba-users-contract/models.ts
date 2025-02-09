@@ -1,4 +1,6 @@
+import type { Base64ImageModel } from '../themes-contract/models';
 import type { BranchDto } from '../branch-contract/models';
+import type { RolesDto } from '../role-contract/models';
 
 export interface AccountInfoEditByWajbaUserId {
   id: number;
@@ -26,17 +28,6 @@ export interface CreateUserDto {
   branchList: number[];
 }
 
-export interface GetUserDto {
-  id: number;
-  fullName?: string;
-  email?: string;
-  phone?: string;
-  type: number;
-  status: number;
-  role?: number;
-  genderType?: number;
-}
-
 export interface GetUserListDto {
   fullName?: string;
   type?: number;
@@ -45,8 +36,8 @@ export interface GetUserListDto {
   phone?: string;
   role?: number;
   genderType?: number;
-  maxResultCount: number;
-  skipCount: number;
+  skipCount?: number;
+  maxResultCount?: number;
 }
 
 export interface LogInWajbaUserDto {
@@ -54,6 +45,11 @@ export interface LogInWajbaUserDto {
   email?: string;
   password?: string;
   logInAPPCode?: string;
+}
+
+export interface UpdateWajbaUserProfile {
+  id: number;
+  profilePhoto: Base64ImageModel;
 }
 
 export interface WajbaUserDto {
@@ -64,6 +60,8 @@ export interface WajbaUserDto {
   type: number;
   status: number;
   role?: number;
+  profilePhoto?: string;
   genderType?: number;
   branchList: BranchDto[];
+  rolesDtos: RolesDto[];
 }

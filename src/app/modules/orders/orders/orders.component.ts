@@ -12,7 +12,9 @@ import { ItemTaxService } from '@proxy/controllers';
 import { GetCouponsInput, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
 import { ItemTaxDto } from '@proxy/dtos/item-tax-contract';
 import { GetBranchInput } from '@proxy/dtos/branch-contract';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { PosOrderService } from '@proxy/fos-api/controllers';
+import { OrderDTO } from '@proxy/dtos/order-contract';
 
 @Component({
   selector: 'app-orders',
@@ -22,7 +24,7 @@ import { PosOrderService } from '@proxy/fos-api/controllers';
   styleUrl: './orders.component.scss'
 })
 export class OrdersComponent implements OnInit {
-  orders: UpdateCoupondto[] = [];
+  orders: OrderDTO[] = [];
   taxes: ItemTaxDto[] = [];
   isAddMode = true;
   currentPage: number = 1;
@@ -102,16 +104,17 @@ export class OrdersComponent implements OnInit {
     private modalService: NgbModal,
     private posOrderService: PosOrderService,
     private itemTaxService: ItemTaxService,
+    private afterActionService:AfterActionService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.loadVouchers();
+    this.loadOrders();
     this.loadTaxes();
   }
 
   // Load all vouchers
-  loadVouchers(): void {
+  loadOrders(): void {
     const defaultInput: GetCouponsInput = {
       branchid: 1,
       sorting: '',
@@ -132,13 +135,13 @@ export class OrdersComponent implements OnInit {
         this.orders = response.data.items;
         this.totalPages = Math.ceil(response.data.totalCount / 10);
 
-        // this.tableData = this.vouchers.map(voucher => ({
-        //   id:voucher.id,
-        //   orderType:voucher.orderType,
-        //   customerName:voucher.customerName,
-        //   amount:voucher.amount,
-        //   date:voucher.date,
-        //   status:voucher.status,
+        // this.tableData = this.orders.map(order => ({
+        //   id:order.id,
+        //   orderType:order.ordertype,
+        //   customerName:order.customerName,
+        //   amount:order.amount,
+        //   date:order.date,
+        //   status:order.status,
         // }));
       },
       error: (err) => {
@@ -215,7 +218,8 @@ export class OrdersComponent implements OnInit {
   deleteVoucher(id: number): void {
     this.posOrderService.deleteOrderByOrderId(id).subscribe({
       next: () => {
-        this.orders = this.orders.filter((voucher) => voucher.id !== id);
+        // this.orders = this.orders.filter((voucher) => voucher.id !== id);
+        this.afterActionService.reloadCurrentRoute();
         this.modalService.dismissAll(); // Close all modals
       },
       error: (err) => {
@@ -226,7 +230,7 @@ export class OrdersComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.currentPage = page;
-    this.loadVouchers();
+    this.loadOrders();
   }
 
   openOrderDetailsAndNavigate(order: UpdateCoupondto) {
@@ -240,7 +244,7 @@ export class OrdersComponent implements OnInit {
   applyFilters(filters: any): void {
     this.filters = filters;
     this.currentPage = 1; // Reset to the first page
-    this.loadVouchers();
+    this.loadOrders();
   }
 
   clearFilters(): void {
@@ -253,6 +257,6 @@ export class OrdersComponent implements OnInit {
       startDate: '',
       endDate: '',
     };
-    this.loadVouchers();
+    this.loadOrders();
   }
 }

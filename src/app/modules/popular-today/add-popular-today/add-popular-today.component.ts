@@ -9,6 +9,7 @@ import { ItemDto } from '@proxy/dtos/items-dtos';
 import { CreatePopularitem, Popularitemdto, UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
 import { Base64Service } from 'src/app/services/base64/base64.service';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
+import { priceComparisonValidator } from 'src/app/validators/priceComparisonValidator';
 
 @Component({
   selector: 'app-add-popular-today',
@@ -25,6 +26,7 @@ export class AddPopularTodayComponent {
 
   popularItemForm: FormGroup;
   selectedImageFile: File | null = null;
+  selectedItem: ItemDto;
 
   constructor(
     private fb: FormBuilder,
@@ -33,14 +35,19 @@ export class AddPopularTodayComponent {
     private base64Service: Base64Service,
     private afterActionService: AfterActionService,
   ) {
-    this.popularItemForm = this.fb.group({
-      id: [null],
-      itemId: ['', Validators.required],
-      prePrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      currentPrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      description: ['', Validators.required],
-      image: ['', Validators.required],
-    });
+    this.popularItemForm = this.fb.group(
+      {
+        id: [null],
+        itemId: ['', Validators.required],
+        prePrice: ['', [Validators.pattern('^[0-9]*$')]],
+        currentPrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+        description: ['', Validators.required],
+        image: [''],
+      },
+      {
+        validators: priceComparisonValidator()  // Apply the custom validator here
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -66,6 +73,23 @@ export class AddPopularTodayComponent {
         console.error('Error loading items:', err);
       },
     });
+  }
+
+  loadItem(): void {
+    const itemId = this.popularItemForm.get('itemId')?.value;
+    if (!itemId) return;
+
+    this.itemService.get(itemId).subscribe(
+      (response) => {
+        this.selectedItem = response.data;
+        this.popularItemForm.patchValue({
+          prePrice: this.selectedItem.price,
+        });
+      },
+      (error) => {
+        console.error('Error loading item:', error);
+      }
+    );
   }
 
   populateForm(item: Popularitemdto) {
@@ -114,11 +138,21 @@ export class AddPopularTodayComponent {
           console.error('Error converting image to Base64:', error);
         });
       } else {
+        const formValue: CreatePopularitem | UpdatePopularItemdto = { ...this.popularItemForm.value };
+
+        console.log('Form value:', formValue as CreatePopularitem);
+        // Determine create or update operation
+        if (this.item) {
+          this.updateItem(formValue as UpdatePopularItemdto);
+        } else {
+          this.createItem(formValue as CreatePopularitem);
+        }
         console.error('No image file selected. Please select an image.');
       }
     } else {
       // Mark all form controls as touched to trigger validation messages
       this.popularItemForm.markAllAsTouched();
+      console.error('Form is invalid. Please check the form fields.' ,this.popularItemForm.errors);
     }
   }
 

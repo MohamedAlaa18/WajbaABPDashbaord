@@ -6,23 +6,23 @@
     <div class="status-tabs bg-white flex rounded-md shadow p-1 rounded-0">
       <button class="tab px-4 py-1 font-semibold text-red-600 relative"
         [ngClass]="{ 'active-tab': currentOrders === 'active' }" (click)="currentOrders = 'active'">
-        Active ({{ ActiveOrders.length }})
+        Active ({{ activeOrders.length }})
       </button>
       <button class="tab px-4 py-1 font-semibold text-gray-800"
         [ngClass]="{ 'active-tab': currentOrders === 'finished' }" (click)="currentOrders = 'finished'">
-        Finished
+        Finished ({{ finishedOrders.length }})
       </button>
     </div>
   </div>
 
   <div class="container p-0">
     <div class="row" *ngIf="currentOrders === 'active'">
-      <div class="col-md-4" *ngFor="let order of ActiveOrders">
+      <div class="col-md-4" *ngFor="let order of activeOrders">
         <app-kitchen-card [order]="order"></app-kitchen-card>
       </div>
     </div>
     <div class="row" *ngIf="currentOrders === 'finished'">
-      <div class="col-md-4" *ngFor="let order of FinishedOrders">
+      <div class="col-md-4" *ngFor="let order of finishedOrders">
         <app-kitchen-card [order]="order" [isDone]="true"></app-kitchen-card>
       </div>
     </div>

@@ -1,0 +1,26 @@
+<div class="d-flex flex-column h-100 justify-content-between bg-white overflow-auto sidebar pb-3"
+  [ngClass]="{ 'closed': !isSidebarOpen }">
+  <div class="ps-4 pb-5 pt-2">
+    <ul class="list-unstyled">
+      <li *ngFor="let item of menuItems">
+        <p *ngIf="item.type === 'header'" class="fw-medium fs-3 my-2">
+          {{ item.name }}
+        </p>
+
+        <button *ngIf="item.type === 'link' && item.path" [routerLink]="item.path" routerLinkActive="active-link"
+          class="d-flex align-items-center rounded fw-medium f border-0 w-100 mb-1 inactive-link"
+          (click)="handleLinkClick()">
+          <app-icons [iconName]="item.iconName" [color]="isActive(item.path) ? '#F45859' : '#818181'"></app-icons>
+          <span class=""> {{ item.name }}</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="transition sidebar-toggle" [ngClass]="{
+        'collapsed-sidebar': isSidebarOpen && isPosRoute(),
+        'expanded-sidebar': isSidebarOpen && !isPosRoute(),
+        'hidden-sidebar': !isSidebarOpen
+      }">
+</div>

@@ -1,30 +1,41 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CartItemDto } from '../dtos/cart-contract/models';
-import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
+import type { ApiResponse } from '../apiresponse/models';
+import type { CartDto, CreateCartItemDto } from '../dtos/cart-contract/models';
+import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
   apiName = 'Default';
-  
 
-  addCartItemByCartItemDto = (cartItemDto: CartItemDto[], config?: Partial<Rest.Config>) =>
+  private getToken(): string {
+    return this.cookieService.get('userToken');
+  }
+
+  addCartItemByCartItemDto = (cartItemDto: CreateCartItemDto[], config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Cart/add-item-to-cart',
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
+      },
       body: cartItemDto,
     },
-    { apiName: this.apiName,...config });
-  
+      { apiName: this.apiName, ...config });
+
 
   getCart = (config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
+    this.restService.request<any, ActionResult<ApiResponse<CartDto>>>({
       method: 'GET',
       url: '/api/Cart/GetCarforcustomer',
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
+      },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
-  constructor(private restService: RestService) {}
+  constructor(private restService: RestService, private cookieService: CookieService) { }
 }

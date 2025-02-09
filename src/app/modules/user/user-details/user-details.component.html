@@ -10,7 +10,7 @@
         <p class="role-text">{{ user.type == 1 ? 'Admin' : user.type == 2 ? 'Employee ' : user.type == 3 ? 'Delivery
           boy' : 'Customer' }}</p>
         <div class="d-flex align-items-center mt-2">
-          <label class="btn btn-danger border-0">
+          <label class="btn btn-danger border-0 text-white">
             Update New Image
             <input type="file" id="image" (change)="onFileSelect($event)" hidden>
           </label>

@@ -1,6 +1,4 @@
-import type { OrderStatus } from '../../enums/order-status.enum';
-import type { OrderType } from '../../enums/order-type.enum';
-import type { PaymentMethod } from '../../enums/payment-method.enum';
+import type { FullAuditedEntityDto } from '@abp/ng.core';
 
 export interface DeliveryOrderDTO {
   title?: string;
@@ -23,7 +21,7 @@ export interface DriveThruOrderDTO {
   carNumber?: string;
 }
 
-export interface OrderDTO {
+export interface OrderDTO extends FullAuditedEntityDto<number> {
   status: number;
   ordertype: number;
   paymentMethod: number;

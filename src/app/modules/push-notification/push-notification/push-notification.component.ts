@@ -8,9 +8,10 @@ import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal
 import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
-import { CouponService } from '@proxy/controllers';
-import { GetCouponsInput, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
+import { PushNotificationsService, RoleService, WajbaUserService } from '@proxy/controllers';
 import { AddPushNotificationComponent } from '../add-push-notification/add-push-notification.component';
+import { GetUserListDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
+import { GetPushnotificationinput, PushNotificationDto, UpdatePushNotificationDto } from '@proxy/dtos/push-notification-contract';
 
 @Component({
   selector: 'app-push-notification',
@@ -19,8 +20,10 @@ import { AddPushNotificationComponent } from '../add-push-notification/add-push-
   templateUrl: './push-notification.component.html',
   styleUrl: './push-notification.component.scss'
 })
-export class PushNotificationComponent {
-  vouchers: UpdateCoupondto[] = [];
+export class PushNotificationComponent implements OnInit {
+  notifications: PushNotificationDto[] = [];
+  users: WajbaUserDto[] = [];
+  roles: any[] = [];
   isAddMode = true;
   currentPage: number = 1;
   totalPages: number = 4;
@@ -29,13 +32,13 @@ export class PushNotificationComponent {
   isFilterVisible: boolean = false;
 
   columns = [
-    { field: 'name', header: 'Title' },
-    { field: 'code', header: 'Role' },
-    { field: 'discount', header: 'User' },
-    { field: 'startDate', header: 'Date' },
+    { field: 'title', header: 'Title' },
+    { field: 'roleName', header: 'Role' },
+    { field: 'userName', header: 'User' },
+    { field: 'date', header: 'Date' },
   ];
 
-  tableData: { name: string; code: number; discount: number; startDate: string, endDate: string, type: string }[] = [];
+  tableData: { title: string; roleName: string; userName: string; date: string }[] = [];
 
   actions = [
     // {
@@ -59,22 +62,20 @@ export class PushNotificationComponent {
   ];
 
   filterFields = [
-    { label: 'Title', name: 'name', type: 'text' },
+    { label: 'Title', name: 'title', type: 'text' },
     {
       label: 'Role', name: 'role', type: 'select',
-      options: [
-        { label: 'POS Operator', value: 1 },
-        { label: 'Staff', value: 2 },
-        { label: 'Branch Manager', value: 3 },
-      ]
+      options: this.roles.map(role => ({
+        label: role.name,
+        value: role.id
+      }))
     },
     {
       label: 'User', name: 'user', type: 'select',
-      options: [
-        { label: 'POS Operator', value: 1 },
-        { label: 'Staff', value: 2 },
-        { label: 'Branch Manager', value: 3 },
-      ]
+      options: this.users.map(user => ({
+        label: user.fullName,
+        value: user.id
+      }))
     },
     { label: 'Date', name: 'date', type: 'date' },
   ];
@@ -88,52 +89,104 @@ export class PushNotificationComponent {
 
   constructor(
     private modalService: NgbModal,
-    private couponService: CouponService,
+    private pushNotificationsService: PushNotificationsService,
+    private wajbaUserService: WajbaUserService,
+    private roleService: RoleService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.loadPushNotification();
+    this.loadRoles();
+    this.loadUsers();
   }
 
-  // Load all vouchers
+  // Load all notifications
   loadPushNotification(): void {
-    const defaultInput: GetCouponsInput = {
-      branchid: 1,
+    const defaultInput: GetPushnotificationinput = {
       sorting: '',
       skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10,
-      // name: this.filters.name || '',
-      // code: this.filters.code || '',
-      // discount: this.filters.discount ? +this.filters.discount : undefined,
-      // discountype: this.filters.discountType ? +this.filters.discountType : undefined,
-      // startdate: this.filters.startDate || '',
-      // enddate: this.filters.endDate || '',
-      // maximumDiscount: this.filters.maximumDiscount ? +this.filters.maximumDiscount : undefined,
+      title: this.filters.title || '',
+      roleId: Number(this.filters.role) || undefined,
+      userId: Number(this.filters.user) || undefined,
+      date: this.filters.date || undefined,
     };
 
-    this.couponService.getList(defaultInput).subscribe({
+    this.pushNotificationsService.getAllByGet(defaultInput).subscribe({
       next: (response) => {
         console.log(response);
-        this.vouchers = response.data.items;
+        this.notifications = response.data.items;
         this.totalPages = Math.ceil(response.data.totalCount / 10);
 
-        this.tableData = this.vouchers.map(voucher => ({
-          name: voucher.name,
-          code: voucher.code,
-          discount: voucher.discount,
-          startDate: voucher.startDate,
-          endDate: voucher.endDate,
-          type: voucher.discountType === 1 ? 'Percentage' : 'Fixed'
+        this.tableData = this.notifications.map(notification => ({
+          title: notification.title,
+          roleName: notification.roleName,
+          userName: notification.userName,
+          date: notification.date,
         }));
       },
       error: (err) => {
-        console.error('Error loading vouchers:', err);
+        console.error('Error loading notifications:', err);
       },
     });
   }
 
-  openAddEditModal(voucher?: UpdateCoupondto): void {
+  loadUsers(): void {
+    const defaultInput: GetUserListDto = {
+      skipCount: undefined,
+      maxResultCount: undefined,
+    };
+
+    this.wajbaUserService.getWajbaUserByInput(defaultInput).subscribe({
+      next: (response) => {
+        // console.log(response);
+        this.users = response.items;
+        this.updateFilterFields();
+      },
+      error: (err) => {
+        console.error('Error loading users:', err);
+      },
+    });
+  }
+
+  loadRoles(): void {
+    this.roleService.getall().subscribe({
+      next: (response) => {
+        this.roles = response.data.items;
+        this.updateFilterFields();
+      },
+      error: (error) => {
+        console.error('Error fetching roles:', error);
+      }
+    });
+  }
+
+  updateFilterFields(): void {
+    this.filterFields = this.filterFields.map(field => {
+      if (field.name === 'user') {
+        return {
+          ...field,
+          options: this.users.map(user => ({
+            label: user.fullName,
+            value: user.id
+          }))
+        };
+      }
+      if (field.name === 'role') {
+        return {
+          ...field,
+          options: this.roles.map(tax => ({
+            label: tax.name,
+            value: tax.id
+          }))
+        };
+      }
+      return field;
+    });
+  }
+
+  openAddEditModal(notification?: UpdatePushNotificationDto): void {
     const modalRef = this.modalService.open(AddPushNotificationComponent, {
       size: 'lg',
       centered: true,
@@ -141,7 +194,7 @@ export class PushNotificationComponent {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.voucher = voucher || null;
+    modalRef.componentInstance.notification = notification || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -158,7 +211,7 @@ export class PushNotificationComponent {
       });
   }
 
-  openConfirmDeleteModal(voucherId: number, voucherName: string): void {
+  openConfirmDeleteModal(notificationId: number, notificationName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -166,12 +219,12 @@ export class PushNotificationComponent {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = voucherId;
-    modalRef.componentInstance.name = voucherName;
+    modalRef.componentInstance.id = notificationId;
+    modalRef.componentInstance.name = notificationName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteVoucher(id); // Call the delete method with the voucher ID
+      this.deleteNotification(id); // Call the delete method with the notification ID
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -179,14 +232,14 @@ export class PushNotificationComponent {
     });
   }
 
-  deleteVoucher(id: number): void {
-    this.couponService.delete(id).subscribe({
+  deleteNotification(id: number): void {
+    this.pushNotificationsService.delete(id).subscribe({
       next: () => {
-        this.vouchers = this.vouchers.filter((voucher) => voucher.id !== id);
+        this.notifications = this.notifications.filter((notification) => notification.id !== id);
         this.modalService.dismissAll(); // Close all modals
       },
       error: (err) => {
-        console.error('Error deleting voucher:', err);
+        console.error('Error deleting notification:', err);
       },
     });
   }
@@ -196,7 +249,7 @@ export class PushNotificationComponent {
     this.loadPushNotification();
   }
 
-  openPushNotificationDetailsAndNavigate(notification: UpdateCoupondto) {
+  openPushNotificationDetailsAndNavigate(notification: UpdatePushNotificationDto) {
     console.log(notification)
     this.router.navigate(['/push-notification', notification.id]);
   }

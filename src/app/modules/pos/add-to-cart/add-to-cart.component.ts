@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CartService, ItemService } from '@proxy/controllers';
-import { CartItemAddonDto, CartItemDto } from '@proxy/dtos/cart-contract';
+import { CartItemAddonDto, CartItemDto, ReturnCartItemAddonDto, ReturnCartItemExtraDto, ReturnCartItemVariationDto } from '@proxy/dtos/cart-contract';
 import { ItemWithDependenciesDto } from '@proxy/dtos/items-dtos/item-dependencies';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
@@ -27,7 +27,7 @@ export class AddToCartComponent implements OnChanges, OnInit {
 
   addedExtras: {
     [x: string]: any; name: string; additionalPrice: number
-}[] = [];
+  }[] = [];
 
   constructor(
     private itemService: ItemService,
@@ -206,43 +206,53 @@ export class AddToCartComponent implements OnChanges, OnInit {
     const cartItem: CartItemDto = {
       itemId: this.productItem.id,
       quantity: formValues.quantity,
+      cartItemId: 0, // Default value, replace with actual ID if available
+      voucherCode: 0, // Default value, replace if needed
       notes: formValues.specialInstructions || '',
+      itemName: this.productItem.name || '',
+      price: this.productItem.price || 0,
+      imgUrl: this.productItem.imageUrl || '',
       variations: this.variations.value.map((value, index) => ({
         id: value, // Assuming value is the selected variation ID
         name: this.productItem.attributes[index].attributeName,
         additionalPrice: this.productItem.attributes[index].variations.find(v => v.id === value)?.additionalPrice || 0,
         attributeName: this.productItem.attributes[index].attributeName,
-      })),
+      })) as ReturnCartItemVariationDto[],
       addons: this.addons.value
-        .map((selected, index) => selected && ({
-          id: this.productItem.itemAddons[index].id,
-          name: this.productItem.itemAddons[index].name,
-          price: this.productItem.itemAddons[index].additionalPrice,
-        }))
-        .filter(Boolean) as CartItemAddonDto[], // Ensuring the correct type
+        .map((selected, index) =>
+          selected
+            ? ({
+              id: this.productItem.itemAddons[index].id,
+              name: this.productItem.itemAddons[index].name,
+              price: this.productItem.itemAddons[index].additionalPrice,
+            } as ReturnCartItemAddonDto)
+            : null
+        )
+        .filter(Boolean) as ReturnCartItemAddonDto[], // Ensuring correct type
       extras: this.addedExtras.map(extra => ({
         id: extra.id,
         name: extra.name,
         additionalPrice: extra.additionalPrice,
-      })),
+      })) as ReturnCartItemExtraDto[],
     };
 
-    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existingCart: CartItemDto[] = JSON.parse(localStorage.getItem('cart') || '[]');
 
     if (this.isEditMode) {
-      // Update the item in localStorage
-      const updatedCart = existingCart.map(cartItem =>
-        cartItem.itemId === cartItem.itemId ? { ...cartItem, ...cartItem } : cartItem
+      // Find and update the existing item
+      const updatedCart = existingCart.map(item =>
+        item.itemId === cartItem.itemId ? { ...item, ...cartItem } : item
       );
       localStorage.setItem('cart', JSON.stringify(updatedCart));
       console.log('Cart item updated in local storage:', cartItem);
     } else {
-      // Add the new item to localStorage
+      // Add new item to local storage
       existingCart.push(cartItem);
       localStorage.setItem('cart', JSON.stringify(existingCart));
       console.log('Item added to cart in local storage:', cartItem);
     }
 
+    console.log('Cart item added to local storage:', cartItem);
     // Send the cart data to the backend using the CartService
     this.cartService.addCartItemByCartItemDto([cartItem]).subscribe(
       response => {

@@ -43,10 +43,16 @@ export class SettingsSidebarComponent {
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
-  isActiveRoute(basePath: string): boolean {
-    const currentUrl = this.router.url;
-    // const basePathRegex = new RegExp(`^${basePath}(\/[a-zA-Z0-9_-]*)?$`);
-    // console.log(currentUrl, '/' + basePath);
-    return (currentUrl === '/' + basePath);
+  isActiveRoute(path: string): boolean {
+    // Construct the full path based on your routing structure
+    const fullPath = `/settings/${path}`;
+
+    // Use Angular's built-in route recognition
+    return this.router.isActive(fullPath, {
+      paths: 'subset',    // Match when current route starts with the path
+      queryParams: 'subset',
+      fragment: 'ignored',
+      matrixParams: 'ignored'
+    });
   }
 }

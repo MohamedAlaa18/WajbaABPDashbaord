@@ -3,16 +3,14 @@
     <span class="section-title text-black">Push Notification</span>
   </div>
 
-  <div class="d-flex align-items-center gap-3">
-    <img [src]="selectedPushNotification.image" alt="item-details" class="rounded"
+  <div class="d-flex align-items-center gap-3" *ngIf="selectedPushNotification">
+    <img [src]="selectedPushNotification.imageUrl" alt="item-details" class="rounded"
       style="width: 175px; height: 175px;">
 
     <div class="fs-5">
-      <p class="fw-semibold text-capitalize">{{ selectedPushNotification.name }}</p>
-      <p [ngClass]="{
-        'text-success': selectedPushNotification.status === 1,
-        'text-danger': selectedPushNotification.status === 0
-      }">{{ selectedPushNotification.status == 2 ? 'Active' : 'InActive' }}</p>
+      <p class="fw-semibold text-capitalize text-black fs-3">{{ selectedPushNotification.title }}</p>
+      <p class="text-capitalize notification-user">{{ selectedPushNotification.userName }}</p>
+      <p class="text-capitalize">{{ selectedPushNotification.description }}</p>
     </div>
   </div>
 </section>

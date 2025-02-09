@@ -2,9 +2,9 @@ import { CommonModule, formatDate } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CouponService } from '@proxy/controllers';
-import { CreateUpdateCouponDto, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
-import { WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
+import { PushNotificationsService, WajbaUserService } from '@proxy/controllers';
+import { CreatePushNotificationDto, UpdatePushNotificationDto } from '@proxy/dtos/push-notification-contract';
+import { GetUserListDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { Base64Service } from 'src/app/services/base64/base64.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
@@ -17,9 +17,9 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
   templateUrl: './add-push-notification.component.html',
   styleUrl: './add-push-notification.component.scss'
 })
-export class AddPushNotificationComponent {
+export class AddPushNotificationComponent implements OnInit{
   @Input() isOpen: boolean = false;
-  @Input() voucher: UpdateCoupondto | null = null;
+  @Input() notification: UpdatePushNotificationDto | null = null;
   @Output() close = new EventEmitter<void>();
 
   users: WajbaUserDto[] = [];
@@ -28,42 +28,75 @@ export class AddPushNotificationComponent {
 
   constructor(
     private fb: FormBuilder,
-    private couponService: CouponService,
+    private pushNotificationsService: PushNotificationsService,
+    private wajbaUserService: WajbaUserService,
     private afterActionService: AfterActionService,
     private base64Service: Base64Service,
   ) {
     this.pushNotificationForm = this.fb.group({
-      id: [this.voucher?.id],
-      role: ['', Validators.required],
-      user: ['', Validators.required],
+      id: [this.notification?.id],
+      roleId: [null],
+      userId: ['', Validators.required],
       title: ['', Validators.required],
       date: ['',],
       description: [''],
-      image: ['', Validators.required],
+      imageUrl: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
+    this.loadUsers();
 
-    if (this.voucher) {
-      this.populateForm(this.voucher);
+    if (this.notification) {
+      this.populateForm(this.notification);
     }
   }
 
-  populateForm(voucher: UpdateCoupondto) {
+  populateForm(notification: UpdatePushNotificationDto) {
     this.pushNotificationForm.patchValue({
-      id: voucher.id,
-      name: voucher.name,
-      code: voucher.code,
-      discount: voucher.discount,
-      limitPerUser: voucher.limitPerUser,
-      discountType: voucher.discountType,
-      startDate: this.formatDateForInput(voucher.startDate), // Format the date
-      endDate: this.formatDateForInput(voucher.endDate), // Format the date
-      maxDiscount: voucher.maximumDiscount,
-      minDiscount: voucher.minimumOrderAmount,
-      description: voucher.description,
+      id: notification.id,
+      title: notification.title,
+      roleId: notification.roleId,
+      userId: notification.userId,
+      date: notification.date,
+      description: notification.description
     });
+  }
+
+  loadUsers(): void {
+    const defaultInput: GetUserListDto = {
+      skipCount: 0,
+      maxResultCount: undefined,
+    };
+
+    this.wajbaUserService.getWajbaUserByInput(defaultInput).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.users = response.items;
+      },
+      error: (err) => {
+        console.error('Error loading users:', err);
+      },
+    });
+  }
+
+  loadRole(userId: number): void {
+    this.wajbaUserService.getrolesbyuseridById(userId).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.roles = response.data.items;
+      },
+      error: (err) => {
+        console.error('Error loading users:', err);
+      },
+    });
+  }
+
+  onUserSelect() {
+    const selectedUserId = this.pushNotificationForm.get('userId')?.value;
+    if (selectedUserId) {
+      this.loadRole(selectedUserId);
+    }
   }
 
   formatDateForInput(dateString: string | null): string | null {
@@ -84,7 +117,7 @@ export class AddPushNotificationComponent {
       // Use Base64Service to convert the file to a Base64 string
       this.base64Service.convertToBase64(file).then(base64Content => {
         this.pushNotificationForm.patchValue({
-          image: {
+          imageUrl: {
             fileName: file.name,
             base64Content: base64Content,
           },
@@ -97,18 +130,20 @@ export class AddPushNotificationComponent {
 
   submitForm(): void {
     if (this.pushNotificationForm.valid) {
-      let formValue: CreateUpdateCouponDto | UpdateCoupondto;
+      let formValue: CreatePushNotificationDto | UpdatePushNotificationDto;
 
       // Determine whether it's an update or create operation
       if (this.pushNotificationForm.value.id) {
-        formValue = this.pushNotificationForm.value as UpdateCoupondto;
+        formValue = this.pushNotificationForm.value as UpdatePushNotificationDto;
       } else {
-        formValue = this.pushNotificationForm.value as CreateUpdateCouponDto;
+        formValue = this.pushNotificationForm.value as CreatePushNotificationDto;
       }
 
-      if (this.voucher) {
+      console.log(formValue)
+
+      if (this.notification) {
         // Update existing voucher
-        this.couponService.update(formValue as UpdateCoupondto).subscribe(
+        this.pushNotificationsService.updateByDto(formValue as UpdatePushNotificationDto).subscribe(
           response => {
             console.log(response);
             this.closeModal();
@@ -120,7 +155,7 @@ export class AddPushNotificationComponent {
         );
       } else {
         // Create a new voucher
-        this.couponService.create(formValue as CreateUpdateCouponDto).subscribe(
+        this.pushNotificationsService.createByPushNotificationDto(formValue as CreatePushNotificationDto).subscribe(
           response => {
             console.log(response);
             this.closeModal();

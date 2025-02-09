@@ -8,7 +8,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
   standalone: true,
   imports: [CommonModule, IconsComponent, NgbDropdownModule],
   templateUrl: './kitchen-card.component.html',
-  styleUrl: './kitchen-card.component.scss'
+  styleUrls: ['./kitchen-card.component.scss']
 })
 export class KitchenCardComponent implements OnInit, OnDestroy {
   @Input() order: any;
@@ -21,12 +21,11 @@ export class KitchenCardComponent implements OnInit, OnDestroy {
   private intervalId: any; // To store the interval ID for cleanup
 
   ngOnInit(): void {
-    console.log(this.order);
+    console.log(this.order); // Log to see the order data structure
     this.startTimeTracking(); // Start tracking time when the component initializes
   }
 
   ngOnDestroy(): void {
-    // Clear the interval when the component is destroyed to avoid memory leaks
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
@@ -38,7 +37,6 @@ export class KitchenCardComponent implements OnInit, OnDestroy {
         const currentTime = Date.now();
         const elapsedTime = (currentTime - this.startTime) / 1000 / 60; // Convert milliseconds to minutes
 
-        // Update status and formattedTime based on elapsed time
         if (elapsedTime < 5) {
           this.timeStatus = 'Pending';
           this.formattedTime = this.formatTime(elapsedTime);
@@ -48,9 +46,9 @@ export class KitchenCardComponent implements OnInit, OnDestroy {
         } else if (elapsedTime >= 8) {
           this.timeStatus = 'Delivered';
           this.formattedTime = this.formatTime(elapsedTime);
-          clearInterval(this.intervalId); // Stop tracking time after 8 minutes
+          clearInterval(this.intervalId);
         }
-      }, 1000); // Check every second
+      }, 1000);
     }
   }
 
@@ -114,7 +112,6 @@ export class KitchenCardComponent implements OnInit, OnDestroy {
     } else if (this.order.orderType === 'Takeaway') {
       return 'takeaway';
     }
-    // Default image if status is not 'Cooking'
     return 'default';
   }
 

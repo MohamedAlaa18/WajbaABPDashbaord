@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExportService } from 'src/app/services/export/export.service';
 
 @Component({
   selector: 'app-export-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgbDropdownModule],
   templateUrl: './export-button.component.html',
   styleUrls: ['./export-button.component.scss'],
 })

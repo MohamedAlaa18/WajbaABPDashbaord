@@ -1,4 +1,5 @@
 import { RestService, Rest } from '@abp/ng.core';
+import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { ApiResponse } from '../apiresponse/models';
 import type { CreatePopularitem, GetPopulariteminput, Popularitemdto, UpdateImage, UpdatePopularItemdto } from '../dtos/popular-itemstoday/models';
@@ -42,6 +43,15 @@ export class PopularItemsService {
     this.restService.request<any, ActionResult<ApiResponse<Popularitemdto>>>({
       method: 'GET',
       url: `/api/PopularItems/${id}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getbyNameByName = (name: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ActionResult<ApiResponse<PagedResultDto<Popularitemdto>>>>({
+      method: 'GET',
+      url: '/api/PopularItems/byname',
+      params: { name },
     },
     { apiName: this.apiName,...config });
   

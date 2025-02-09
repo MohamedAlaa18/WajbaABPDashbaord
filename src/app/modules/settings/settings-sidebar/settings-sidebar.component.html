@@ -10,15 +10,14 @@
 
           <!-- Render link if the type is 'link' and component is defined -->
           <a [href]="'settings/' + item.href" *ngIf="item.type === 'link' && item.name" class="menu-item" [ngClass]="{
-            'menu-item-active': isActiveRoute('settings/' + item.href)
+            'menu-item-active': isActiveRoute(item.href)
           }">
             <div class="icon-wrapper">
               <app-icons [iconName]="item.iconName"
-                [color]="isActiveRoute('settings/' + item.href) ? '#F45859' : '#818181'"></app-icons>
+                [color]="isActiveRoute(item.href) ? '#F45859' : '#818181'"></app-icons>
             </div>
             <span class="menu-item-text">{{ item.name }}</span>
           </a>
-
         </li>
       </ul>
     </div>

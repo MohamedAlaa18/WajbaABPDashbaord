@@ -39,10 +39,10 @@
         <div class="col-md-6" *ngIf="userTypeLabel === 'Employees'">
           <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
           <select id="role" formControlName="role" class="form-control bg-white">
+            <option [value]="null">--</option>
             <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
           </select>
-          <div *ngIf="userForm.get('role')?.touched && userForm.get('role')?.invalid"
-            class="text-danger">
+          <div *ngIf="userForm.get('role')?.touched && userForm.get('role')?.invalid" class="text-danger">
             <small>Role is required.</small>
           </div>
         </div>
@@ -82,8 +82,7 @@
           <ng-select [items]="branchList" bindLabel="name" bindValue="id" [multiple]="true"
             placeholder="Select branchList" formControlName="branchList" class="custom">
           </ng-select>
-          <div *ngIf="userForm.get('branchList')?.touched && userForm.get('branchList')?.invalid"
-            class="text-danger">
+          <div *ngIf="userForm.get('branchList')?.touched && userForm.get('branchList')?.invalid" class="text-danger">
             <small>At least one branch must be selected.</small>
           </div>
         </div>

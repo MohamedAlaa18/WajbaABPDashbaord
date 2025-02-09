@@ -1,0 +1,60 @@
+@import '../../../../assets/styles/main';
+@include radio-label(#F458591F, var(--red-color), #CCCCCC4D, transparent);
+
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+.text-small {
+  font-size: 0.875rem; // Adjust as needed
+}
+
+.rounded {
+  border-radius: 0.25rem; // Adjust as needed
+}
+
+button.save {
+  @include submit-button(var(--red-color));
+}
+
+button.close {
+  @include close-button(var(--red-color));
+}
+
+.text-danger,
+.invalid-feedback {
+  color: var(--red-color) !important;
+}
+
+select {
+  outline: none !important;
+}
+
+select.form-select option:checked {
+  background-color: var(--red-color) !important;
+}
+
+.bg-danger {
+  background-color: #F458591F !important;
+  border: 1px solid #F45859 !important;
+}
+
+.promo {
+  select {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  input {
+    border-radius: 0;
+  }
+
+  button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+input[type="radio"] {
+  accent-color: var(--red-color) !important;
+}

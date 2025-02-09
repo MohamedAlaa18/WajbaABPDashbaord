@@ -1,10 +1,10 @@
 <section class="bg-white rounded-4 p-3 d-flex h-100">
-  <div class="border-end">
+  <div class="border-end profiles-section" *ngIf="profiles">
     <h3 class="fs-4 fw-semibold text-black">Messages</h3>
 
     <div class="position-relative w-100 my-3 pe-4">
       <label for="Search" class="visually-hidden">Search</label>
-      <input type="text" id="Search" placeholder="Search"
+      <input type="text" id="Search" placeholder="Search" (input)="searchAction($event)"
         class="form-control ps-4 border border-secondary-subtle bg-light border-2 search-bar" />
       <span class="position-absolute top-50 start-0 translate-middle-y ms-2">
         <button type="button" class="btn btn-link p-0 border-0 text-secondary">
@@ -18,28 +18,29 @@
       <div *ngFor="let profile of profiles; let i = index" (click)="selectProfile(i)"
         [ngClass]="{'bg-danger-50': selectedProfile === i}"
         class="d-flex align-items-center gap-2 cursor-pointer p-2 whitespace-pre-wrap">
-        <img [src]="profile.imageUrl" alt="profile" class="rounded" style="width: 76px; height: 63px;">
+        <img [src]="profile.profilePhoto ?? 'assets/images/profile.jpeg'" alt="profile" class="rounded"
+          style="width: 76px; height: 63px;">
         <div class="text-muted fw-semibold">
-          <p [ngClass]="{'text-danger': selectedProfile === i}" class="mb-1">{{ profile.name }}</p>
+          <p [ngClass]="{'text-danger': selectedProfile === i}" class="mb-1">{{ profile.fullName }}</p>
           <p class="mb-0">{{ profile.phone }}</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="w-100 p-4">
+  <div class="w-100 p-4 d-flex flex-column justify-content-between" *ngIf="profiles[selectedProfile]">
     <div class="px-3 border-bottom border-secondary-subtle mb-4 pb-3">
       <div class="d-flex align-items-center gap-2 cursor-pointer">
-        <img [src]="profiles[selectedProfile].imageUrl" alt="profile" class="rounded"
-          style="width: 76px; height: 63px;">
+        <img [src]="profiles[selectedProfile].profilePhoto ?? 'assets/images/profile.jpeg'" alt="profile"
+          class="rounded" style="width: 76px; height: 63px;">
         <div class="text-muted fw-semibold">
-          <p class="mb-1">{{ profiles[selectedProfile].name }}</p>
+          <p class="mb-1">{{ profiles[selectedProfile].fullName }}</p>
           <p class="mb-0">{{ profiles[selectedProfile].phone }}</p>
         </div>
       </div>
     </div>
 
-    <div class="overflow-auto" style="max-height: 500px;">
+    <div class="overflow-auto h-100">
       <div *ngFor="let message of messages" [ngClass]="{'ms-auto': message.isSender, 'me-auto': !message.isSender}"
         [style.width]="message.isSender ? '248px' : '287px'">
         <p [ngClass]="{'bg-danger text-white': message.isSender, 'border': !message.isSender}"

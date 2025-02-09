@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LanguageService } from '@proxy/controllers';
+import { LanguageService, PushNotificationsService } from '@proxy/controllers';
 import { CommonModule } from '@angular/common';
-import { LanguageDto } from '@proxy/dtos/languages';
+import { PushNotificationDto } from '@proxy/dtos/push-notification-contract';
 
 @Component({
   selector: 'app-push-notification-details',
@@ -12,11 +12,11 @@ import { LanguageDto } from '@proxy/dtos/languages';
   styleUrl: './push-notification-details.component.scss'
 })
 export class PushNotificationDetailsComponent implements OnInit {
-  selectedPushNotification!: LanguageDto;
+  selectedPushNotification!: PushNotificationDto;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private languageService: LanguageService,
+    private pushNotificationsService: PushNotificationsService,
   ) { }
 
   ngOnInit(): void {
@@ -24,7 +24,7 @@ export class PushNotificationDetailsComponent implements OnInit {
     const languageId = this.activatedRoute.snapshot.paramMap.get('id'); // Get the branch ID from the route
 
     if (languageId) {
-      this.languageService.getById(Number(languageId)).subscribe(
+      this.pushNotificationsService.getByIdById(Number(languageId)).subscribe(
         (response) => {
           console.log(response);
           this.selectedPushNotification = response.data;

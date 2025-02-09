@@ -1,0 +1,62 @@
+.bg-danger-light {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+
+  button {
+    background-color: #FEEEEE;
+    width: 40px;
+    height: 40px;
+    padding-inline: revert;
+  }
+}
+
+.btn-language {
+  border: 1px solid #E3E3E3 !important;
+}
+
+.btn-language::after {
+  display: none;
+}
+
+.btn-branch {
+  border: none !important;
+}
+
+.btn-branch::after {
+  color: var(--red-color);
+}
+
+.btn-profile::after {
+margin-top: 1.3rem;
+}
+
+.icon {
+  width: 23px;
+  height: 23px;
+}
+
+.profile .dropdown-item:hover {
+  color: var(--red-color) !important;
+}
+
+.border-danger-dashed {
+  border: 1px dashed var(--red-color) !important;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
+}
+.absolute.right-0{
+  right: 0;
+}
+
+.dropdown-item:active {
+  background-color: #f5f5f7;
+}
