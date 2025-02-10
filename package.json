@@ -11,6 +11,7 @@
     },
   "private": true,
   "dependencies": {
+    "express": "^4.18.2",
     "@abp/ng.account": "~9.0.0",
     "@abp/ng.components": "~9.0.0",
     "@abp/ng.core": "~9.0.0",
