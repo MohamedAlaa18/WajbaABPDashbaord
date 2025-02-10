@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "heroku-postbuild": "npm install && npm run build"
-  },
+  "start": "node server.js",
+  "build": "ng build --prod",
+  "heroku-postbuild": "npm run build"
+    },
   "private": true,
   "dependencies": {
     "@abp/ng.account": "~9.0.0",
