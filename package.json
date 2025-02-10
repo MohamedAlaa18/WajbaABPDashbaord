@@ -1,11 +1,13 @@
 {
   "name": "Wajba",
   "version": "0.0.0",
-  "main": "server.js",
   "scripts": {
+    "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
-    "heroku-postbuild": "npm run build"
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "heroku-postbuild": "ng build --aot"
     },
   "private": true,
   "dependencies": {
