@@ -51,7 +51,7 @@
     <div *ngIf="activeSection === 'image'" class="section mb-4">
       <div class="d-flex align-items-center gap-3 flex-wrap">
         <img [src]="offer.image" alt="Offer Image" class="h-auto rounded-3" style="width: 200px; height: auto;">
-        <label class="btn btn-danger border-0">
+        <label class="btn btn-danger border-0 text-white">
           Update Image
           <input type="file" id="image" (change)="onFileSelect($event)" hidden>
         </label>
