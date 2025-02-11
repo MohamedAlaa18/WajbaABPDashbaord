@@ -127,8 +127,10 @@ export class AddOffersComponent implements OnInit {
 
   // Handle file selection
   onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
+      this.offerForm.patchValue({ image: file });
       this.selectedFile = input.files[0];
     }
   }
