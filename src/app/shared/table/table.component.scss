@@ -1,3 +1,8 @@
+section {
+  // min-height: 60dvh;
+  background-color: #EEEEEE;
+}
+
 button.View {
   background-color: #E4FFE9;
 }
@@ -14,21 +19,13 @@ button.QR {
   background-color: #FCC84236;
 }
 
-// tbody{
-//   tr {
-//     background-color: white !important;
-//   }
-
-//   .table-secondary {
-//     background-color: #F5F5F5 !important;
-//   }
-// }
-
-.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+.table-striped>tbody>tr:nth-child(2n+1)>td,
+.table-striped>tbody>tr:nth-child(2n+1)>th {
   background-color: #F5F5F5;
 }
 
-.table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n) > th {
+.table-striped>tbody>tr:nth-child(2n)>td,
+.table-striped>tbody>tr:nth-child(2n)>th {
   background-color: white;
 }
 

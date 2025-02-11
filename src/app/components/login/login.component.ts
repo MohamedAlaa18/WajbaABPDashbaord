@@ -22,7 +22,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private wajbaUserService: WajbaUserService,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -41,10 +41,32 @@ export class LoginComponent {
       this.wajbaUserService.logIn(loginData).subscribe({
         next: (response) => {
           console.log('Login successful:', response);
+
+          // Save token in cookies
           this.cookieService.set('userToken', response.generateToken.result, loginData.rememberMe ? 30 : 1, '/');
 
-          // Redirect to dashboard or home page
-          this.router.navigate(['/']);
+          // Save user data
+          const userData = {
+            fullName: response.wajbaUser.fullName,
+            email: response.wajbaUser.email,
+            phone: response.wajbaUser.phone,
+            status: response.wajbaUser.status,
+            type: response.wajbaUser.type,
+            genderType: response.wajbaUser.genderType,
+            profilePhoto: response.wajbaUser.profilePhoto,
+            id: response.wajbaUser.id,
+          };
+
+          if (loginData.rememberMe) {
+            localStorage.setItem('userData', JSON.stringify(userData));
+          } else {
+            sessionStorage.setItem('userData', JSON.stringify(userData));
+          }
+
+          // Navigate to '/' and then refresh the page
+          this.router.navigate(['/']).then(() => {
+            window.location.reload();
+          });
         },
         error: (error) => {
           console.error('Login error:', error);

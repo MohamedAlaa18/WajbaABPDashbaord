@@ -1,0 +1,17 @@
+<nav *ngIf="showBreadcrumb" aria-label="breadcrumb" class="my-2">
+  <ul class="breadcrumb-list">
+    <li class="breadcrumb-item">
+      <a [routerLink]="'/'" class="breadcrumb-link">Dashboard</a>
+    </li>
+    <li *ngFor="let breadcrumb of breadcrumbs; let last = last; let i = index" class="breadcrumb-item">
+      <ng-container *ngIf="!last">
+        <a [routerLink]="breadcrumb.link" class="breadcrumb-link" (click)="handleBreadcrumbClick(breadcrumb.name, i)">
+          {{ breadcrumb.name }}
+        </a>
+      </ng-container>
+      <ng-container *ngIf="last">
+        <span class="breadcrumb-current">{{ breadcrumb.name }}</span>
+      </ng-container>
+    </li>
+  </ul>
+</nav>

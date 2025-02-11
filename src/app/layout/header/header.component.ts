@@ -10,6 +10,7 @@ import { WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 import { LanguageDto } from '@proxy/dtos/languages';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -51,6 +52,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     private branchService: BranchService,
     private afterActionService: AfterActionService,
     private languageService: LanguageService,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     if (isPlatformBrowser(this.platformId)) {
@@ -69,10 +71,11 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.tokenSubscription = this.jwtService.authToken$.subscribe(token => {
-    //   this.token = token;
-    //   this.updateUser();
-    // });
+    const storedUserData = localStorage.getItem('userData') || sessionStorage.getItem('userData');
+    if (storedUserData) {
+      this.user = JSON.parse(storedUserData);
+    }
+
     this.loadBranches();
     this.loadLanguages();
 
@@ -80,12 +83,10 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
       this.isSidebarOpen = isOpen;
     });
 
-    // console.log('this.token : ' + this.token);
-    // this.updateUser();
-
     this.storedBranch = JSON.parse(localStorage.getItem('selectedBranch') || '{}');
-    if (this.storedBranch)
-      this.selectedBranch = this.storedBranch.name
+    if (this.storedBranch) {
+      this.selectedBranch = this.storedBranch.name;
+    }
   }
 
   ngAfterViewInit(): void {
@@ -165,25 +166,6 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     // console.log(this.isSidebarOpen);
   }
 
-  // private updateUser(): void {
-  //   if (this.token) {
-  //     const userId = this.jwtService.getUserIdFromToken(this.token);
-  //     if (userId) {
-  //       this.userService.getCustomerById(userId).subscribe({
-  //         next: (data: IUser) => {
-  //           this.user = data;
-  //           console.log('User data:', this.user);
-  //         },
-  //         error: (error) => {
-  //           console.error('Failed to fetch user data', error);
-  //         }
-  //       });
-  //     }
-  //   } else {
-  //     this.user = {} as IUser;
-  //   }
-  // }
-
   loadBranches() {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
@@ -230,15 +212,18 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  logout() {
-    // this.userService.logout().subscribe({
-    //   next: () => {
-    //     // Session storage is cleared and authTokenSubject is updated automatically
-    //     this.afterActionService.reloadCurrentRoute();
-    //   },
-    //   error: (error) => {
-    //     console.error('Logout failed', error);
-    //   }
-    // });
+  logout(): void {
+    // Remove user data from storage
+    localStorage.removeItem('userData');
+    sessionStorage.removeItem('userData');
+
+    // Optionally, clear other stored data if needed
+    // localStorage.removeItem('selectedBranch');
+
+    // Reset user data in the component
+    this.user = null;
+
+    // Redirect to the login page (if applicable)
+    this.router.navigate(['/login']);
   }
 }

@@ -1,0 +1,23 @@
+.text-danger {
+  color: var(--red-color) !important;
+}
+
+.border-danger {
+  border-color: var(--red-color) !important;
+}
+
+.overview-card,
+.order-statistics-card {
+  width: 240px;
+  height: 80px;
+}
+
+.popular-items-card{
+  height: 74.93212890625px;
+  width: 221px;
+}
+
+.featured-items-card{
+  // height: 178px;
+  width: 135px;
+}

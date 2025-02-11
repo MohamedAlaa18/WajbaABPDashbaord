@@ -49,7 +49,7 @@ export class AddUserComponent implements OnInit, OnChanges {
       confirmPassword: ['', Validators.required],
       branchList: this.fb.control([]),
       type: [null],
-      genderType: 0
+      genderType: [1]
     }, { validators: this.passwordsMatch });
   }
 

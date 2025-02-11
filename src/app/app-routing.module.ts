@@ -9,7 +9,12 @@ import { MessagesComponent } from './components/messages/messages.component';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
   },
   {
     path: 'settings',

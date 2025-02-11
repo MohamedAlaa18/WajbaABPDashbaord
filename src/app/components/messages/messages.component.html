@@ -1,4 +1,4 @@
-<section class="bg-white rounded-4 p-3 d-flex h-100">
+<section class="bg-white rounded-4 p-3 d-flex mb-3">
   <div class="border-end profiles-section" *ngIf="profiles">
     <h3 class="fs-4 fw-semibold text-black">Messages</h3>
 
@@ -18,8 +18,9 @@
       <div *ngFor="let profile of profiles; let i = index" (click)="selectProfile(i)"
         [ngClass]="{'bg-danger-50': selectedProfile === i}"
         class="d-flex align-items-center gap-2 cursor-pointer p-2 whitespace-pre-wrap">
-        <img [src]="profile.profilePhoto ?? 'assets/images/profile.jpeg'" alt="profile" class="rounded"
-          style="width: 76px; height: 63px;">
+        <img
+          [src]="!profile?.profilePhoto || profile?.profilePhoto === 'Empty' || profile?.profilePhoto === 'null' ? 'assets/images/profile.jpeg' : user?.profilePhoto"
+          alt="profile" class="rounded" style="width: 76px; height: 63px;">
         <div class="text-muted fw-semibold">
           <p [ngClass]="{'text-danger': selectedProfile === i}" class="mb-1">{{ profile.fullName }}</p>
           <p class="mb-0">{{ profile.phone }}</p>
@@ -31,8 +32,9 @@
   <div class="w-100 p-4 d-flex flex-column justify-content-between" *ngIf="profiles[selectedProfile]">
     <div class="px-3 border-bottom border-secondary-subtle mb-4 pb-3">
       <div class="d-flex align-items-center gap-2 cursor-pointer">
-        <img [src]="profiles[selectedProfile].profilePhoto ?? 'assets/images/profile.jpeg'" alt="profile"
-          class="rounded" style="width: 76px; height: 63px;">
+        <img
+          [src]="!profiles[selectedProfile].profilePhoto || profiles[selectedProfile].profilePhoto === 'Empty' || profiles[selectedProfile].profilePhoto === 'null' ? 'assets/images/profile.jpeg' : user?.profilePhoto"
+          alt="profile" class="rounded" style="width: 76px; height: 63px;">
         <div class="text-muted fw-semibold">
           <p class="mb-1">{{ profiles[selectedProfile].fullName }}</p>
           <p class="mb-0">{{ profiles[selectedProfile].phone }}</p>

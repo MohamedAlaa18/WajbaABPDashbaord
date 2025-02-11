@@ -21,13 +21,13 @@ export class SideBarComponent implements OnInit {
 
   // List of menu items with headers
   menuItems = [
-    // { type: 'link', name: 'Dashboard', iconName: 'dashboard', path: '/dashboard' },
+    { type: 'link', name: 'Dashboard', iconName: 'dashboard', path: '/dashboard' },
     { type: 'link', name: 'Items', iconName: 'items', path: '/items' },
     { type: 'link', name: 'Popular today', iconName: 'popular', path: '/popular-today' },
     { type: 'link', name: 'Dining Tables', iconName: 'tables', path: '/dining-tables' },
     { type: 'header', name: 'POS Orders' },
     { type: 'link', name: 'Pos', iconName: 'pos', path: '/pos' },
-    { type: 'link', name: 'Pos Orders', iconName: 'items', path: '/orders' },
+    { type: 'link', name: 'Orders', iconName: 'items', path: '/orders' },
     { type: 'header', name: 'Promo' },
     { type: 'link', name: 'Vouchers', iconName: 'vouchers', path: '/vouchers' },
     { type: 'link', name: 'Offers', iconName: 'offers', path: '/offers' },
@@ -36,7 +36,7 @@ export class SideBarComponent implements OnInit {
     { type: 'link', name: 'Kitchen', iconName: 'kitchen', path: '/kitchen' },
     { type: 'header', name: 'Communications' },
     { type: 'link', name: 'Push notification', iconName: 'notification', path: '/push-notification' },
-    { type: 'link', name: 'Massages', iconName: 'massages', path: '/massages' },
+    { type: 'link', name: 'Messages', iconName: 'massages', path: '/messages' },
     // { type: 'link', name: 'Subscribers', iconName: 'subscribers', path: '/subscribers' },
     { type: 'header', name: 'Users' },
     { type: 'link', name: 'Administrators', iconName: 'administrators', path: '/user/administrators' },

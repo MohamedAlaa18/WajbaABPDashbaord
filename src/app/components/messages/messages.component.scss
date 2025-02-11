@@ -1,5 +1,8 @@
+section{
+  height: calc(100dvh - 1.25em - 3em - 3rem);
+}
 .profiles-section {
-  height: calc(100dvh - 1.25em - 3em);
+  // height: calc(100dvh - 1.25em - 3em - 3rem);
   // min-height: 100%;
   overflow-x: auto;
   min-width: fit-content;

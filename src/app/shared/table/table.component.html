@@ -1,56 +1,58 @@
-<div class="table-responsive w-100">
-  <table class="table table-striped bg-white">
-    <thead>
-      <tr>
-        <th *ngFor="let col of columns" class="px-3 py-3 fw-bold">
-          {{ col.header }}
-        </th>
-        <th *ngIf="actions?.length" class="px-3 py-3 fw-bold">
-          Action
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of data; let isOdd = odd" [class.table-secondary]="!isOdd">
-        <td *ngFor="let col of columns" class="px-3 py-2">
-          <ng-container [ngSwitch]="col.header">
-            <!-- Status Column -->
-            <ng-container *ngSwitchCase="'Status'">
-              <span [ngClass]="{
-                  'text-success': row[col.field] === 1,
-                  'text-danger': row[col.field] === 0
-                }">
-                {{ row[col.field] === 1 ? 'Active' : row[col.field] === 0 ? 'Inactive' : '--' }}
-              </span>
+<section>
+  <div class="table-responsive w-100">
+    <table class="table table-striped bg-white">
+      <thead>
+        <tr>
+          <th *ngFor="let col of columns" class="px-3 py-3 fw-bold">
+            {{ col.header }}
+          </th>
+          <th *ngIf="actions?.length" class="px-3 py-3 fw-bold">
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of data; let isOdd = odd" [class.table-secondary]="!isOdd">
+          <td *ngFor="let col of columns" class="px-3 py-2">
+            <ng-container [ngSwitch]="col.header">
+              <!-- Status Column -->
+              <ng-container *ngSwitchCase="'Status'">
+                <span [ngClass]="{
+                    'text-success': row[col.field] === 1,
+                    'text-danger': row[col.field] === 0
+                  }">
+                  {{ row[col.field] === 1 ? 'Active' : row[col.field] === 0 ? 'Inactive' : '--' }}
+                </span>
+              </ng-container>
+              <!-- Type Column -->
+              <ng-container *ngSwitchCase="'Type'">
+                <span>
+                  {{ row[col.field] === 1 ? 'Percentage' : row[col.field] === 0 ? 'Fixed' : '--' }}
+                </span>
+              </ng-container>
+              <!-- Default Column with Null Check -->
+              <ng-container *ngSwitchDefault>
+                {{ row[col.field] == null ? '--' : (isDateString(row[col.field]) ? formatDate(row[col.field]) :
+                row[col.field]) }}
+              </ng-container>
             </ng-container>
-            <!-- Type Column -->
-            <ng-container *ngSwitchCase="'Type'">
-              <span>
-                {{ row[col.field] === 1 ? 'Percentage' : row[col.field] === 0 ? 'Fixed' : '--' }}
-              </span>
+          </td>
+          <!-- Actions Column -->
+          <td class="px-3 py-2 d-flex align-items-center gap-3" *ngIf="actions?.length">
+            <ng-container *ngFor="let action of actions">
+              <div class="position-relative">
+                <span class="tooltip-text position-absolute start-50 translate-middle badge bg-black rounded-0 p-1">
+                  {{ action.tooltip }}
+                </span>
+                <button *ngIf="action.show(row)" [title]="action.tooltip" (click)="actionClicked(action, row)"
+                  class="btn p-1 rounded-1 border-0" [ngClass]="action.tooltip">
+                  <img [src]="action.icon" [alt]="action.tooltip" />
+                </button>
+              </div>
             </ng-container>
-            <!-- Default Column with Null Check -->
-            <ng-container *ngSwitchDefault>
-              {{ row[col.field] == null ? '--' : (isDateString(row[col.field]) ? formatDate(row[col.field]) :
-              row[col.field]) }}
-            </ng-container>
-          </ng-container>
-        </td>
-        <!-- Actions Column -->
-        <td class="px-3 py-2 d-flex align-items-center gap-3" *ngIf="actions?.length">
-          <ng-container *ngFor="let action of actions">
-            <div class="position-relative">
-              <span class="tooltip-text position-absolute start-50 translate-middle badge bg-black rounded-0 p-1">
-                {{ action.tooltip }}
-              </span>
-              <button *ngIf="action.show(row)" [title]="action.tooltip" (click)="actionClicked(action, row)"
-                class="btn p-1 rounded-1 border-0" [ngClass]="action.tooltip">
-                <img [src]="action.icon" [alt]="action.tooltip" />
-              </button>
-            </div>
-          </ng-container>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

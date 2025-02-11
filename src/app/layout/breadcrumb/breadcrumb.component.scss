@@ -1,0 +1,38 @@
+/* Component CSS */
+.breadcrumb-list {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  list-style: none;
+  gap: 0.5rem;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item::before {
+  margin-right: 0.5rem;
+}
+
+.breadcrumb-link {
+  color: #4a5568; /* gray-600 equivalent */
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.breadcrumb-link:hover {
+  color: #2d3748; /* darker gray */
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  color: #cbd5e0; /* gray-400 equivalent */
+  margin-left: 0.5rem;
+}
+
+.breadcrumb-current {
+  color: #718096; /* gray-500 equivalent */
+  font-size: 0.875rem;
+}
