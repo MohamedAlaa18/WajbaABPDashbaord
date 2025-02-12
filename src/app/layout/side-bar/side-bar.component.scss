@@ -46,14 +46,6 @@ button:hover {
   transition: width 0.3s ease-in-out;
 }
 
-.collapsed-sidebar {
-  width: 156px;
-}
-
-.expanded-sidebar {
-  width: 312px;
-}
-
 .hidden-sidebar {
   width: 0;
 }
@@ -65,4 +57,24 @@ button:hover {
   font-weight: 500;
   border-radius: 5px;
   // transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+@media (max-width: 1035px) {
+  .collapsed-sidebar {
+    width: 0px;
+  }
+
+  .expanded-sidebar {
+    width: 0px;
+  }
+}
+
+@media (min-width: 1035px) {
+  .collapsed-sidebar {
+    width: 156px;
+  }
+
+  .expanded-sidebar {
+    width: 312px;
+  }
 }
