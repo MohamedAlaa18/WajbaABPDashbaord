@@ -1,6 +1,6 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { Base64ImageModel, CreateThemesDto } from '../dtos/themes-contract/models';
+import type { Base64ImageModel, CreateThemesDto, UpdateThemeDto } from '../dtos/themes-contract/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -19,23 +19,25 @@ export class ThemeService {
     { apiName: this.apiName,...config });
   
 
-  delete = (config?: Partial<Rest.Config>) =>
+  delete = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'DELETE',
       url: '/api/Theme',
+      params: { id },
     },
     { apiName: this.apiName,...config });
   
 
-  get = (config?: Partial<Rest.Config>) =>
+  getByIdById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/Theme',
+      params: { id },
     },
     { apiName: this.apiName,...config });
   
 
-  update = (themesDto: CreateThemesDto, config?: Partial<Rest.Config>) =>
+  update = (themesDto: UpdateThemeDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Theme',

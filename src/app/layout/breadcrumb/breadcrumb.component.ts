@@ -33,7 +33,7 @@ export class BreadcrumbComponent implements OnInit {
 
         // Add this check
         const currentUrl = this.router.url;
-        this.showBreadcrumb = !['/dashboard', '/login'].includes(currentUrl);
+        this.showBreadcrumb = !['/dashboard', '/login', '/kitchen'].includes(currentUrl);
       });
 
     this.router.events

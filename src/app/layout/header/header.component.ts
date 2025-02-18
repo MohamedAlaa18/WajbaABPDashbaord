@@ -11,6 +11,7 @@ import { LanguageDto } from '@proxy/dtos/languages';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-header',
@@ -53,6 +54,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     private afterActionService: AfterActionService,
     private languageService: LanguageService,
     private router: Router,
+    private cookieService: CookieService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     if (isPlatformBrowser(this.platformId)) {
@@ -217,13 +219,13 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     localStorage.removeItem('userData');
     sessionStorage.removeItem('userData');
 
-    // Optionally, clear other stored data if needed
-    // localStorage.removeItem('selectedBranch');
+    // Remove userToken from cookies
+    this.cookieService.delete('userToken');
 
     // Reset user data in the component
     this.user = null;
 
-    // Redirect to the login page (if applicable)
+    // Redirect to the login page
     this.router.navigate(['/login']);
   }
 }

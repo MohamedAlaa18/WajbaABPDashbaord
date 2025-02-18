@@ -1,6 +1,6 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateUpdateOTPDto, UpdateOtpDto } from '../dtos/otpcontract/models';
+import type { CreateOTPDto, GetOtpInput, UpdateOtpDto } from '../dtos/otpcontract/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -10,7 +10,7 @@ export class OTPService {
   apiName = 'Default';
   
 
-  create = (input: CreateUpdateOTPDto, config?: Partial<Rest.Config>) =>
+  create = (input: CreateOTPDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/OTP',
@@ -19,18 +19,27 @@ export class OTPService {
     { apiName: this.apiName,...config });
   
 
-  delete = (config?: Partial<Rest.Config>) =>
+  delete = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'DELETE',
-      url: '/api/OTP',
+      url: `/api/OTP/${id}`,
     },
     { apiName: this.apiName,...config });
   
 
-  getAll = (config?: Partial<Rest.Config>) =>
+  getAllByInput = (input: GetOtpInput, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/OTP',
+      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getById = (id: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'GET',
+      url: `/api/OTP/${id}`,
     },
     { apiName: this.apiName,...config });
   

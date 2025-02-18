@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ThemeService } from '@proxy/controllers';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 import { Base64Service } from 'src/app/services/base64/base64.service';
-import { CreateThemesDto } from '@proxy/dtos/themes-contract';
+import { CreateThemesDto, UpdateThemeDto } from '@proxy/dtos/themes-contract';
 
 @Component({
   selector: 'app-theme',
@@ -41,7 +41,7 @@ export class ThemeComponent implements OnInit {
   }
 
   loadTheme(): void {
-    this.themeService.get().subscribe(
+    this.themeService.getByIdById(1).subscribe(
       (response: any) => {
         console.log("Response:", response);
         this.logoPreview = response.data.logoUrl;
@@ -79,7 +79,8 @@ export class ThemeComponent implements OnInit {
   onSubmit(): void {
     if (this.themeForm.valid && this.logoFile && this.browserIconFile && this.footerLogoFile) {
       // Initialize an empty DTO
-      const themesDto: CreateThemesDto = {
+      const themesDto: UpdateThemeDto = {
+        id: 1,
         logoUrl: null,
         browserTabIconUrl: null,
         footerLogoUrl: null,

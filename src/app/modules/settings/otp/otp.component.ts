@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OTPService } from '@proxy/controllers';
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
-import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { UpdateOtpDto } from '@proxy/dtos/otpcontract';
 
 @Component({
@@ -42,7 +41,7 @@ export class OTPComponent implements OnInit{
   }
 
   loadOTP(): void {
-    this.otpService.getAll().subscribe({
+    this.otpService.getById(1).subscribe({
       next: (response) => {
         console.log(response);
         this.otpForm.patchValue({

@@ -5,7 +5,7 @@ import { BranchService, CurrenciesService, LanguageService, SiteService } from '
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
 import { GetBranchInput } from '@proxy/dtos/branch-contract';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import { CreateSiteDto } from '@proxy/dtos/sites-contact';
+import { CreateSiteDto, UpdateSiteDto } from '@proxy/dtos/sites-contact';
 
 @Component({
   selector: 'app-site',
@@ -54,7 +54,7 @@ export class SiteComponent implements OnInit {
   }
 
   loadSite(): void {
-    this.siteService.getById().subscribe(
+    this.siteService.getById(1).subscribe(
       (response) => {
         console.log(response);
         this.siteForm.patchValue({
@@ -144,7 +144,7 @@ export class SiteComponent implements OnInit {
 
   submitForm() {
     if (this.siteForm.valid) {
-      const formValue = this.siteForm.value as CreateSiteDto;
+      const formValue = this.siteForm.value as UpdateSiteDto;
       console.log(formValue);
       this.siteService.update(formValue).subscribe({
         next: (response) => {

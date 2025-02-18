@@ -45,7 +45,7 @@
             </li>
 
             <!-- Profile Dropdown -->
-            <li class="nav-item profile" ngbDropdown class="d-inline-block">
+            <li *ngIf="user" class="nav-item profile" ngbDropdown class="d-inline-block">
               <button class="btn border-0 btn-profile d-flex align-items-center p-0" ngbDropdownToggle>
                 <div class="relative">
                   <img

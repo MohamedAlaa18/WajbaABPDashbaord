@@ -1,7 +1,7 @@
-// import type { FullAuditedEntity } from '../../volo/abp/domain/entities/auditing/models';
+import type { FullAuditedEntity } from '../../volo/abp/domain/entities/auditing/models';
 import type { WajbaUser } from '../wajba-user-domain/models';
 
-export interface ChatMessage {
+export interface ChatMessage extends FullAuditedEntity<number> {
   senderRole: number;
   receiverRole: number;
   message?: string;

@@ -1,3 +1,4 @@
+import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateSiteDto {
   name: string;
@@ -12,4 +13,12 @@ export interface CreateSiteDto {
   defaultBranch: number;
   defaultCurrency: number;
   defaultLanguage: number;
+}
+
+export interface GetSiteInput extends PagedAndSortedResultRequestDto {
+  filter?: string;
+}
+
+export interface UpdateSiteDto extends CreateSiteDto {
+  id: number;
 }

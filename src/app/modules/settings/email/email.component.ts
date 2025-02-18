@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SiteService } from '@proxy/controllers';
-import { CreateSiteDto } from '@proxy/dtos/sites-contact';
+import { CreateSiteDto, UpdateSiteDto } from '@proxy/dtos/sites-contact';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 
 @Component({
@@ -36,7 +36,7 @@ export class EmailComponent implements OnInit {
   }
 
   loadSite(): void {
-    this.siteService.getById().subscribe(
+    this.siteService.getById(1).subscribe(
       (response) => {
         this.siteForm.patchValue({
           mailHost: response.data.mailHost,
@@ -56,7 +56,7 @@ export class EmailComponent implements OnInit {
 
   submitForm() {
     if (this.siteForm.valid) {
-      const formValue = this.siteForm.value as CreateSiteDto;
+      const formValue = this.siteForm.value as UpdateSiteDto;
       console.log(formValue);
       this.siteService.update(formValue).subscribe({
         next: (response) => {

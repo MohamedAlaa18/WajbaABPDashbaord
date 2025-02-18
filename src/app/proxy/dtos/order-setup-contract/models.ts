@@ -1,6 +1,6 @@
 import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
-export interface CreateUpdateOrderSetupDto {
+export interface CreateOrderSetupDto {
   foodPreparationTime: number;
   scheduleOrderSlotDuration: number;
   freeDeliveryKilometer: number;
@@ -18,6 +18,7 @@ export interface GetOrderSetupInput extends PagedAndSortedResultRequestDto {
 }
 
 export interface UpdateOrderSetupDto {
+  id: number;
   foodPreparationTime: number;
   scheduleOrderSlotDuration: number;
   freeDeliveryKilometer: number;

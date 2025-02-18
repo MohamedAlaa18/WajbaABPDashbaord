@@ -1962,9 +1962,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto",
-                  "typeSimple": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto",
+                  "typeAsString": "Wajba.Dtos.CompanyContact.CreateComanyDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.CompanyContact.CreateComanyDto",
+                  "typeSimple": "Wajba.Dtos.CompanyContact.CreateComanyDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -1974,8 +1974,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto",
-                  "typeSimple": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto",
+                  "type": "Wajba.Dtos.CompanyContact.CreateComanyDto",
+                  "typeSimple": "Wajba.Dtos.CompanyContact.CreateComanyDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -1999,9 +1999,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto",
-                  "typeSimple": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto",
+                  "typeAsString": "Wajba.Dtos.CompanyContact.UpdateCompanyDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.CompanyContact.UpdateCompanyDto",
+                  "typeSimple": "Wajba.Dtos.CompanyContact.UpdateCompanyDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -2011,8 +2011,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto",
-                  "typeSimple": "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto",
+                  "type": "Wajba.Dtos.CompanyContact.UpdateCompanyDto",
+                  "typeSimple": "Wajba.Dtos.CompanyContact.UpdateCompanyDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -2027,17 +2027,112 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.CompanyController"
             },
-            "GetByIdAsync": {
-              "uniqueName": "GetByIdAsync",
+            "GetByIdAsyncById": {
+              "uniqueName": "GetByIdAsyncById",
               "name": "GetByIdAsync",
               "httpMethod": "GET",
-              "url": "api/Company",
+              "url": "api/Company/GetById",
               "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": ""
+                }
+              ],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.CompanyContact.CompanyDto>>",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.CompanyContact.CompanyDto>>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.CompanyController"
+            },
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/Company/GetAll",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.CompanyContact.GetComanyInput, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.CompanyContact.GetComanyInput",
+                  "typeSimple": "Wajba.Dtos.CompanyContact.GetComanyInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.CompanyController"
@@ -6559,9 +6654,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto",
-                  "typeSimple": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto",
+                  "typeAsString": "Wajba.Dtos.OrderSetupContract.CreateOrderSetupDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.OrderSetupContract.CreateOrderSetupDto",
+                  "typeSimple": "Wajba.Dtos.OrderSetupContract.CreateOrderSetupDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -6571,8 +6666,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto",
-                  "typeSimple": "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto",
+                  "type": "Wajba.Dtos.OrderSetupContract.CreateOrderSetupDto",
+                  "typeSimple": "Wajba.Dtos.OrderSetupContract.CreateOrderSetupDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -6791,9 +6886,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.OTPContract.CreateUpdateOTPDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.OTPContract.CreateUpdateOTPDto",
-                  "typeSimple": "Wajba.Dtos.OTPContract.CreateUpdateOTPDto",
+                  "typeAsString": "Wajba.Dtos.OTPContract.CreateOTPDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.OTPContract.CreateOTPDto",
+                  "typeSimple": "Wajba.Dtos.OTPContract.CreateOTPDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -6803,8 +6898,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.OTPContract.CreateUpdateOTPDto",
-                  "typeSimple": "Wajba.Dtos.OTPContract.CreateUpdateOTPDto",
+                  "type": "Wajba.Dtos.OTPContract.CreateOTPDto",
+                  "typeSimple": "Wajba.Dtos.OTPContract.CreateOTPDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -6819,14 +6914,97 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.OTPController"
             },
-            "GetAll": {
-              "uniqueName": "GetAll",
+            "GetByIdAsyncById": {
+              "uniqueName": "GetByIdAsyncById",
+              "name": "GetByIdAsync",
+              "httpMethod": "GET",
+              "url": "api/OTP/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.OTPController"
+            },
+            "GetAllByInput": {
+              "uniqueName": "GetAllByInput",
               "name": "GetAll",
               "httpMethod": "GET",
               "url": "api/OTP",
               "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.OTPContract.GetOtpInput, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.OTPContract.GetOtpInput",
+                  "typeSimple": "Wajba.Dtos.OTPContract.GetOtpInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                }
+              ],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -6871,14 +7049,36 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.OTPController"
             },
-            "DeleteAsync": {
-              "uniqueName": "DeleteAsync",
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
               "name": "DeleteAsync",
               "httpMethod": "DELETE",
-              "url": "api/OTP",
+              "url": "api/OTP/{id}",
               "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -7766,6 +7966,79 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.SiteController"
             },
+            "GetAllAsyncByInput": {
+              "uniqueName": "GetAllAsyncByInput",
+              "name": "GetAllAsync",
+              "httpMethod": "GET",
+              "url": "api/Site/all",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.SitesContact.GetSiteInput, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.SitesContact.GetSiteInput",
+                  "typeSimple": "Wajba.Dtos.SitesContact.GetSiteInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.SiteController"
+            },
             "UpdateAsyncByInput": {
               "uniqueName": "UpdateAsyncByInput",
               "name": "UpdateAsync",
@@ -7775,9 +8048,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.SitesContact.CreateSiteDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.SitesContact.CreateSiteDto",
-                  "typeSimple": "Wajba.Dtos.SitesContact.CreateSiteDto",
+                  "typeAsString": "Wajba.Dtos.SitesContact.UpdateSiteDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.SitesContact.UpdateSiteDto",
+                  "typeSimple": "Wajba.Dtos.SitesContact.UpdateSiteDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -7787,8 +8060,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.SitesContact.CreateSiteDto",
-                  "typeSimple": "Wajba.Dtos.SitesContact.CreateSiteDto",
+                  "type": "Wajba.Dtos.SitesContact.UpdateSiteDto",
+                  "typeSimple": "Wajba.Dtos.SitesContact.UpdateSiteDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -7803,14 +8076,36 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.SiteController"
             },
-            "GetByIdAsync": {
-              "uniqueName": "GetByIdAsync",
+            "GetByIdAsyncById": {
+              "uniqueName": "GetByIdAsyncById",
               "name": "GetByIdAsync",
               "httpMethod": "GET",
               "url": "api/Site",
               "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": ""
+                }
+              ],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -7949,9 +8244,9 @@
               "parametersOnMethod": [
                 {
                   "name": "themesDto",
-                  "typeAsString": "Wajba.Dtos.ThemesContract.CreateThemesDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.ThemesContract.CreateThemesDto",
-                  "typeSimple": "Wajba.Dtos.ThemesContract.CreateThemesDto",
+                  "typeAsString": "Wajba.Dtos.ThemesContract.UpdateThemeDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.ThemesContract.UpdateThemeDto",
+                  "typeSimple": "Wajba.Dtos.ThemesContract.UpdateThemeDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -7961,8 +8256,8 @@
                   "nameOnMethod": "themesDto",
                   "name": "themesDto",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.ThemesContract.CreateThemesDto",
-                  "typeSimple": "Wajba.Dtos.ThemesContract.CreateThemesDto",
+                  "type": "Wajba.Dtos.ThemesContract.UpdateThemeDto",
+                  "typeSimple": "Wajba.Dtos.ThemesContract.UpdateThemeDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -7977,14 +8272,36 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ThemeController"
             },
-            "GetAsync": {
-              "uniqueName": "GetAsync",
-              "name": "GetAsync",
+            "GetByIdById": {
+              "uniqueName": "GetByIdById",
+              "name": "GetById",
               "httpMethod": "GET",
               "url": "api/Theme",
               "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": ""
+                }
+              ],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -7992,14 +8309,36 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.ThemeController"
             },
-            "DeleteAsync": {
-              "uniqueName": "DeleteAsync",
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
               "name": "DeleteAsync",
               "httpMethod": "DELETE",
               "url": "api/Theme",
               "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": ""
+                }
+              ],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -19247,7 +19586,7 @@
         }
       ]
     },
-    "Wajba.Dtos.CompanyContact.CreateUpdateComanyDto": {
+    "Wajba.Dtos.CompanyContact.CreateComanyDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -19356,6 +19695,48 @@
           "type": "System.String",
           "typeSimple": "string",
           "isRequired": true,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.CompanyContact.GetComanyInput": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Filter",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.CompanyContact.UpdateCompanyDto": {
+      "baseType": "Wajba.Dtos.CompanyContact.CreateComanyDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
           "minLength": null,
           "maxLength": null,
           "minimum": null,
@@ -23436,7 +23817,7 @@
         }
       ]
     },
-    "Wajba.Dtos.OrderSetupContract.CreateUpdateOrderSetupDto": {
+    "Wajba.Dtos.OrderSetupContract.CreateOrderSetupDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -23594,6 +23975,18 @@
       "genericArguments": null,
       "properties": [
         {
+          "name": "id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
           "name": "FoodPreparationTime",
           "jsonName": null,
           "type": "System.Int32",
@@ -23715,7 +24108,7 @@
         }
       ]
     },
-    "Wajba.Dtos.OTPContract.CreateUpdateOTPDto": {
+    "Wajba.Dtos.OTPContract.CreateOTPDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -23760,6 +24153,14 @@
         }
       ]
     },
+    "Wajba.Dtos.OTPContract.GetOtpInput": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": []
+    },
     "Wajba.Dtos.OTPContract.UpdateOtpDto": {
       "baseType": null,
       "isEnum": false,
@@ -23767,6 +24168,18 @@
       "enumValues": null,
       "genericArguments": null,
       "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
         {
           "name": "Type",
           "jsonName": null,
@@ -24642,6 +25055,48 @@
         }
       ]
     },
+    "Wajba.Dtos.SitesContact.GetSiteInput": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Filter",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.SitesContact.UpdateSiteDto": {
+      "baseType": "Wajba.Dtos.SitesContact.CreateSiteDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.ThemesContract.Base64ImageModel": {
       "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Int32>",
       "isEnum": false,
@@ -24712,6 +25167,27 @@
           "type": "Wajba.Dtos.ThemesContract.Base64ImageModel",
           "typeSimple": "Wajba.Dtos.ThemesContract.Base64ImageModel",
           "isRequired": true,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.ThemesContract.UpdateThemeDto": {
+      "baseType": "Wajba.Dtos.ThemesContract.CreateThemesDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "id",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
           "minLength": null,
           "maxLength": null,
           "minimum": null,

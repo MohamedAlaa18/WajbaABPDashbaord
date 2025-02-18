@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { OrderSetupService } from '@proxy/controllers';
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreateUpdateOrderSetupDto } from '@proxy/dtos/order-setup-contract';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 

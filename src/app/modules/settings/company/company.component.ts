@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
 import { CommonModule } from '@angular/common';
 import { CompanyService } from '@proxy/controllers';
-import { CreateUpdateComanyDto } from '@proxy/dtos/company-contact';
+import { UpdateCompanyDto } from '@proxy/dtos/company-contact';
 
 export function urlValidator(control: AbstractControl): ValidationErrors | null {
   const urlRegex = /^(https?|ftp)?(:\/\/)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+.*$/;
@@ -25,6 +25,7 @@ export class CompanyComponent implements OnInit {
     private companyService: CompanyService
   ) {
     this.companyForm = this.fb.group({
+      id: [this.companyId],
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9]{7,14}$/)]],
@@ -42,7 +43,7 @@ export class CompanyComponent implements OnInit {
   }
 
   loadCompanyData() {
-    this.companyService.getById().subscribe({
+    this.companyService.getById(1).subscribe({
       next: (response) => {
         console.log(response);
         this.companyForm.patchValue(response.data);
@@ -55,19 +56,29 @@ export class CompanyComponent implements OnInit {
 
   submitForm() {
     if (this.companyForm.valid) {
-      // Map the form values to CreateUpdateComanyDto
-      const input: CreateUpdateComanyDto = this.companyForm.value;
+      // Manually construct the DTO to ensure correct formatting
+      const input: UpdateCompanyDto = {
+        id: this.companyForm.value.id,
+        name: this.companyForm.value.name.trim(),
+        email: this.companyForm.value.email.trim(),
+        phone: this.companyForm.value.phone.trim(),
+        websiteURL: this.companyForm.value.websiteURL.trim(),
+        city: this.companyForm.value.city.trim(),
+        state: this.companyForm.value.state.trim(),
+        countryCode: this.companyForm.value.countryCode.trim(),
+        zipCode: this.companyForm.value.zipCode.trim(),
+        address: this.companyForm.value.address.trim(),
+      };
 
       console.log(input);
+
       // Call the update method from the CompanyService
       this.companyService.update(input).subscribe({
         next: (response) => {
           console.log('Company updated successfully:', response);
-          // Add any success handling logic here (e.g., showing a success message)
         },
         error: (err) => {
           console.error('Error updating company:', err);
-          // Add any error handling logic here (e.g., showing an error message)
         },
       });
     } else {

@@ -1,4 +1,4 @@
-<div class="d-flex flex-column h-100 justify-content-between bg-white overflow-auto sidebar pb-3"
+<div *ngIf="!isLoginPage" class="d-flex flex-column h-100 justify-content-between bg-white overflow-auto sidebar pb-3"
   [ngClass]="{ 'closed': !isSidebarOpen }">
   <div class="ps-4 pb-5 pt-2">
     <ul class="list-unstyled">
@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<div class="transition sidebar-toggle" [ngClass]="{
+<div *ngIf="!isLoginPage" class="transition sidebar-toggle" [ngClass]="{
         'collapsed-sidebar': isSidebarOpen && isPosRoute(),
         'expanded-sidebar': isSidebarOpen && !isPosRoute(),
         'hidden-sidebar': !isSidebarOpen

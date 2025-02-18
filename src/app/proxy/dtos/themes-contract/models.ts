@@ -10,3 +10,7 @@ export interface CreateThemesDto {
   browserTabIconUrl: Base64ImageModel;
   footerLogoUrl: Base64ImageModel;
 }
+
+export interface UpdateThemeDto extends CreateThemesDto {
+  id: number;
+}

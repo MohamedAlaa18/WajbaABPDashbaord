@@ -5,84 +5,102 @@ import { SalesReportsComponent } from './components/sales-reports/sales-reports.
 import { ItemReportsComponent } from './components/item-reports/item-reports.component';
 import { LoginComponent } from './components/login/login.component';
 import { MessagesComponent } from './components/messages/messages.component';
+import { authGuard } from './guardAuth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
-    pathMatch: 'full'
+    pathMatch: 'full' // No canActivate here!
   },
   {
     path: 'dashboard',
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
+    canActivate: [authGuard],
   },
   {
     path: 'settings',
     loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule),
+    canActivate: [authGuard],
   },
   {
     path: 'items',
     loadChildren: () => import('./modules/items/items.module').then(m => m.ItemsModule),
+    canActivate: [authGuard],
   },
   {
     path: 'popular-today',
     loadChildren: () => import('./modules/popular-today/popular-today.module').then(m => m.PopularTodayModule),
+    canActivate: [authGuard],
   },
   {
     path: 'dining-tables',
     loadChildren: () => import('./modules/dining-tables/dining-tables.module').then(m => m.DiningTablesModule),
+    canActivate: [authGuard],
   },
   {
     path: 'pos',
     loadChildren: () => import('./modules/pos/pos.module').then(m => m.PosModule),
+    canActivate: [authGuard],
   },
   {
     path: 'user',
     loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
+    canActivate: [authGuard],
   },
   {
     path: 'offers',
     loadChildren: () => import('./modules/offers/offers.module').then(m => m.OffersModule),
+    canActivate: [authGuard],
   },
   {
     path: 'vouchers',
     loadChildren: () => import('./modules/vouchers/vouchers.module').then(m => m.VouchersModule),
+    canActivate: [authGuard],
   },
   {
     path: 'points',
     loadChildren: () => import('./modules/points/points.module').then(m => m.PointsModule),
+    canActivate: [authGuard],
   },
   {
     path: 'push-notification',
     loadChildren: () => import('./modules/push-notification/push-notification.module').then(m => m.PushNotificationModule),
-  },
-  {
-    path: 'refer-a-friend',
-    component: ReferAFriendComponent,
-  },
-  {
-    path: 'sales-reports',
-    component: SalesReportsComponent,
-  },
-  {
-    path: 'item-reports',
-    component: ItemReportsComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'messages',
-    component: MessagesComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'orders',
     loadChildren: () => import('./modules/orders/orders.module').then(m => m.OrdersModule),
+    canActivate: [authGuard],
   },
   {
     path: 'kitchen',
     loadChildren: () => import('./modules/kitchen/kitchen.module').then(m => m.KitchenModule),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'refer-a-friend',
+    component: ReferAFriendComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'sales-reports',
+    component: SalesReportsComponent,
+    canActivate: [authGuard], // Added guard to be consistent
+  },
+  {
+    path: 'item-reports',
+    component: ItemReportsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'login',
+    component: LoginComponent, // No canActivate here!
+  },
+  {
+    path: 'messages',
+    component: MessagesComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'account',
@@ -105,7 +123,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {})],
+  imports: [RouterModule.forRoot(routes, { useHash: false })], // Keep as needed
   exports: [RouterModule],
 })
 export class AppRoutingModule { }

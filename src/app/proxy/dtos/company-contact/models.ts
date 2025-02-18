@@ -1,4 +1,4 @@
-import type { EntityDto } from '@abp/ng.core';
+import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CompanyDto extends EntityDto<number> {
   name?: string;
@@ -12,7 +12,7 @@ export interface CompanyDto extends EntityDto<number> {
   address?: string;
 }
 
-export interface CreateUpdateComanyDto {
+export interface CreateComanyDto {
   name: string;
   email: string;
   phone: string;
@@ -22,4 +22,12 @@ export interface CreateUpdateComanyDto {
   countryCode: string;
   zipCode: string;
   address: string;
+}
+
+export interface GetComanyInput extends PagedAndSortedResultRequestDto {
+  filter?: string;
+}
+
+export interface UpdateCompanyDto extends CreateComanyDto {
+  id: number;
 }

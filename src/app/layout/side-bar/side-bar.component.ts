@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { SidebarService } from 'src/app/services/Sidebar/sidebar.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-side-bar',
@@ -13,6 +14,7 @@ import { SidebarService } from 'src/app/services/Sidebar/sidebar.service';
 })
 export class SideBarComponent implements OnInit {
   isSidebarOpen = false;
+  isLoginPage = false;
 
   constructor(
     private router: Router,
@@ -57,6 +59,12 @@ export class SideBarComponent implements OnInit {
   ngOnInit(): void {
     this.sidebarService.getSidebarState().subscribe((isOpen) => {
       this.isSidebarOpen = isOpen;
+    });
+
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe((event: any) => {
+      this.isLoginPage = event.url === '/login';
     });
   }
 

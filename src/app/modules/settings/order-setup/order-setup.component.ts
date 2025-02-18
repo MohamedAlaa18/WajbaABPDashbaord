@@ -5,8 +5,8 @@ import { OrderSetupService } from '@proxy/controllers';
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
 import { TimeSlotsModalComponent } from 'src/app/shared/time-slots-modal/time-slots-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreateUpdateOrderSetupDto } from '@proxy/dtos/order-setup-contract';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import { UpdateOrderSetupDto } from '@proxy/dtos/order-setup-contract';
 
 @Component({
   selector: 'app-order-setup',
@@ -125,7 +125,7 @@ export class OrderSetupComponent implements OnInit {
 
   onSubmit(): void {
     if (this.orderForm.valid) {
-      let formValue = this.orderForm.value as CreateUpdateOrderSetupDto;
+      let formValue = this.orderForm.value as UpdateOrderSetupDto;
 
       // Call the update method from the service
       this.orderSetupService.update(formValue).subscribe(response => {
