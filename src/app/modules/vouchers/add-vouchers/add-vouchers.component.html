@@ -48,8 +48,8 @@
           <div
             *ngIf="voucherForm.get('discount')?.invalid && (voucherForm.get('discount')?.touched || voucherForm.get('discount')?.dirty)"
             class="text-danger">
-            <ng-container *ngIf="offerForm.get('discount')?.errors?.['required']">Discount is required.</ng-container>
-            <ng-container *ngIf="offerForm.get('discount')?.errors?.['min']">Discount must be a positive
+            <ng-container *ngIf="voucherForm.get('discount')?.errors?.['required']">Discount is required.</ng-container>
+            <ng-container *ngIf="voucherForm.get('discount')?.errors?.['min']">Discount must be a positive
               number.</ng-container>
           </div>
         </div>
@@ -60,7 +60,7 @@
           <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
           <input type="file" (change)="onFileSelected($event)" class="form-control bg-white">
           <div *ngIf="voucherForm.get('image')?.touched && voucherForm.get('image')?.invalid" class="text-danger">
-            <small *ngIf="itemCategoryForm.get('image')?.errors?.['required']">Image is required.</small>
+            <small *ngIf="voucherForm.get('image')?.errors?.['required']">Image is required.</small>
           </div>
         </div>
 

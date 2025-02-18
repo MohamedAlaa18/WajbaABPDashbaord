@@ -115,6 +115,8 @@ export class OrdersComponent implements OnInit {
 
   // Load all vouchers
   loadOrders(): void {
+    const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch'));
+
     const defaultInput: GetCouponsInput = {
       branchid: 1,
       sorting: '',
@@ -129,7 +131,7 @@ export class OrdersComponent implements OnInit {
       // maximumDiscount: this.filters.maximumDiscount ? +this.filters.maximumDiscount : undefined,
     };
 
-    this.posOrderService.getAllOrdersByBranchIdAndStartDateAndOrderidAndOrderTypeAndEndDateAndDateorderAndStatusAndFrompriceAndTopriceAndPageNumberAndPageSize(1).subscribe({
+    this.posOrderService.getAllOrdersByBranchIdAndStartDateAndOrderIdAndOrderTypeAndEndDateAndDateOrderAndStatusAndFromPriceAndToPrice(selectedBranch.id).subscribe({
       next: (response) => {
         console.log(response);
         this.orders = response.data.items;

@@ -68,8 +68,8 @@ export class OffersComponent implements OnInit {
     {
       label: 'Status', name: 'status', type: 'select',
       options: [
-        { label: 'Active', value: 'active' },
-        { label: 'Inactive', value: 'inactive' }
+        { label: 'Active', value: 1 },
+        { label: 'Inactive', value: 0 }
       ]
     },
   ];
@@ -79,7 +79,7 @@ export class OffersComponent implements OnInit {
     amount: '',
     startDate: '',
     endDate: '',
-    status: ''
+    status: null
   };
 
   constructor(
@@ -97,7 +97,7 @@ export class OffersComponent implements OnInit {
   loadOffers(): void {
     const input: GetOfferInput = {
       name: this.filters.name || undefined,
-      status: this.filters.status ? parseInt(this.filters.status) : undefined,
+      status: this.filters.status ? this.filters.status : undefined,
       startDate: this.filters.startDate || undefined,
       endDate: this.filters.endDate || undefined,
       sorting: '',
@@ -209,7 +209,7 @@ export class OffersComponent implements OnInit {
       amount: '',
       startDate: '',
       endDate: '',
-      status: ''
+      status: null
     };
     this.loadOffers();
   }

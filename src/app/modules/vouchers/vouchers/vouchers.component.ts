@@ -67,8 +67,8 @@ export class VouchersComponent implements OnInit {
     {
       label: 'Discount Type', name: 'discountType', type: 'select',
       options: [
-        { label: 'Percentage', value: 'percentage' },
-        { label: 'Fixed', value: 'fixed' }
+        { label: 'Percentage', value: 1 },
+        { label: 'Fixed', value: 0 }
       ]
     },
     { label: 'Start date', name: 'startDate', type: 'date' },
@@ -107,11 +107,11 @@ export class VouchersComponent implements OnInit {
       maxResultCount: 10,
       name: this.filters.name || '',
       code: this.filters.code || '',
-      discount: this.filters.discount ? +this.filters.discount : undefined,
-      discountype: this.filters.discountType ? +this.filters.discountType : undefined,
+      discount: this.filters.discount ? Number(this.filters.discount) : undefined,
+      discountype: this.filters.discountType ? Number(this.filters.discountType) : undefined,
       startdate: this.filters.startDate || '',
       enddate: this.filters.endDate || '',
-      maximumDiscount: this.filters.maximumDiscount ? +this.filters.maximumDiscount : undefined,
+      maximumDiscount: this.filters.maximumDiscount ? Number(this.filters.maximumDiscount) : undefined,
     };
 
     this.couponService.getList(defaultInput).subscribe({

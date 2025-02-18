@@ -8,7 +8,6 @@ import { GetUserListDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 // import { PosOrderService } from '@proxy/fos-api/controllers';
 // import { OrderDTO } from '@proxy/dtos/order-contract';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
-import { CookieService } from 'ngx-cookie-service';
 import { PosOrderService } from '@proxy/fos-api/controllers';
 
 
@@ -48,7 +47,6 @@ export class PosRightSideComponent implements OnInit {
     private branchService: BranchService,
     private datePipe: DatePipe,
     private afterActionService: AfterActionService,
-    private cookieService: CookieService
   ) {
     this.form = this.fb.group({
       customer: [null],
@@ -79,7 +77,7 @@ export class PosRightSideComponent implements OnInit {
     this.loadCustomers();
     this.updateValidators();
 
-    this.cart = { items: [], subTotal: 50, discountAmount: 10, serviceFee: 10, deliveryFee: 10, totalAmount: 60 };
+    this.cart = { items: [], subTotal: 0, discountAmount: 0, serviceFee: 0, deliveryFee: 0, totalAmount: 0 };
     // const cartData = localStorage.getItem('cart');
     // if (cartData) {
     //   this.cart.items = JSON.parse(cartData);
@@ -293,67 +291,41 @@ export class PosRightSideComponent implements OnInit {
   }
 
   applyVoucherCode(discountType: number, discountValue: number | null) {
+    // if (discountValue)
+    //   this.cartService.addVoucherByCode(discountType, discountValue).subscribe({
+    //     next: (response) => {
+    //       console.log("Voucher applied successfully:", response);
+    //       this.afterActionService.reloadCurrentRoute();
+    //     },
+    //     error: (error) => {
+    //       console.error("Error applying voucher code:", error);
+    //     }
+    //   });
   }
 
   onSubmit() {
     if (this.form.invalid) {
-      console.log('Form is invalid:', this.form);
       this.form.markAllAsTouched();
       return;
     }
 
     const { formattedDate, formattedTime, approximateTime } = this.getFormattedDateTime();
 
+    // Construct order data without the 'orderDto' wrapper
     const orderData: any = {
-      orderDto: {  // Wrap the order data in the "orderDto" field
-        status: 0,
-        ordertype: this.selectedTypeId,
-        paymentMethod: 0,
-        branchId: 1,
-        pickUpOrder: { time: formattedTime },
-        deliveryOrder: {
-          title: '',
-          longitude: 0,
-          latitude: 0,
-          approximateTime: approximateTime  // Ensure this is in the correct format
-        },
-        driveThruOrder: {
-          time: formattedTime,
-          date: formattedDate,
-          carColor: '',
-          carType: '',
-          carNumber: ''
-        },
-        dineInOrder: {
-          time: formattedTime,
-          numberOfPersons: 0,
-          date: formattedDate
-        },
-        posOrder: {
-          phoneNumber: '',
-          tokenNumber: ''
-        },
-        posDeliveryOrder: {
-          buildingName: '',
-          apartmentNumber: '',
-          floor: '',
-          street: '',
-          phoneNumber: '',
-          additionalDirection: '',
-          addressLabel: ''
-        },
-        ...this.getOrderDetails(formattedDate, formattedTime, approximateTime)
-      }
+      cartItemDto: this.cart.items,
+      status: 0,
+      ordertype: this.selectedTypeId,
+      paymentMethod: 0,
+      branchId: 1,
+      ...this.getOrderDetails(formattedDate, formattedTime, approximateTime)
     };
 
     console.log('Order Data:', orderData);
 
     this.posOrderService.addOrderByOrderDto(orderData).subscribe({
       next: (response) => {
-        if (!response.success) {
-          console.error('Error placing order:', response);
-        } else {
-          console.log('Order placed successfully:', response);
+        if (response.success) {
           this.handleOrderSuccess();
         }
       },
@@ -361,6 +333,47 @@ export class PosRightSideComponent implements OnInit {
         console.error('Error placing order:', error);
       }
     });
+  }
+
+  private getOrderDetails(formattedDate: string, formattedTime: string, approximateTime: string) {
+    const details = {
+      // For POS Order
+      posOrder: this.selectedTypeName === 'POS' ? {
+        phoneNumber: this.form.value.phoneNumber || '',
+        tokenNumber: this.form.value.tokenNo || '',
+      } : null,
+
+      // For Delivery Order
+      deliveryOrder: this.selectedTypeName === 'Delivery' ? {
+        title: this.form.value.addressLabel || 'Unknown',
+        longitude: 0, // Provide actual values if available
+        latitude: 0,
+        approximateTime
+      } : null,
+
+      // For Drive Thru
+      driveThruOrder: this.selectedTypeName === 'Drive thru' ? {
+        time: formattedTime,
+        date: formattedDate,
+        carColor: this.form.value.carColor || 'Unknown',
+        carType: this.form.value.carType || 'Unknown',
+        carNumber: this.form.value.carNumber || 'Unknown',
+      } : null,
+
+      // For Dine In
+      dineInOrder: this.selectedTypeName === 'Dine in' ? {
+        time: formattedTime,
+        numberOfPersons: this.form.value.persons || 1,
+        date: formattedDate,
+      } : null,
+
+      // For Pick Up
+      pickUpOrder: this.selectedTypeName === 'Pick up' ? {
+        time: formattedTime
+      } : null
+    };
+
+    return details;
   }
 
   /** Helper to format date & time */
@@ -375,65 +388,6 @@ export class PosRightSideComponent implements OnInit {
     const approximateTime = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss.SSSZ') || '';
 
     return { formattedDate, formattedTime, approximateTime };
-  }
-
-  /** Helper to get order details based on type */
-  private getOrderDetails(formattedDate: string, formattedTime: string, approximateTime: string) {
-    const details = {
-      pickUpOrder: { time: formattedTime },
-      deliveryOrder: {
-        title: this.form.value.addressLabel || 'Unknown',
-        longitude: this.form.value.longitude || 0,
-        latitude: this.form.value.latitude || 0,
-        approximateTime
-      },
-      driveThruOrder: {
-        time: formattedTime,
-        date: formattedDate,
-        carColor: this.form.value.carColor || 'Unknown',
-        carType: this.form.value.carType || 'Unknown',
-        carNumber: this.form.value.carNumber || 'Unknown',
-      },
-      dineInOrder: {
-        time: formattedTime,
-        numberOfPersons: this.form.value.persons || 1,
-        date: formattedDate,
-      },
-      posOrder: {
-        phoneNumber: this.form.value.phoneNumber || '',
-        tokenNumber: this.form.value.tokenNo || '',
-      },
-      posDeliveryOrder: {
-        buildingName: this.form.value.buildingName || '',
-        apartmentNumber: this.form.value.apartmentNumber || '',
-        floor: this.form.value.floor || '',
-        street: this.form.value.street || '',
-        phoneNumber: this.form.value.phoneNumber || '',
-        additionalDirection: this.form.value.additionalDirections || '',
-        addressLabel: this.form.value.addressLabel || '',
-      }
-    };
-
-    // Ensure the fields are only populated for the selected order type
-    if (this.selectedTypeName === 'Pick up') {
-      return { pickUpOrder: details.pickUpOrder };
-    }
-    if (this.selectedTypeName === 'Delivery') {
-      return { deliveryOrder: details.posDeliveryOrder };
-    }
-    if (this.selectedTypeName === 'Drive thru') {
-      return { driveThruOrder: details.driveThruOrder };
-    }
-    if (this.selectedTypeName === 'Dine in') {
-      return { dineInOrder: details.dineInOrder };
-    }
-    if (this.selectedTypeName === 'POS') {
-      return { posOrder: details.posOrder };
-    }
-    // if (this.selectedTypeName === 'Pick up') {
-    //   return { posDeliveryOrder: details.posDeliveryOrder };
-    // }
-    return {};
   }
 
   /** Handles order success - resets form & reloads UI */

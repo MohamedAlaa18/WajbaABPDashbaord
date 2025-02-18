@@ -34,7 +34,7 @@ export class AddDiningTablesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-console.log('Table:', this.table);
+    console.log('Table:', this.table);
     if (this.table) {
       this.populateForm(this.table);
     }
@@ -54,13 +54,31 @@ console.log('Table:', this.table);
   }
 
   submitForm() {
+    // Retrieve and parse the selectedBranch from localStorage
+    const selectedBranchString = localStorage.getItem('selectedBranch');
+    let selectedBranch = null;
+
+    if (selectedBranchString) {
+      try {
+        selectedBranch = JSON.parse(selectedBranchString); // Parse the string into an object
+      } catch (error) {
+        console.error('Error parsing selectedBranch:', error);
+      }
+    }
+
+    if (!selectedBranch || !selectedBranch.id) {
+      console.error('Selected branch is not available or invalid.');
+      return; // Exit early if no valid branch is found
+    }
+
     if (this.diningTableForm.valid) {
       // Declare the formValue outside the if-else block
       const formValue = this.diningTableForm.value;
 
+      // Construct the data object with the branchId included
       const data: CreateDineIntable | UpdateDinInTable = {
         ...formValue,
-        branchId: 2, // Include the full Base64ImageModel
+        branchId: selectedBranch.id, // Include the branchId
       };
 
       console.log(data);

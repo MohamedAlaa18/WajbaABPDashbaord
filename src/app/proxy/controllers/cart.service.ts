@@ -27,6 +27,18 @@ export class CartService {
       { apiName: this.apiName, ...config });
 
 
+  addVoucherByCode = (code: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'POST',
+      url: '/api/Cart/AddVoucher',
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
+      },
+      params: { code },
+    },
+      { apiName: this.apiName, ...config });
+
+
   getCart = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, ActionResult<ApiResponse<CartDto>>>({
       method: 'GET',

@@ -126,8 +126,9 @@ export class ItemAttributesComponent {
   deleteItemAttribute(id: number): void {
     this.itemAttributeService.delete(id).subscribe({
       next: () => {
-        // this.attributes = this.attributes.filter((attribute) => attribute.id !== id);
+        this.itemAttributes = this.itemAttributes.filter((attribute) => attribute.id !== id);
         this.modalService.dismissAll(); // Close all modals
+        this.afterActionService.reloadCurrentRoute();
       },
       error: (err) => {
         console.error('Error deleting item attribute:', err);

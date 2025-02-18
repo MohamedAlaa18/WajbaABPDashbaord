@@ -17,8 +17,8 @@ export interface CreateUserDto {
   fullName?: string;
   email?: string;
   phone?: string;
-  status: number;
-  type: number;
+  status?: number;
+  type?: number;
   profilePhoto?: string;
   points: number;
   password?: string;

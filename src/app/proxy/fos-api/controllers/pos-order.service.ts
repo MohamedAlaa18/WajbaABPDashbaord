@@ -1,7 +1,6 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { OrderDTO } from '../../dtos/order-contract/models';
-import type { OrderType } from '../../enums/order-type.enum';
 import type { IActionResult } from '../../microsoft/asp-net-core/mvc/models';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -24,7 +23,7 @@ export class PosOrderService {
       },
       body: orderDto,
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
 
   deleteOrderByOrderId = (orderId: number, config?: Partial<Rest.Config>) =>
@@ -35,19 +34,19 @@ export class PosOrderService {
         Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
       },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
 
-  getAllOrdersByBranchIdAndStartDateAndOrderidAndOrderTypeAndEndDateAndDateorderAndStatusAndFrompriceAndTopriceAndPageNumberAndPageSize = (branchId: number, startDate?: string, orderid?: number, orderType?: number, endDate?: string, dateorder?: string, status?: number, fromprice?: number, toprice?: number, pageNumber?: number, pageSize?: number, config?: Partial<Rest.Config>) =>
+  getAllOrdersByBranchIdAndStartDateAndOrderIdAndOrderTypeAndEndDateAndDateOrderAndStatusAndFromPriceAndToPrice = (branchId: number, startDate?: string, orderId?: number, orderType?: number, endDate?: string, dateOrder?: string, status?: number, fromPrice?: number, toPrice?: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: `/api/PosOrder/All-POS-Orders/${branchId}`,
       headers: {
         Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
       },
-      params: { startDate, orderid, orderType, endDate, dateorder, status, fromprice, toprice, pageNumber, pageSize },
+      params: { startDate, orderId, orderType, endDate, dateOrder, status, fromPrice, toPrice },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
 
   getAllOrdersForEmployee = (config?: Partial<Rest.Config>) =>
@@ -58,7 +57,7 @@ export class PosOrderService {
         Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
       },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
 
   getOrderByIdById = (id: number, config?: Partial<Rest.Config>) =>
@@ -69,7 +68,7 @@ export class PosOrderService {
         Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
       },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
-    constructor(private restService: RestService, private cookieService: CookieService) { }
+  constructor(private restService: RestService, private cookieService: CookieService) { }
 }

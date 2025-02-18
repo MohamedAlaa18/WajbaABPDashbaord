@@ -4,7 +4,7 @@ import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 export interface CreatePopularitem {
   itemId: number;
   model: Base64ImageModel;
-  preprice: number;
+  preprice?: number;
   currentprice: number;
   description?: string;
 }

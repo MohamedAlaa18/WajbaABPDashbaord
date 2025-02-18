@@ -49,6 +49,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/vouchers/vouchers.module').then(m => m.VouchersModule),
   },
   {
+    path: 'points',
+    loadChildren: () => import('./modules/points/points.module').then(m => m.PointsModule),
+  },
+  {
     path: 'push-notification',
     loadChildren: () => import('./modules/push-notification/push-notification.module').then(m => m.PushNotificationModule),
   },

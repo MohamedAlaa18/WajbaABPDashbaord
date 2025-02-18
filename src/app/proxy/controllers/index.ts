@@ -1,6 +1,7 @@
 export * from './branch.service';
 export * from './cart.service';
 export * from './category.service';
+export * from './chat.service';
 export * from './company.service';
 export * from './coupon.service';
 export * from './currencies.service';

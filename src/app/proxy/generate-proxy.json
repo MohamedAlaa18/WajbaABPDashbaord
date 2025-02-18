@@ -897,8 +897,8 @@
               "allowAnonymous": null,
               "implementFrom": "FosAPI.Controllers.PosOrderController"
             },
-            "GetAllOrdersByBranchIdAndStartDateAndOrderidAndOrderTypeAndEndDateAndDateorderAndStatusAndFrompriceAndTopriceAndPageNumberAndPageSize": {
-              "uniqueName": "GetAllOrdersByBranchIdAndStartDateAndOrderidAndOrderTypeAndEndDateAndDateorderAndStatusAndFrompriceAndTopriceAndPageNumberAndPageSize",
+            "GetAllOrdersByBranchIdAndStartDateAndOrderIdAndOrderTypeAndEndDateAndDateOrderAndStatusAndFromPriceAndToPrice": {
+              "uniqueName": "GetAllOrdersByBranchIdAndStartDateAndOrderIdAndOrderTypeAndEndDateAndDateOrderAndStatusAndFromPriceAndToPrice",
               "name": "GetAllOrders",
               "httpMethod": "GET",
               "url": "api/PosOrder/All-POS-Orders/{branchId}",
@@ -921,7 +921,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "orderid",
+                  "name": "orderId",
                   "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
                   "type": "System.Int32?",
                   "typeSimple": "number?",
@@ -930,9 +930,9 @@
                 },
                 {
                   "name": "orderType",
-                  "typeAsString": "System.Nullable`1[[Wajba.Enums.OrderType, Wajba.Domain.Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
-                  "type": "Wajba.Enums.OrderType?",
-                  "typeSimple": "enum?",
+                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
                   "isOptional": true,
                   "defaultValue": null
                 },
@@ -945,7 +945,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "dateorder",
+                  "name": "dateOrder",
                   "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
                   "type": "System.DateTime?",
                   "typeSimple": "string?",
@@ -961,7 +961,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "fromprice",
+                  "name": "fromPrice",
                   "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
                   "type": "System.Int32?",
                   "typeSimple": "number?",
@@ -969,23 +969,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "toprice",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "pageNumber",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "pageSize",
+                  "name": "toPrice",
                   "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
                   "type": "System.Int32?",
                   "typeSimple": "number?",
@@ -1019,8 +1003,8 @@
                   "descriptorName": ""
                 },
                 {
-                  "nameOnMethod": "orderid",
-                  "name": "orderid",
+                  "nameOnMethod": "orderId",
+                  "name": "orderId",
                   "jsonName": null,
                   "type": "System.Int32?",
                   "typeSimple": "number?",
@@ -1034,8 +1018,8 @@
                   "nameOnMethod": "orderType",
                   "name": "orderType",
                   "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
+                  "type": "System.Int32?",
+                  "typeSimple": "number?",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -1055,8 +1039,8 @@
                   "descriptorName": ""
                 },
                 {
-                  "nameOnMethod": "dateorder",
-                  "name": "dateorder",
+                  "nameOnMethod": "dateOrder",
+                  "name": "dateOrder",
                   "jsonName": null,
                   "type": "System.DateTime?",
                   "typeSimple": "string?",
@@ -1079,8 +1063,8 @@
                   "descriptorName": ""
                 },
                 {
-                  "nameOnMethod": "fromprice",
-                  "name": "fromprice",
+                  "nameOnMethod": "fromPrice",
+                  "name": "fromPrice",
                   "jsonName": null,
                   "type": "System.Int32?",
                   "typeSimple": "number?",
@@ -1091,32 +1075,8 @@
                   "descriptorName": ""
                 },
                 {
-                  "nameOnMethod": "toprice",
-                  "name": "toprice",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "pageNumber",
-                  "name": "pageNumber",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "pageSize",
-                  "name": "pageSize",
+                  "nameOnMethod": "toPrice",
+                  "name": "toPrice",
                   "jsonName": null,
                   "type": "System.Int32?",
                   "typeSimple": "number?",
@@ -1539,6 +1499,43 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.CartController"
+            },
+            "AddVoucherByCode": {
+              "uniqueName": "AddVoucherByCode",
+              "name": "AddVoucher",
+              "httpMethod": "POST",
+              "url": "api/Cart/AddVoucher",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "code",
+                  "typeAsString": "System.Decimal, System.Private.CoreLib",
+                  "type": "System.Decimal",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "code",
+                  "name": "code",
+                  "jsonName": null,
+                  "type": "System.Decimal",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.CartController"
             }
           }
         },
@@ -1822,6 +1819,128 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.CategoryController"
+            }
+          }
+        },
+        "Wajba.Controllers.ChatController": {
+          "controllerName": "Chat",
+          "controllerGroupName": null,
+          "isRemoteService": false,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Wajba.Controllers.ChatController",
+          "interfaces": [],
+          "actions": {
+            "GetByIdById": {
+              "uniqueName": "GetByIdById",
+              "name": "GetById",
+              "httpMethod": "GET",
+              "url": "api/Chat/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.ChatMessgesContract.ChatMessagesDto>>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.ChatMessgesContract.ChatMessagesDto>>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ChatController"
+            },
+            "MarkAsReadByMessageId": {
+              "uniqueName": "MarkAsReadByMessageId",
+              "name": "MarkAsRead",
+              "httpMethod": "POST",
+              "url": "api/Chat/messages/{messageId}/read",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "messageId",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "messageId",
+                  "name": "messageId",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.ChatMessgesContract.ChatMessagesDto>>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.ChatMessgesContract.ChatMessagesDto>>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ChatController"
+            },
+            "GetAllMessgesforuserByUserid": {
+              "uniqueName": "GetAllMessgesforuserByUserid",
+              "name": "GetAllMessgesforuser",
+              "httpMethod": "GET",
+              "url": "api/Chat",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "userid",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "userid",
+                  "name": "userid",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.ChatMessgesContract.ChatMessagesDto>>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Volo.Abp.Application.Dtos.PagedResultDto<Wajba.Dtos.ChatMessgesContract.ChatMessagesDto>>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ChatController"
             }
           }
         },
@@ -5433,6 +5552,43 @@
           "type": "Wajba.Controllers.NotificationSettingsController",
           "interfaces": [],
           "actions": {
+            "CreateByNotificationSettingsdto": {
+              "uniqueName": "CreateByNotificationSettingsdto",
+              "name": "Create",
+              "httpMethod": "POST",
+              "url": "api/NotificationSettings",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "notificationSettingsdto",
+                  "typeAsString": "Wajba.Dtos.NotificationsSettingsDtoes.CreateNotificationSettingsdto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.NotificationsSettingsDtoes.CreateNotificationSettingsdto",
+                  "typeSimple": "Wajba.Dtos.NotificationsSettingsDtoes.CreateNotificationSettingsdto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "notificationSettingsdto",
+                  "name": "notificationSettingsdto",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.NotificationsSettingsDtoes.CreateNotificationSettingsdto",
+                  "typeSimple": "Wajba.Dtos.NotificationsSettingsDtoes.CreateNotificationSettingsdto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.Dtos.NotificationsSettingsDtoes.NotificationSettingDto>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.Dtos.NotificationsSettingsDtoes.NotificationSettingDto>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.NotificationSettingsController"
+            },
             "GetAll": {
               "uniqueName": "GetAll",
               "name": "GetAll",
@@ -5457,9 +5613,9 @@
               "parametersOnMethod": [
                 {
                   "name": "settingsToUpdate",
-                  "typeAsString": "System.Collections.Generic.List`1[[Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings, Wajba.Application.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
-                  "type": "System.Collections.Generic.List<Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings>",
-                  "typeSimple": "[Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings]",
+                  "typeAsString": "Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings",
+                  "typeSimple": "Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -5469,8 +5625,8 @@
                   "nameOnMethod": "settingsToUpdate",
                   "name": "settingsToUpdate",
                   "jsonName": null,
-                  "type": "System.Collections.Generic.List<Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings>",
-                  "typeSimple": "[Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings]",
+                  "type": "Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings",
+                  "typeSimple": "Wajba.Dtos.NotificationsSettingsDtoes.UpdateNotificationSettings",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -14729,6 +14885,154 @@
         }
       ]
     },
+    "Volo.Abp.Domain.Entities.Auditing.AuditedEntity<T0>": {
+      "baseType": "Volo.Abp.Domain.Entities.Auditing.CreationAuditedEntity<TKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TKey"
+      ],
+      "properties": [
+        {
+          "name": "LastModificationTime",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LastModifierId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Volo.Abp.Domain.Entities.Auditing.CreationAuditedEntity<T0>": {
+      "baseType": "Volo.Abp.Domain.Entities.Entity<TKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TKey"
+      ],
+      "properties": [
+        {
+          "name": "CreationTime",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CreatorId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Volo.Abp.Domain.Entities.Auditing.FullAuditedEntity<T0>": {
+      "baseType": "Volo.Abp.Domain.Entities.Auditing.AuditedEntity<TKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TKey"
+      ],
+      "properties": [
+        {
+          "name": "IsDeleted",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeleterId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeletionTime",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Volo.Abp.Domain.Entities.Entity": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": []
+    },
+    "Volo.Abp.Domain.Entities.Entity<T0>": {
+      "baseType": "Volo.Abp.Domain.Entities.Entity",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TKey"
+      ],
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "TKey",
+          "typeSimple": "TKey",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Volo.Abp.FeatureManagement.FeatureDto": {
       "baseType": null,
       "isEnum": false,
@@ -18697,6 +19001,135 @@
         }
       ]
     },
+    "Wajba.Dtos.ChatMessgesContract.ChatMessagesDto": {
+      "baseType": "Volo.Abp.Application.Dtos.FullAuditedEntityDto<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "SenderRole",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ReceiverRole",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Message",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Timestamp",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsRead",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ReadAt",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "SenderId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "WajbaUserSender",
+          "jsonName": null,
+          "type": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "typeSimple": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ReceiverId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "WajbaUserReiver",
+          "jsonName": null,
+          "type": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "typeSimple": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.CompanyContact.CompanyDto": {
       "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Int32>",
       "isEnum": false,
@@ -22013,6 +22446,63 @@
         }
       ]
     },
+    "Wajba.Dtos.NotificationsSettingsDtoes.CreateNotificationSettingsdto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "EventName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "EventDescription",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "NotificationType",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsEnabled",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.NotificationsSettingsDtoes.NotificationSettingDto": {
       "baseType": null,
       "isEnum": false,
@@ -22554,7 +23044,7 @@
         {
           "name": "Time",
           "jsonName": null,
-          "type": "System.String",
+          "type": "System.DateTime",
           "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
@@ -22578,7 +23068,7 @@
         {
           "name": "Date",
           "jsonName": null,
-          "type": "System.String",
+          "type": "System.DateTime",
           "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
@@ -22599,7 +23089,7 @@
         {
           "name": "Time",
           "jsonName": null,
-          "type": "System.String",
+          "type": "System.DateTime",
           "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
@@ -22611,7 +23101,7 @@
         {
           "name": "Date",
           "jsonName": null,
-          "type": "System.String",
+          "type": "System.DateTime",
           "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
@@ -22659,7 +23149,7 @@
       ]
     },
     "Wajba.Dtos.OrderContract.OrderDTO": {
-      "baseType": "Volo.Abp.Application.Dtos.FullAuditedEntityDto<System.Int32>",
+      "baseType": "Volo.Abp.Domain.Entities.Auditing.FullAuditedEntity<System.Int32>",
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
@@ -22692,8 +23182,8 @@
         {
           "name": "paymentMethod",
           "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
+          "type": "Wajba.Enums.PaymentMethod",
+          "typeSimple": "enum",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -22797,8 +23287,20 @@
         {
           "name": "Time",
           "jsonName": null,
-          "type": "System.String",
+          "type": "System.DateTime",
           "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BranchId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -23337,8 +23839,8 @@
         {
           "name": "preprice",
           "jsonName": null,
-          "type": "System.Decimal",
-          "typeSimple": "number",
+          "type": "System.Decimal?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -24957,8 +25459,8 @@
         {
           "name": "status",
           "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -24969,8 +25471,8 @@
         {
           "name": "Type",
           "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -25412,6 +25914,34 @@
         }
       ]
     },
+    "Wajba.Enums.DiscountType": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "Fixed",
+        "Percentage"
+      ],
+      "enumValues": [
+        0,
+        1
+      ],
+      "genericArguments": null,
+      "properties": null
+    },
+    "Wajba.Enums.GenderType": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "Male",
+        "Female"
+      ],
+      "enumValues": [
+        1,
+        2
+      ],
+      "genericArguments": null,
+      "properties": null
+    },
     "Wajba.Enums.OrderType": {
       "baseType": "System.Enum",
       "isEnum": true,
@@ -25433,6 +25963,603 @@
       ],
       "genericArguments": null,
       "properties": null
+    },
+    "Wajba.Enums.PaymentMethod": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "CashOnDelivery",
+        "CreditCard",
+        "PayPal"
+      ],
+      "enumValues": [
+        1,
+        2,
+        3
+      ],
+      "genericArguments": null,
+      "properties": null
+    },
+    "Wajba.Enums.Status": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "InActive",
+        "Active"
+      ],
+      "enumValues": [
+        1,
+        2
+      ],
+      "genericArguments": null,
+      "properties": null
+    },
+    "Wajba.Enums.UserTypes": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "Admin",
+        "Employee",
+        "Deliveryboy",
+        "Customer"
+      ],
+      "enumValues": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "genericArguments": null,
+      "properties": null
+    },
+    "Wajba.Models.ChatMessgesDomains.ChatMessage": {
+      "baseType": "Volo.Abp.Domain.Entities.Auditing.FullAuditedEntity<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "SenderRole",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ReceiverRole",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Message",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Timestamp",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsRead",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ReadAt",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "SenderId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "WajbaUserSender",
+          "jsonName": null,
+          "type": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "typeSimple": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ReceiverId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "WajbaUserReiver",
+          "jsonName": null,
+          "type": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "typeSimple": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Models.CouponsDomain.Coupon": {
+      "baseType": "Volo.Abp.Domain.Entities.Auditing.FullAuditedEntity<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Code",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Discount",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DiscountType",
+          "jsonName": null,
+          "type": "Wajba.Enums.DiscountType",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "StartDate",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "EndDate",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MinimumOrderAmount",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MaximumDiscount",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LimitPerUser",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CountOfUsers",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ImageUrl",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsExpired",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Models.WajbaUserDomain.WajbaUser": {
+      "baseType": "Volo.Abp.Domain.Entities.Auditing.FullAuditedEntity<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "FullName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Email",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Phone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "status",
+          "jsonName": null,
+          "type": "Wajba.Enums.Status?",
+          "typeSimple": "enum?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Type",
+          "jsonName": null,
+          "type": "Wajba.Enums.UserTypes?",
+          "typeSimple": "enum?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "GenderType",
+          "jsonName": null,
+          "type": "Wajba.Enums.GenderType?",
+          "typeSimple": "enum?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ProfilePhoto",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Password",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CustomerRole",
+          "jsonName": null,
+          "type": "System.Int32?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "WajbaUserRoles",
+          "jsonName": null,
+          "type": "[Wajba.Models.WajbaUserRoleDomain.WajbaUserRoles]",
+          "typeSimple": "[Wajba.Models.WajbaUserRoleDomain.WajbaUserRoles]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Coupons",
+          "jsonName": null,
+          "type": "[Wajba.Models.CouponsDomain.Coupon]",
+          "typeSimple": "[Wajba.Models.CouponsDomain.Coupon]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ChatMessagesSender",
+          "jsonName": null,
+          "type": "[Wajba.Models.ChatMessgesDomains.ChatMessage]",
+          "typeSimple": "[Wajba.Models.ChatMessgesDomains.ChatMessage]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ChatMessagesReciver",
+          "jsonName": null,
+          "type": "[Wajba.Models.ChatMessgesDomains.ChatMessage]",
+          "typeSimple": "[Wajba.Models.ChatMessgesDomains.ChatMessage]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Models.WajbaUserRoleDomain.UserRole": {
+      "baseType": "Volo.Abp.Domain.Entities.Auditing.FullAuditedEntity<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "RoleName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserRoles",
+          "jsonName": null,
+          "type": "[Wajba.Models.WajbaUserDomain.WajbaUser]",
+          "typeSimple": "[Wajba.Models.WajbaUserDomain.WajbaUser]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Models.WajbaUserRoleDomain.WajbaUserRoles": {
+      "baseType": "Volo.Abp.Domain.Entities.Auditing.FullAuditedEntity<System.Int32>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "WajbaUserId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "WajbaUser",
+          "jsonName": null,
+          "type": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "typeSimple": "Wajba.Models.WajbaUserDomain.WajbaUser",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "RoleId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserRole",
+          "jsonName": null,
+          "type": "Wajba.Models.WajbaUserRoleDomain.UserRole",
+          "typeSimple": "Wajba.Models.WajbaUserRoleDomain.UserRole",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
     }
   }
 }

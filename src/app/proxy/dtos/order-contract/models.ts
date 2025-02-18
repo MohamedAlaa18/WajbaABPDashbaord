@@ -1,4 +1,5 @@
-import type { FullAuditedEntityDto } from '@abp/ng.core';
+// import type { FullAuditedEntity } from '../../volo/abp/domain/entities/auditing/models';
+import type { PaymentMethod } from '../../enums/payment-method.enum';
 
 export interface DeliveryOrderDTO {
   title?: string;
@@ -21,7 +22,7 @@ export interface DriveThruOrderDTO {
   carNumber?: string;
 }
 
-export interface OrderDTO extends FullAuditedEntityDto<number> {
+export interface OrderDTO {
   status: number;
   ordertype: number;
   paymentMethod: number;
@@ -36,6 +37,7 @@ export interface OrderDTO extends FullAuditedEntityDto<number> {
 
 export interface PickUpOrderDTO {
   time?: string;
+  branchId: number;
 }
 
 export interface PosDeliveryOrderDTO {

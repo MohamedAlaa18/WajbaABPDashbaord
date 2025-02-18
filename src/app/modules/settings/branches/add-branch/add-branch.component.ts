@@ -90,6 +90,8 @@ export class AddBranchComponent {
             response => {
               // Handle successful response
               console.log('Branch updated successfully:', response);
+              this.afterActionService.reloadCurrentRoute();
+              this.closeModal();
             },
             error => {
               // Handle error response
@@ -103,6 +105,8 @@ export class AddBranchComponent {
             response => {
               // Handle successful response
               console.log('Branch created successfully:', response);
+              this.afterActionService.reloadCurrentRoute();
+              this.closeModal();
             },
             error => {
               // Handle error response

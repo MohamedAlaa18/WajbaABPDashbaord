@@ -1,0 +1,64 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header border-bottom">
+      <h5 class="section-title text-black">Item Points</h5>
+      <button type="button" class="border-0 bg-white" aria-label="Close" (click)="closeModal()">
+        <app-icons iconName="close" color="#F45859"></app-icons>
+      </button>
+    </div>
+
+    <form [formGroup]="pointsForm" (ngSubmit)="submitForm()" class="p-3">
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label for="item" class="form-label">Item <span class="text-danger">*</span></label>
+          <select id="item" formControlName="item" class="form-select bg-white">
+            <option value="" disabled>--</option>
+            <option *ngFor="let item of items" [value]="item.id">{{item.name}}</option>
+          </select>
+          <div
+            *ngIf="pointsForm.get('item')?.invalid && (pointsForm.get('item')?.touched || pointsForm.get('item')?.dirty)"
+            class="text-danger">
+            <ng-container *ngIf="pointsForm.get('item')?.errors?.['required']">Item is
+              required.</ng-container>
+          </div>
+        </div>
+
+        <div class="mb-3 col-md-6">
+          <label for="QuantityOfPoints" class="form-label">Quantity of points <span class="text-danger">*</span></label>
+          <input type="number" id="QuantityOfPoints" formControlName="QuantityOfPoints" class="form-control bg-white" />
+          <div
+            *ngIf="pointsForm.get('QuantityOfPoints')?.invalid && (pointsForm.get('QuantityOfPoints')?.touched || pointsForm.get('QuantityOfPoints')?.dirty)"
+            class="text-danger">
+            <ng-container *ngIf="offerForm.get('QuantityOfPoints')?.errors?.['required']">Quantity of points is
+              required.</ng-container>
+            <ng-container *ngIf="offerForm.get('QuantityOfPoints')?.errors?.['min']">Quantity of points must be a
+              positive
+              number.</ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label>Status <span class="text-danger">*</span></label>
+          <div class="d-flex align-items-center gap-2">
+            <label class="btn radio-label">
+              <input type="radio" formControlName="status" [value]="1" class="d-none"> Active
+            </label>
+            <label class="btn radio-label">
+              <input type="radio" formControlName="status" [value]="0" class="d-none"> Inactive
+            </label>
+          </div>
+          <div *ngIf="pointsForm.get('status')?.touched && pointsForm.get('status')?.invalid" class="text-danger">
+            <small>Status is required.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-start">
+        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

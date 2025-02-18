@@ -9,6 +9,8 @@ import { ThemeComponent } from './theme/theme.component';
 import { TimeSlotsComponent } from './time-slots/time-slots.component';
 import { FAQsComponent } from './faqs/faqs.component';
 import { NotificationAlertComponent } from './notification-alert/notification-alert.component';
+import { EmailComponent } from './email/email.component';
+import { RewardsComponent } from './rewards/rewards.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'company', pathMatch: 'full' },
@@ -18,8 +20,9 @@ const routes: Routes = [
     path: 'branches',
     loadChildren: () => import('./branches/branches.module').then(m => m.BranchesModule),
   },
-  // { path: 'email', component: EmailComponent },
+  { path: 'email', component: EmailComponent },
   { path: 'orderSetup', component: OrderSetupComponent },
+  { path: 'rewards-and-vouchers', component: RewardsComponent },
   { path: 'otp', component: OTPComponent },
   { path: 'notification', component: NotificationComponent },
   { path: 'notification-alert', component: NotificationAlertComponent },

@@ -15,7 +15,7 @@
           [name]="field.name" class="form-control bg-white" />
         <select *ngSwitchCase="'select'" [id]="field.name" [(ngModel)]="filters[field.name]" [name]="field.name"
           class="form-control bg-white">
-          <option disabled [value]="''">--</option>
+          <option disabled [value]="'' || null || 'null'">--</option>
           <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
         </select>
       </ng-container>

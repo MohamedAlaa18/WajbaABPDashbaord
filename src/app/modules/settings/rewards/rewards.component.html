@@ -1,0 +1,157 @@
+<div class="d-flex items-center gap-2">
+  <app-settings-sidebar></app-settings-sidebar>
+
+  <section class="bg-white p-4 flex-grow-1 mb-3">
+    <div class="border-bottom mb-3 pb-2">
+      <span class="section-title text-black">Rewards</span>
+    </div>
+
+    <!-- Order Form -->
+    <form [formGroup]="rewardsForm" (ngSubmit)="onSubmit()">
+      <!-- Points Section -->
+      <div class="border mb-3 px-4 py-4 mt-5">
+        <div class="row position-relative">
+          <div class="section-label border d-flex justify-content-center align-items-center bg-white mb-3 mx-3">
+            <span class="font-weight-bold h5 py-2 px-4 m-0 text-danger" style="white-space: pre;">Points</span>
+          </div>
+
+          <!-- How much QAR -->
+          <div class="col-md-6">
+            <div class="mb-4">
+              <label for="qarAmount" class="form-label">How much QAR <span class="text-danger">*</span></label>
+              <input type="number" id="qarAmount" formControlName="qarAmount" class="form-control bg-white" required />
+              <div *ngIf="rewardsForm.get('qarAmount')?.invalid &&
+                          (rewardsForm.get('qarAmount')?.touched || rewardsForm.get('qarAmount')?.dirty)"
+                class="text-danger">
+                <small *ngIf="rewardsForm.get('qarAmount')?.errors?.['required']">
+                  How much QAR is required.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Equals Sign -->
+          <div class="mb-4 mb-md-2 col-md-1 d-flex align-items-center justify-content-center">
+            <span class="h4 font-weight-bold text-black mb-0">=</span>
+          </div>
+
+          <!-- Number of points -->
+          <div class="col-md-5">
+            <div class="mb-4">
+              <label for="pointsNumber" class="form-label">Number of points <span class="text-danger">*</span></label>
+              <input type="number" id="pointsNumber" formControlName="pointsNumber" class="form-control bg-white"
+                required />
+              <div *ngIf="rewardsForm.get('pointsNumber')?.invalid &&
+                          (rewardsForm.get('pointsNumber')?.touched || rewardsForm.get('pointsNumber')?.dirty)"
+                class="text-danger">
+                <small *ngIf="rewardsForm.get('pointsNumber')?.errors?.['required']">
+                  Number of points is required.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Points valid time -->
+          <div class="col-md-6">
+            <div class="mb-4">
+              <label for="pointsValidTime" class="form-label">Points valid time <span
+                  class="text-danger">*</span></label>
+              <input type="number" id="pointsValidTime" formControlName="pointsValidTime" class="form-control bg-white"
+                required />
+              <div *ngIf="rewardsForm.get('pointsValidTime')?.invalid &&
+                          (rewardsForm.get('pointsValidTime')?.touched || rewardsForm.get('pointsValidTime')?.dirty)"
+                class="text-danger">
+                <small *ngIf="rewardsForm.get('pointsValidTime')?.errors?.['required']">
+                  Points valid time is required.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Points Reward -->
+          <div class="col-md-6">
+            <div class="mb-4">
+              <label class="form-label">Points Reward</label>
+              <div class="d-flex align-items-center gap-2">
+                <label class="btn radio-label">
+                  <input type="radio" formControlName="pointsRewardEnabled" [value]="true" class="d-none">
+                  Enable
+                </label>
+                <label class="btn radio-label">
+                  <input type="radio" formControlName="pointsRewardEnabled" [value]="false" class="d-none">
+                  Disable
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Refer a Friend Section -->
+      <div class="border mb-3 px-4 py-4 mt-5">
+        <div class="row position-relative">
+          <div class="section-label border d-flex justify-content-center align-items-center bg-white mb-3 mx-3">
+            <span class="font-weight-bold h5 py-2 px-4 m-0 text-danger" style="white-space: pre;">Refer a friend</span>
+          </div>
+
+          <!-- Refer a friend amount -->
+          <div class="col-md-6">
+            <div class="mb-4">
+              <label for="referralAmount" class="form-label">Refer a friend amount <span
+                  class="text-danger">*</span></label>
+              <input type="number" id="referralAmount" formControlName="referralAmount" class="form-control bg-white"
+                required />
+              <div *ngIf="rewardsForm.get('referralAmount')?.invalid &&
+                          (rewardsForm.get('referralAmount')?.touched || rewardsForm.get('referralAmount')?.dirty)"
+                class="text-danger">
+                <small *ngIf="rewardsForm.get('referralAmount')?.errors?.['required']">
+                  Refer a friend amount is required.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Amount valid time -->
+          <div class="col-md-6">
+            <div class="mb-4">
+              <label for="referralValidTime" class="form-label">Amount valid time <span class="text-danger">(Per
+                  Month)</span></label>
+              <input type="number" id="referralValidTime" formControlName="referralValidTime"
+                class="form-control bg-white" required />
+              <div
+                *ngIf="rewardsForm.get('referralValidTime')?.invalid &&
+                          (rewardsForm.get('referralValidTime')?.touched || rewardsForm.get('referralValidTime')?.dirty)"
+                class="text-danger">
+                <small *ngIf="rewardsForm.get('referralValidTime')?.errors?.['required']">
+                  Amount valid time is required.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Refer a friend toggle -->
+          <div class="col-md-6">
+            <div class="mb-4">
+              <label class="form-label">Refer a friend</label>
+              <div class="d-flex align-items-center gap-2">
+                <label class="btn radio-label">
+                  <input type="radio" formControlName="referralEnabled" [value]="true" class="d-none">
+                  Enable
+                </label>
+                <label class="btn radio-label">
+                  <input type="radio" formControlName="referralEnabled" [value]="false" class="d-none">
+                  Disable
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <div class="d-flex gap-4 mt-4">
+        <button type="submit" class="btn btn-danger w-25">Save</button>
+      </div>
+    </form>
+  </section>
+</div>

@@ -32,7 +32,7 @@ export class DiningTablesComponent implements OnInit {
   columns = [
     { field: 'name', header: 'Name' },
     { field: 'size', header: 'size' },
-    { field: 'status', header: 'status' },
+    { field: 'status', header: 'Status' },
   ];
 
   tableData: { name: string; size: number; status: string }[] = [];

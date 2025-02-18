@@ -31,6 +31,7 @@ export class SideBarComponent implements OnInit {
     { type: 'header', name: 'Promo' },
     { type: 'link', name: 'Vouchers', iconName: 'vouchers', path: '/vouchers' },
     { type: 'link', name: 'Offers', iconName: 'offers', path: '/offers' },
+    { type: 'link', name: 'Points', iconName: 'points', path: '/points' },
     { type: 'link', name: 'Refer a friend', iconName: 'ReferAFriend', path: '/refer-a-friend' },
     { type: 'header', name: 'Kitchen' },
     { type: 'link', name: 'Kitchen', iconName: 'kitchen', path: '/kitchen' },

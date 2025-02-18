@@ -1,6 +1,7 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import { IActionResult } from '@proxy/microsoft/asp-net-core/mvc';
+import type { OrderType } from '../enums/order-type.enum';
+import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
@@ -22,7 +23,7 @@ export class OrderService {
       },
       params: { branchId, pageSize, pageNumber },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
 
   getDailySalesByBranchidAndNumberOfDays = (branchid: number, numberOfDays: number, config?: Partial<Rest.Config>) =>
@@ -34,10 +35,10 @@ export class OrderService {
       },
       params: { branchid, numberOfDays },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
 
-  salesReportByBranchIdAndStartDateAndEndDateAndDateorderAndStatusAndOrdertypeAndOrderIdAndFrompriceAndTopriceAndPaidstatusAndPageNumberAndPageSize = (branchId: number, startDate?: string, endDate?: string, dateorder?: string, status?: number, ordertype?: number, orderId?: number, fromprice?: number, toprice?: number, paidstatus?: string, pageNumber?: number, pageSize?: number, config?: Partial<Rest.Config>) =>
+  salesReportByBranchIdAndStartDateAndEndDateAndDateorderAndStatusAndOrdertypeAndOrderIdAndFrompriceAndTopriceAndPaidstatusAndPageNumberAndPageSize = (branchId: number, startDate?: string, endDate?: string, dateorder?: string, status?: number, ordertype?: Number, orderId?: number, fromprice?: number, toprice?: number, paidstatus?: string, pageNumber?: number, pageSize?: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/Order/SalesReport',
@@ -46,7 +47,7 @@ export class OrderService {
       },
       params: { branchId, startDate, endDate, dateorder, status, ordertype, orderId, fromprice, toprice, paidstatus, pageNumber, pageSize },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
 
   updateOrderStatusByOrderIdAndStatus = (orderId: number, status: string, config?: Partial<Rest.Config>) =>
@@ -58,7 +59,7 @@ export class OrderService {
       },
       params: { orderId, status },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
-    constructor(private restService: RestService, private cookieService: CookieService) { }
+  constructor(private restService: RestService, private cookieService: CookieService) { }
 }

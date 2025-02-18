@@ -1,0 +1,36 @@
+@import '../../../../assets/styles/main';
+@include radio-label(#F458591F, var(--red-color), #CCCCCC4D, transparent);
+
+section {
+  height: fit-content;
+}
+
+button {
+  @include submit-button(var(--red-color));
+}
+
+.h5 {
+  font-size: 20px;
+}
+
+.text-danger,
+.invalid-feedback {
+  color: var(--red-color) !important;
+}
+
+input {
+  border: 1px solid #CCCCCC4D !important;
+  height: 40px;
+}
+
+textarea {
+  height: 70px;
+}
+
+select {
+  outline: none !important;
+}
+
+select.form-select option:checked {
+  background-color: var(--red-color) !important;
+}

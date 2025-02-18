@@ -1,6 +1,7 @@
 import * as BranchContract from './branch-contract';
 import * as CartContract from './cart-contract';
 import * as Categories from './categories';
+import * as ChatMessgesContract from './chat-messges-contract';
 import * as CompanyContact from './company-contact';
 import * as CouponContract from './coupon-contract';
 import * as CurrenciesContract from './currencies-contract';
@@ -29,4 +30,4 @@ import * as UserAddressContract from './user-address-contract';
 import * as UserDto from './user-dto';
 import * as WajbaUserBranchContract from './wajba-user-branch-contract';
 import * as WajbaUsersContract from './wajba-users-contract';
-export { BranchContract, CartContract, Categories, CompanyContact, CouponContract, CurrenciesContract, DineInTableContract, FaqsContract, ItemAddonContract, ItemAttributes, ItemExtraContract, ItemTaxContract, ItemVariationContract, ItemsDtos, Languages, NotificationContract, NotificationsSettingsDtoes, OffersContract, OrderContract, OrderSetupContract, Otpcontract, PopularItemstoday, PushNotificationContract, RoleContract, SitesContact, ThemesContract, TimeSlotsContract, UserAddressContract, UserDto, WajbaUserBranchContract, WajbaUsersContract };
+export { BranchContract, CartContract, Categories, ChatMessgesContract, CompanyContact, CouponContract, CurrenciesContract, DineInTableContract, FaqsContract, ItemAddonContract, ItemAttributes, ItemExtraContract, ItemTaxContract, ItemVariationContract, ItemsDtos, Languages, NotificationContract, NotificationsSettingsDtoes, OffersContract, OrderContract, OrderSetupContract, Otpcontract, PopularItemstoday, PushNotificationContract, RoleContract, SitesContact, ThemesContract, TimeSlotsContract, UserAddressContract, UserDto, WajbaUserBranchContract, WajbaUsersContract };

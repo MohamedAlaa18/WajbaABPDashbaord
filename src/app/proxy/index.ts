@@ -4,5 +4,7 @@ import * as Dtos from './dtos';
 import * as Enums from './enums';
 import * as FosApi from './fos-api';
 import * as Microsoft from './microsoft';
+import * as Models from './models';
 import * as UserAddressService from './user-address-service';
-export { Apiresponse, Controllers, Dtos, Enums, FosApi, Microsoft, UserAddressService };
+import * as Volo from './volo';
+export { Apiresponse, Controllers, Dtos, Enums, FosApi, Microsoft, Models, UserAddressService, Volo };

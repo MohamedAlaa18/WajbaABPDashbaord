@@ -21,6 +21,7 @@ export class SettingsSidebarComponent {
     { type: 'link', name: 'Branches', iconName: 'branches', href: 'branches' },
     { type: 'link', name: 'Email', iconName: 'email', href: 'email' },
     { type: 'link', name: 'Order Setup', iconName: 'orderSetup', href: 'orderSetup' },
+    { type: 'link', name: 'Rewards & Vouchers', iconName: 'rewards', href: 'rewards-and-vouchers' },
     { type: 'link', name: 'OTP', iconName: 'OTP', href: 'otp' },
     { type: 'link', name: 'Notification', iconName: 'notification_2', href: 'notification' },
     { type: 'link', name: 'Notification Alert', iconName: 'notificationAlert', href: 'notification-alert' },

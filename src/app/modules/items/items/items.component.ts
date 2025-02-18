@@ -133,6 +133,8 @@ export class ItemsComponent implements OnInit {
 
   // Load all items
   loadItems(): void {
+    const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch'));
+
     const input: GetItemInput = {
       sorting: '',
       skipCount: (this.currentPage - 1) * 10,
@@ -144,7 +146,7 @@ export class ItemsComponent implements OnInit {
       status: this.filters.status ? Number(this.filters.status) : undefined,
       minPrice: this.filters.price ? Number(this.filters.price) : undefined,
       maxPrice: this.filters.price ? Number(this.filters.price) : undefined,
-      branchId: undefined, // Add branch ID if needed
+      branchId: selectedBranch.id, // Add branch ID if needed
       itemId: undefined, // Add specific item ID if needed
     };
 

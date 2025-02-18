@@ -83,6 +83,7 @@ export class NotificationComponent implements OnInit {
       if (validTypes.includes(file.type)) {
         this.imageFile = file;
         this.imageFileError = null;
+        this.notificationForm.patchValue({ imageUrl: file });
       } else {
         this.imageFileError = 'Invalid file type. Please select a JPEG, PNG, or GIF image.';
         this.imageFile = null;

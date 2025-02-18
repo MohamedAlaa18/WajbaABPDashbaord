@@ -63,7 +63,7 @@ export class NotificationAlertComponent implements OnInit {
     event.isEnabled = !event.isEnabled;
     this.notificationForms[this.selectedNotificationType].get(event.eventName)?.setValue(event.isEnabled);
 
-    const updatedSettings = [{ id: event.id, isEnable: event.isEnabled }];
+    const updatedSettings = { id: event.id, isEnable: event.isEnabled };
 
     this.notificationSettingsService.updateNotificationSettingsBySettingsToUpdate(updatedSettings).subscribe(
       (response) => {
