@@ -21,3 +21,14 @@
   // height: 178px;
   width: 135px;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: url(../../../../assets/images/calendar.svg) no-repeat;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  // color: rgba(0, 0, 0, 0);
+  // opacity: 1;
+  // display: block;
+  // border-width: thin;
+}

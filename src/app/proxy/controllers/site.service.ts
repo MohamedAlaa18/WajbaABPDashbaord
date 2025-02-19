@@ -1,6 +1,6 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { CreateSiteDto, GetSiteInput, UpdateSiteDto } from '../dtos/sites-contact/models';
+import type { CreateSiteDto } from '../dtos/sites-contact/models';
 import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -27,25 +27,15 @@ export class SiteService {
     { apiName: this.apiName,...config });
   
 
-  getAll = (input: GetSiteInput, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
-      method: 'GET',
-      url: '/api/Site/all',
-      params: { filter: input.filter, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
-    },
-    { apiName: this.apiName,...config });
-  
-
-  getById = (id: number, config?: Partial<Rest.Config>) =>
+  getById = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/Site',
-      params: { id },
     },
     { apiName: this.apiName,...config });
   
 
-  update = (input: UpdateSiteDto, config?: Partial<Rest.Config>) =>
+  update = (input: CreateSiteDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Site',

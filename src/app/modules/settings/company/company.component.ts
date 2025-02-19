@@ -43,7 +43,7 @@ export class CompanyComponent implements OnInit {
   }
 
   loadCompanyData() {
-    this.companyService.getById(1).subscribe({
+    this.companyService.getById().subscribe({
       next: (response) => {
         console.log(response);
         this.companyForm.patchValue(response.data);
@@ -58,7 +58,7 @@ export class CompanyComponent implements OnInit {
     if (this.companyForm.valid) {
       // Manually construct the DTO to ensure correct formatting
       const input: UpdateCompanyDto = {
-        id: this.companyForm.value.id,
+        // id: this.companyForm.value.id,
         name: this.companyForm.value.name.trim(),
         email: this.companyForm.value.email.trim(),
         phone: this.companyForm.value.phone.trim(),

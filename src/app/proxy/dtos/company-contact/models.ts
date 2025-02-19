@@ -13,15 +13,15 @@ export interface CompanyDto extends EntityDto<number> {
 }
 
 export interface CreateComanyDto {
-  name: string;
-  email: string;
-  phone: string;
-  websiteURL: string;
-  city: string;
-  state: string;
-  countryCode: string;
-  zipCode: string;
-  address: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  websiteURL?: string;
+  city?: string;
+  state?: string;
+  countryCode?: string;
+  zipCode?: string;
+  address?: string;
 }
 
 export interface GetComanyInput extends PagedAndSortedResultRequestDto {
@@ -29,5 +29,4 @@ export interface GetComanyInput extends PagedAndSortedResultRequestDto {
 }
 
 export interface UpdateCompanyDto extends CreateComanyDto {
-  id: number;
 }

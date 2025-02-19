@@ -4,6 +4,9 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { LinesChartComponent } from "../lines-chart/lines-chart.component";
 import { CirclesChartComponent } from "../circles-chart/circles-chart.component";
 import { WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
+import { GetItemInput, ItemDto } from '@proxy/dtos/items-dtos';
+import { ItemService, PopularItemsService } from '@proxy/controllers';
+import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +17,56 @@ import { WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 })
 export class DashboardComponent implements OnInit {
   user: WajbaUserDto;
+  featuredItems: ItemDto[] = [
+    {
+      name: 'Cheese Burger',
+      categoryName: 'Burger',
+      price: 5,
+      imageUrl: 'assets/images/burger-with-bg-black.jpg',
+      id: 0,
+      status: 0,
+      isFeatured: false,
+      categoryId: 0,
+      itemType: 0,
+      isDeleted: false,
+      branchesIds: [],
+      itemAddons: [],
+      itemExtras: [],
+      itemVariations: []
+    },
+    {
+      name: 'Cheese Burger',
+      categoryName: 'Burger',
+      price: 7.50,
+      imageUrl: 'assets/images/burger-with-bg-black.jpg',
+      id: 1,
+      status: 0,
+      isFeatured: false,
+      categoryId: 0,
+      itemType: 0,
+      isDeleted: false,
+      branchesIds: [],
+      itemAddons: [],
+      itemExtras: [],
+      itemVariations: []
+    },
+    {
+      name: 'Chicken Wrap',
+      categoryName: 'Wrap',
+      price: 4,
+      imageUrl: 'assets/images/burger-with-bg-black.jpg',
+      id: 2,
+      status: 0,
+      isFeatured: false,
+      categoryId: 0,
+      itemType: 0,
+      isDeleted: false,
+      branchesIds: [],
+      itemAddons: [],
+      itemExtras: [],
+      itemVariations: []
+    }
+  ];
 
   dashboardOverviewCards = [
     {
@@ -101,46 +154,72 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  featuredItems = [
-    {
-      name: 'Cheese Burger',
-      category: 'Burger',
-      price: 'QAR 5.00',
-      imageUrl: 'assets/images/burger-with-bg-black.jpg'
-    },
-    {
-      name: 'Cheese Burger',
-      category: 'Burger',
-      price: 'QAR 7.50',
-      imageUrl: 'assets/images/burger-with-bg-black.jpg'
-    },
-    {
-      name: 'Chicken Wrap',
-      category: 'Wrap',
-      price: 'QAR 4.00',
-      imageUrl: 'assets/images/burger-with-bg-black.jpg'
-    }
-  ];
-
   popularItems = [
     {
       name: 'Cheese Burger',
-      category: 'Burger',
-      price: 'QAR 5.00',
+      categoryName: 'Burger',
+      price: 5,
       imageUrl: 'assets/images/burger-with-bg-black.jpg'
     },
     {
       name: 'Veggie Pizza',
-      category: 'Pizza',
-      price: 'QAR 10.00',
+      categoryName: 'Pizza',
+      price: 10,
       imageUrl: 'assets/images/burger-with-bg-black.jpg'
     }
   ];
 
+  constructor(
+    private itemService: ItemService,
+    private popularItemService: PopularItemsService
+  ) { }
+
   ngOnInit(): void {
+    // this.loadFeaturedItems();
+    // this.loadPopularItems();
+
     const storedUserData = localStorage.getItem('userData') || sessionStorage.getItem('userData');
     if (storedUserData) {
       this.user = JSON.parse(storedUserData);
     }
+  }
+
+  loadFeaturedItems(): void {
+    const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch'));
+
+    const input: GetItemInput = {
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: undefined,
+      isFeatured: true,
+    };
+
+    this.itemService.getList(input).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.featuredItems = response.data.items;
+      },
+      error: (err) => {
+        console.error('Error loading items:', err);
+      },
+    });
+  }
+
+  loadPopularItems(): void {
+    const defaultInput: PagedAndSortedResultRequestDto = {
+      sorting: '',
+      skipCount: 0,
+      maxResultCount: 10
+    };
+
+    this.popularItemService.get(defaultInput).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.popularItems = response.data.items;
+      },
+      error: (err) => {
+        console.error('Error loading items:', err);
+      },
+    });
   }
 }

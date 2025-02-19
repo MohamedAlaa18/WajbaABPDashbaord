@@ -1,4 +1,3 @@
-// import type { Entity } from '../models';
 
 export interface AuditedEntity<TKey> extends CreationAuditedEntity<TKey> {
   lastModificationTime?: string;

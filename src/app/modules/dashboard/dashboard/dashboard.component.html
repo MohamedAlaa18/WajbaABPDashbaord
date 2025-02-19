@@ -4,10 +4,9 @@
   <h3 class="fw-semibold mt-5 mb-3 text-black">Overview</h3>
   <!-- Overview Cards -->
   <div class="row g-3">
-    <div *ngFor="let card of dashboardOverviewCards" class="col-md-3">
+    <div *ngFor="let card of dashboardOverviewCards" class="col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="d-flex align-items-center p-3 rounded-4 overview-card" [ngStyle]="{'background-color': card.bgColor}">
-        <div class="bg-white d-flex justify-content-center align-items-center rounded-circle p-2"
-          style="width: 48px; height: 48px;">
+        <div class="bg-white d-flex justify-content-center align-items-center rounded-circle p-2" style="width: 48px; height: 48px;">
           <app-icons [iconName]="card.iconName" [color]="card.bgColor"></app-icons>
         </div>
         <div class="text-white ms-3">
@@ -18,17 +17,16 @@
     </div>
   </div>
 
-  <div class="mt-4 mb-3 d-flex justify-content-between align-items-center">
+  <div class="mt-4 mb-3 d-flex justify-content-between align-items-center flex-wrap">
     <h3 class="fw-semibold text-black mb-0">Order Statistics</h3>
     <input type="date" class="form-control w-auto border-danger bg-white rounded-1 text-black">
   </div>
 
   <!-- Order Statistics Cards -->
   <div class="row gy-3">
-    <div *ngFor="let card of dashboardOrderStatisticsCards" class="col-md-3">
+    <div *ngFor="let card of dashboardOrderStatisticsCards" class="col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="d-flex align-items-center gap-2 p-3 rounded-4 bg-white order-statistics-card">
-        <div class="d-flex justify-content-center align-items-center rounded-circle p-2"
-          style="width: 48px; height: 48px;" [ngStyle]="{'background-color': card.bgColor}">
+        <div class="d-flex justify-content-center align-items-center rounded-circle p-2" style="width: 48px; height: 48px;" [ngStyle]="{'background-color': card.bgColor}">
           <app-icons [iconName]="card.iconName" [color]="card.iconColor"></app-icons>
         </div>
         <div>
@@ -40,37 +38,19 @@
   </div>
 
   <div class="row g-4 mt-1">
-    <div class="col-md-6">
+    <div class="col-12 col-lg-6">
       <div class="bg-white rounded p-3 h-100">
-        <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-3">
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-3 flex-wrap">
           <p class="fs-4 fw-semibold mb-0">Sales Summary</p>
           <input type="date" class="form-control w-auto border-danger bg-white rounded-1 text-black">
         </div>
-
-        <div class="d-flex gap-3">
-          <div>
-            <div class="d-flex align-items-center gap-2">
-              <app-icons iconName="barChart" color="#555457"></app-icons>
-              <p class="fw-semibold mb-0">QAR 0.00</p>
-            </div>
-            <p class="mb-0">Total Sales</p>
-          </div>
-          <div>
-            <div class="d-flex align-items-center gap-2">
-              <app-icons iconName="barChart" color="#555457"></app-icons>
-              <p class="fw-semibold mb-0">QAR 0.00</p>
-            </div>
-            <p class="mb-0">AVG. Sales per day</p>
-          </div>
-        </div>
-        <app-lines-chart backgroundColor="rgba(255, 99, 132, 0.5)" borderColor="rgba(255, 99, 132, 1)"
-          label="Sales Summary"></app-lines-chart>
+        <app-lines-chart backgroundColor="rgba(255, 99, 132, 0.5)" borderColor="rgba(255, 99, 132, 1)" label="Sales Summary"></app-lines-chart>
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-12 col-lg-6">
       <div class="bg-white rounded p-3 h-100">
-        <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-3">
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-3 flex-wrap">
           <p class="fs-4 fw-semibold mb-0">Order Summary</p>
           <input type="date" class="form-control w-auto border-danger bg-white rounded-1 text-black">
         </div>
@@ -80,17 +60,16 @@
   </div>
 
   <div class="row g-4 mt-1">
-    <div class="col-md-6">
+    <div class="col-12 col-lg-6">
       <div class="bg-white rounded p-3">
-        <div class="d-flex justify-content-between align-items-center border-bottom pb-1">
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-1 flex-wrap">
           <p class="fs-4 fw-semibold mb-0">Customer Stats</p>
           <input type="date" class="form-control w-auto border-danger bg-white rounded-1 text-black">
         </div>
-        <app-lines-chart backgroundColor="rgba(50, 141, 224, 0.5)" borderColor="rgba(50, 141, 224, 1)"
-          label="Customer Stats"></app-lines-chart>
+        <app-lines-chart backgroundColor="rgba(50, 141, 224, 0.5)" borderColor="rgba(50, 141, 224, 1)" label="Customer Stats"></app-lines-chart>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-12 col-lg-6">
       <div class="bg-white rounded p-3">
         <p class="fs-4 border-bottom pb-1">Most Popular Items</p>
         <div class="d-flex flex-wrap gap-3">
@@ -98,8 +77,8 @@
             <img [src]="item.imageUrl" [alt]="item.name" class="rounded" style="width: 80px;">
             <div class="p-1">
               <p class="mb-0 fw-bold">{{ item.name }}</p>
-              <p class="mb-0 text-danger">{{ item.category }}</p>
-              <p class="mb-0 fw-bold">{{ item.price }}</p>
+              <p class="mb-0 text-danger">{{ item.categoryName }}</p>
+              <p class="mb-0 fw-bold">QAR {{ (item.price).toFixed(2) }}</p>
             </div>
           </div>
         </div>
@@ -107,13 +86,12 @@
       <div class="bg-white rounded mt-3 p-3">
         <p class="fs-4 border-bottom pb-1">Featured Items</p>
         <div class="d-flex flex-wrap gap-3">
-          <div *ngFor="let item of featuredItems"
-            class="border rounded d-flex flex-column align-items-center w-25 featured-items-card">
+          <div *ngFor="let item of featuredItems" class="border rounded d-flex flex-column align-items-center featured-items-card">
             <img [src]="item.imageUrl" [alt]="item.name" class="rounded-top w-100" style="height: 94.93212890625px;">
-            <div class="py-2 px-1">
+            <div class="py-2 px-1 text-center">
               <p class="mb-0 fw-bold text-break">{{ item.name }}</p>
-              <p class="mb-0 text-danger">{{ item.category }}</p>
-              <p class="mb-0 fw-bold">{{ item.price }}</p>
+              <p class="mb-0 text-danger">{{ item.categoryName }}</p>
+              <p class="mb-0 fw-bold">QAR {{ (item.price).toFixed(2) }}</p>
             </div>
           </div>
         </div>

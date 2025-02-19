@@ -34,7 +34,6 @@ button:hover {
   background-color: white;
   // box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  width: 312px;
 }
 
 .sidebar.closed {
@@ -60,6 +59,10 @@ button:hover {
 }
 
 @media (max-width: 1035px) {
+  .sidebar {
+    width: 100%;
+  }
+
   .collapsed-sidebar {
     width: 0px;
   }
@@ -70,6 +73,10 @@ button:hover {
 }
 
 @media (min-width: 1035px) {
+  .sidebar {
+    width: 312px;
+  }
+
   .collapsed-sidebar {
     width: 156px;
   }

@@ -85,7 +85,7 @@ export class SideBarComponent implements OnInit {
   }
 
   handleLinkClick(): void {
-    if (window.innerWidth < 640) {
+    if (window.innerWidth < 1035) {
       this.sidebarService.toggleSidebar();
     }
   }

@@ -28,11 +28,10 @@ export class CompanyService {
     { apiName: this.apiName,...config });
   
 
-  getById = (id: number, config?: Partial<Rest.Config>) =>
+  getById = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, ActionResult<ApiResponse<CompanyDto>>>({
       method: 'GET',
-      url: '/api/Company/GetById',
-      params: { id },
+      url: '/api/Company',
     },
     { apiName: this.apiName,...config });
   
