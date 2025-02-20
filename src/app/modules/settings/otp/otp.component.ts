@@ -41,7 +41,7 @@ export class OTPComponent implements OnInit{
   }
 
   loadOTP(): void {
-    this.otpService.getById(1).subscribe({
+    this.otpService.getAll().subscribe({
       next: (response) => {
         console.log(response);
         this.otpForm.patchValue({

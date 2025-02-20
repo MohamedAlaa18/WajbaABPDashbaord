@@ -6892,97 +6892,14 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.OTPController"
             },
-            "GetByIdAsyncById": {
-              "uniqueName": "GetByIdAsyncById",
-              "name": "GetByIdAsync",
-              "httpMethod": "GET",
-              "url": "api/OTP/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Controllers.OTPController"
-            },
-            "GetAllByInput": {
-              "uniqueName": "GetAllByInput",
+            "GetAll": {
+              "uniqueName": "GetAll",
               "name": "GetAll",
               "httpMethod": "GET",
               "url": "api/OTP",
               "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.OTPContract.GetOtpInput, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.OTPContract.GetOtpInput",
-                  "typeSimple": "Wajba.Dtos.OTPContract.GetOtpInput",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "Sorting",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "SkipCount",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "MaxResultCount",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": "input"
-                }
-              ],
+              "parametersOnMethod": [],
+              "parameters": [],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -7027,36 +6944,14 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.OTPController"
             },
-            "DeleteAsyncById": {
-              "uniqueName": "DeleteAsyncById",
+            "DeleteAsync": {
+              "uniqueName": "DeleteAsync",
               "name": "DeleteAsync",
               "httpMethod": "DELETE",
-              "url": "api/OTP/{id}",
+              "url": "api/OTP",
               "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
+              "parametersOnMethod": [],
+              "parameters": [],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -8632,6 +8527,80 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
+                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.RegisterMobile, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUsersContract.RegisterMobile",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.RegisterMobile",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.WajbaUsersContract.RegisterMobile",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.RegisterMobile",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.WajbaUserController"
+            },
+            "VerifyOtpLoginByLoginDto": {
+              "uniqueName": "VerifyOtpLoginByLoginDto",
+              "name": "VerifyOtpLogin",
+              "httpMethod": "POST",
+              "url": "api/WajbaUser/VerifyOtpLogin",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "loginDto",
+                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.OtpLoginDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUsersContract.OtpLoginDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.OtpLoginDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "loginDto",
+                  "name": "loginDto",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.WajbaUsersContract.OtpLoginDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.OtpLoginDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.WajbaUserController"
+            },
+            "CreateUserByInput": {
+              "uniqueName": "CreateUserByInput",
+              "name": "CreateUser",
+              "httpMethod": "POST",
+              "url": "api/WajbaUser/Create-User",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
                   "typeAsString": "Wajba.Dtos.WajbaUsersContract.CreateUserDto, Wajba.Application.Contracts",
                   "type": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
                   "typeSimple": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
@@ -8660,29 +8629,29 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.WajbaUserController"
             },
-            "LogInAsyncByLogInDto": {
-              "uniqueName": "LogInAsyncByLogInDto",
+            "LogInAsyncByLoginDto": {
+              "uniqueName": "LogInAsyncByLoginDto",
               "name": "LogInAsync",
               "httpMethod": "POST",
               "url": "api/WajbaUser/LogIn",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "LogInDto",
-                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
-                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
+                  "name": "loginDto",
+                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.LogInUserDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUsersContract.LogInUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.LogInUserDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "LogInDto",
-                  "name": "LogInDto",
+                  "nameOnMethod": "loginDto",
+                  "name": "loginDto",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
-                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
+                  "type": "Wajba.Dtos.WajbaUsersContract.LogInUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.LogInUserDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -21866,7 +21835,7 @@
           "regex": null
         },
         {
-          "name": "BranchesIds",
+          "name": "BranchIds",
           "jsonName": null,
           "type": "[System.Int32]",
           "typeSimple": "[number]",
@@ -23845,18 +23814,6 @@
       "genericArguments": null,
       "properties": [
         {
-          "name": "id",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
           "name": "FoodPreparationTime",
           "jsonName": null,
           "type": "System.Int32",
@@ -24023,14 +23980,6 @@
         }
       ]
     },
-    "Wajba.Dtos.OTPContract.GetOtpInput": {
-      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": []
-    },
     "Wajba.Dtos.OTPContract.UpdateOtpDto": {
       "baseType": null,
       "isEnum": false,
@@ -24038,18 +23987,6 @@
       "enumValues": null,
       "genericArguments": null,
       "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
         {
           "name": "Type",
           "jsonName": null,
@@ -25987,6 +25924,27 @@
         }
       ]
     },
+    "Wajba.Dtos.WajbaUsersContract.LogInUserDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Phone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto": {
       "baseType": null,
       "isEnum": false,
@@ -26032,6 +25990,108 @@
         },
         {
           "name": "LogInAPPCode",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.WajbaUsersContract.OtpLoginDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Phone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Otp",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.WajbaUsersContract.RegisterMobile": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "FullName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Email",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Phone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Password",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ConfirmPassword",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
@@ -26240,8 +26300,8 @@
         "Female"
       ],
       "enumValues": [
-        1,
-        2
+        0,
+        1
       ],
       "genericArguments": null,
       "properties": null
@@ -26292,8 +26352,8 @@
         "Active"
       ],
       "enumValues": [
-        1,
-        2
+        0,
+        1
       ],
       "genericArguments": null,
       "properties": null

@@ -113,6 +113,7 @@ export class ThemeComponent implements OnInit {
       // Wait for all promises to complete
       Promise.all(uploadPromises)
         .then(() => {
+          console.log('All files converted to base64 successfully:', themesDto);
           // Call the update API with the constructed themesDto
           this.themeService.update(themesDto).subscribe({
             next: (response) => {

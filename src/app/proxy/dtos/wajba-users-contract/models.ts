@@ -40,11 +40,28 @@ export interface GetUserListDto {
   maxResultCount?: number;
 }
 
+export interface LogInUserDto {
+  phone?: string;
+}
+
 export interface LogInWajbaUserDto {
   phone?: string;
   email?: string;
   password?: string;
   logInAPPCode?: string;
+}
+
+export interface OtpLoginDto {
+  phone?: string;
+  otp?: string;
+}
+
+export interface RegisterMobile {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  confirmPassword?: string;
 }
 
 export interface UpdateWajbaUserProfile {

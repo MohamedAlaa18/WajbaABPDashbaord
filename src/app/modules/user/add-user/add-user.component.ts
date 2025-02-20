@@ -23,6 +23,8 @@ export class AddUserComponent implements OnInit, OnChanges {
   @Input() branchList: UpdateBranchDto[] = [];
   @Output() close = new EventEmitter<void>();
 
+  returnedErrorMessage: string | null = null;
+
   roles: RolesDto[] = [
     { id: 1, name: 'POS Operator' },
     { id: 2, name: 'Staff' },
@@ -197,6 +199,7 @@ export class AddUserComponent implements OnInit, OnChanges {
             },
             error => {
               console.error('Error creating user:', error); // Debugging: Check error response
+              this.returnedErrorMessage = error.error.message;
             }
           );
       }

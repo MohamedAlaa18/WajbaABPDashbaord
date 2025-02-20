@@ -47,7 +47,7 @@ export interface ItemDto extends EntityDto<number> {
   categoryName?: string;
   itemType: number;
   isDeleted: boolean;
-  branchesIds: number[];
+  branchIds: number[];
   itemAddons: ItemAddonDto[];
   itemExtras: ItemExtraDto[];
   itemVariations: ItemVariationDto[];

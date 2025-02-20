@@ -85,6 +85,9 @@
           <div *ngIf="userForm.get('branchList')?.touched && userForm.get('branchList')?.invalid" class="text-danger">
             <small>At least one branch must be selected.</small>
           </div>
+          <div *ngIf="returnedErrorMessage" class="text-danger">
+            <small>{{returnedErrorMessage}}</small>
+          </div>
         </div>
 
         <div class="col-md-6">

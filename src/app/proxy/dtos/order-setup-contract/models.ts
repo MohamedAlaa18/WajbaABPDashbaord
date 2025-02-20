@@ -18,7 +18,6 @@ export interface GetOrderSetupInput extends PagedAndSortedResultRequestDto {
 }
 
 export interface UpdateOrderSetupDto {
-  id: number;
   foodPreparationTime: number;
   scheduleOrderSlotDuration: number;
   freeDeliveryKilometer: number;

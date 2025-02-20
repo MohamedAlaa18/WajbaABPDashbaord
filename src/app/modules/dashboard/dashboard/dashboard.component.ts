@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
       categoryId: 0,
       itemType: 0,
       isDeleted: false,
-      branchesIds: [],
+      branchIds: [],
       itemAddons: [],
       itemExtras: [],
       itemVariations: []
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
       categoryId: 0,
       itemType: 0,
       isDeleted: false,
-      branchesIds: [],
+      branchIds: [],
       itemAddons: [],
       itemExtras: [],
       itemVariations: []
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
       categoryId: 0,
       itemType: 0,
       isDeleted: false,
-      branchesIds: [],
+      branchIds: [],
       itemAddons: [],
       itemExtras: [],
       itemVariations: []

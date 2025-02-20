@@ -1,17 +1,18 @@
-<div class="d-flex items-center gap-2">
+<div class="d-flex items-center gap-2 mb-3">
   <app-settings-sidebar></app-settings-sidebar>
 
   <section class="bg-white p-4 flex-grow-1">
-    <div class="border-bottom pb-2">
+    <div class="mb-2">
       <span class="section-title text-black">Time Slots</span>
     </div>
 
     <form (ngSubmit)="onSave()">
       <table class="table">
         <tbody>
-          <tr *ngFor="let weekDay of weekDayTimeSlots" class="border-bottom">
-            <td class="p-4 section-title fw-normal text-black">{{ getWeekDayName(weekDay.weekDay) }}</td>
-            <td class="p-4 d-flex gap-4 border-0 border-start">
+          <tr *ngFor="let weekDay of weekDayTimeSlots; let i = index" class="border-bottom"
+            [ngClass]="i == 0 ? 'border-top' : ''">
+            <td class="p-3 section-title fw-normal text-black">{{ getWeekDayName(weekDay.weekDay) }}</td>
+            <td class="p-3 d-flex gap-4 border-0 border-start">
               <div *ngFor="let slot of weekDay.timeSlots" class="border rounded-2 p-2 position-relative d-flex gap-2">
                 <div class="d-flex flex-column gap-2">
                   <label class="font-weight-medium">Opening Time</label>
@@ -28,8 +29,6 @@
                   <app-icons iconName="close" color="#F45859"></app-icons>
                 </button>
               </div>
-            </td>
-            <td class="p-2 flex items-center justify-content-center">
               <button (click)="openModal(weekDay.weekDay)" type="button"
                 class="btn btn-danger add d-flex align-items-center justify-content-center gap-1 my-auto px-2 py-1">
                 <app-icons iconName="add" color="white"></app-icons>

@@ -3,6 +3,8 @@
 section {
   height: fit-content;
   overflow-x: auto;
+  width: 100px;
+  // max-width: calc(100vw - 0.75rem - 292);
 }
 
 .btn-danger.save {
@@ -16,25 +18,14 @@ section {
   font-size: 14px;
 }
 
+.btn-danger.py-1.add {
+  padding-top: 0.275rem !important;
+  padding-bottom: 0.275rem !important;
+}
+
 button.position-absolute {
   top: -1rem;
   right: -1rem;
-}
-
-.bg-white {
-  background-color: #ffffff;
-}
-
-.p-4 {
-  padding: 1.5rem;
-}
-
-.border-bottom {
-  border-bottom: 1px solid #cccccc;
-}
-
-.font-weight-semibold {
-  font-weight: 600;
 }
 
 .h5 {
@@ -55,46 +46,10 @@ button.position-absolute {
   padding: 1.5rem;
 }
 
-.d-flex {
-  display: flex;
-}
-
-.gap-4 {
-  gap: 1rem;
-}
-
-.gap-2 {
-  gap: 0.5rem;
-}
-
-.position-relative {
-  position: relative;
-}
-
-.position-absolute {
-  position: absolute;
-}
-
-.top-0 {
-  top: 0;
-}
-
-.end-0 {
-  right: 0;
-}
-
 .form-control {
   border: 1px solid #cccccc;
   border-radius: 4px;
   padding: 0.375rem 0.75rem;
-}
-
-.w-100 {
-  width: 100%;
-}
-
-.my-auto {
-  margin: auto;
 }
 
 td {

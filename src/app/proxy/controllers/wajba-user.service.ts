@@ -3,7 +3,7 @@ import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { RolesDto } from '../dtos/role-contract/models';
 import type { ForgetPasswordDTO } from '../dtos/user-dto/models';
-import type { AccountInfoEditByWajbaUserId, CreateUserDto, GetUserListDto, LogInWajbaUserDto, UpdateWajbaUserProfile, WajbaUserDto } from '../dtos/wajba-users-contract/models';
+import type { AccountInfoEditByWajbaUserId, CreateUserDto, GetUserListDto, LogInUserDto, LogInWajbaUserDto, OtpLoginDto, RegisterMobile, UpdateWajbaUserProfile, WajbaUserDto } from '../dtos/wajba-users-contract/models';
 import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -45,6 +45,15 @@ export class WajbaUserService {
       method: 'GET',
       url: '/api/WajbaUser/ActivateAccountOTP',
       params: { getCode },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  createUserByInput = (input: CreateUserDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'POST',
+      url: '/api/WajbaUser/Create-User',
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -92,16 +101,16 @@ export class WajbaUserService {
     { apiName: this.apiName,...config });
   
 
-  logIn = (LogInDto: LogInWajbaUserDto, config?: Partial<Rest.Config>) =>
+  logIn = (loginDto: LogInUserDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/WajbaUser/LogIn',
-      body: LogInDto,
+      body: loginDto,
     },
     { apiName: this.apiName,...config });
   
 
-  registerByInput = (input: CreateUserDto, config?: Partial<Rest.Config>) =>
+  registerByInput = (input: RegisterMobile, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/WajbaUser/Register',
@@ -133,6 +142,15 @@ export class WajbaUserService {
       method: 'POST',
       url: '/api/WajbaUser/VerifyOTPCode',
       params: { verifyOTPCode: VerifyOTPCode },
+      body: loginDto,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  verifyOtpLoginByLoginDto = (loginDto: OtpLoginDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'POST',
+      url: '/api/WajbaUser/VerifyOtpLogin',
       body: loginDto,
     },
     { apiName: this.apiName,...config });
