@@ -873,340 +873,6 @@
       "rootPath": "app",
       "remoteServiceName": "Default",
       "controllers": {
-        "FosAPI.Controllers.PosOrderController": {
-          "controllerName": "PosOrder",
-          "controllerGroupName": null,
-          "isRemoteService": false,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "FosAPI.Controllers.PosOrderController",
-          "interfaces": [],
-          "actions": {
-            "GetAllOrdersForEmployee": {
-              "uniqueName": "GetAllOrdersForEmployee",
-              "name": "GetAllOrdersForEmployee",
-              "httpMethod": "GET",
-              "url": "api/PosOrder/employee-orders",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "FosAPI.Controllers.PosOrderController"
-            },
-            "GetAllOrdersByBranchIdAndStartDateAndOrderIdAndOrderTypeAndEndDateAndDateOrderAndStatusAndFromPriceAndToPrice": {
-              "uniqueName": "GetAllOrdersByBranchIdAndStartDateAndOrderIdAndOrderTypeAndEndDateAndDateOrderAndStatusAndFromPriceAndToPrice",
-              "name": "GetAllOrders",
-              "httpMethod": "GET",
-              "url": "api/PosOrder/All-POS-Orders/{branchId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "branchId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "startDate",
-                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "orderId",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "orderType",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "endDate",
-                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "dateOrder",
-                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "status",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "fromPrice",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "toPrice",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "branchId",
-                  "name": "branchId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "startDate",
-                  "name": "startDate",
-                  "jsonName": null,
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "orderId",
-                  "name": "orderId",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "orderType",
-                  "name": "orderType",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "endDate",
-                  "name": "endDate",
-                  "jsonName": null,
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "dateOrder",
-                  "name": "dateOrder",
-                  "jsonName": null,
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "status",
-                  "name": "status",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "fromPrice",
-                  "name": "fromPrice",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "toPrice",
-                  "name": "toPrice",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "FosAPI.Controllers.PosOrderController"
-            },
-            "AddOrderByOrderDto": {
-              "uniqueName": "AddOrderByOrderDto",
-              "name": "AddOrder",
-              "httpMethod": "POST",
-              "url": "api/PosOrder",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "orderDto",
-                  "typeAsString": "Wajba.Dtos.OrderContract.OrderDTO, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.OrderContract.OrderDTO",
-                  "typeSimple": "Wajba.Dtos.OrderContract.OrderDTO",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "orderDto",
-                  "name": "orderDto",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.OrderContract.OrderDTO",
-                  "typeSimple": "Wajba.Dtos.OrderContract.OrderDTO",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "FosAPI.Controllers.PosOrderController"
-            },
-            "DeleteOrderByOrderId": {
-              "uniqueName": "DeleteOrderByOrderId",
-              "name": "DeleteOrder",
-              "httpMethod": "DELETE",
-              "url": "api/PosOrder/delete-order/{orderId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "orderId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "orderId",
-                  "name": "orderId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "FosAPI.Controllers.PosOrderController"
-            },
-            "GetOrderByIdById": {
-              "uniqueName": "GetOrderByIdById",
-              "name": "GetOrderById",
-              "httpMethod": "GET",
-              "url": "api/PosOrder/PosOrder/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "FosAPI.Controllers.PosOrderController"
-            }
-          }
-        },
         "Wajba.Controllers.BranchController": {
           "controllerName": "Branch",
           "controllerGroupName": null,
@@ -5439,9 +5105,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.NotificationContract.UpdateNotificationDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.NotificationContract.UpdateNotificationDto",
-                  "typeSimple": "Wajba.Dtos.NotificationContract.UpdateNotificationDto",
+                  "typeAsString": "Wajba.Dtos.NotificationContract.CreateNotificationDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.NotificationContract.CreateNotificationDto",
+                  "typeSimple": "Wajba.Dtos.NotificationContract.CreateNotificationDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -5451,8 +5117,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.NotificationContract.UpdateNotificationDto",
-                  "typeSimple": "Wajba.Dtos.NotificationContract.UpdateNotificationDto",
+                  "type": "Wajba.Dtos.NotificationContract.CreateNotificationDto",
+                  "typeSimple": "Wajba.Dtos.NotificationContract.CreateNotificationDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -5467,36 +5133,14 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.NotificationController"
             },
-            "GetByIdAsyncById": {
-              "uniqueName": "GetByIdAsyncById",
+            "GetByIdAsync": {
+              "uniqueName": "GetByIdAsync",
               "name": "GetByIdAsync",
               "httpMethod": "GET",
-              "url": "api/Notification/{id}",
+              "url": "api/Notification/get",
               "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
+              "parametersOnMethod": [],
+              "parameters": [],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.NotificationContract.NotificationDto>>",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<Wajba.APIResponse.ApiResponse<Wajba.Dtos.NotificationContract.NotificationDto>>"
@@ -6164,100 +5808,23 @@
           "type": "Wajba.Controllers.OrderController",
           "interfaces": [],
           "actions": {
-            "GetAllOrdersForCustomerByBranchIdAndPageSizeAndPageNumber": {
-              "uniqueName": "GetAllOrdersForCustomerByBranchIdAndPageSizeAndPageNumber",
-              "name": "GetAllOrdersForCustomer",
-              "httpMethod": "GET",
-              "url": "api/Order/Kitchen-customer-orders",
+            "CreateOrderByOrderDtoAndEmployeeId": {
+              "uniqueName": "CreateOrderByOrderDtoAndEmployeeId",
+              "name": "CreateOrder",
+              "httpMethod": "POST",
+              "url": "api/Order/create-order",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "branchId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
+                  "name": "orderDto",
+                  "typeAsString": "Wajba.Dtos.OrderContract.CreateOrderDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.OrderContract.CreateOrderDto",
+                  "typeSimple": "Wajba.Dtos.OrderContract.CreateOrderDto",
                   "isOptional": false,
                   "defaultValue": null
                 },
                 {
-                  "name": "pageSize",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "pageNumber",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "branchId",
-                  "name": "branchId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "pageSize",
-                  "name": "pageSize",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "pageNumber",
-                  "name": "pageNumber",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Controllers.OrderController"
-            },
-            "GetDailySalesByBranchidAndNumberOfDays": {
-              "uniqueName": "GetDailySalesByBranchidAndNumberOfDays",
-              "name": "GetDailySales",
-              "httpMethod": "GET",
-              "url": "api/Order/daily-sales",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "branchid",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "numberOfDays",
+                  "name": "employeeId",
                   "typeAsString": "System.Int32, System.Private.CoreLib",
                   "type": "System.Int32",
                   "typeSimple": "number",
@@ -6267,337 +5834,23 @@
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "branchid",
-                  "name": "branchid",
+                  "nameOnMethod": "orderDto",
+                  "name": "orderDto",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.OrderContract.CreateOrderDto",
+                  "typeSimple": "Wajba.Dtos.OrderContract.CreateOrderDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "employeeId",
+                  "name": "employeeId",
                   "jsonName": null,
                   "type": "System.Int32",
                   "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "numberOfDays",
-                  "name": "numberOfDays",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Controllers.OrderController"
-            },
-            "SalesReportByBranchIdAndStartDateAndEndDateAndDateorderAndStatusAndOrdertypeAndOrderIdAndFrompriceAndTopriceAndPaidstatusAndPageNumberAndPageSize": {
-              "uniqueName": "SalesReportByBranchIdAndStartDateAndEndDateAndDateorderAndStatusAndOrdertypeAndOrderIdAndFrompriceAndTopriceAndPaidstatusAndPageNumberAndPageSize",
-              "name": "SalesReport",
-              "httpMethod": "GET",
-              "url": "api/Order/SalesReport",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "branchId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "startDate",
-                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "endDate",
-                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "dateorder",
-                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "status",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "ordertype",
-                  "typeAsString": "System.Nullable`1[[Wajba.Enums.OrderType, Wajba.Domain.Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
-                  "type": "Wajba.Enums.OrderType?",
-                  "typeSimple": "enum?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "orderId",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "fromprice",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "toprice",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "paidstatus",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "pageNumber",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                },
-                {
-                  "name": "pageSize",
-                  "typeAsString": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": true,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "branchId",
-                  "name": "branchId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "startDate",
-                  "name": "startDate",
-                  "jsonName": null,
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "endDate",
-                  "name": "endDate",
-                  "jsonName": null,
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "dateorder",
-                  "name": "dateorder",
-                  "jsonName": null,
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "status",
-                  "name": "status",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "ordertype",
-                  "name": "ordertype",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "orderId",
-                  "name": "orderId",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "fromprice",
-                  "name": "fromprice",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "toprice",
-                  "name": "toprice",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "paidstatus",
-                  "name": "paidstatus",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "pageNumber",
-                  "name": "pageNumber",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "pageSize",
-                  "name": "pageSize",
-                  "jsonName": null,
-                  "type": "System.Int32?",
-                  "typeSimple": "number?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.ActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.Controllers.OrderController"
-            },
-            "UpdateOrderStatusByOrderIdAndStatus": {
-              "uniqueName": "UpdateOrderStatusByOrderIdAndStatus",
-              "name": "UpdateOrderStatus",
-              "httpMethod": "PUT",
-              "url": "api/Order/Kitchen-update-order-status",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "orderId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "status",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "orderId",
-                  "name": "orderId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Query",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "status",
-                  "name": "status",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -6697,36 +5950,14 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.OrderSetupController"
             },
-            "GetByIdAsyncById": {
-              "uniqueName": "GetByIdAsyncById",
+            "GetByIdAsync": {
+              "uniqueName": "GetByIdAsync",
               "name": "GetByIdAsync",
               "httpMethod": "GET",
-              "url": "api/OrderSetup/{id}",
+              "url": "api/OrderSetup/byId",
               "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
+              "parametersOnMethod": [],
+              "parameters": [],
               "returnValue": {
                 "type": "Microsoft.AspNetCore.Mvc.IActionResult",
                 "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
@@ -8217,7 +7448,7 @@
               "uniqueName": "CreateAsyncByInput",
               "name": "CreateAsync",
               "httpMethod": "POST",
-              "url": "api/UserAddress",
+              "url": "api/app/user-address",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -8254,7 +7485,7 @@
               "uniqueName": "UpdateAsyncByInput",
               "name": "UpdateAsync",
               "httpMethod": "PUT",
-              "url": "api/UserAddress",
+              "url": "api/app/user-address",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -8291,7 +7522,7 @@
               "uniqueName": "DeleteAsyncById",
               "name": "DeleteAsync",
               "httpMethod": "DELETE",
-              "url": "api/UserAddress/{id}",
+              "url": "api/app/user-address/{id}",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -8328,7 +7559,7 @@
               "uniqueName": "GetAllByWajbaUserAsyncByWajbaUserId",
               "name": "GetAllByWajbaUserAsync",
               "httpMethod": "GET",
-              "url": "api/UserAddress",
+              "url": "api/app/user-address",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -8365,7 +7596,7 @@
               "uniqueName": "GetByIdAsyncById",
               "name": "GetByIdAsync",
               "httpMethod": "GET",
-              "url": "api/UserAddress/{id}",
+              "url": "api/app/user-address/{id}",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -8522,14 +7753,14 @@
               "uniqueName": "RegisterByInput",
               "name": "Register",
               "httpMethod": "POST",
-              "url": "api/WajbaUser/Register",
+              "url": "api/WajbaUser/Register-web",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.RegisterMobile, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.WajbaUsersContract.RegisterMobile",
-                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.RegisterMobile",
+                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.CreateUserDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -8539,8 +7770,45 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Wajba.Dtos.WajbaUsersContract.RegisterMobile",
-                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.RegisterMobile",
+                  "type": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.CreateUserDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.WajbaUserController"
+            },
+            "LogInAsyncByLogInDto": {
+              "uniqueName": "LogInAsyncByLogInDto",
+              "name": "LogInAsync",
+              "httpMethod": "POST",
+              "url": "api/WajbaUser/LogIn-web",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "LogInDto",
+                  "typeAsString": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "LogInDto",
+                  "name": "LogInDto",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
+                  "typeSimple": "Wajba.Dtos.WajbaUsersContract.LogInWajbaUserDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -9240,202 +8508,6 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.WajbaUserController"
-            }
-          }
-        },
-        "Wajba.UserAddressService.WajbaUserAddressAppService": {
-          "controllerName": "WajbaUserAddress",
-          "controllerGroupName": "WajbaUserAddress",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Wajba.UserAddressService.WajbaUserAddressAppService",
-          "interfaces": [],
-          "actions": {
-            "CreateAsyncByInput": {
-              "uniqueName": "CreateAsyncByInput",
-              "name": "CreateAsync",
-              "httpMethod": "POST",
-              "url": "api/app/wajba-user-address",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.UserAddressContract.CreateUserAddressDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.UserAddressContract.CreateUserAddressDto",
-                  "typeSimple": "Wajba.Dtos.UserAddressContract.CreateUserAddressDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.UserAddressContract.CreateUserAddressDto",
-                  "typeSimple": "Wajba.Dtos.UserAddressContract.CreateUserAddressDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.UserAddressContract.CreateUserAddressDto",
-                "typeSimple": "Wajba.Dtos.UserAddressContract.CreateUserAddressDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.UserAddressService.WajbaUserAddressAppService"
-            },
-            "UpdateAsyncByInput": {
-              "uniqueName": "UpdateAsyncByInput",
-              "name": "UpdateAsync",
-              "httpMethod": "PUT",
-              "url": "api/app/wajba-user-address",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Wajba.Dtos.UserAddressContract.UpdateUserAddressDto, Wajba.Application.Contracts",
-                  "type": "Wajba.Dtos.UserAddressContract.UpdateUserAddressDto",
-                  "typeSimple": "Wajba.Dtos.UserAddressContract.UpdateUserAddressDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Wajba.Dtos.UserAddressContract.UpdateUserAddressDto",
-                  "typeSimple": "Wajba.Dtos.UserAddressContract.UpdateUserAddressDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.UserAddressContract.UserAddressDto",
-                "typeSimple": "Wajba.Dtos.UserAddressContract.UserAddressDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.UserAddressService.WajbaUserAddressAppService"
-            },
-            "DeleteAsyncById": {
-              "uniqueName": "DeleteAsyncById",
-              "name": "DeleteAsync",
-              "httpMethod": "DELETE",
-              "url": "api/app/wajba-user-address/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.UserAddressService.WajbaUserAddressAppService"
-            },
-            "GetAllByWajbaUserAsyncByWajbaUserId": {
-              "uniqueName": "GetAllByWajbaUserAsyncByWajbaUserId",
-              "name": "GetAllByWajbaUserAsync",
-              "httpMethod": "GET",
-              "url": "api/app/wajba-user-address/by-wajba-user/{WajbaUserId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "WajbaUserId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "WajbaUserId",
-                  "name": "WajbaUserId",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<Wajba.Dtos.UserAddressContract.UserAddressDto>",
-                "typeSimple": "[Wajba.Dtos.UserAddressContract.UserAddressDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.UserAddressService.WajbaUserAddressAppService"
-            },
-            "GetByIdAsyncById": {
-              "uniqueName": "GetByIdAsyncById",
-              "name": "GetByIdAsync",
-              "httpMethod": "GET",
-              "url": "api/app/wajba-user-address/{id}/by-id",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Wajba.Dtos.UserAddressContract.UserAddressDto",
-                "typeSimple": "Wajba.Dtos.UserAddressContract.UserAddressDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Wajba.UserAddressService.WajbaUserAddressAppService"
             }
           }
         }
@@ -22645,27 +21717,6 @@
         }
       ]
     },
-    "Wajba.Dtos.NotificationContract.UpdateNotificationDto": {
-      "baseType": "Wajba.Dtos.NotificationContract.CreateNotificationDto",
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "id",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
     "Wajba.Dtos.NotificationsSettingsDtoes.CreateNotificationSettingsdto": {
       "baseType": null,
       "isEnum": false,
@@ -23197,6 +22248,123 @@
         }
       ]
     },
+    "Wajba.Dtos.OrderContract.CreateOrderDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "OrderItemDto",
+          "jsonName": null,
+          "type": "[Wajba.Dtos.OrderContract.OrderItemDto]",
+          "typeSimple": "[Wajba.Dtos.OrderContract.OrderItemDto]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Ordertype",
+          "jsonName": null,
+          "type": "Wajba.Enums.OrderType",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BranchId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PickUpOrder",
+          "jsonName": null,
+          "type": "Wajba.Dtos.OrderContract.PickUpOrderDTO",
+          "typeSimple": "Wajba.Dtos.OrderContract.PickUpOrderDTO",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeliveryOrder",
+          "jsonName": null,
+          "type": "Wajba.Dtos.OrderContract.DeliveryOrderDTO",
+          "typeSimple": "Wajba.Dtos.OrderContract.DeliveryOrderDTO",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DriveThruOrder",
+          "jsonName": null,
+          "type": "Wajba.Dtos.OrderContract.DriveThruOrderDTO",
+          "typeSimple": "Wajba.Dtos.OrderContract.DriveThruOrderDTO",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DineInOrder",
+          "jsonName": null,
+          "type": "Wajba.Dtos.OrderContract.DineInOrderDTO",
+          "typeSimple": "Wajba.Dtos.OrderContract.DineInOrderDTO",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PosOrder",
+          "jsonName": null,
+          "type": "Wajba.Dtos.OrderContract.PosOrderDTO",
+          "typeSimple": "Wajba.Dtos.OrderContract.PosOrderDTO",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PosDeliveryOrder",
+          "jsonName": null,
+          "type": "Wajba.Dtos.OrderContract.PosDeliveryOrderDTO",
+          "typeSimple": "Wajba.Dtos.OrderContract.PosDeliveryOrderDTO",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.OrderContract.DeliveryOrderDTO": {
       "baseType": null,
       "isEnum": false,
@@ -23368,15 +22536,48 @@
         }
       ]
     },
-    "Wajba.Dtos.OrderContract.OrderDTO": {
-      "baseType": "Volo.Abp.Domain.Entities.Auditing.FullAuditedEntity<System.Int32>",
+    "Wajba.Dtos.OrderContract.OrderItemAddonDto": {
+      "baseType": null,
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
       "genericArguments": null,
       "properties": [
         {
-          "name": "Status",
+          "name": "AddonName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "AdditionalPrice",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.OrderContract.OrderItemDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "ItemId",
           "jsonName": null,
           "type": "System.Int32",
           "typeSimple": "number",
@@ -23388,7 +22589,7 @@
           "regex": null
         },
         {
-          "name": "Ordertype",
+          "name": "Quantity",
           "jsonName": null,
           "type": "System.Int32",
           "typeSimple": "number",
@@ -23400,21 +22601,9 @@
           "regex": null
         },
         {
-          "name": "paymentMethod",
+          "name": "Price",
           "jsonName": null,
-          "type": "Wajba.Enums.PaymentMethod",
-          "typeSimple": "enum",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "BranchId",
-          "jsonName": null,
-          "type": "System.Int32",
+          "type": "System.Decimal",
           "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
@@ -23424,10 +22613,10 @@
           "regex": null
         },
         {
-          "name": "PickUpOrder",
+          "name": "Instruction",
           "jsonName": null,
-          "type": "Wajba.Dtos.OrderContract.PickUpOrderDTO",
-          "typeSimple": "Wajba.Dtos.OrderContract.PickUpOrderDTO",
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -23436,10 +22625,10 @@
           "regex": null
         },
         {
-          "name": "DeliveryOrder",
+          "name": "SelectedVariations",
           "jsonName": null,
-          "type": "Wajba.Dtos.OrderContract.DeliveryOrderDTO",
-          "typeSimple": "Wajba.Dtos.OrderContract.DeliveryOrderDTO",
+          "type": "[Wajba.Dtos.OrderContract.OrderItemVariationDto]",
+          "typeSimple": "[Wajba.Dtos.OrderContract.OrderItemVariationDto]",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -23448,10 +22637,10 @@
           "regex": null
         },
         {
-          "name": "DriveThruOrder",
+          "name": "SelectedAddons",
           "jsonName": null,
-          "type": "Wajba.Dtos.OrderContract.DriveThruOrderDTO",
-          "typeSimple": "Wajba.Dtos.OrderContract.DriveThruOrderDTO",
+          "type": "[Wajba.Dtos.OrderContract.OrderItemAddonDto]",
+          "typeSimple": "[Wajba.Dtos.OrderContract.OrderItemAddonDto]",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -23460,10 +22649,31 @@
           "regex": null
         },
         {
-          "name": "DineInOrder",
+          "name": "SelectedExtras",
           "jsonName": null,
-          "type": "Wajba.Dtos.OrderContract.DineInOrderDTO",
-          "typeSimple": "Wajba.Dtos.OrderContract.DineInOrderDTO",
+          "type": "[Wajba.Dtos.OrderContract.OrderItemExtraDto]",
+          "typeSimple": "[Wajba.Dtos.OrderContract.OrderItemExtraDto]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.OrderContract.OrderItemExtraDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "ExtraName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -23472,10 +22682,31 @@
           "regex": null
         },
         {
-          "name": "posOrder",
+          "name": "AdditionalPrice",
           "jsonName": null,
-          "type": "Wajba.Dtos.OrderContract.PosOrderDTO",
-          "typeSimple": "Wajba.Dtos.OrderContract.PosOrderDTO",
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.OrderContract.OrderItemVariationDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "VariationName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -23484,10 +22715,22 @@
           "regex": null
         },
         {
-          "name": "posDeliveryOrder",
+          "name": "AttributeName",
           "jsonName": null,
-          "type": "Wajba.Dtos.OrderContract.PosDeliveryOrderDTO",
-          "typeSimple": "Wajba.Dtos.OrderContract.PosDeliveryOrderDTO",
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "AdditionalPrice",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -25309,147 +24552,6 @@
         }
       ]
     },
-    "Wajba.Dtos.UserAddressContract.UserAddressDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Title",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Longitude",
-          "jsonName": null,
-          "type": "System.Double?",
-          "typeSimple": "number?",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Latitude",
-          "jsonName": null,
-          "type": "System.Double?",
-          "typeSimple": "number?",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "WajbaUserId",
-          "jsonName": null,
-          "type": "System.Int32?",
-          "typeSimple": "number?",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "BuildingName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Street",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ApartmentNumber",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Floor",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "AddressLabel",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "AddressType",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
     "Wajba.Dtos.UserDTO.ForgetPasswordDTO": {
       "baseType": null,
       "isEnum": false,
@@ -25605,34 +24707,10 @@
           "regex": null
         },
         {
-          "name": "Type",
+          "name": "ProfilePhoto",
           "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Status",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Role",
-          "jsonName": null,
-          "type": "System.Int32?",
-          "typeSimple": "number?",
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -26035,75 +25113,6 @@
         }
       ]
     },
-    "Wajba.Dtos.WajbaUsersContract.RegisterMobile": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "FullName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Email",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Phone",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Password",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ConfirmPassword",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
     "Wajba.Dtos.WajbaUsersContract.UpdateWajbaUserProfile": {
       "baseType": null,
       "isEnum": false,
@@ -26324,22 +25333,6 @@
         4,
         5,
         6
-      ],
-      "genericArguments": null,
-      "properties": null
-    },
-    "Wajba.Enums.PaymentMethod": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "CashOnDelivery",
-        "CreditCard",
-        "PayPal"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3
       ],
       "genericArguments": null,
       "properties": null

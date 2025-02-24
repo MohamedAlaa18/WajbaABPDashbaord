@@ -48,11 +48,11 @@
         <label class="form-label mb-1">is CryptoCurrency <span class="text-danger">*</span></label>
         <div class="d-flex align-items-center gap-2">
           <label class="btn radio-label">
-            <input type="radio" class="form-check-label" formControlName="isCryptoCurrency" [value]="1" class="d-none">
+            <input type="radio" class="form-check-label" formControlName="isCryptoCurrency" [value]="true" class="d-none">
             Yes
           </label>
           <label class="btn radio-label">
-            <input type="radio" class="form-check-label" formControlName="isCryptoCurrency" [value]="0" class="d-none">
+            <input type="radio" class="form-check-label" formControlName="isCryptoCurrency" [value]="false" class="d-none">
             No
           </label>
         </div>
@@ -63,7 +63,7 @@
       </div>
 
       <div class="d-flex justify-content-start">
-        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="submit" class="btn me-2 text-white save" [disabled]="isSubmitting">Save</button>
         <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
       </div>
     </form>

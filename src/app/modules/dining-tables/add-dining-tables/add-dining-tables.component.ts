@@ -19,6 +19,7 @@ export class AddDiningTablesComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
 
   diningTableForm: FormGroup;
+  isSubmitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -53,7 +54,7 @@ export class AddDiningTablesComponent implements OnInit {
     this.close.emit();
   }
 
-  submitForm() {
+  submitForm(): void {
     // Retrieve and parse the selectedBranch from localStorage
     const selectedBranchString = localStorage.getItem('selectedBranch');
     let selectedBranch = null;
@@ -71,52 +72,38 @@ export class AddDiningTablesComponent implements OnInit {
       return; // Exit early if no valid branch is found
     }
 
-    if (this.diningTableForm.valid) {
-      // Declare the formValue outside the if-else block
-      const formValue = this.diningTableForm.value;
-
-      // Construct the data object with the branchId included
-      const data: CreateDineIntable | UpdateDinInTable = {
-        ...formValue,
-        branchId: selectedBranch.id, // Include the branchId
-      };
-
-      console.log(data);
-
-      if (this.table) {
-        // Update existing Table
-        this.dineIntableService.update(data as UpdateDinInTable)
-          .subscribe(
-            response => {
-              // Handle successful response
-              console.log('Table updated successfully:', response);
-              this.afterActionService.reloadCurrentRoute();
-              this.closeModal();
-            },
-            error => {
-              // Handle error response
-              console.error('Error updating Table:', error);
-            }
-          );
-      } else {
-        // Create a new Table
-        this.dineIntableService.create(data as CreateDineIntable)
-          .subscribe(
-            response => {
-              // Handle successful response
-              console.log('Table created successfully:', response);
-              this.afterActionService.reloadCurrentRoute();
-              this.closeModal();
-            },
-            error => {
-              // Handle error response
-              console.error('Error creating Table:', error);
-            }
-          );
-      }
-    } else {
-      // Mark all form controls as touched to trigger validation messages
+    if (this.diningTableForm.invalid) {
       this.diningTableForm.markAllAsTouched();
+      return;
     }
+
+    const formValue = { ...this.diningTableForm.value };
+
+    // Construct the data object with the branchId included
+    const data: CreateDineIntable | UpdateDinInTable = {
+      ...formValue,
+      branchId: selectedBranch.id, // Include the branchId
+    };
+
+    console.log(data);
+    this.isSubmitting = true; // Prevent multiple submissions
+
+    const request$ = this.table
+      ? this.dineIntableService.update(data as UpdateDinInTable)
+      : this.dineIntableService.create(data as CreateDineIntable);
+
+    request$.subscribe({
+      next: (response) => {
+        console.log(`Table ${this.table ? 'updated' : 'created'} successfully:`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.table ? 'updating' : 'creating'} table:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 }

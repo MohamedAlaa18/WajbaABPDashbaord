@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
-import { BranchService, CartService, WajbaUserService } from '@proxy/controllers';
+import { BranchService, CartService, OrderService, WajbaUserService } from '@proxy/controllers';
 import { BranchDto, GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-contract';
 import { GetUserListDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
-// import { PosOrderService } from '@proxy/fos-api/controllers';
-// import { OrderDTO } from '@proxy/dtos/order-contract';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
-import { PosOrderService } from '@proxy/fos-api/controllers';
+import { CreateOrderDto } from '@proxy/dtos/order-contract';
+
 
 
 @Component({
@@ -21,6 +20,7 @@ import { PosOrderService } from '@proxy/fos-api/controllers';
 export class PosRightSideComponent implements OnInit {
   customers: WajbaUserDto[] = [];
   branches: BranchDto[] = [];
+  user: WajbaUserDto;
   cart!: any;
 
   discountType: number = 0;
@@ -42,7 +42,7 @@ export class PosRightSideComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private wajbaUserService: WajbaUserService,
-    private posOrderService: PosOrderService,
+    private orderService: OrderService,
     private cartService: CartService,
     private branchService: BranchService,
     private datePipe: DatePipe,
@@ -64,7 +64,7 @@ export class PosRightSideComponent implements OnInit {
       carType: [''],
       carColor: [''],
       carNumber: [''],
-      paymentMethod: [''],
+      paymentMethod: [1],
       persons: [null],
     });
 
@@ -78,6 +78,11 @@ export class PosRightSideComponent implements OnInit {
     this.updateValidators();
 
     this.cart = { items: [], subTotal: 0, discountAmount: 0, serviceFee: 0, deliveryFee: 0, totalAmount: 0 };
+
+    const storedUserData = localStorage.getItem('userData') || sessionStorage.getItem('userData');
+    if (storedUserData) {
+      this.user = JSON.parse(storedUserData);
+    }
     // const cartData = localStorage.getItem('cart');
     // if (cartData) {
     //   this.cart.items = JSON.parse(cartData);
@@ -89,16 +94,23 @@ export class PosRightSideComponent implements OnInit {
   loadCart() {
     this.cartService.getCart().subscribe({
       next: (response) => {
-        console.log(response)
+        console.log('Cart data from API:', response);
+
+        // Update cart object
         this.cart.items = response.data.items;
         this.cart.subTotal = response.data.subTotal;
         this.cart.deliveryFee = response.data.deliveryFee;
         this.cart.serviceFee = response.data.serviceFee;
         this.cart.totalAmount = response.data.totalAmount;
         this.cart.discountAmount = response.data.discountAmount;
+
+        // Save updated cart data to localStorage
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+
+        console.log('Cart data updated in localStorage:', this.cart);
       },
       error: (error) => {
-        console.error('Error fetching categories:', error);
+        console.error('Error fetching cart:', error);
       }
     });
   }
@@ -236,43 +248,61 @@ export class PosRightSideComponent implements OnInit {
   }
 
   incrementQuantity(cartItemId: number) {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const itemIndex = cart.findIndex((item: any) => item.id === cartItemId);
+    const cart = JSON.parse(localStorage.getItem('cart') || '{}');
+
+    if (!cart.items || !Array.isArray(cart.items)) {
+      console.error('Cart items are missing or not an array', cart);
+      return;
+    }
+
+    const itemIndex = cart.items.findIndex((item: any) => item.itemId === cartItemId);
 
     if (itemIndex !== -1) {
-      cart[itemIndex].quantity += 1;  // Increment quantity
-      localStorage.setItem('cart', JSON.stringify(cart));
-      this.cart.items = cart; // Update the cart in the component
-      this.calculateCartTotals(); // Recalculate cart totals
+      cart.items[itemIndex].quantity += 1;  // Increment quantity
+      localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart
+      this.cart.items = cart.items; // Update UI cart
+      this.calculateCartTotals(); // Recalculate totals
       console.log(`Quantity increased for item ID: ${cartItemId}`);
     }
   }
 
   decrementQuantity(cartItemId: number) {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const itemIndex = cart.findIndex((item: any) => item.id === cartItemId);
+    const cart = JSON.parse(localStorage.getItem('cart') || '{}');
+
+    if (!cart.items || !Array.isArray(cart.items)) {
+      console.error('Cart items are missing or not an array', cart);
+      return;
+    }
+
+    const itemIndex = cart.items.findIndex((item: any) => item.itemId === cartItemId);
 
     if (itemIndex !== -1) {
-      if (cart[itemIndex].quantity > 1) {
-        cart[itemIndex].quantity -= 1; // Decrement quantity
+      if (cart.items[itemIndex].quantity > 1) {
+        cart.items[itemIndex].quantity -= 1; // Decrement quantity
         localStorage.setItem('cart', JSON.stringify(cart));
-        this.cart.items = cart; // Update the cart in the component
-        this.calculateCartTotals(); // Recalculate cart totals
+        this.cart.items = cart.items; // Update UI cart
+        this.calculateCartTotals();
         console.log(`Quantity decreased for item ID: ${cartItemId}`);
       } else {
-        console.warn('Minimum quantity reached. Use remove instead.');
+        console.warn('Minimum quantity reached. Removing item.');
         this.onRemove(cartItemId);
       }
     }
   }
 
   onRemove(cartItemId: number) {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const updatedCart = cart.filter((item: any) => item.id !== cartItemId);
+    const cart = JSON.parse(localStorage.getItem('cart') || '{}');
 
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-    this.cart.items = updatedCart; // Update the cart in the component
-    this.calculateCartTotals(); // Recalculate cart totals
+    if (!cart.items || !Array.isArray(cart.items)) {
+      console.error('Cart items are missing or not an array', cart);
+      return;
+    }
+
+    cart.items = cart.items.filter((item: any) => item.itemId !== cartItemId);
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    this.cart.items = cart.items; // Update UI cart
+    this.calculateCartTotals();
     console.log(`Item with ID: ${cartItemId} removed from cart`);
   }
 
@@ -311,23 +341,30 @@ export class PosRightSideComponent implements OnInit {
 
     const { formattedDate, formattedTime, approximateTime } = this.getFormattedDateTime();
 
-    // Construct order data without the 'orderDto' wrapper
-    const orderData: any = {
-      cartItemDto: this.cart.items,
-      status: 0,
+    // Construct order data
+    const orderData: CreateOrderDto = {
+      orderItemDto: this.cart.items.map(item => ({
+        itemId: item.itemId,
+        quantity: item.quantity,
+        price: item.price,
+        instruction: item.instruction || '',
+        selectedVariations: item.selectedVariations || [],
+        selectedAddons: item.selectedAddons || [],
+        selectedExtras: item.selectedExtras || []
+      })),
       ordertype: this.selectedTypeId,
-      paymentMethod: 0,
-      branchId: 1,
+      branchId: this.selectedBranch.id,
+      paymentMethod:this.form.value.paymentMethod,
       ...this.getOrderDetails(formattedDate, formattedTime, approximateTime)
     };
 
     console.log('Order Data:', orderData);
 
-    this.posOrderService.addOrderByOrderDto(orderData).subscribe({
+    this.orderService.createOrderByOrderDtoAndEmployeeId(orderData, this.user.id).subscribe({
       next: (response) => {
-        if (response.success) {
-          this.handleOrderSuccess();
-        }
+        console.log('Order placed successfully:', response)
+        this.form.reset();
+        this.afterActionService.reloadCurrentRoute();
       },
       error: (error) => {
         console.error('Error placing order:', error);
@@ -336,44 +373,54 @@ export class PosRightSideComponent implements OnInit {
   }
 
   private getOrderDetails(formattedDate: string, formattedTime: string, approximateTime: string) {
-    const details = {
-      // For POS Order
+    return {
+      // POS Order
       posOrder: this.selectedTypeName === 'POS' ? {
         phoneNumber: this.form.value.phoneNumber || '',
-        tokenNumber: this.form.value.tokenNo || '',
-      } : null,
+        tokenNumber: this.form.value.tokenNo || ''
+      } : undefined,
 
-      // For Delivery Order
-      deliveryOrder: this.selectedTypeName === 'Delivery' ? {
-        title: this.form.value.addressLabel || 'Unknown',
-        longitude: 0, // Provide actual values if available
-        latitude: 0,
-        approximateTime
-      } : null,
+      // POS Delivery Order
+      posDeliveryOrder: this.selectedTypeName === 'Delivery' ? {
+        buildingName: this.form.value.buildingName || '',
+        apartmentNumber: this.form.value.apartmentNumber || '',
+        floor: this.form.value.floor || '',
+        street: this.form.value.street || '',
+        phoneNumber: this.form.value.phoneNumber || '',
+        additionalDirection: this.form.value.additionalDirections || '',
+        addressLabel: this.form.value.addressLabel || 'Unknown'
+      } : undefined,
 
-      // For Drive Thru
+      // Drive Thru Order
       driveThruOrder: this.selectedTypeName === 'Drive thru' ? {
         time: formattedTime,
         date: formattedDate,
         carColor: this.form.value.carColor || 'Unknown',
         carType: this.form.value.carType || 'Unknown',
-        carNumber: this.form.value.carNumber || 'Unknown',
-      } : null,
+        carNumber: this.form.value.carNumber || 'Unknown'
+      } : undefined,
 
-      // For Dine In
+      // Dine In Order
       dineInOrder: this.selectedTypeName === 'Dine in' ? {
         time: formattedTime,
         numberOfPersons: this.form.value.persons || 1,
-        date: formattedDate,
-      } : null,
+        date: formattedDate
+      } : undefined,
 
-      // For Pick Up
+      // Pick Up Order
       pickUpOrder: this.selectedTypeName === 'Pick up' ? {
-        time: formattedTime
-      } : null
-    };
+        time: formattedTime,
+        branchId: this.selectedBranch.id
+      } : undefined,
 
-    return details;
+      // Delivery Order
+      deliveryOrder: this.selectedTypeName === 'Delivery' ? {
+        title: this.form.value.addressLabel || 'Unknown',
+        longitude: this.form.value.longitude || 0,
+        latitude: this.form.value.latitude || 0,
+        approximateTime
+      } : undefined
+    };
   }
 
   /** Helper to format date & time */
@@ -388,12 +435,5 @@ export class PosRightSideComponent implements OnInit {
     const approximateTime = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss.SSSZ') || '';
 
     return { formattedDate, formattedTime, approximateTime };
-  }
-
-  /** Handles order success - resets form & reloads UI */
-  private handleOrderSuccess() {
-    this.form.reset();
-    // this.loadCart();
-    this.afterActionService.reloadCurrentRoute();
   }
 }

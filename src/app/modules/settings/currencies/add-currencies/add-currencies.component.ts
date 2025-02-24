@@ -21,6 +21,7 @@ export class AddCurrenciesComponent implements OnInit {
 
   currencyForm: FormGroup;
   selectedImage!: File;
+  isSubmitting: boolean = false; // Prevent multiple submissions
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +33,7 @@ export class AddCurrenciesComponent implements OnInit {
       symbol: ['', Validators.required],
       code: ['', Validators.required],
       exchangeRate: ['', [Validators.required, Validators.min(0)]],
-      isCryptoCurrency: [0, Validators.required]
+      isCryptoCurrency: [false, Validators.required]
     });
   }
 
@@ -59,54 +60,36 @@ export class AddCurrenciesComponent implements OnInit {
 
   // Handle form submission (add or edit currency)
   submitForm() {
-    if (this.currencyForm.valid) {
-      const formValue = this.currencyForm.value;
-
-      console.log('Form values:', formValue);
-
-      // Ensure isCryptoCurrency is a boolean value (either true or false)
-      if (formValue.hasOwnProperty('isCryptoCurrency')) {
-        formValue.isCryptoCurrency = Boolean(formValue.isCryptoCurrency); // Ensure boolean type
-      }
-
-      if (this.currency) {
-        // Ensure formValue has the 'id' property for update
-        const updatePayload: UpadteCurrency = {
-          ...formValue,
-          id: this.currency.id // Assign the `id` from the current currency
-        };
-
-        this.currencyService.update(updatePayload)
-          .subscribe(
-            response => {
-              console.log('Currency updated:', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error updating currency:', error);
-            }
-          );
-      } else {
-        // Create new currency
-        const createPayload: CreateUpdateCurrenciesDto = {
-          ...formValue
-        };
-
-        this.currencyService.create(createPayload)
-          .subscribe(
-            response => {
-              console.log('Currency added:', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error adding currency:', error);
-            }
-          );
-      }
-    } else {
+    if (this.currencyForm.invalid) {
       this.currencyForm.markAllAsTouched();
+      return;
     }
+
+    const formValue = { ...this.currencyForm.value };
+
+    console.log('Form values:', formValue);
+
+    // Ensure isCryptoCurrency is a boolean value
+    formValue.isCryptoCurrency = Boolean(formValue.isCryptoCurrency);
+
+    this.isSubmitting = true; // Prevent multiple submissions
+
+    const request$ = this.currency
+      ? this.currencyService.update({ ...formValue, id: this.currency.id } as UpadteCurrency)
+      : this.currencyService.create(formValue as CreateUpdateCurrenciesDto);
+
+    request$.subscribe({
+      next: (response) => {
+        console.log(`Currency ${this.currency ? 'updated' : 'added'} successfully:`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.currency ? 'updating' : 'adding'} currency:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 }

@@ -17,6 +17,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   showPassword = false;
   loading = false;
+  returnedErrorMessages: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -70,6 +71,7 @@ export class LoginComponent {
         },
         error: (error) => {
           console.error('Login error:', error);
+          this.returnedErrorMessages = error.error.message;
         },
         complete: () => {
           this.loading = false;

@@ -6,6 +6,7 @@ import { IconsComponent } from "../../../../shared/icons/icons.component";
 import { CommonModule } from '@angular/common';
 import { CreateUpdateLanguageDto, UpdateLanguagedto } from '@proxy/dtos/languages';
 import { Base64Service } from 'src/app/services/base64/base64.service';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-add-languages',
@@ -21,11 +22,13 @@ export class AddLanguagesComponent {
 
   languageForm: FormGroup;
   selectedImageFile: File | null = null;
+  isSubmitting: boolean = false; // Prevent multiple submissions
 
   constructor(
     private fb: FormBuilder,
     private languageService: LanguageService,
     private base64Service: Base64Service,
+    private afterActionService:AfterActionService
   ) {
     this.languageForm = this.fb.group({
       id: [null],
@@ -64,67 +67,51 @@ export class AddLanguagesComponent {
   }
 
   submitForm() {
-    if (this.languageForm.valid) {
-      // Ensure status is valid (either 1 or 2)
-      // const status = this.languageForm.value.status;
-      // if (![1, 2].includes(status)) {
-      //   console.error('Invalid status value');
-      //   return;
-      // }
-
-      if (this.selectedImageFile) {
-        // Convert image to Base64
-        this.base64Service.convertToBase64(this.selectedImageFile).then((base64Content) => {
-          const formValue: CreateUpdateLanguageDto | UpdateLanguagedto = {
-            ...this.languageForm.value,
-            model: {
-              id: this.language?.id || 0, // Use existing ID if updating
-              fileName: this.selectedImageFile?.name || '',
-              base64Content: base64Content
-            }
-          };
-
-          // Determine create or update operation
-          if (this.language) {
-            this.updateLanguage(formValue as UpdateLanguagedto);
-          } else {
-            this.createLanguage(formValue as CreateUpdateLanguageDto);
-          }
-        }).catch((error) => {
-          console.error('Error converting image to Base64:', error);
-        });
-      } else {
-        console.error('No image file selected. Please select an image.');
-      }
-    } else {
-      // Mark all form controls as touched to trigger validation messages
+    if (this.languageForm.invalid) {
       this.languageForm.markAllAsTouched();
+      return;
     }
-  }
 
-  private createLanguage(createDto: CreateUpdateLanguageDto) {
-    this.languageService.createasyncByLanguageDto(createDto)
-      .subscribe(
-        (response) => {
-          console.log('Item Language created successfully:', response);
-          this.closeModal();
-        },
-        (error) => {
-          console.error('Error creating Item Language:', error);
-        }
-      );
-  }
+    if (!this.selectedImageFile) {
+      console.error('No image file selected. Please select an image.');
+      return;
+    }
 
-  private updateLanguage(updateDto: UpdateLanguagedto) {
-    this.languageService.upadteByUpdate(updateDto)
-      .subscribe(
-        (response) => {
-          console.log('Item Language updated successfully:', response);
-          this.closeModal();
-        },
-        (error) => {
-          console.error('Error updating Item Language:', error);
-        }
-      );
+    this.isSubmitting = true; // Prevent multiple submissions
+
+    // Convert image to Base64
+    this.base64Service.convertToBase64(this.selectedImageFile)
+      .then((base64Content) => {
+        const formValue: CreateUpdateLanguageDto | UpdateLanguagedto = {
+          ...this.languageForm.value,
+          model: {
+            id: this.language?.id || 0, // Use existing ID if updating
+            fileName: this.selectedImageFile.name || '',
+            base64Content
+          }
+        };
+
+        const request$ = this.language
+          ? this.languageService.upadteByUpdate(formValue as UpdateLanguagedto)
+          : this.languageService.createasyncByLanguageDto(formValue as CreateUpdateLanguageDto);
+
+        request$.subscribe({
+          next: (response) => {
+            console.log(`Language ${this.language ? 'updated' : 'created'} successfully:`, response);
+            this.closeModal();
+            this.afterActionService.reloadCurrentRoute();
+          },
+          error: (error) => {
+            console.error(`Error ${this.language ? 'updating' : 'creating'} language:`, error);
+          },
+          complete: () => {
+            this.isSubmitting = false;
+          }
+        });
+      })
+      .catch((error) => {
+        console.error('Error converting image to Base64:', error);
+        this.isSubmitting = false;
+      });
   }
 }

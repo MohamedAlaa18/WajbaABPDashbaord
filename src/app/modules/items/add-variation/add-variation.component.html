@@ -38,11 +38,11 @@
           <label>Status</label>
           <div class="d-flex align-items-center gap-2">
             <label class="btn radio-label">
-              <input type="radio" class="form-check-label" formControlName="status" [value]="2" class="d-none">
+              <input type="radio" class="form-check-label" formControlName="status" [value]="1" class="d-none">
               Active
             </label>
             <label class="btn radio-label">
-              <input type="radio" class="form-check-label" formControlName="status" [value]="1" class="d-none">
+              <input type="radio" class="form-check-label" formControlName="status" [value]="0" class="d-none">
               Inactive
             </label>
           </div>
@@ -55,7 +55,7 @@
       </div>
 
       <div class="d-flex justify-content-start">
-        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="submit" class="btn me-2 text-white save" [disabled]="isSubmitting">Save</button>
         <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
       </div>
     </form>

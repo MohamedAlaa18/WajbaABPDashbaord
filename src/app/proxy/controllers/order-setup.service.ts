@@ -27,10 +27,10 @@ export class OrderSetupService {
     { apiName: this.apiName,...config });
   
 
-  getById = (id: number, config?: Partial<Rest.Config>) =>
+  getById = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
-      url: `/api/OrderSetup/${id}`,
+      url: '/api/OrderSetup/byId',
     },
     { apiName: this.apiName,...config });
   

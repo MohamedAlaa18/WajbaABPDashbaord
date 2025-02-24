@@ -21,6 +21,7 @@ export class AddVouchersComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
 
   voucherForm: FormGroup;
+  isSubmitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -97,44 +98,31 @@ export class AddVouchersComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (this.voucherForm.valid) {
-      let formValue: CreateUpdateCouponDto | UpdateCoupondto;
-
-      // Determine whether it's an update or create operation
-      if (this.voucherForm.value.id) {
-        formValue = this.voucherForm.value as UpdateCoupondto;
-      } else {
-        formValue = this.voucherForm.value as CreateUpdateCouponDto;
-      }
-
-      if (this.voucher) {
-        // Update existing voucher
-        this.couponService.update(formValue as UpdateCoupondto).subscribe(
-          response => {
-            console.log(response);
-            this.closeModal();
-            this.afterActionService.reloadCurrentRoute();
-          },
-          error => {
-            console.error(error);
-          }
-        );
-      } else {
-        // Create a new voucher
-        this.couponService.create(formValue as CreateUpdateCouponDto).subscribe(
-          response => {
-            console.log(response);
-            this.closeModal();
-            this.afterActionService.reloadCurrentRoute();
-          },
-          error => {
-            console.error(error);
-          }
-        );
-      }
-    } else {
-      // Mark all form controls as touched to trigger validation messages
+    if (this.voucherForm.invalid) {
       this.voucherForm.markAllAsTouched();
+      return;
     }
+
+    const formValues = { ...this.voucherForm.value };
+
+    this.isSubmitting = true; // Prevent multiple submissions
+
+    const request$ = this.voucher
+      ? this.couponService.update({ ...formValues, id: this.voucher.id } as UpdateCoupondto)
+      : this.couponService.create(formValues as CreateUpdateCouponDto);
+
+    request$.subscribe({
+      next: (response) => {
+        console.log(`Voucher ${this.voucher ? 'updated' : 'added'} successfully:`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.voucher ? 'updating' : 'adding'} voucher:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 }

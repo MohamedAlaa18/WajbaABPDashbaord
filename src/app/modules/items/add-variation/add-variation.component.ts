@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ItemAttributeService, ItemVariationService } from '@proxy/controllers';
 import { UpdateItemAttributeDto } from '@proxy/dtos/item-attributes';
 import { CreateItemVariationDto, ItemVariationDto, UpdateItemVariationDto } from '@proxy/dtos/item-variation-contract';
+import { Observable } from 'rxjs';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 
@@ -20,9 +21,11 @@ export class AddVariationComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Input() variation: ItemVariationDto;
   @Input() itemId: number;
+
   variationForm: FormGroup;
   attributes!: UpdateItemAttributeDto[];
   isEditMode = false;
+  isSubmitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -81,43 +84,40 @@ export class AddVariationComponent implements OnInit {
   }
 
   saveVariation() {
-    if (this.variationForm.valid) {
-      let formValue: CreateItemVariationDto | UpdateItemVariationDto;
+    this.handleFormSubmission(this.variationForm, this.itemVariationService, this.isEditMode, 'Variation');
+  }
 
-      // Determine whether it's an update or create operation
-      if (this.variationForm.value.id) {
-        formValue = this.variationForm.value as UpdateItemVariationDto;
-      } else {
-        formValue = this.variationForm.value as CreateItemVariationDto;
-      }
-
-      console.log('Form value:', formValue);
-
-      if (this.isEditMode) {
-        this.itemVariationService.updateVariationForItem(formValue as UpdateItemVariationDto)
-          .subscribe({
-            next: (response) => {
-              console.log('Variation updated successfully', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error: (err) => console.error('Error updating variation:', err)
-          });
-      } else {
-        this.itemVariationService.create(formValue as CreateItemVariationDto)
-          .subscribe({
-            next: (response) => {
-              console.log('Variation created successfully', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error: (err) => console.error('Error creating variation:', err)
-          });
-      }
-    } else {
-      console.log('Form is invalid:', this.variationForm);
-      this.variationForm.markAllAsTouched();
+  private handleFormSubmission(form: FormGroup, service: any, isEditMode: boolean, entityName: string) {
+    if (form.invalid) {
+      console.log(`Form is invalid:`, form);
+      form.markAllAsTouched();
+      return;
     }
+
+    this.isSubmitting = true;
+    const formValue = form.value;
+
+    const request$ = isEditMode
+      ? service.updateVariationForItem(formValue)
+      : service.create(formValue);
+
+    this.handleSubmission(request$, entityName);
+  }
+
+  private handleSubmission(request$: Observable<any>, entityName: string) {
+    request$.subscribe({
+      next: (response) => {
+        console.log(`${entityName} ${this.isEditMode ? 'updated' : 'created'} successfully`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.isEditMode ? 'updating' : 'creating'} ${entityName}:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 
   closeModal() {

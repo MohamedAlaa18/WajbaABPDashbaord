@@ -1,7 +1,7 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { ApiResponse } from '../apiresponse/models';
-import type { CreateNotificationDto, GetNotificationInput, NotificationDto, UpdateNotificationDto } from '../dtos/notification-contract/models';
+import type { CreateNotificationDto, GetNotificationInput, NotificationDto } from '../dtos/notification-contract/models';
 import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
@@ -37,15 +37,15 @@ export class NotificationService {
     { apiName: this.apiName,...config });
   
 
-  getById = (id: number, config?: Partial<Rest.Config>) =>
+  getById = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, ActionResult<ApiResponse<NotificationDto>>>({
       method: 'GET',
-      url: `/api/Notification/${id}`,
+      url: '/api/Notification/get',
     },
     { apiName: this.apiName,...config });
   
 
-  update = (input: UpdateNotificationDto, config?: Partial<Rest.Config>) =>
+  update = (input: CreateNotificationDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Notification',

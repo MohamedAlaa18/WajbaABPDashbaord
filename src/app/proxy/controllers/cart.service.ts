@@ -11,9 +11,6 @@ import { CookieService } from 'ngx-cookie-service';
 export class CartService {
   apiName = 'Default';
 
-  private getToken(): string {
-    return this.cookieService.get('userToken');
-  }
 
   addCartItemByCartItemDto = (cartItemDto: CreateCartItemDto[], config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
@@ -24,7 +21,7 @@ export class CartService {
       },
       body: cartItemDto,
     },
-      { apiName: this.apiName, ...config });
+    { apiName: this.apiName,...config });
 
 
   addVoucherByCode = (code: number, config?: Partial<Rest.Config>) =>
@@ -36,7 +33,7 @@ export class CartService {
       },
       params: { code },
     },
-      { apiName: this.apiName, ...config });
+    { apiName: this.apiName,...config });
 
 
   getCart = (config?: Partial<Rest.Config>) =>
@@ -47,7 +44,11 @@ export class CartService {
         Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
       },
     },
-      { apiName: this.apiName, ...config });
+    { apiName: this.apiName,...config });
 
-  constructor(private restService: RestService, private cookieService: CookieService) { }
+    private getToken(): string {
+      return this.cookieService.get('userToken');
+    }
+
+    constructor(private restService: RestService, private cookieService: CookieService) { }
 }

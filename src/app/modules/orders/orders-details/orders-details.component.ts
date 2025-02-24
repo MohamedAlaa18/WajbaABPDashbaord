@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { PosOrderService } from '@proxy/fos-api/controllers';
-import { OrderDTO } from '@proxy/dtos/order-contract';
+// import { PosOrderService } from '@proxy/fos-api/controllers';
 import { ActivatedRoute } from '@angular/router';
+import { CreateOrderDto } from '@proxy/dtos/order-contract';
 
 @Component({
   selector: 'app-orders-details',
@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./orders-details.component.scss']
 })
 export class OrdersDetailsComponent implements OnInit {
-  order: OrderDTO;
+  order: CreateOrderDto;
   orderId: number;
   isModalOpen: boolean = false;
   paidMenuOptions = ['Paid', 'Unpaid'];
@@ -24,28 +24,28 @@ export class OrdersDetailsComponent implements OnInit {
   selectedPendingOption: string = 'Pending';
 
   constructor(
-    private posOrderService: PosOrderService,
+    // private posOrderService: PosOrderService,
     private activatedRoute: ActivatedRoute,
   ) {
     this.orderId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void {
-    this.loadOffer();
+    this.loadOrders();
   }
 
   // Method to get offer details
-  loadOffer() {
+  loadOrders() {
     if (this.orderId) {
-      this.posOrderService.getOrderByIdById(this.orderId).subscribe(
-        (response) => {
-          console.log(response);
-          this.order = response.data;
-        },
-        (error) => {
-          console.error('Error fetching offer details:', error);
-        }
-      );
+      // this.posOrderService.getOrderByIdById(this.orderId).subscribe(
+      //   (response) => {
+      //     console.log(response);
+      //     this.order = response.data;
+      //   },
+      //   (error) => {
+      //     console.error('Error fetching offer details:', error);
+      //   }
+      // );
     }
   }
 

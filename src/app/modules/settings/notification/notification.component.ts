@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
 import { NotificationService } from '@proxy/controllers';
-import { GetNotificationInput, UpdateNotificationDto } from '@proxy/dtos/notification-contract';
+import { CreateNotificationDto, GetNotificationInput } from '@proxy/dtos/notification-contract';
 import { Base64Service } from 'src/app/services/base64/base64.service';
 
 @Component({
@@ -95,8 +95,7 @@ export class NotificationComponent implements OnInit {
   sendNotification() {
     if (this.notificationForm.valid) {
       const formValues = { ...this.notificationForm.value };
-      const updateNotificationDto: UpdateNotificationDto = {
-        id: 1, // Replace with the actual ID, if dynamically fetched
+      const updateNotificationDto: CreateNotificationDto = {
         fireBasePublicVapidKey: formValues.fireBasePublicVapidKey,
         fireBaseAPIKey: formValues.fireBaseAPIKey,
         fireBaseProjectId: formValues.fireBaseProjectId,

@@ -1,5 +1,17 @@
-import type { FullAuditedEntity } from '../../volo/abp/domain/entities/auditing/models';
-import type { PaymentMethod } from '../../enums/payment-method.enum';
+import type { OrderType } from '../../enums/order-type.enum';
+
+export interface CreateOrderDto {
+  orderItemDto: OrderItemDto[];
+  ordertype: number;
+  branchId: number;
+  pickUpOrder: PickUpOrderDTO;
+  paymentMethod: number;
+  deliveryOrder: DeliveryOrderDTO;
+  driveThruOrder: DriveThruOrderDTO;
+  dineInOrder: DineInOrderDTO;
+  posOrder: PosOrderDTO;
+  posDeliveryOrder: PosDeliveryOrderDTO;
+}
 
 export interface DeliveryOrderDTO {
   title?: string;
@@ -22,17 +34,30 @@ export interface DriveThruOrderDTO {
   carNumber?: string;
 }
 
-export interface OrderDTO extends FullAuditedEntity<number> {
-  status: number;
-  ordertype: number;
-  paymentMethod: number;
-  branchId: number;
-  pickUpOrder: PickUpOrderDTO;
-  deliveryOrder: DeliveryOrderDTO;
-  driveThruOrder: DriveThruOrderDTO;
-  dineInOrder: DineInOrderDTO;
-  posOrder: PosOrderDTO;
-  posDeliveryOrder: PosDeliveryOrderDTO;
+export interface OrderItemAddonDto {
+  addonName?: string;
+  additionalPrice: number;
+}
+
+export interface OrderItemDto {
+  itemId: number;
+  quantity: number;
+  price: number;
+  instruction?: string;
+  selectedVariations: OrderItemVariationDto[];
+  selectedAddons: OrderItemAddonDto[];
+  selectedExtras: OrderItemExtraDto[];
+}
+
+export interface OrderItemExtraDto {
+  extraName?: string;
+  additionalPrice: number;
+}
+
+export interface OrderItemVariationDto {
+  variationName?: string;
+  attributeName?: string;
+  additionalPrice: number;
 }
 
 export interface PickUpOrderDTO {

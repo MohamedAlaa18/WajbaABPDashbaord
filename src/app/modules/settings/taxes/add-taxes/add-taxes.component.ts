@@ -21,6 +21,7 @@ export class AddTaxesComponent implements OnInit {
 
   taxForm: FormGroup;
   selectedImage!: File;
+  isSubmitting: boolean = false; // Prevent multiple submissions
 
   constructor(
     private fb: FormBuilder,
@@ -57,49 +58,32 @@ export class AddTaxesComponent implements OnInit {
 
   // Handle form submission (add or edit currency)
   submitForm() {
-    if (this.taxForm.valid) {
-      const formValue = this.taxForm.value;
-
-      console.log('Form values:', formValue);
-
-      if (this.tax) {
-        // Ensure formValue has the 'id' property for update
-        const updatePayload: UpdateItemTaxDto = {
-          ...formValue,
-          id: this.tax.id // Assign the `id` from the current currency
-        };
-
-        this.itemTaxService.update(updatePayload)
-          .subscribe(
-            response => {
-              console.log('Currency updated:', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error updating currency:', error);
-            }
-          );
-      } else {
-        // Create new currency
-        const createPayload: UpdateItemTaxDto = {
-          ...formValue
-        };
-
-        this.itemTaxService.create(createPayload)
-          .subscribe(
-            response => {
-              console.log('Currency added:', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error adding currency:', error);
-            }
-          );
-      }
-    } else {
+    if (this.taxForm.invalid) {
       this.taxForm.markAllAsTouched();
+      return;
     }
+
+    this.isSubmitting = true; // Prevent multiple submissions
+    const formValue = { ...this.taxForm.value };
+
+    console.log('Form values:', formValue);
+
+    const request$ = this.tax
+      ? this.itemTaxService.update({ ...formValue, id: this.tax.id } as UpdateItemTaxDto)
+      : this.itemTaxService.create(formValue as UpdateItemTaxDto);
+
+    request$.subscribe({
+      next: (response) => {
+        console.log(`Tax ${this.tax ? 'updated' : 'created'} successfully:`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.tax ? 'updating' : 'creating'} tax:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 }

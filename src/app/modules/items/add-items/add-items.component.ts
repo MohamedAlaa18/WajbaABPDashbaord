@@ -10,6 +10,7 @@ import { UpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
 import { CreateItemDto, UpdateItemDTO } from '@proxy/dtos/items-dtos';
 import { Base64Service } from 'src/app/services/base64/base64.service';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-add-items',
   standalone: true,
@@ -21,13 +22,14 @@ export class AddItemsComponent {
   @Input() isOpen: boolean = false;
   @Input() item: UpdateItemDTO | null = null;
   @Output() close = new EventEmitter<void>();
-  selectedBranches: number[] = []; // Array to hold selected branch IDs
 
+  selectedBranches: number[] = []; // Array to hold selected branch IDs
   itemForm: FormGroup;
   categories: CreateUpdateCategoryDto[] = [];
   branchesList: CreateBranchDto[] = [];
   taxes: UpdateItemTaxDto[] = [];
   selectedImageFile: File | null = null;
+  isSubmitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -164,63 +166,54 @@ export class AddItemsComponent {
   }
 
   submitForm() {
-    if (this.itemForm.valid) {
-      if (this.selectedImageFile) {
-        // Convert image to Base64
-        this.base64Service.convertToBase64(this.selectedImageFile).then((base64Content) => {
-          const formValue: CreateItemDto | UpdateItemDTO = {
-            ...this.itemForm.value,
-            model: {
-              id: this.item?.id || 0, // Use existing ID if updating
-              fileName: this.selectedImageFile?.name || '',
-              base64Content: base64Content
-            }
-          };
-          console.log(formValue);
-          // Determine create or update operation
-          if (this.item) {
-            this.updateItem(formValue as UpdateItemDTO);
-          } else {
-            this.createItem(formValue as CreateItemDto);
-          }
-        }).catch((error) => {
-          console.error('Error converting image to Base64:', error);
-        });
-      } else {
-        console.error('No image file selected. Please select an image.');
-      }
-    } else {
-      // Mark all form controls as touched to trigger validation messages
+    if (this.itemForm.invalid) {
       this.itemForm.markAllAsTouched();
+      return;
     }
+
+    if (!this.selectedImageFile) {
+      console.error('No image file selected. Please select an image.');
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    this.base64Service.convertToBase64(this.selectedImageFile)
+      .then((base64Content) => {
+        const formValue: CreateItemDto | UpdateItemDTO = {
+          ...this.itemForm.value,
+          model: {
+            id: this.item?.id || 0,
+            fileName: this.selectedImageFile.name || '',
+            base64Content
+          }
+        };
+
+        const request$ = this.item
+          ? this.itemService.update(formValue as UpdateItemDTO)
+          : this.itemService.create(formValue as CreateItemDto);
+
+        this.handleSubmission(request$, 'Item');
+      })
+      .catch((error) => {
+        console.error('Error converting image to Base64:', error);
+        this.isSubmitting = false;
+      });
   }
 
-  private createItem(createDto: CreateItemDto) {
-    this.itemService.create(createDto)
-      .subscribe(
-        (response) => {
-          console.log('Item created successfully:', response);
-          this.closeModal();
-          this.afterActionService.reloadCurrentRoute();
-        },
-        (error) => {
-          console.error('Error creating Item:', error);
-        }
-      );
-  }
-
-  private updateItem(updateDto: UpdateItemDTO) {
-    this.itemService.update(updateDto)
-      .subscribe(
-        (response) => {
-          console.log('Item updated successfully:', response);
-          this.closeModal();
-          this.afterActionService.reloadCurrentRoute();
-
-        },
-        (error) => {
-          console.error('Error updating Item:', error);
-        }
-      );
+  private handleSubmission(request$: Observable<any>, entityName: string) {
+    request$.subscribe({
+      next: (response) => {
+        console.log(`${entityName} ${this.item ? 'updated' : 'created'} successfully`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.item ? 'updating' : 'creating'} ${entityName}:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 }

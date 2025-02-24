@@ -27,6 +27,7 @@ export class AddPopularTodayComponent {
   popularItemForm: FormGroup;
   selectedImageFile: File | null = null;
   selectedItem: ItemDto;
+  isSubmitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -113,46 +114,52 @@ export class AddPopularTodayComponent {
     this.close.emit();
   }
 
-  submitForm() {
-    if (this.popularItemForm.valid) {
-      if (this.selectedImageFile) {
-        // Convert image to Base64
-        this.base64Service.convertToBase64(this.selectedImageFile).then((base64Content) => {
-          const formValue: CreatePopularitem | UpdatePopularItemdto = {
-            ...this.popularItemForm.value,
-            model: {
-              id: this.item?.id || 0, // Use existing ID if updating
-              fileName: this.selectedImageFile?.name || '',
-              base64Content: base64Content
-            }
-          };
-
-          console.log('Form value:', formValue as CreatePopularitem);
-          // Determine create or update operation
-          if (this.item) {
-            this.updateItem(formValue as UpdatePopularItemdto);
-          } else {
-            this.createItem(formValue as CreatePopularitem);
-          }
-        }).catch((error) => {
-          console.error('Error converting image to Base64:', error);
-        });
-      } else {
-        const formValue: CreatePopularitem | UpdatePopularItemdto = { ...this.popularItemForm.value };
-
-        console.log('Form value:', formValue as CreatePopularitem);
-        // Determine create or update operation
-        if (this.item) {
-          this.updateItem(formValue as UpdatePopularItemdto);
-        } else {
-          this.createItem(formValue as CreatePopularitem);
-        }
-        console.error('No image file selected. Please select an image.');
-      }
-    } else {
-      // Mark all form controls as touched to trigger validation messages
+  submitForm(): void {
+    if (this.popularItemForm.invalid) {
       this.popularItemForm.markAllAsTouched();
-      console.error('Form is invalid. Please check the form fields.' ,this.popularItemForm.errors);
+      return;
+    }
+
+    const formValues = { ...this.popularItemForm.value };
+
+    this.isSubmitting = true; // Prevent multiple submissions
+
+    const processPopularItem = (base64Content: string | null) => {
+      const itemDto = {
+        ...formValues,
+        model: base64Content
+          ? { id: this.item?.id || 0, fileName: this.selectedImageFile?.name || '', base64Content }
+          : null
+      };
+
+      const request$ = this.item
+        ? this.popularItemService.update(itemDto as UpdatePopularItemdto)
+        : this.popularItemService.create(itemDto as CreatePopularitem);
+
+      request$.subscribe({
+        next: (response) => {
+          console.log(`Popular item ${this.item ? 'updated' : 'added'} successfully:`, response);
+          this.closeModal();
+          this.afterActionService.reloadCurrentRoute();
+        },
+        error: (error) => {
+          console.error(`Error ${this.item ? 'updating' : 'adding'} popular item:`, error);
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        }
+      });
+    };
+
+    if (this.selectedImageFile) {
+      this.base64Service.convertToBase64(this.selectedImageFile)
+        .then(processPopularItem)
+        .catch((error: any) => {
+          console.error('Error converting image to Base64:', error);
+          this.isSubmitting = false;
+        });
+    } else {
+      processPopularItem(null);
     }
   }
 

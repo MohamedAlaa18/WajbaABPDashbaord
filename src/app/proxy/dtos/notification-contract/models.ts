@@ -29,7 +29,3 @@ export interface NotificationDto {
   fireBaseMeasurementId?: string;
   imageUrl?: string;
 }
-
-export interface UpdateNotificationDto extends CreateNotificationDto {
-  id: number;
-}

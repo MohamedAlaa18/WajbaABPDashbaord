@@ -21,6 +21,7 @@ export class AddAddressComponent implements OnInit {
 
   selectedForm: 'apartment' | 'house' | 'office' = 'apartment';
   addressForm: FormGroup;
+  isSubmitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -82,48 +83,37 @@ export class AddAddressComponent implements OnInit {
     this.addressForm.get('floor')?.updateValueAndValidity();
   }
 
-  submitForm() {
-    if (this.addressForm.valid) {
-      let formValue: UpdateUserAddressDto | CreateUserAddressDto;
-
-      // Determine whether it's an update or create operation
-      if (this.addressForm.value.id) {
-        formValue = this.addressForm.value as UpdateUserAddressDto;
-      } else {
-        formValue = this.addressForm.value as CreateUserAddressDto;
-      }
-
-      // Add AddressType before sending the data
-      formValue.addressType = this.getAddressType();
-
-      if (!this.address) {
-        // Add address if in "add" mode
-        this.userAddressService.create(formValue as CreateUserAddressDto).subscribe(
-          (response) => {
-            console.log('Address added successfully:', response);
-            this.afterActionService.reloadCurrentRoute();
-            this.closeModal();
-          },
-          (error) => {
-            console.error('Error adding address:', error);
-          }
-        );
-      } else {
-        // Update address if in "edit" mode
-        this.userAddressService.update(formValue as UpdateUserAddressDto).subscribe(
-          (response) => {
-            console.log('Address updated successfully:', response);
-            this.afterActionService.reloadCurrentRoute();
-            this.closeModal();
-          },
-          (error) => {
-            console.error('Error updating address:', error);
-          }
-        );
-      }
-    } else {
+  submitForm(): void {
+    if (this.addressForm.invalid) {
       console.error('Form is invalid');
+      this.addressForm.markAllAsTouched();
+      return;
     }
+
+    let formValue: UpdateUserAddressDto | CreateUserAddressDto = { ...this.addressForm.value };
+
+    // Add AddressType before sending the data
+    formValue.addressType = this.getAddressType();
+
+    this.isSubmitting = true; // Prevent multiple submissions
+
+    const request$ = this.address
+      ? this.userAddressService.update(formValue as UpdateUserAddressDto)
+      : this.userAddressService.create(formValue as CreateUserAddressDto);
+
+    request$.subscribe({
+      next: (response) => {
+        console.log(`Address ${this.address ? 'updated' : 'added'} successfully:`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.address ? 'updating' : 'adding'} address:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 
   closeModal() {

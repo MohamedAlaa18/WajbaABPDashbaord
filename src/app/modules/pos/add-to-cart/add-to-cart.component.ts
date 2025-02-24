@@ -193,10 +193,8 @@ export class AddToCartComponent implements OnChanges, OnInit {
   }
 
   onSubmit() {
-    console.log(this.cartForm);
-
     if (this.cartForm.invalid) {
-      console.error('Form is invalid, please ensure all required fields are filled.', this.cartForm);
+      console.error('Form is invalid. Please ensure all required fields are filled.', this.cartForm);
       this.cartForm.markAllAsTouched();
       return;
     }
@@ -206,14 +204,14 @@ export class AddToCartComponent implements OnChanges, OnInit {
     const cartItem: CartItemDto = {
       itemId: this.productItem.id,
       quantity: formValues.quantity,
-      cartItemId: 0, // Default value, replace with actual ID if available
-      voucherCode: 0, // Default value, replace if needed
+      cartItemId: 0,
+      voucherCode: 0,
       notes: formValues.specialInstructions || '',
       itemName: this.productItem.name || '',
       price: this.productItem.price || 0,
       imgUrl: this.productItem.imageUrl || '',
       variations: this.variations.value.map((value, index) => ({
-        id: value, // Assuming value is the selected variation ID
+        id: value,
         name: this.productItem.attributes[index].attributeName,
         additionalPrice: this.productItem.attributes[index].variations.find(v => v.id === value)?.additionalPrice || 0,
         attributeName: this.productItem.attributes[index].attributeName,
@@ -222,13 +220,13 @@ export class AddToCartComponent implements OnChanges, OnInit {
         .map((selected, index) =>
           selected
             ? ({
-              id: this.productItem.itemAddons[index].id,
-              name: this.productItem.itemAddons[index].name,
-              price: this.productItem.itemAddons[index].additionalPrice,
-            } as ReturnCartItemAddonDto)
+                id: this.productItem.itemAddons[index].id,
+                name: this.productItem.itemAddons[index].name,
+                price: this.productItem.itemAddons[index].additionalPrice,
+              } as ReturnCartItemAddonDto)
             : null
         )
-        .filter(Boolean) as ReturnCartItemAddonDto[], // Ensuring correct type
+        .filter(Boolean) as ReturnCartItemAddonDto[],
       extras: this.addedExtras.map(extra => ({
         id: extra.id,
         name: extra.name,
@@ -236,35 +234,35 @@ export class AddToCartComponent implements OnChanges, OnInit {
       })) as ReturnCartItemExtraDto[],
     };
 
-    const existingCart: CartItemDto[] = JSON.parse(localStorage.getItem('cart') || '[]');
+    // ✅ Retrieve existing cart from `localStorage` or create a new cart
+    let existingCartData = JSON.parse(localStorage.getItem('cart') || '{}');
 
-    if (this.isEditMode) {
-      // Find and update the existing item
-      const updatedCart = existingCart.map(item =>
-        item.itemId === cartItem.itemId ? { ...item, ...cartItem } : item
-      );
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
-      console.log('Cart item updated in local storage:', cartItem);
-    } else {
-      // Add new item to local storage
-      existingCart.push(cartItem);
-      localStorage.setItem('cart', JSON.stringify(existingCart));
-      console.log('Item added to cart in local storage:', cartItem);
+    // Ensure the cart structure is valid
+    if (!existingCartData || !Array.isArray(existingCartData.items)) {
+      existingCartData = { items: [] }; // Initialize an empty array if items don't exist
     }
 
-    console.log('Cart item added to local storage:', cartItem);
-    // Send the cart data to the backend using the CartService
-    this.cartService.addCartItemByCartItemDto([cartItem]).subscribe(
+    // ✅ Merge the new item into the cart (without overwriting)
+    existingCartData.items.push(cartItem);
+
+    // ✅ Save the updated cart back to `localStorage`
+    localStorage.setItem('cart', JSON.stringify(existingCartData));
+
+    console.log('Updated LocalStorage Cart:', existingCartData);
+
+    // ✅ Send **all items** to the backend
+    this.cartService.addCartItemByCartItemDto(existingCartData.items).subscribe(
       response => {
-        console.log('Item successfully added to the cart in backend:', response);
-        this.afterActionService.reloadCurrentRoute(); // Refresh route after successful addition
+        console.log('Cart updated successfully in backend:', response);
+        this.afterActionService.reloadCurrentRoute(); // Refresh UI after update
       },
       error => {
-        console.error('Error adding item to the cart:', error);
+        console.error('Error updating cart:', error);
       }
     );
 
-    // Close the modal or take necessary post-action
+    // ✅ Close modal after action
     this.closeModal();
   }
+
 }

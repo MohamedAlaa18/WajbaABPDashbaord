@@ -1,65 +1,23 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { OrderType } from '../enums/order-type.enum';
-import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
-import { CookieService } from 'ngx-cookie-service';
+import type { CreateOrderDto } from '../dtos/order-contract/models';
+import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
   apiName = 'Default';
+  
 
-  private getToken(): string {
-    return this.cookieService.get('userToken');
-  }
-
-  getAllOrdersForCustomerByBranchIdAndPageSizeAndPageNumber = (branchId: number, pageSize?: number, pageNumber?: number, config?: Partial<Rest.Config>) =>
+  createOrderByOrderDtoAndEmployeeId = (orderDto: CreateOrderDto, employeeId: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
-      method: 'GET',
-      url: '/api/Order/Kitchen-customer-orders',
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
-      },
-      params: { branchId, pageSize, pageNumber },
+      method: 'POST',
+      url: '/api/Order/create-order',
+      params: { employeeId },
+      body: orderDto,
     },
-      { apiName: this.apiName, ...config });
+    { apiName: this.apiName,...config });
 
-
-  getDailySalesByBranchidAndNumberOfDays = (branchid: number, numberOfDays: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
-      method: 'GET',
-      url: '/api/Order/daily-sales',
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
-      },
-      params: { branchid, numberOfDays },
-    },
-      { apiName: this.apiName, ...config });
-
-
-  salesReportByBranchIdAndStartDateAndEndDateAndDateorderAndStatusAndOrdertypeAndOrderIdAndFrompriceAndTopriceAndPaidstatusAndPageNumberAndPageSize = (branchId: number, startDate?: string, endDate?: string, dateorder?: string, status?: number, ordertype?: Number, orderId?: number, fromprice?: number, toprice?: number, paidstatus?: string, pageNumber?: number, pageSize?: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
-      method: 'GET',
-      url: '/api/Order/SalesReport',
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
-      },
-      params: { branchId, startDate, endDate, dateorder, status, ordertype, orderId, fromprice, toprice, paidstatus, pageNumber, pageSize },
-    },
-      { apiName: this.apiName, ...config });
-
-
-  updateOrderStatusByOrderIdAndStatus = (orderId: number, status: string, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, IActionResult>({
-      method: 'PUT',
-      url: '/api/Order/Kitchen-update-order-status',
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
-      },
-      params: { orderId, status },
-    },
-      { apiName: this.apiName, ...config });
-
-  constructor(private restService: RestService, private cookieService: CookieService) { }
+  constructor(private restService: RestService) {}
 }

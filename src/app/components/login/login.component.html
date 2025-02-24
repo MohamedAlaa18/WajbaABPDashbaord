@@ -29,6 +29,9 @@
             class="text-danger mt-1">
             <small>Password is required</small>
           </div>
+          <div *ngIf="returnedErrorMessages" class="text-danger mt-1">
+            <small>{{returnedErrorMessages}}</small>
+          </div>
         </div>
 
         <div class="d-flex justify-content-between items-center gap-2">

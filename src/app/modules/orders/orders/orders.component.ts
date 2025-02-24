@@ -13,8 +13,7 @@ import { GetCouponsInput, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
 import { ItemTaxDto } from '@proxy/dtos/item-tax-contract';
 import { GetBranchInput } from '@proxy/dtos/branch-contract';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
-import { PosOrderService } from '@proxy/fos-api/controllers';
-import { OrderDTO } from '@proxy/dtos/order-contract';
+import { CreateOrderDto } from '@proxy/dtos/order-contract';
 
 @Component({
   selector: 'app-orders',
@@ -24,7 +23,7 @@ import { OrderDTO } from '@proxy/dtos/order-contract';
   styleUrl: './orders.component.scss'
 })
 export class OrdersComponent implements OnInit {
-  orders: OrderDTO[] = [];
+  orders: CreateOrderDto[] = [];
   taxes: ItemTaxDto[] = [];
   isAddMode = true;
   currentPage: number = 1;
@@ -102,7 +101,7 @@ export class OrdersComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private posOrderService: PosOrderService,
+    // private posOrderService: PosOrderService,
     private itemTaxService: ItemTaxService,
     private afterActionService:AfterActionService,
     private router: Router,
@@ -131,25 +130,25 @@ export class OrdersComponent implements OnInit {
       // maximumDiscount: this.filters.maximumDiscount ? +this.filters.maximumDiscount : undefined,
     };
 
-    this.posOrderService.getAllOrdersByBranchIdAndStartDateAndOrderIdAndOrderTypeAndEndDateAndDateOrderAndStatusAndFromPriceAndToPrice(selectedBranch.id).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.orders = response.data.items;
-        this.totalPages = Math.ceil(response.data.totalCount / 10);
+    // this.posOrderService.getAllOrdersByBranchIdAndStartDateAndOrderIdAndOrderTypeAndEndDateAndDateOrderAndStatusAndFromPriceAndToPrice(selectedBranch.id).subscribe({
+    //   next: (response) => {
+    //     console.log(response);
+    //     this.orders = response.data.items;
+    //     this.totalPages = Math.ceil(response.data.totalCount / 10);
 
-        // this.tableData = this.orders.map(order => ({
-        //   id:order.id,
-        //   orderType:order.ordertype,
-        //   customerName:order.customerName,
-        //   amount:order.amount,
-        //   date:order.date,
-        //   status:order.status,
-        // }));
-      },
-      error: (err) => {
-        console.error('Error loading vouchers:', err);
-      },
-    });
+    //     // this.tableData = this.orders.map(order => ({
+    //     //   id:order.id,
+    //     //   orderType:order.ordertype,
+    //     //   customerName:order.customerName,
+    //     //   amount:order.amount,
+    //     //   date:order.date,
+    //     //   status:order.status,
+    //     // }));
+    //   },
+    //   error: (err) => {
+    //     console.error('Error loading vouchers:', err);
+    //   },
+    // });
   }
 
   loadTaxes(): void {
@@ -218,16 +217,16 @@ export class OrdersComponent implements OnInit {
   }
 
   deleteVoucher(id: number): void {
-    this.posOrderService.deleteOrderByOrderId(id).subscribe({
-      next: () => {
-        // this.orders = this.orders.filter((voucher) => voucher.id !== id);
-        this.afterActionService.reloadCurrentRoute();
-        this.modalService.dismissAll(); // Close all modals
-      },
-      error: (err) => {
-        console.error('Error deleting voucher:', err);
-      },
-    });
+    // this.posOrderService.deleteOrderByOrderId(id).subscribe({
+    //   next: () => {
+    //     // this.orders = this.orders.filter((voucher) => voucher.id !== id);
+    //     this.afterActionService.reloadCurrentRoute();
+    //     this.modalService.dismissAll(); // Close all modals
+    //   },
+    //   error: (err) => {
+    //     console.error('Error deleting voucher:', err);
+    //   },
+    // });
   }
 
   onPageChange(page: number): void {

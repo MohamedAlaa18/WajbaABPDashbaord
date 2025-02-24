@@ -42,7 +42,7 @@
           <input type="file" (change)="onFileSelected($event)" class="form-control bg-white"
             (change)="handleImageUpload($event)">
           <div *ngIf="itemForm.get('image')?.touched && itemForm.get('image')?.invalid" class="text-danger">
-            <small *ngIf="itemCategoryForm.get('image')?.errors?.['required']">Image is required.</small>
+            <small *ngIf="itemForm.get('image')?.errors?.['required']">Image is required.</small>
           </div>
         </div>
       </div>
@@ -139,7 +139,7 @@
       </div>
 
       <div class="d-flex justify-content-start">
-        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="submit" class="btn me-2 text-white save" [disabled]="isSubmitting">Save</button>
         <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
       </div>
     </form>

@@ -5,6 +5,7 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 import { ItemExtraService } from '@proxy/controllers';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { CreateItemExtraDto, UpdateItemExtraDto } from '@proxy/dtos/item-extra-contract';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-extra',
@@ -17,8 +18,10 @@ export class AddExtraComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Input() extra: UpdateItemExtraDto;
   @Input() itemId: number;
+
   extraForm: FormGroup;
   isEditMode = false;
+  isSubmitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -56,50 +59,40 @@ export class AddExtraComponent implements OnInit {
   }
 
   saveExtra() {
-    if (this.extraForm.valid) {
+    this.handleFormSubmission(this.extraForm, this.itemExtraService, this.isEditMode, 'Extra');
+  }
 
-      let formValue: CreateItemExtraDto | UpdateItemExtraDto;
-
-      // Determine whether it's an update or create operation
-      if (this.extraForm.value.extraId) {
-        formValue = this.extraForm.value as UpdateItemExtraDto;
-      } else {
-        formValue = this.extraForm.value as CreateItemExtraDto;
-      }
-
-      console.log('Form value:', formValue);
-
-      if (this.isEditMode) {
-        // Update existing extra
-        this.itemExtraService.updateExtraForItem(formValue as UpdateItemExtraDto)
-          .subscribe(
-            response => {
-              console.log('Extra updated:', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error updating extra:', error);
-            }
-          );
-      } else {
-        // Create a new extra
-        this.itemExtraService.create(formValue as CreateItemExtraDto)
-          .subscribe(
-            response => {
-              console.log('Extra created:', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error creating extra:', error);
-            }
-          );
-      }
-    } else {
-      console.log('Form is invalid:', this.extraForm);
-      this.extraForm.markAllAsTouched();
+  private handleFormSubmission(form: FormGroup, service: any, isEditMode: boolean, entityName: string) {
+    if (form.invalid) {
+      console.log(`Form is invalid:`, form);
+      form.markAllAsTouched();
+      return;
     }
+
+    this.isSubmitting = true;
+    const formValue = form.value;
+
+    const request$ = isEditMode
+      ? service.updateExtraForItem(formValue)
+      : service.create(formValue);
+
+    this.handleSubmission(request$, entityName);
+  }
+
+  private handleSubmission(request$: Observable<any>, entityName: string) {
+    request$.subscribe({
+      next: (response) => {
+        console.log(`${entityName} ${this.isEditMode ? 'updated' : 'created'} successfully`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.isEditMode ? 'updating' : 'creating'} ${entityName}:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 
   closeModal() {

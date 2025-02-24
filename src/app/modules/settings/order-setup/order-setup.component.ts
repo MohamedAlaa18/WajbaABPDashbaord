@@ -47,28 +47,28 @@ export class OrderSetupComponent implements OnInit {
   }
 
   loadOrderSetup(): void {
-    const defaultInput: PagedAndSortedResultRequestDto = {
-      sorting: '',
-      skipCount: 0,
-      maxResultCount: 10
-    };
+    // const defaultInput: PagedAndSortedResultRequestDto = {
+    //   sorting: '',
+    //   skipCount: 0,
+    //   maxResultCount: 10
+    // };
 
     // Fetch the order setup data
-    this.orderSetupService.getList(defaultInput).subscribe(
+    this.orderSetupService.getById().subscribe(
       (response) => {
         console.log("order Setup", response);
 
         this.orderForm.patchValue({
-          foodPreparationTime: response.data.items[0].foodPreparationTime,
-          scheduleOrderSlotDuration: response.data.items[0].scheduleOrderSlotDuration,
-          isTakeawayEnabled: response.data.items[0].isTakeawayEnabled,
-          isDeliveryEnabled: response.data.items[0].isDeliveryEnabled,
-          freeDeliveryKilometer: response.data.items[0].freeDeliveryKilometer,
-          basicDeliveryCharge: response.data.items[0].basicDeliveryCharge,
-          chargePerKilo: response.data.items[0].chargePerKilo,
-          onTime: response.data.items[0].onTime,
-          warning: response.data.items[0].warning,
-          delayTime: response.data.items[0].delayTime,
+          foodPreparationTime: response.data.foodPreparationTime,
+          scheduleOrderSlotDuration: response.data.scheduleOrderSlotDuration,
+          isTakeawayEnabled: response.data.isTakeawayEnabled,
+          isDeliveryEnabled: response.data.isDeliveryEnabled,
+          freeDeliveryKilometer: response.data.freeDeliveryKilometer,
+          basicDeliveryCharge: response.data.basicDeliveryCharge,
+          chargePerKilo: response.data.chargePerKilo,
+          onTime: response.data.ontime,
+          warning: response.data.warning,
+          delayTime: response.data.delayTime,
         });
       },
       (error) => {

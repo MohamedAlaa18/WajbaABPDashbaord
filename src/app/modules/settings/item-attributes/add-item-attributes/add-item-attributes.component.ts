@@ -18,6 +18,7 @@ export class AddItemAttributesComponent {
   @Output() close = new EventEmitter<void>();
 
   itemAttributeForm: FormGroup;
+  isSubmitting: boolean = false; // Prevent multiple submissions
   isMapModalOpen: boolean = false;
 
   constructor(
@@ -50,48 +51,33 @@ export class AddItemAttributesComponent {
   }
 
   submitForm() {
-    if (this.itemAttributeForm.valid) {
-      let formValue: UpdateItemAttributeDto | CreateItemAttributeDto;
-
-      if (this.itemAttributeForm.value.id) {
-        formValue = this.itemAttributeForm.value as UpdateItemAttributeDto;
-      } else {
-        formValue = this.itemAttributeForm.value as CreateItemAttributeDto;
-      }
-
-      if (this.itemAttribute) {
-        // Update existing itemAttribute
-        this.itemAttributeService.update(formValue as UpdateItemAttributeDto)
-          .subscribe(
-            response => {
-              console.log('Item attribute updated successfully:', response);
-              // Emit 'saved' result to the parent component
-              this.close.emit();
-            },
-            error => {
-              console.error('Error updating item attribute:', error);
-            }
-          );
-      } else {
-        // Create a new itemAttribute
-        this.itemAttributeService.create(formValue as CreateItemAttributeDto)
-          .subscribe(
-            response => {
-              console.log('Item attribute created successfully:', response);
-              // Emit 'saved' result to the parent component
-              this.close.emit();
-            },
-            error => {
-              console.error('Error creating item attribute:', error);
-            }
-          );
-      }
-    } else {
+    if (this.itemAttributeForm.invalid || this.isSubmitting) {
       this.itemAttributeForm.markAllAsTouched();
+      return;
     }
-  }
 
-  closeMapModal() {
-    this.isMapModalOpen = false;
+    this.isSubmitting = true; // Disable further clicks
+
+    let formValue: UpdateItemAttributeDto | CreateItemAttributeDto =
+      this.itemAttributeForm.value.id
+        ? (this.itemAttributeForm.value as UpdateItemAttributeDto)
+        : (this.itemAttributeForm.value as CreateItemAttributeDto);
+
+    const request = this.itemAttribute
+      ? this.itemAttributeService.update(formValue as UpdateItemAttributeDto)
+      : this.itemAttributeService.create(formValue as CreateItemAttributeDto);
+
+    request.subscribe({
+      next: (response) => {
+        console.log('Item attribute saved successfully:', response);
+        this.close.emit();
+      },
+      error: (error) => {
+        console.error('Error saving item attribute:', error);
+      },
+      complete: () => {
+        this.isSubmitting = false; // Re-enable button after request completes
+      }
+    });
   }
 }

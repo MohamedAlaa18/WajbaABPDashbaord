@@ -7,9 +7,7 @@ export interface AccountInfoEditByWajbaUserId {
   fullName?: string;
   email?: string;
   phone?: string;
-  type: number;
-  status: number;
-  role?: number;
+  profilePhoto?: string;
   genderType?: number;
 }
 
@@ -54,14 +52,6 @@ export interface LogInWajbaUserDto {
 export interface OtpLoginDto {
   phone?: string;
   otp?: string;
-}
-
-export interface RegisterMobile {
-  fullName?: string;
-  email?: string;
-  phone?: string;
-  password?: string;
-  confirmPassword?: string;
 }
 
 export interface UpdateWajbaUserProfile {

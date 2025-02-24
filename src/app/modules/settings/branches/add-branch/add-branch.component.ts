@@ -21,6 +21,7 @@ export class AddBranchComponent {
   @Output() close = new EventEmitter<void>();
 
   branchForm: FormGroup;
+  isSubmitting: boolean = false; // Prevent multiple submissions
 
   constructor(
     private fb: FormBuilder,
@@ -70,54 +71,31 @@ export class AddBranchComponent {
   }
 
   submitForm() {
-    if (this.branchForm.valid) {
-      // Declare the formValue outside the if-else block
-      let formValue: CreateBranchDto | UpdateBranchDto;
-
-      // Determine whether it's an update or create operation
-      if (this.branchForm.value.id) {
-        formValue = this.branchForm.value as UpdateBranchDto;
-      } else {
-        formValue = this.branchForm.value as CreateBranchDto;
-      }
-
-      console.log(formValue);
-
-      if (this.branch) {
-        // Update existing branch
-        this.branchService.update(formValue as UpdateBranchDto)
-          .subscribe(
-            response => {
-              // Handle successful response
-              console.log('Branch updated successfully:', response);
-              this.afterActionService.reloadCurrentRoute();
-              this.closeModal();
-            },
-            error => {
-              // Handle error response
-              console.error('Error updating branch:', error);
-            }
-          );
-      } else {
-        // Create a new branch
-        this.branchService.create(formValue as CreateBranchDto)
-          .subscribe(
-            response => {
-              // Handle successful response
-              console.log('Branch created successfully:', response);
-              this.afterActionService.reloadCurrentRoute();
-              this.closeModal();
-            },
-            error => {
-              // Handle error response
-              console.error('Error creating branch:', error);
-            }
-          );
-      }
-    } else {
-      // Mark all form controls as touched to trigger validation messages
+    if (this.branchForm.invalid) {
       this.branchForm.markAllAsTouched();
+      return;
     }
+
+    this.isSubmitting = true;
+    const formValue = this.branchForm.value as (CreateBranchDto | UpdateBranchDto);
+
+    const request$ = this.branch
+      ? this.branchService.update(formValue as UpdateBranchDto)
+      : this.branchService.create(formValue as CreateBranchDto);
+
+    request$.subscribe({
+      next: (response) => {
+        console.log(`${this.branch ? 'Branch updated' : 'Branch created'} successfully:`, response);
+        this.afterActionService.reloadCurrentRoute();
+        this.closeModal();
+      },
+      error: (error) => {
+        console.error(`Error ${this.branch ? 'updating' : 'creating'} branch:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 
   openMapModal() {

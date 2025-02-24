@@ -34,10 +34,10 @@ export class VouchersComponent implements OnInit {
     { field: 'discount', header: 'Discount' },
     { field: 'startDate', header: 'StartDate' },
     { field: 'endDate', header: 'EndDate' },
-    { field: 'type', header: 'Type' },
+    { field: 'discountType', header: 'Type' },
   ];
 
-  tableData: { name: string; code: number; discount: number; startDate: string, endDate: string, type: string }[] = [];
+  tableData: { name: string; code: number; discount: number; startDate: string, endDate: string, discountType: string }[] = [];
 
   actions = [
     {
@@ -126,7 +126,7 @@ export class VouchersComponent implements OnInit {
           discount: voucher.discount,
           startDate: voucher.startDate,
           endDate: voucher.endDate,
-          type: voucher.discountType === 1 ? 'Percentage' : 'Fixed'
+          discountType: voucher.discountType === 1 ? 'Percentage' : 'Fixed'
         }));
       },
       error: (err) => {

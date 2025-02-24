@@ -13,7 +13,7 @@ export class UserAddressService {
   create = (input: CreateUserAddressDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
-      url: '/api/UserAddress',
+      url: '/api/app/user-address',
       body: input,
     },
     { apiName: this.apiName,...config });
@@ -22,7 +22,7 @@ export class UserAddressService {
   delete = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'DELETE',
-      url: `/api/UserAddress/${id}`,
+      url: `/api/app/user-address/${id}`,
     },
     { apiName: this.apiName,...config });
   
@@ -30,7 +30,7 @@ export class UserAddressService {
   getAllByWajbaUser = (WajbaUserId: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
-      url: '/api/UserAddress',
+      url: '/api/app/user-address',
       params: { wajbaUserId: WajbaUserId },
     },
     { apiName: this.apiName,...config });
@@ -39,7 +39,7 @@ export class UserAddressService {
   getById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
-      url: `/api/UserAddress/${id}`,
+      url: `/api/app/user-address/${id}`,
     },
     { apiName: this.apiName,...config });
   
@@ -47,7 +47,7 @@ export class UserAddressService {
   update = (input: UpdateUserAddressDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: '/api/UserAddress',
+      url: '/api/app/user-address',
       body: input,
     },
     { apiName: this.apiName,...config });

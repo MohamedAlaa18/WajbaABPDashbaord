@@ -36,14 +36,14 @@
         </div>
 
         <div class="mb-3 col-md-6">
-          <label for="discount" class="form-label">Discount <span class="text-danger">*</span></label>
-          <input type="number" id="discount" formControlName="discount"
+          <label for="discountPercentage" class="form-label">Discount <span class="text-danger">*</span></label>
+          <input type="number" id="discountPercentage" formControlName="discountPercentage"
             [placeholder]="offerForm.get('discountType')?.value === '1' ? '%' : ''" class="form-control bg-white" />
           <div
-            *ngIf="offerForm.get('discount')?.invalid && (offerForm.get('discount')?.touched || offerForm.get('discount')?.dirty)"
+            *ngIf="offerForm.get('discountPercentage')?.invalid && (offerForm.get('discountPercentage')?.touched || offerForm.get('discountPercentage')?.dirty)"
             class="text-danger">
-            <ng-container *ngIf="offerForm.get('discount')?.errors?.['required']">Discount is required.</ng-container>
-            <ng-container *ngIf="offerForm.get('discount')?.errors?.['min']">Discount must be a positive
+            <ng-container *ngIf="offerForm.get('discountPercentage')?.errors?.['required']">Discount is required.</ng-container>
+            <ng-container *ngIf="offerForm.get('discountPercentage')?.errors?.['min']">Discount must be a positive
               number.</ng-container>
           </div>
         </div>
@@ -142,7 +142,7 @@
 
       <!-- Submit and Cancel Buttons -->
       <div class="d-flex justify-content-start">
-        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="submit" class="btn me-2 text-white save" [disabled]="isSubmitting">Save</button>
         <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
       </div>
     </form>

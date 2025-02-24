@@ -29,7 +29,8 @@
       <div class="row mb-3">
         <div class="col-md-6 mb-3">
           <label for="image" class="form-label">Image <span class="text-danger">*</span></label>
-          <input type="file" id="image" formControlName="image" class="form-control bg-white" (change)="onImageChange($event)">
+          <input type="file" id="image" formControlName="image" class="form-control bg-white"
+            (change)="onImageChange($event)">
           <div *ngIf="languageForm.get('image')?.touched && languageForm.get('image')?.invalid" class="text-danger">
             <small *ngIf="languageForm.get('image')?.errors?.['required']">Image is required.</small>
           </div>
@@ -51,7 +52,7 @@
       </div>
 
       <div class="d-flex justify-content-start">
-        <button type="submit" class="btn me-2 text-white save">Save</button>
+        <button type="submit" class="btn me-2 text-white save" [disabled]="isSubmitting">Save</button>
         <button type="button" class="btn bg-white close" (click)="closeModal()">Cancel</button>
       </div>
     </form>

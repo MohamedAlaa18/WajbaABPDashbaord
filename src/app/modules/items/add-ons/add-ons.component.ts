@@ -6,6 +6,7 @@ import { ItemAddonService, ItemService, ItemVariationService } from '@proxy/cont
 import { CreateItemAddonDto, ItemAddonDto, UpdateItemAddonDto } from '@proxy/dtos/item-addon-contract';
 import { UpdateItemVariationDto } from '@proxy/dtos/item-variation-contract';
 import { UpdateItemDTO } from '@proxy/dtos/items-dtos';
+import { Observable } from 'rxjs';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 
@@ -27,6 +28,7 @@ export class AddOnsComponent {
   variationsAddonDropdown: UpdateItemVariationDto[] = [];
   selectedVariationPrice!: number;
   selectedAddonName: string = '';
+  isSubmitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -114,50 +116,40 @@ export class AddOnsComponent {
   }
 
   saveAddon() {
-    if (this.addonForm.valid) {
+    this.handleFormSubmission(this.addonForm, this.itemAddonService, this.isEditMode, 'Addon');
+  }
 
-      let formValue: CreateItemAddonDto | UpdateItemAddonDto;
-
-      // Determine whether it's an update or create operation
-      if (this.addonForm.value.addonId) {
-        formValue = this.addonForm.value as UpdateItemAddonDto;
-      } else {
-        formValue = this.addonForm.value as CreateItemAddonDto;
-      }
-
-      console.log('Form value:', formValue);
-
-      if (this.isEditMode) {
-        // Update existing addon
-        this.itemAddonService.updateAddonForItem(formValue as UpdateItemAddonDto)
-          .subscribe(
-            response => {
-              console.log('addon updated:', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error updating addon:', error);
-            }
-          );
-      } else {
-        // Create a new addon
-        this.itemAddonService.create(formValue as CreateItemAddonDto)
-          .subscribe(
-            response => {
-              console.log('addon created:', response);
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error creating addon:', error);
-            }
-          );
-      }
-    } else {
-      console.log('Form is invalid:', this.addonForm);
-      this.addonForm.markAllAsTouched();
+  private handleFormSubmission(form: FormGroup, service: any, isEditMode: boolean, entityName: string) {
+    if (form.invalid) {
+      console.log(`Form is invalid:`, form);
+      form.markAllAsTouched();
+      return;
     }
+
+    this.isSubmitting = true;
+    const formValue = form.value;
+
+    const request$ = isEditMode
+      ? service.updateAddonForItem(formValue)
+      : service.create(formValue);
+
+    this.handleSubmission(request$, entityName);
+  }
+
+  private handleSubmission(request$: Observable<any>, entityName: string) {
+    request$.subscribe({
+      next: (response) => {
+        console.log(`${entityName} ${this.isEditMode ? 'updated' : 'created'} successfully`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.isEditMode ? 'updating' : 'creating'} ${entityName}:`, error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 
   closeModal() {

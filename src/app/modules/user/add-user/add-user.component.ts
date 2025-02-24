@@ -24,6 +24,7 @@ export class AddUserComponent implements OnInit, OnChanges {
   @Output() close = new EventEmitter<void>();
 
   returnedErrorMessage: string | null = null;
+  isSubmitting: boolean = false;
 
   roles: RolesDto[] = [
     { id: 1, name: 'POS Operator' },
@@ -157,56 +158,36 @@ export class AddUserComponent implements OnInit, OnChanges {
     this.close.emit();
   }
 
-  submitForm() {
-    if (this.userForm.valid) {
-      let formValue: AccountInfoEditByWajbaUserId | CreateUserDto;
-
-      // Ensure role is an array of integers (nullable)
-      // if (this.userForm.value.role && !Array.isArray(this.userForm.value.role)) {
-      //   this.userForm.value.role = [this.userForm.value.role];
-      // }
-
-      // Set up the form value based on whether it's an update or create operation
-      if (this.userForm.value.id) {
-        formValue = this.userForm.value as AccountInfoEditByWajbaUserId;
-      } else {
-        formValue = this.userForm.value as CreateUserDto;
-      }
-
-      console.log('Form value:', formValue); // Debugging: Check the form value
-
-      if (this.user) {
-        // Update existing user
-        this.wajbaUserService.accountInfoEditByAccountInfoEditByWajbaUserId(formValue as AccountInfoEditByWajbaUserId)
-          .subscribe(
-            response => {
-              console.log('User updated successfully:', response); // Debugging: Check success response
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error updating user:', error); // Debugging: Check error response
-            }
-          );
-      } else {
-        // Create a new user
-        this.wajbaUserService.registerByInput(formValue as CreateUserDto)
-          .subscribe(
-            response => {
-              console.log('User created successfully:', response); // Debugging: Check success response
-              this.closeModal();
-              this.afterActionService.reloadCurrentRoute();
-            },
-            error => {
-              console.error('Error creating user:', error); // Debugging: Check error response
-              this.returnedErrorMessage = error.error.message;
-            }
-          );
-      }
-    } else {
-      console.log('Form is invalid'); // Debugging: Check if the form is invalid
-      // Mark all form controls as touched to trigger validation messages
+  submitForm(): void {
+    if (this.userForm.invalid) {
+      console.log('Form is invalid');
       this.userForm.markAllAsTouched();
+      return;
     }
+
+    let formValue: AccountInfoEditByWajbaUserId | CreateUserDto = { ...this.userForm.value };
+
+    console.log('Form value:', formValue); // Debugging
+
+    this.isSubmitting = true; // Prevent multiple submissions
+
+    const request$ = this.user
+      ? this.wajbaUserService.accountInfoEditByAccountInfoEditByWajbaUserId(formValue as AccountInfoEditByWajbaUserId)
+      : this.wajbaUserService.registerByInput(formValue as CreateUserDto);
+
+    request$.subscribe({
+      next: (response) => {
+        console.log(`User ${this.user ? 'updated' : 'created'} successfully:`, response);
+        this.closeModal();
+        this.afterActionService.reloadCurrentRoute();
+      },
+      error: (error) => {
+        console.error(`Error ${this.user ? 'updating' : 'creating'} user:`, error);
+        this.returnedErrorMessage = error.error?.message || 'An error occurred';
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
   }
 }

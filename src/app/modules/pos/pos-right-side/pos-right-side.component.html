@@ -185,19 +185,19 @@
     <div *ngIf="cart">
       <div *ngFor="let item of cart.items;" class="d-flex align-items-center justify-content-between mt-3">
         <div class="d-flex align-items-center gap-2 w-33">
-          <button class="border-0 bg-white" (click)="onRemove(item.id)"><app-icons iconName="delete"
+          <button class="border-0 bg-white" (click)="onRemove(item.itemId)"><app-icons iconName="delete"
               color="#F45859"></app-icons></button>
           <p class="font-weight-medium m-0">{{item.itemName}}</p>
         </div>
         <div class="d-flex align-items-center justify-content-center gap-2 w-33">
-          <button class="border-0 bg-white" *ngIf="item.quantity === 1" (click)="onRemove(item.id)"><app-icons
+          <button class="border-0 bg-white" *ngIf="item.quantity === 1" (click)="onRemove(item.itemId)"><app-icons
               iconName="smallDelete" color="#F45859"></app-icons></button>
-          <button class="border-0 bg-white" *ngIf="item.quantity > 1" (click)="decrementQuantity(item.id)"><app-icons
+          <button class="border-0 bg-white" *ngIf="item.quantity > 1" (click)="decrementQuantity(item.itemId)"><app-icons
               iconName="decrement" color="#F 45859"></app-icons></button>
 
           <p class="m-0">{{item.quantity}}</p>
 
-          <button class="border-0 bg-white" (click)="incrementQuantity(item.id)"><app-icons iconName="increment"
+          <button class="border-0 bg-white" (click)="incrementQuantity(item.itemId)"><app-icons iconName="increment"
               color="#F45859"></app-icons></button>
         </div>
         <p class="w-33 text-end m-0">QAR {{(item.price * item.quantity).toFixed(2)}}</p>
@@ -221,11 +221,11 @@
     <form [formGroup]="form">
       <div class="d-flex gap-3">
         <div class="d-flex gap-1 items-center">
-          <input class="" type="radio" id="cash" value="cash" formControlName="paymentMethod" />
+          <input class="" type="radio" id="cash" [value]="1" formControlName="paymentMethod" />
           <label class="form-check-label" for="cash">Cash</label>
         </div>
         <div class="d-flex gap-1 items-center">
-          <input class="" type="radio" id="visa" value="visa" formControlName="paymentMethod" />
+          <input class="" type="radio" id="visa" [value]="2" formControlName="paymentMethod" />
           <label class="form-check-label" for="visa">Visa</label>
         </div>
       </div>
@@ -239,27 +239,27 @@
         <dl class="text-small">
           <div class="d-flex justify-content-between">
             <dt class="fw-normal">Subtotal</dt>
-            <dd>QAR {{cart.subTotal}}</dd>
+            <dd>QAR {{cart?.subTotal}}</dd>
           </div>
 
           <div class="d-flex justify-content-between text-danger">
             <dt class="fw-normal">Discount</dt>
-            <dd>- QAR {{cart.discountAmount }}</dd>
+            <dd>- QAR {{cart?.discountAmount }}</dd>
           </div>
 
           <div class="d-flex justify-content-between">
             <dt class="fw-normal">Service fee</dt>
-            <dd>QAR {{cart.serviceFee}}</dd>
+            <dd>QAR {{cart?.serviceFee}}</dd>
           </div>
 
           <div class="d-flex justify-content-between">
             <dt class="fw-normal">Delivery fee</dt>
-            <dd>QAR {{cart.deliveryFee}}</dd>
+            <dd>QAR {{cart?.deliveryFee}}</dd>
           </div>
 
           <div class="d-flex justify-content-between fw-bold text-black">
             <dt>Total amount</dt>
-            <dd>QAR {{(cart.totalAmount).toFixed(2)}}</dd>
+            <dd>QAR {{(cart.totalAmount)?.toFixed(2)}}</dd>
           </div>
         </dl>
       </div>
