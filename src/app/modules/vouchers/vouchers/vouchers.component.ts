@@ -100,8 +100,10 @@ export class VouchersComponent implements OnInit {
 
   // Load all vouchers
   loadVouchers(): void {
+    const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch'));
+
     const defaultInput: GetCouponsInput = {
-      branchid: 1,
+      branchid: selectedBranch.id,
       sorting: '',
       skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10,

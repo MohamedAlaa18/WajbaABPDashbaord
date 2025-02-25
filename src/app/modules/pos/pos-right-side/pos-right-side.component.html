@@ -244,7 +244,7 @@
 
           <div class="d-flex justify-content-between text-danger">
             <dt class="fw-normal">Discount</dt>
-            <dd>- QAR {{cart?.discountAmount }}</dd>
+            <dd>- QAR {{(cart.discountAmount)?.toFixed(2) }}</dd>
           </div>
 
           <div class="d-flex justify-content-between">
