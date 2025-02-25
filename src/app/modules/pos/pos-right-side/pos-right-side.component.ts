@@ -23,8 +23,6 @@ export class PosRightSideComponent implements OnInit {
   user: WajbaUserDto;
   cart!: any;
 
-  discountType: number = 0;
-  discountValue: number | null = null;
   selectedTypeName: string | null = "POS";
   selectedTypeId: number | null = 5;
   searchQuery: string = '';
@@ -66,6 +64,8 @@ export class PosRightSideComponent implements OnInit {
       carNumber: [''],
       paymentMethod: [1],
       persons: [null],
+      discountType:[0],
+      discountValue: [0],
     });
 
     this.selectedBranch = JSON.parse(localStorage.getItem('selectedBranch') || '{}');
@@ -306,9 +306,37 @@ export class PosRightSideComponent implements OnInit {
     console.log(`Item with ID: ${cartItemId} removed from cart`);
   }
 
+  applyVoucherCode() {
+    const discountValue = this.form.value.discountValue;
+    if (!discountValue || discountValue <= 0) {
+      console.error('Invalid discount value');
+      return;
+    }
+
+    const discountType = Number(this.form.value.discountType); // 0 = Fixed, 1 = Percentage
+    let discountAmount = 0;
+
+    if (discountType === 0) {
+      // Fixed discount
+      discountAmount = discountValue;
+    } else if (discountType === 1) {
+      // Percentage discount
+      discountAmount = (discountValue / 100) * this.cart.subTotal;
+    }
+
+    // Ensure discount doesn't exceed subtotal
+    discountAmount = Math.min(discountAmount, this.cart.subTotal);
+
+    // Update cart totals
+    this.cart.discountAmount = discountAmount;
+    this.cart.totalAmount = this.cart.subTotal - discountAmount + this.cart.serviceFee + this.cart.deliveryFee;
+
+    console.log('Updated Cart:', this.cart);
+  }
+
   calculateCartTotals() {
     const subTotal = this.cart.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
-    const discountAmount = this.discountValue || 0;
+    const discountAmount = this.form.value.discountValue|| 0;
     const serviceFee = 10; // Example fixed service fee
     const deliveryFee = 10; // Example fixed delivery fee
     const totalAmount = subTotal - discountAmount + serviceFee + deliveryFee;
@@ -318,19 +346,6 @@ export class PosRightSideComponent implements OnInit {
     this.cart.serviceFee = serviceFee;
     this.cart.deliveryFee = deliveryFee;
     this.cart.totalAmount = totalAmount;
-  }
-
-  applyVoucherCode(discountType: number, discountValue: number | null) {
-    // if (discountValue)
-    //   this.cartService.addVoucherByCode(discountType, discountValue).subscribe({
-    //     next: (response) => {
-    //       console.log("Voucher applied successfully:", response);
-    //       this.afterActionService.reloadCurrentRoute();
-    //     },
-    //     error: (error) => {
-    //       console.error("Error applying voucher code:", error);
-    //     }
-    //   });
   }
 
   onSubmit() {
@@ -354,7 +369,7 @@ export class PosRightSideComponent implements OnInit {
       })),
       ordertype: this.selectedTypeId,
       branchId: this.selectedBranch.id,
-      paymentMethod:this.form.value.paymentMethod,
+      paymentMethod: this.form.value.paymentMethod,
       ...this.getOrderDetails(formattedDate, formattedTime, approximateTime)
     };
 

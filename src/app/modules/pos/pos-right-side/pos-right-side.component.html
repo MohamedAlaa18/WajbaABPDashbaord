@@ -205,15 +205,15 @@
     </div>
   </div>
 
-  <div class="d-flex align-items-center promo">
-    <select [(ngModel)]="discountType" class="form-select bg-white">
+  <div [formGroup]="form" class="d-flex align-items-center promo">
+    <select formControlName="discountType" class="form-select bg-white">
       <option [value]="0">Fixed</option>
       <option [value]="1">Percentage</option>
     </select>
 
-    <input type="number" [(ngModel)]="discountValue" placeholder="Add discount" class="form-control bg-white" min="0" />
+    <input type="number" formControlName="discountValue" placeholder="Add discount" class="form-control bg-white" min="0" />
 
-    <button type="button" (click)="applyVoucherCode(discountType, discountValue)" class="btn btn-success">Apply</button>
+    <button type="button" (click)="applyVoucherCode()" class="btn btn-success">Apply</button>
   </div>
 
   <div>
