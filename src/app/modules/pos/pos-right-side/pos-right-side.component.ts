@@ -28,6 +28,7 @@ export class PosRightSideComponent implements OnInit {
   searchQuery: string = '';
   form: FormGroup;
   selectedBranch: UpdateBranchDto;
+  isSubmitting: boolean = false;
 
   orderType = [
     { name: 'POS', imageUrl: 'takeaway', id: 5 },
@@ -64,7 +65,7 @@ export class PosRightSideComponent implements OnInit {
       carNumber: [''],
       paymentMethod: [1],
       persons: [null],
-      discountType:[0],
+      discountType: [0],
       discountValue: [0],
     });
 
@@ -336,7 +337,7 @@ export class PosRightSideComponent implements OnInit {
 
   calculateCartTotals() {
     const subTotal = this.cart.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
-    const discountAmount = this.form.value.discountValue|| 0;
+    const discountAmount = this.form.value.discountValue || 0;
     const serviceFee = this.cart.serviceFee; // Example fixed service fee
     const deliveryFee = this.cart.deliveryFee; // Example fixed delivery fee
     const totalAmount = subTotal - discountAmount + serviceFee + deliveryFee;
@@ -354,6 +355,7 @@ export class PosRightSideComponent implements OnInit {
       return;
     }
 
+    this.isSubmitting = true;
     const { formattedDate, formattedTime, approximateTime } = this.getFormattedDateTime();
 
     // Construct order data
@@ -373,17 +375,20 @@ export class PosRightSideComponent implements OnInit {
       ...this.getOrderDetails(formattedDate, formattedTime, approximateTime)
     };
 
-    console.log('Order Data:', orderData);
+    const request$ = this.orderService.createOrderByOrderDtoAndEmployeeId(orderData, this.user.id);
 
-    this.orderService.createOrderByOrderDtoAndEmployeeId(orderData, this.user.id).subscribe({
+    request$.subscribe({
       next: (response) => {
-        console.log('Order placed successfully:', response)
+        console.log('Order placed successfully:', response);
         this.form.reset();
         this.clearCart();
         this.afterActionService.reloadCurrentRoute();
       },
       error: (error) => {
         console.error('Error placing order:', error);
+      },
+      complete: () => {
+        this.isSubmitting = false;
       }
     });
   }
