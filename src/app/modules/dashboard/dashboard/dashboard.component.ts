@@ -32,7 +32,8 @@ export class DashboardComponent implements OnInit {
       branchIds: [],
       itemAddons: [],
       itemExtras: [],
-      itemVariations: []
+      itemVariations: [],
+      points: 0,
     },
     {
       name: 'Cheese Burger',
@@ -48,7 +49,8 @@ export class DashboardComponent implements OnInit {
       branchIds: [],
       itemAddons: [],
       itemExtras: [],
-      itemVariations: []
+      itemVariations: [],
+      points: 0,
     },
     {
       name: 'Chicken Wrap',
@@ -64,7 +66,8 @@ export class DashboardComponent implements OnInit {
       branchIds: [],
       itemAddons: [],
       itemExtras: [],
-      itemVariations: []
+      itemVariations: [],
+      points: 0,
     }
   ];
 

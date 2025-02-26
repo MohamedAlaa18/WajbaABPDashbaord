@@ -24,6 +24,7 @@ export * from './otp.service';
 export * from './popular-items.service';
 export * from './push-notifications.service';
 export * from './role.service';
+export * from './sending-email.service';
 export * from './site.service';
 export * from './theme.service';
 export * from './time-slot.service';

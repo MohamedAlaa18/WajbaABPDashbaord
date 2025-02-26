@@ -3,7 +3,7 @@ import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { ApiResponse } from '../apiresponse/models';
 import type { ItemWithDependenciesDto } from '../dtos/items-dtos/item-dependencies/models';
-import type { CreateItemDto, GetItemInput, ItemDto, UpdateItemDTO } from '../dtos/items-dtos/models';
+import type { AddPointsToItemDto, CreateItemDto, GetItemInput, ItemDto, UpdateItemDTO } from '../dtos/items-dtos/models';
 import type { Base64ImageModel } from '../dtos/themes-contract/models';
 import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
@@ -12,6 +12,15 @@ import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/
 })
 export class ItemService {
   apiName = 'Default';
+  
+
+  addPointsToItemByInput = (input: AddPointsToItemDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'POST',
+      url: '/api/Item/add-points-to-item',
+      body: input,
+    },
+    { apiName: this.apiName,...config });
   
 
   create = (input: CreateItemDto, config?: Partial<Rest.Config>) =>

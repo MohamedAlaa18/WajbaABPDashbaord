@@ -3481,6 +3481,43 @@
           "type": "Wajba.Controllers.ItemController",
           "interfaces": [],
           "actions": {
+            "AddPointsToItemByInput": {
+              "uniqueName": "AddPointsToItemByInput",
+              "name": "AddPointsToItem",
+              "httpMethod": "POST",
+              "url": "api/Item/add-points-to-item",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto",
+                  "typeSimple": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto",
+                  "typeSimple": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ItemController"
+            },
             "GetItemsByCategoryByCategoryIdAndName": {
               "uniqueName": "GetItemsByCategoryByCategoryIdAndName",
               "name": "GetItemsByCategory",
@@ -7058,6 +7095,106 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.RoleController"
+            }
+          }
+        },
+        "Wajba.Controllers.SendingEmailController": {
+          "controllerName": "SendingEmail",
+          "controllerGroupName": null,
+          "isRemoteService": false,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Wajba.Controllers.SendingEmailController",
+          "interfaces": [],
+          "actions": {
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/SendingEmail/create",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto",
+                  "typeSimple": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto",
+                  "typeSimple": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.SendingEmailController"
+            },
+            "UpdateAsyncByInput": {
+              "uniqueName": "UpdateAsyncByInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/SendingEmail/update",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto",
+                  "typeSimple": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto",
+                  "typeSimple": "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.SendingEmailController"
+            },
+            "GetFirstAsync": {
+              "uniqueName": "GetFirstAsync",
+              "name": "GetFirstAsync",
+              "httpMethod": "GET",
+              "url": "api/SendingEmail/get-first",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.SendingEmailController"
             }
           }
         },
@@ -19629,6 +19766,99 @@
         }
       ]
     },
+    "Wajba.Dtos.EmailContract.CreateUpdateSendingEmailDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Email",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Host",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Port",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "password",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MailEncryption",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Wajba.Dtos.FaqsContract.CreateFaqs": {
       "baseType": null,
       "isEnum": false,
@@ -20057,6 +20287,39 @@
       "properties": [
         {
           "name": "extraId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Wajba.Dtos.ItemsDtos.AddPointsToItemDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "ItemId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Points",
           "jsonName": null,
           "type": "System.Int32",
           "typeSimple": "number",
@@ -20897,6 +21160,18 @@
         },
         {
           "name": "CategoryId",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "points",
           "jsonName": null,
           "type": "System.Int32",
           "typeSimple": "number",
@@ -25735,6 +26010,18 @@
       "enumValues": null,
       "genericArguments": null,
       "properties": [
+        {
+          "name": "ExternalUserId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
         {
           "name": "FullName",
           "jsonName": null,

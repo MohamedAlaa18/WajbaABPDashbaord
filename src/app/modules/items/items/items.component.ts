@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { Router } from '@angular/router';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { TableComponent } from 'src/app/shared/table/table.component';

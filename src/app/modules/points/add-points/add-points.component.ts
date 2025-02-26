@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CouponService, ItemService } from '@proxy/controllers';
+import { ItemService } from '@proxy/controllers';
 import { CreateUpdateCouponDto, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
-import { GetItemInput, ItemDto } from '@proxy/dtos/items-dtos';
+import { AddPointsToItemDto, GetItemInput, ItemDto } from '@proxy/dtos/items-dtos';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
 
@@ -25,14 +25,13 @@ export class AddPointsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private couponService: CouponService,
     private itemService: ItemService,
     private afterActionService: AfterActionService,
   ) {
     this.pointsForm = this.fb.group({
       id: [this.voucher?.id],
-      item: ['', Validators.required],
-      QuantityOfPoints: ['', Validators.required],
+      itemId: ['', Validators.required],
+      points: ['', Validators.required],
       status: [1, Validators.required],
     });
   }
@@ -78,30 +77,30 @@ export class AddPointsComponent implements OnInit {
 
   submitForm(): void {
     if (this.pointsForm.valid) {
-      let formValue: CreateUpdateCouponDto | UpdateCoupondto;
+      let formValue: AddPointsToItemDto;
 
       // Determine whether it's an update or create operation
       if (this.pointsForm.value.id) {
-        formValue = this.pointsForm.value as UpdateCoupondto;
+        // formValue = this.pointsForm.value as UpdateCoupondto;
       } else {
-        formValue = this.pointsForm.value as CreateUpdateCouponDto;
+        formValue = this.pointsForm.value as AddPointsToItemDto;
       }
 
       if (this.voucher) {
         // Update existing voucher
-        this.couponService.update(formValue as UpdateCoupondto).subscribe(
-          response => {
-            console.log(response);
-            this.closeModal();
-            this.afterActionService.reloadCurrentRoute();
-          },
-          error => {
-            console.error(error);
-          }
-        );
+        // this.itemService.update(formValue as UpdateCoupondto).subscribe(
+        //   response => {
+        //     console.log(response);
+        //     this.closeModal();
+        //     this.afterActionService.reloadCurrentRoute();
+        //   },
+        //   error => {
+        //     console.error(error);
+        //   }
+        // );
       } else {
         // Create a new voucher
-        this.couponService.create(formValue as CreateUpdateCouponDto).subscribe(
+        this.itemService.addPointsToItemByInput(formValue as AddPointsToItemDto).subscribe(
           response => {
             console.log(response);
             this.closeModal();

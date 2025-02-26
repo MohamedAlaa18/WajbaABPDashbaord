@@ -4,6 +4,11 @@ import type { ItemAddonDto } from '../item-addon-contract/models';
 import type { ItemExtraDto } from '../item-extra-contract/models';
 import type { ItemVariationDto } from '../item-variation-contract/models';
 
+export interface AddPointsToItemDto {
+  itemId: number;
+  points: number;
+}
+
 export interface CreateItemDto {
   name: string;
   model: Base64ImageModel;
@@ -44,6 +49,7 @@ export interface ItemDto extends EntityDto<number> {
   price: number;
   taxValue?: number;
   categoryId: number;
+  points: number;
   categoryName?: string;
   itemType: number;
   isDeleted: boolean;

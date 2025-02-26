@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SiteService } from '@proxy/controllers';
+import { SendingEmailService } from '@proxy/controllers';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 import { CreateSiteDto } from '@proxy/dtos/sites-contact';
+import { CreateUpdateSendingEmailDto } from '@proxy/dtos/email-contract';
 
 @Component({
   selector: 'app-email',
@@ -17,53 +18,53 @@ export class EmailComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private siteService: SiteService,
+    private sendingEmailService: SendingEmailService,
   ) {
-    // Initialize the form with default values and validators
     this.siteForm = this.fb.group({
-      mailHost: ['', Validators.required],
-      mailPort: ['', [Validators.required, Validators.min(1)]],
-      mailUserName: ['', Validators.required],
-      mailPassword: ['', Validators.required],
-      mailFromName: ['', Validators.required],
-      mailFromEmail: ['', [Validators.required, Validators.email]],
+      host: ['', Validators.required],
+      port: ['', [Validators.required, Validators.min(1)]],
+      userName: ['', Validators.required],
+      password: ['', Validators.required],
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       mailEncryption: ['ssl', [Validators.required]],
     });
   }
 
   ngOnInit(): void {
-    this.loadSite();
+    this.loadEmail();
   }
 
-  loadSite(): void {
-    this.siteService.getById().subscribe(
+  loadEmail(): void {
+    this.sendingEmailService.getFirst().subscribe(
       (response) => {
         this.siteForm.patchValue({
-          mailHost: response.data.mailHost,
-          mailPort: response.data.mailPort,
-          mailUserName: response.data.mailUserName,
-          mailPassword: response.data.mailPassword,
-          mailFromName: response.data.mailFromName,
-          mailFromEmail: response.data.mailFromEmail,
+          host: response.data.host,
+          port: response.data.port,
+          userName: response.data.userName,
+          password: response.data.password,
+          name: response.data.name,
+          email: response.data.email,
           mailEncryption: response.data.mailEncryption || 'ssl',
         });
       },
       (error) => {
-        console.error('Error fetching site settings:', error);
+        console.error('Error fetching settings:', error);
       }
     );
   }
 
   submitForm() {
     if (this.siteForm.valid) {
-      const formValue = this.siteForm.value as CreateSiteDto;
-      console.log(formValue);
-      this.siteService.update(formValue).subscribe({
+      const formValue = this.siteForm.value as CreateUpdateSendingEmailDto;
+      formValue.port = String(this.siteForm.get('port')?.value);
+
+      this.sendingEmailService.update(formValue as CreateUpdateSendingEmailDto).subscribe({
         next: (response) => {
-          console.log('Form submitted successfully!', response);
+          console.log('Update successful!', response);
         },
         error: (error) => {
-          console.error('Form submission error:', error);
+          console.error('Update error:', error);
         }
       });
     } else {

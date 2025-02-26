@@ -10,21 +10,19 @@
         <!-- Row 1 -->
         <div class="d-flex align-items-center gap-4 justify-content-between flex-wrap flex-md-nowrap">
           <div class="form-group w-100 w-md-50 mb-2">
-            <label for="mailHost" class="form-label">Mail Host <span class="text-danger">*</span></label>
-            <input id="mailHost" type="text" class="form-control bg-white" formControlName="mailHost"
-              [class.is-invalid]="siteForm.get('mailHost')?.invalid && siteForm.get('mailHost')?.touched" />
-            <div *ngIf="siteForm.get('mailHost')?.invalid && siteForm.get('mailHost')?.touched"
-              class="invalid-feedback">
-              Mail Host is required.
+            <label for="host" class="form-label">Mail Host <span class="text-danger">*</span></label>
+            <input id="host" type="text" class="form-control bg-white" formControlName="host"
+              [class.is-invalid]="siteForm.get('host')?.invalid && siteForm.get('host')?.touched" />
+            <div *ngIf="siteForm.get('host')?.invalid && siteForm.get('host')?.touched" class="invalid-feedback">
+              Host is required.
             </div>
           </div>
           <div class="form-group w-100 w-md-50 mb-2">
-            <label for="mailPort" class="form-label">Mail Port <span class="text-danger">*</span></label>
-            <input id="mailPort" type="number" class="form-control bg-white" formControlName="mailPort"
-              [class.is-invalid]="siteForm.get('mailPort')?.invalid && siteForm.get('mailPort')?.touched" />
-            <div *ngIf="siteForm.get('mailPort')?.invalid && siteForm.get('mailPort')?.touched"
-              class="invalid-feedback">
-              <span *ngIf="siteForm.get('mailPort')?.errors?.['required']">Mail Port is required.</span>
+            <label for="port" class="form-label">Mail Port <span class="text-danger">*</span></label>
+            <input id="port" type="number" class="form-control bg-white" formControlName="port"
+              [class.is-invalid]="siteForm.get('port')?.invalid && siteForm.get('port')?.touched" />
+            <div *ngIf="siteForm.get('port')?.invalid && siteForm.get('port')?.touched" class="invalid-feedback">
+              <span *ngIf="siteForm.get('port')?.errors?.['required']">Port is required.</span>
             </div>
           </div>
         </div>
@@ -32,24 +30,24 @@
         <!-- Row 2 -->
         <div class="d-flex align-items-center gap-4 justify-content-between flex-wrap flex-md-nowrap">
           <div class="form-group w-100 w-md-50 mb-2">
-            <label for="mailUserName" class="form-label">Mail User Name <span class="text-danger">*</span></label>
-            <input id="mailUserName" type="text" class="form-control bg-white" formControlName="mailUserName"
-              [class.is-invalid]="siteForm.get('mailUserName')?.invalid && siteForm.get('mailUserName')?.touched" />
-            <div *ngIf="siteForm.get('mailUserName')?.invalid && siteForm.get('mailUserName')?.touched"
+            <label for="userName" class="form-label">User Name <span class="text-danger">*</span></label>
+            <input id="userName" type="text" class="form-control bg-white" formControlName="userName"
+              [class.is-invalid]="siteForm.get('userName')?.invalid && siteForm.get('userName')?.touched" />
+            <div *ngIf="siteForm.get('userName')?.invalid && siteForm.get('userName')?.touched"
               class="invalid-feedback">
-              <div *ngIf="siteForm.get('mailUserName')?.errors?.['required']">
-                Mail User Name is required.
+              <div *ngIf="siteForm.get('userName')?.errors?.['required']">
+                User Name is required.
               </div>
             </div>
           </div>
           <div class="form-group w-100 w-md-50 mb-2">
-            <label for="mailPassword" class="form-label">Mail Password</label>
-            <input id="mailPassword" type="password" class="form-control bg-white" formControlName="mailPassword"
-              [class.is-invalid]="siteForm.get('mailPassword')?.invalid && siteForm.get('mailPassword')?.touched" />
-            <div *ngIf="siteForm.get('mailPassword')?.invalid && siteForm.get('mailPassword')?.touched"
+            <label for="password" class="form-label">Password</label>
+            <input id="password" type="password" class="form-control bg-white" formControlName="password"
+              [class.is-invalid]="siteForm.get('password')?.invalid && siteForm.get('password')?.touched" />
+            <div *ngIf="siteForm.get('password')?.invalid && siteForm.get('password')?.touched"
               class="invalid-feedback">
-              <div *ngIf="siteForm.get('mailPassword')?.errors?.['required']">
-                Mail Password is required.
+              <div *ngIf="siteForm.get('password')?.errors?.['required']">
+                Password is required.
               </div>
             </div>
           </div>
@@ -58,35 +56,33 @@
         <!-- Row 3 -->
         <div class="d-flex align-items-center gap-4 justify-content-between flex-wrap flex-md-nowrap">
           <div class="form-group w-100 w-md-50 mb-2">
-            <label for="mailFromName" class="form-label">Mail From Name</label>
-            <input id="mailFromName" type="text" class="form-control bg-white" formControlName="mailFromName"
-              [class.is-invalid]="siteForm.get('mailFromName')?.invalid && siteForm.get('mailFromName')?.touched" />
-            <div *ngIf="siteForm.get('mailFromName')?.invalid && siteForm.get('mailFromName')?.touched"
-              class="invalid-feedback">
-              <div *ngIf="siteForm.get('mailFromName')?.errors?.['required']">
-                Mail From Name is required.
+            <label for="name" class="form-label">From Name</label>
+            <input id="name" type="text" class="form-control bg-white" formControlName="name"
+              [class.is-invalid]="siteForm.get('name')?.invalid && siteForm.get('name')?.touched" />
+            <div *ngIf="siteForm.get('name')?.invalid && siteForm.get('name')?.touched" class="invalid-feedback">
+              <div *ngIf="siteForm.get('name')?.errors?.['required']">
+                From Name is required.
               </div>
             </div>
           </div>
           <div class="form-group w-100 w-md-50 mb-2">
-            <label for="mailFromEmail" class="form-label">Mail From Email</label>
-            <input id="mailFromEmail" type="email" class="form-control bg-white" formControlName="mailFromEmail"
-              [class.is-invalid]="siteForm.get('mailFromEmail')?.invalid && siteForm.get('mailFromEmail')?.touched" />
-            <div *ngIf="siteForm.get('mailFromEmail')?.invalid && siteForm.get('mailFromEmail')?.touched"
-              class="invalid-feedback">
-              <span *ngIf="siteForm.get('mailFromEmail')?.errors?.['required']">Mail From Email is required.</span>
-              <span *ngIf="siteForm.get('mailFromEmail')?.errors?.['email']">Invalid email format.</span>
+            <label for="email" class="form-label">From Email</label>
+            <input id="email" type="email" class="form-control bg-white" formControlName="email"
+              [class.is-invalid]="siteForm.get('email')?.invalid && siteForm.get('email')?.touched" />
+            <div *ngIf="siteForm.get('email')?.invalid && siteForm.get('email')?.touched" class="invalid-feedback">
+              <span *ngIf="siteForm.get('email')?.errors?.['required']">Email is required.</span>
+              <span *ngIf="siteForm.get('email')?.errors?.['email']">Invalid email format.</span>
             </div>
           </div>
         </div>
 
         <!-- Row 4 -->
         <div class="form-group w-100 mb-2">
-          <label class="form-label">Mail Encryption</label>
+          <label class="form-label">Encryption</label>
           <div class="d-flex align-items-center gap-2">
             <label class="btn radio-label">
               <input type="radio" formControlName="mailEncryption" [value]="'ssl'" class="d-none">
-              SSl
+              SSL
             </label>
             <label class="btn radio-label">
               <input type="radio" formControlName="mailEncryption" [value]="'tls'" class="d-none">

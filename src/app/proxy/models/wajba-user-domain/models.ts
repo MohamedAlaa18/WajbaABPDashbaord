@@ -7,6 +7,7 @@ import type { Coupon } from '../coupons-domain/models';
 import type { ChatMessage } from '../chat-messges-domains/models';
 
 export interface WajbaUser extends FullAuditedEntity<number> {
+  externalUserId?: string;
   fullName?: string;
   email?: string;
   phone?: string;

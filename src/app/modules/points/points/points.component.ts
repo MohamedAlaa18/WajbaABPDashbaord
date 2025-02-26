@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { TableComponent } from "../../../shared/table/table.component";
 import { ExportButtonComponent } from "../../../shared/export-button/export-button.component";
 import { FilterComponent } from "../../../shared/filter/filter.component";
-import { GetCouponsInput, UpdateCoupondto } from '@proxy/dtos/coupon-contract';
-import { CouponService } from '@proxy/controllers';
+import { UpdateCoupondto } from '@proxy/dtos/coupon-contract';
+import { ItemService } from '@proxy/controllers';
 import { AddPointsComponent } from '../add-points/add-points.component';
-import { ItemDto } from '@proxy/dtos/items-dtos';
+import { GetItemInput, ItemDto } from '@proxy/dtos/items-dtos';
 
 @Component({
   selector: 'app-points',
@@ -21,7 +21,6 @@ import { ItemDto } from '@proxy/dtos/items-dtos';
   styleUrl: './points.component.scss'
 })
 export class PointsComponent implements OnInit {
-  vouchers: UpdateCoupondto[] = [];
   items: ItemDto[] = [];
   isAddMode = true;
   currentPage: number = 1;
@@ -32,13 +31,13 @@ export class PointsComponent implements OnInit {
 
   columns = [
     { field: 'name', header: 'Name' },
-    { field: 'category', header: 'Category' },
+    { field: 'categoryName', header: 'Category' },
     { field: 'points', header: 'Points' },
     { field: 'price', header: 'Price' },
     { field: 'status', header: 'Status' },
   ];
 
-  tableData: { name: string; category: number; points: number; price: number; status: string }[] = [];
+  tableData: { name: string; categoryName: string; points: number; price: number; status: string }[] = [];
 
   actions = [
     {
@@ -83,46 +82,50 @@ export class PointsComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private couponService: CouponService,
-    private router: Router,
+    private itemService: ItemService,
   ) { }
 
   ngOnInit(): void {
-    this.loadVouchers();
+    this.loadItems();
   }
 
-  // Load all vouchers
-  loadVouchers(): void {
-    const defaultInput: GetCouponsInput = {
-      branchid: 1,
+  // Load all items
+  loadItems(): void {
+    const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch'));
+
+    const input: GetItemInput = {
       sorting: '',
       skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10,
-
+      // points: this.filters.points ? Number(this.filters.points) : undefined,
+      status: this.filters.status ? Number(this.filters.status) : undefined,
+      minPrice: this.filters.price ? Number(this.filters.price) : undefined,
+      maxPrice: this.filters.price ? Number(this.filters.price) : undefined,
+      branchId: selectedBranch.id, // Add branch ID if needed
+      itemId: this.filters.item ? Number(this.filters.item) : undefined,
     };
 
-    this.couponService.getList(defaultInput).subscribe({
+    this.itemService.getList(input).subscribe({
       next: (response) => {
         console.log(response);
-        this.vouchers = response.data.items;
-        this.totalPages = Math.ceil(response.data.totalCount / 10);
+        this.items = response.data.items;
+        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
 
-        // this.tableData = this.vouchers.map(voucher => ({
-        //   name: voucher.name,
-        //   code: voucher.code,
-        //   discount: voucher.discount,
-        //   startDate: voucher.startDate,
-        //   endDate: voucher.endDate,
-        //   type: voucher.discountType === 1 ? 'Percentage' : 'Fixed'
-        // }));
+        this.tableData = this.items.map(item => ({
+          name: item.name,
+          categoryName: item.categoryName,
+          points: item.points,
+          price: item.price,
+          status: item.status ? 'Active' : 'Inactive'
+        }));
       },
       error: (err) => {
-        console.error('Error loading vouchers:', err);
+        console.error('Error loading items:', err);
       },
     });
   }
 
-  openAddEditModal(voucher?: UpdateCoupondto): void {
+  openAddEditModal(item?: UpdateCoupondto): void {
     const modalRef = this.modalService.open(AddPointsComponent, {
       size: 'lg',
       centered: true,
@@ -130,7 +133,7 @@ export class PointsComponent implements OnInit {
     });
 
     modalRef.componentInstance.isOpen = true;
-    modalRef.componentInstance.voucher = voucher || null;
+    modalRef.componentInstance.item = item || null;
 
     modalRef.componentInstance.close.subscribe(() => {
       modalRef.close();
@@ -139,7 +142,7 @@ export class PointsComponent implements OnInit {
     modalRef.result
       .then((result) => {
         if (result === 'saved') {
-          this.loadVouchers();
+          this.loadItems();
         }
       })
       .catch((reason) => {
@@ -147,7 +150,7 @@ export class PointsComponent implements OnInit {
       });
   }
 
-  openConfirmDeleteModal(voucherId: number, voucherName: string): void {
+  openConfirmDeleteModal(itemId: number, itemName: string): void {
     const modalRef = this.modalService.open(ConfirmDeleteModalComponent, {
       size: 'lg',
       centered: true,
@@ -155,12 +158,12 @@ export class PointsComponent implements OnInit {
     });
 
     // Pass data to the modal instance
-    modalRef.componentInstance.id = voucherId;
-    modalRef.componentInstance.name = voucherName;
+    modalRef.componentInstance.id = itemId;
+    modalRef.componentInstance.name = itemName;
 
     // Handle modal result
     modalRef.componentInstance.confirmDelete.subscribe((id) => {
-      this.deleteVoucher(id); // Call the delete method with the voucher ID
+      this.deletePoints(id); // Call the delete method with the item ID
     });
 
     modalRef.componentInstance.cancelDelete.subscribe(() => {
@@ -168,21 +171,21 @@ export class PointsComponent implements OnInit {
     });
   }
 
-  deleteVoucher(id: number): void {
-    this.couponService.delete(id).subscribe({
+  deletePoints(id: number): void {
+    this.itemService.delete(id).subscribe({
       next: () => {
-        this.vouchers = this.vouchers.filter((voucher) => voucher.id !== id);
+        this.items = this.items.filter((item) => item.id !== id);
         this.modalService.dismissAll(); // Close all modals
       },
       error: (err) => {
-        console.error('Error deleting voucher:', err);
+        console.error('Error deleting points:', err);
       },
     });
   }
 
   onPageChange(page: number): void {
     this.currentPage = page;
-    this.loadVouchers();
+    this.loadItems();
   }
 
   toggleFilterVisibility(): void {
@@ -192,7 +195,7 @@ export class PointsComponent implements OnInit {
   applyFilters(filters: any): void {
     this.filters = filters;
     this.currentPage = 1; // Reset to the first page
-    this.loadVouchers();
+    this.loadItems();
   }
 
   clearFilters(): void {
@@ -202,6 +205,6 @@ export class PointsComponent implements OnInit {
       price: '',
       status: '',
     };
-    this.loadVouchers();
+    this.loadItems();
   }
 }
