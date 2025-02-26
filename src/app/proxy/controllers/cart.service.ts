@@ -21,7 +21,7 @@ export class CartService {
       },
       body: cartItemDto,
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
 
   addVoucherByCode = (code: number, config?: Partial<Rest.Config>) =>
@@ -33,7 +33,18 @@ export class CartService {
       },
       params: { code },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
+
+
+  clearCartByCustomerId = (customerId: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'DELETE',
+      url: `/api/Cart/clear-cart/${customerId}`,
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
+      },
+    },
+      { apiName: this.apiName, ...config });
 
 
   getCart = (config?: Partial<Rest.Config>) =>
@@ -44,11 +55,11 @@ export class CartService {
         Authorization: `Bearer ${this.getToken()}`, // Manually adding the token
       },
     },
-    { apiName: this.apiName,...config });
+      { apiName: this.apiName, ...config });
 
-    private getToken(): string {
-      return this.cookieService.get('userToken');
-    }
+  private getToken(): string {
+    return this.cookieService.get('userToken');
+  }
 
-    constructor(private restService: RestService, private cookieService: CookieService) { }
+  constructor(private restService: RestService, private cookieService: CookieService) { }
 }

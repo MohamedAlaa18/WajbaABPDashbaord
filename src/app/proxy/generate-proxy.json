@@ -1166,6 +1166,43 @@
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.CartController"
             },
+            "ClearCartByCustomerId": {
+              "uniqueName": "ClearCartByCustomerId",
+              "name": "ClearCart",
+              "httpMethod": "DELETE",
+              "url": "api/Cart/clear-cart/{customerId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "customerId",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "customerId",
+                  "name": "customerId",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.CartController"
+            },
             "AddVoucherByCode": {
               "uniqueName": "AddVoucherByCode",
               "name": "AddVoucher",
@@ -22280,6 +22317,18 @@
           "regex": null
         },
         {
+          "name": "paymentMethod",
+          "jsonName": null,
+          "type": "Wajba.Enums.PaymentMethod?",
+          "typeSimple": "enum?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
           "name": "BranchId",
           "jsonName": null,
           "type": "System.Int32",
@@ -25333,6 +25382,22 @@
         4,
         5,
         6
+      ],
+      "genericArguments": null,
+      "properties": null
+    },
+    "Wajba.Enums.PaymentMethod": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "CashOnDelivery",
+        "CreditCard",
+        "PayPal"
+      ],
+      "enumValues": [
+        1,
+        2,
+        3
       ],
       "genericArguments": null,
       "properties": null

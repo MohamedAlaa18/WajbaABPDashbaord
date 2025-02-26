@@ -1,11 +1,12 @@
 import type { OrderType } from '../../enums/order-type.enum';
+import type { PaymentMethod } from '../../enums/payment-method.enum';
 
 export interface CreateOrderDto {
   orderItemDto: OrderItemDto[];
   ordertype: number;
+  paymentMethod?: number;
   branchId: number;
   pickUpOrder: PickUpOrderDTO;
-  paymentMethod: number;
   deliveryOrder: DeliveryOrderDTO;
   driveThruOrder: DriveThruOrderDTO;
   dineInOrder: DineInOrderDTO;

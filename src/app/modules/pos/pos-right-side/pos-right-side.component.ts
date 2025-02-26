@@ -97,12 +97,12 @@ export class PosRightSideComponent implements OnInit {
         console.log('Cart data from API:', response);
 
         // Update cart object
-        this.cart.items = response.data.items;
-        this.cart.subTotal = response.data.subTotal;
-        this.cart.deliveryFee = response.data.deliveryFee;
-        this.cart.serviceFee = response.data.serviceFee;
-        this.cart.totalAmount = response.data.totalAmount;
-        this.cart.discountAmount = response.data.discountAmount;
+        this.cart.items = response.data?.items;
+        this.cart.subTotal = response.data?.subTotal;
+        this.cart.deliveryFee = response.data?.deliveryFee;
+        this.cart.serviceFee = response.data?.serviceFee;
+        this.cart.totalAmount = response.data?.totalAmount;
+        this.cart.discountAmount = response.data?.discountAmount;
 
         // Save updated cart data to localStorage
         localStorage.setItem('cart', JSON.stringify(this.cart));
@@ -337,8 +337,8 @@ export class PosRightSideComponent implements OnInit {
   calculateCartTotals() {
     const subTotal = this.cart.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
     const discountAmount = this.form.value.discountValue|| 0;
-    const serviceFee = 10; // Example fixed service fee
-    const deliveryFee = 10; // Example fixed delivery fee
+    const serviceFee = this.cart.serviceFee; // Example fixed service fee
+    const deliveryFee = this.cart.deliveryFee; // Example fixed delivery fee
     const totalAmount = subTotal - discountAmount + serviceFee + deliveryFee;
 
     this.cart.subTotal = subTotal;
@@ -379,6 +379,7 @@ export class PosRightSideComponent implements OnInit {
       next: (response) => {
         console.log('Order placed successfully:', response)
         this.form.reset();
+        this.clearCart();
         this.afterActionService.reloadCurrentRoute();
       },
       error: (error) => {
@@ -387,6 +388,16 @@ export class PosRightSideComponent implements OnInit {
     });
   }
 
+  clearCart() {
+    this.cartService.clearCartByCustomerId(this.user.id).subscribe({
+      next: (response) => {
+        console.log('Cart cleared successfully:', response)
+      },
+      error: (error) => {
+        console.error('Error creating cart:', error);
+      }
+    });
+  }
   private getOrderDetails(formattedDate: string, formattedTime: string, approximateTime: string) {
     return {
       // POS Order
