@@ -67,6 +67,10 @@
         <div class="col-md-6 mb-3">
           <label for="limitPerUser" class="form-label">Limit Per User</label>
           <input type="number" id="limitPerUser" formControlName="limitPerUser" class="form-control bg-white">
+          <div *ngIf="voucherForm.get('limitPerUser')?.touched && voucherForm.get('limitPerUser')?.invalid"
+          class="text-danger">
+          <small>Limit Per User is required.</small>
+        </div>
         </div>
       </div>
 

@@ -40,6 +40,15 @@ export class ItemService {
     { apiName: this.apiName,...config });
   
 
+  deletePointsFromItemByInput = (input: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'DELETE',
+      url: '/api/Item/Delete-points-From-item',
+      params: { input },
+    },
+    { apiName: this.apiName,...config });
+  
+
   get = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
@@ -113,6 +122,15 @@ export class ItemService {
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: '/api/Item',
+      body: input,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  updatePointsOfItemByInput = (input: AddPointsToItemDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'PUT',
+      url: '/api/Item/Update-points-Of-item',
       body: input,
     },
     { apiName: this.apiName,...config });

@@ -34,7 +34,7 @@ export class AddVouchersComponent implements OnInit {
       name: ['', Validators.required],
       code: ['', Validators.required],
       discount: ['', Validators.required],
-      limitPerUser: ['',],
+      limitPerUser: ['', Validators.required],
       discountType: ['', Validators.required],
       startDate: ['',],
       endDate: ['',],

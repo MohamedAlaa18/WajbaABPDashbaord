@@ -11,11 +11,12 @@ import { AddTaxesComponent } from '../add-taxes/add-taxes.component';
 import { ItemTaxService } from '@proxy/controllers';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { UpdateItemTaxDto } from '@proxy/dtos/item-tax-contract';
+import { PaginationComponent } from "../../../../shared/pagination/pagination.component";
 
 @Component({
   selector: 'app-taxes',
   standalone: true,
-  imports: [CommonModule, RouterModule, IconsComponent, SettingsSidebarComponent, TableComponent],
+  imports: [CommonModule, RouterModule, IconsComponent, SettingsSidebarComponent, TableComponent, PaginationComponent],
   templateUrl: './taxes.component.html',
   styleUrl: './taxes.component.scss'
 })
@@ -27,6 +28,8 @@ export class TaxesComponent {
 
   isConfirmDeleteModalOpen: boolean = false;
   currencyToDeleteId!: number;
+  currentPage: number = 1;
+  totalPages: number = 4;
 
   columns = [
     { field: 'name', header: 'Name' },
@@ -63,13 +66,15 @@ export class TaxesComponent {
   loadCurrencies() {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
-      skipCount: 0,
+      skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10
     };
 
     this.itemTaxService.getList(defaultInput).subscribe((response: any) => {
       if (response) {
         this.taxes = response.data.items;
+        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
+
         console.log("tax : " + response.data)
       } else {
         console.error('The response is not an array:', response);
@@ -138,5 +143,10 @@ export class TaxesComponent {
     }, (error) => {
       console.error('Failed to delete currency:', error);
     });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadCurrencies();
   }
 }

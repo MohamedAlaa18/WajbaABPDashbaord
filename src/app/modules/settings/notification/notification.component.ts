@@ -63,7 +63,7 @@ export class NotificationComponent implements OnInit {
             fireBaseMessageSenderId: notificationData.fireBaseMessageSenderId,
             fireBaseAppId: notificationData.fireBaseAppId,
             fireBaseMeasurementId: notificationData.fireBaseMeasurementId,
-            imageUrl: notificationData.imageUrl,
+            // imageUrl: notificationData.imageUrl,
           });
         } else {
           console.warn('No notifications found.');
@@ -95,6 +95,7 @@ export class NotificationComponent implements OnInit {
   sendNotification() {
     if (this.notificationForm.valid) {
       const formValues = { ...this.notificationForm.value };
+      console.log('Form values:', formValues);
       const updateNotificationDto: CreateNotificationDto = {
         fireBasePublicVapidKey: formValues.fireBasePublicVapidKey,
         fireBaseAPIKey: formValues.fireBaseAPIKey,

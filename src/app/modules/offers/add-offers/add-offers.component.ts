@@ -10,6 +10,7 @@ import { CreateUpdateOfferDto, OfferDto, UpdateOfferdto } from '@proxy/dtos/offe
 import { Base64Service } from 'src/app/services/base64/base64.service';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { Base64ImageModel } from '@proxy/dtos/themes-contract';
+import { BranchDto } from '@proxy/dtos/branch-contract';
 
 @Component({
   selector: 'app-add-offers',
@@ -30,6 +31,7 @@ export class AddOffersComponent implements OnInit {
   itemsDropdownOpen = false;
   categoriesDropdownOpen = false;
   isSubmitting: boolean = false;
+  selectedBranch: BranchDto;
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +58,7 @@ export class AddOffersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('offer:', this.offer);
+    this.selectedBranch = JSON.parse(localStorage.getItem('selectedBranch'));
 
     if (this.offer) {
       this.populateForm(this.offer);
@@ -93,7 +95,7 @@ export class AddOffersComponent implements OnInit {
   loadCategories(): void {
     const defaultInput: GetCategoryInput = {
       name: '',
-      branchId: 0,
+      branchId: this.selectedBranch.id,
       maxResultCount: 10
     };
 
@@ -111,7 +113,7 @@ export class AddOffersComponent implements OnInit {
   loadItems(): void {
     const defaultInput: GetCategoryInput = {
       name: '',
-      branchId: 0,
+      branchId: this.selectedBranch.id,
       maxResultCount: 10
     };
 
@@ -152,10 +154,10 @@ export class AddOffersComponent implements OnInit {
     // Prepare base64 model if a file is selected
     const base64Model: Base64ImageModel | null = this.selectedFile
       ? {
-          id: this.offer?.id || 0,
-          fileName: this.selectedFile.name,
-          base64Content: '' // Placeholder, updated after conversion
-        }
+        id: this.offer?.id || 0,
+        fileName: this.selectedFile.name,
+        base64Content: '' // Placeholder, updated after conversion
+      }
       : null;
 
     let formValue: CreateUpdateOfferDto | UpdateOfferdto = {
@@ -169,7 +171,7 @@ export class AddOffersComponent implements OnInit {
       itemIds: this.offerForm.value.selectedItems.map((id: string | number) => Number(id)), // Ensure number[]
       categoryIds: this.offerForm.value.selectedCategories.map((id: string | number) => Number(id)), // Ensure number[]
       status: 1, // Hardcoded status
-      branchId: 1, // Hardcoded branchId
+      branchId: this.selectedBranch.id, // Hardcoded branchId
     };
 
     console.log('Form value:', formValue); // Debugging

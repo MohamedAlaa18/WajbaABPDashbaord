@@ -3008,8 +3008,8 @@
               "parametersOnMethod": [],
               "parameters": [],
               "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.ActionResult",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult"
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
               },
               "allowAnonymous": null,
               "implementFrom": "Wajba.Controllers.HomeController"
@@ -3508,6 +3508,80 @@
                   "defaultValue": null,
                   "constraintTypes": null,
                   "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ItemController"
+            },
+            "UpdatePointsOfItemByInput": {
+              "uniqueName": "UpdatePointsOfItemByInput",
+              "name": "UpdatePointsOfItem",
+              "httpMethod": "PUT",
+              "url": "api/Item/Update-points-Of-item",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto, Wajba.Application.Contracts",
+                  "type": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto",
+                  "typeSimple": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto",
+                  "typeSimple": "Wajba.Dtos.ItemsDtos.AddPointsToItemDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.IActionResult",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.IActionResult"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Wajba.Controllers.ItemController"
+            },
+            "DeletePointsFromItemByInput": {
+              "uniqueName": "DeletePointsFromItemByInput",
+              "name": "DeletePointsFromItem",
+              "httpMethod": "DELETE",
+              "url": "api/Item/Delete-points-From-item",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Query",
                   "descriptorName": ""
                 }
               ],
@@ -22582,8 +22656,8 @@
         {
           "name": "Ordertype",
           "jsonName": null,
-          "type": "Wajba.Enums.OrderType",
-          "typeSimple": "enum",
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -22594,8 +22668,8 @@
         {
           "name": "paymentMethod",
           "jsonName": null,
-          "type": "Wajba.Enums.PaymentMethod?",
-          "typeSimple": "enum?",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -25611,104 +25685,6 @@
         }
       ]
     },
-    "Wajba.Enums.DiscountType": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "Fixed",
-        "Percentage"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
-      "genericArguments": null,
-      "properties": null
-    },
-    "Wajba.Enums.GenderType": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "Male",
-        "Female"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
-      "genericArguments": null,
-      "properties": null
-    },
-    "Wajba.Enums.OrderType": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "Delivery",
-        "DriveThru",
-        "DineIn",
-        "PickUp",
-        "PosOrder",
-        "PosDelivery"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "genericArguments": null,
-      "properties": null
-    },
-    "Wajba.Enums.PaymentMethod": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "CashOnDelivery",
-        "CreditCard",
-        "PayPal"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3
-      ],
-      "genericArguments": null,
-      "properties": null
-    },
-    "Wajba.Enums.Status": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "InActive",
-        "Active"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
-      "genericArguments": null,
-      "properties": null
-    },
-    "Wajba.Enums.UserTypes": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "Admin",
-        "Employee",
-        "Deliveryboy",
-        "Customer"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
-      "genericArguments": null,
-      "properties": null
-    },
     "Wajba.Models.ChatMessgesDomains.ChatMessage": {
       "baseType": "Volo.Abp.Domain.Entities.Auditing.FullAuditedEntity<System.Int32>",
       "isEnum": false,
@@ -25884,8 +25860,8 @@
         {
           "name": "DiscountType",
           "jsonName": null,
-          "type": "Wajba.Enums.DiscountType",
-          "typeSimple": "enum",
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -26061,8 +26037,8 @@
         {
           "name": "status",
           "jsonName": null,
-          "type": "Wajba.Enums.Status?",
-          "typeSimple": "enum?",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -26073,8 +26049,8 @@
         {
           "name": "Type",
           "jsonName": null,
-          "type": "Wajba.Enums.UserTypes?",
-          "typeSimple": "enum?",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -26085,8 +26061,8 @@
         {
           "name": "GenderType",
           "jsonName": null,
-          "type": "Wajba.Enums.GenderType?",
-          "typeSimple": "enum?",
+          "type": "System.Int32?",
+          "typeSimple": "number?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

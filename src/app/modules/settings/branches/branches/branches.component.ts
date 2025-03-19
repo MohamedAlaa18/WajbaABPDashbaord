@@ -11,17 +11,20 @@ import { Router } from '@angular/router';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { UpdateBranchDto } from '@proxy/dtos/branch-contract';
 import { TableComponent } from "../../../../shared/table/table.component";
+import { PaginationComponent } from "../../../../shared/pagination/pagination.component";
 
 @Component({
   selector: 'app-branches',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent],
+  imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent, PaginationComponent],
   templateUrl: './branches.component.html',
   styleUrls: ['./branches.component.scss'],
 })
 export class BranchesComponent implements OnInit {
   branches: UpdateBranchDto[] = [];
   isAddMode = true;
+  currentPage: number = 1;
+  totalPages: number = 4;
 
   columns = [
     { field: 'name', header: 'Name' },
@@ -63,7 +66,7 @@ export class BranchesComponent implements OnInit {
   loadBranches(): void {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
-      skipCount: 0,
+      skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10
     };
 
@@ -71,6 +74,7 @@ export class BranchesComponent implements OnInit {
       next: (response) => {
         console.log(response)
         this.branches = response.data.items;
+        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
       },
       error: (err) => {
         console.error('Error loading branches:', err);
@@ -138,5 +142,10 @@ export class BranchesComponent implements OnInit {
 
   openBranchDetailsAndNavigate(branch: UpdateBranchDto) {
     this.router.navigate(['/settings/branches', branch.id]);
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadBranches();
   }
 }

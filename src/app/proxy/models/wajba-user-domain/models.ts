@@ -1,7 +1,4 @@
 import type { FullAuditedEntity } from '../../volo/abp/domain/entities/auditing/models';
-import type { Status } from '../../enums/status.enum';
-import type { UserTypes } from '../../enums/user-types.enum';
-import type { GenderType } from '../../enums/gender-type.enum';
 import type { WajbaUserRoles } from '../wajba-user-role-domain/models';
 import type { Coupon } from '../coupons-domain/models';
 import type { ChatMessage } from '../chat-messges-domains/models';

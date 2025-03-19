@@ -4,6 +4,7 @@ import { UserComponent } from './user/user.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'administrators', pathMatch: 'full' },
   { path: 'administrators', component: UserComponent }, // Matches '/user/administrators'
   { path: 'delivery-boys', component: UserComponent }, // Matches '/user/delivery-boys'
   { path: 'customers', component: UserComponent }, // Matches '/user/customers'

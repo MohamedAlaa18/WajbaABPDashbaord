@@ -1,13 +1,13 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
+import type { IActionResult } from '../microsoft/asp-net-core/mvc/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HomeService {
   apiName = 'Default';
-
+  
 
   index = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({

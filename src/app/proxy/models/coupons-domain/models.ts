@@ -1,5 +1,4 @@
 import type { FullAuditedEntity } from '../../volo/abp/domain/entities/auditing/models';
-import type { DiscountType } from '../../enums/discount-type.enum';
 
 export interface Coupon extends FullAuditedEntity<number> {
   name?: string;

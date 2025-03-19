@@ -11,17 +11,20 @@ import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal
 import { AddItemAttributesComponent } from '../add-item-attributes/add-item-attributes.component';
 import { UpdateItemAttributeDto } from '@proxy/dtos/item-attributes';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
+import { PaginationComponent } from "../../../../shared/pagination/pagination.component";
 
 @Component({
   selector: 'app-item-attributes',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent],
+  imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent, PaginationComponent],
   templateUrl: './item-attributes.component.html',
   styleUrl: './item-attributes.component.scss'
 })
 export class ItemAttributesComponent {
   itemAttributes: UpdateItemAttributeDto[] = [];
   isAddMode = true;
+  currentPage: number = 1;
+  totalPages: number = 4;
 
   columns = [
     { field: 'name', header: 'Name' },
@@ -46,7 +49,7 @@ export class ItemAttributesComponent {
   constructor(
     private modalService: NgbModal,
     private itemAttributeService: ItemAttributeService,
-    private afterActionService:AfterActionService,
+    private afterActionService: AfterActionService,
   ) { }
 
   ngOnInit(): void {
@@ -57,7 +60,7 @@ export class ItemAttributesComponent {
   loadItemAttributes(): void {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
-      skipCount: 0,
+      skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10
     };
 
@@ -65,6 +68,7 @@ export class ItemAttributesComponent {
       next: (response) => {
         console.log(response)
         this.itemAttributes = response.data.items;
+        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
       },
       error: (err) => {
         console.error('Error loading item attributes:', err);
@@ -134,5 +138,10 @@ export class ItemAttributesComponent {
         console.error('Error deleting item attribute:', err);
       },
     });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadItemAttributes();
   }
 }

@@ -11,17 +11,20 @@ import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { AddLanguagesComponent } from '../add-languages/add-languages.component';
 import { UpdateLanguagedto } from '@proxy/dtos/languages';
+import { PaginationComponent } from "../../../../shared/pagination/pagination.component";
 
 @Component({
   selector: 'app-languages',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent],
+  imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent, PaginationComponent],
   templateUrl: './languages.component.html',
   styleUrl: './languages.component.scss'
 })
 export class LanguagesComponent {
   languages: UpdateLanguagedto[] = [];
   isAddMode = true;
+  currentPage: number = 1;
+  totalPages: number = 4;
 
   columns = [
     { field: 'name', header: 'Name' },
@@ -64,7 +67,7 @@ export class LanguagesComponent {
   loadLanguages(): void {
     const defaultInput: PagedAndSortedResultRequestDto = {
       sorting: '',
-      skipCount: 0,
+      skipCount: (this.currentPage - 1) * 10,
       maxResultCount: 10
     };
 
@@ -72,6 +75,7 @@ export class LanguagesComponent {
       next: (response) => {
         console.log(response)
         this.languages = response.data.items;
+        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
       },
       error: (err) => {
         console.error('Error loading languages:', err);
@@ -140,5 +144,10 @@ export class LanguagesComponent {
 
   openLanguageDetailsAndNavigate(branch: UpdateLanguagedto) {
     this.router.navigate(['/settings/languages', branch.id]);
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadLanguages();
   }
 }

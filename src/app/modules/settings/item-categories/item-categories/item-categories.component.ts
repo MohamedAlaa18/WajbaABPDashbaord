@@ -11,17 +11,20 @@ import { AddItemCategoriesComponent } from '../add-item-categories/add-item-cate
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { GetCategoryInput, UpdateCategory } from '@proxy/dtos/categories';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
+import { PaginationComponent } from "../../../../shared/pagination/pagination.component";
 
 @Component({
   selector: 'app-item-categories',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent],
+  imports: [CommonModule, ReactiveFormsModule, IconsComponent, SettingsSidebarComponent, TableComponent, PaginationComponent],
   templateUrl: './item-categories.component.html',
   styleUrl: './item-categories.component.scss'
 })
 export class ItemCategoriesComponent {
   itemCategories: UpdateCategory[] = [];
   isAddMode = true;
+  currentPage: number = 1;
+  totalPages: number = 4;
 
   columns = [
     { field: 'name', header: 'Name' },
@@ -62,16 +65,20 @@ export class ItemCategoriesComponent {
 
   // Load all item categories
   loadItemCategories(): void {
+    const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch'));
+
     const defaultInput: GetCategoryInput = {
       name: '',
-      branchId: 0,
-      maxResultCount: 10
+      skipCount: (this.currentPage - 1) * 10,
+      maxResultCount: 10,
+      branchId: selectedBranch.id,
     };
 
     this.categoryService.getList(defaultInput).subscribe({
       next: (response) => {
         console.log(response)
         this.itemCategories = response.data.items;
+        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
       },
       error: (err) => {
         console.error('Error loading Item Categories:', err);
@@ -141,5 +148,10 @@ export class ItemCategoriesComponent {
 
   openItemCategoryDetailsAndNavigate(ItemCategory: UpdateCategory) {
     this.router.navigate(['/settings/item-categories', ItemCategory.id]);
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadItemCategories();
   }
 }

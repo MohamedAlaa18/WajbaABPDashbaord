@@ -1,5 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -9,7 +10,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './table.component.scss',
   providers: [DatePipe]
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
   @Input() data: any[] = [];
   @Input() columns: { field: string; header: string }[] = [];
   @Input() actions: {
@@ -19,9 +20,26 @@ export class TableComponent {
     callback: (row: any) => void;
   }[] = [];
 
-  constructor(private datePipe: DatePipe) { }
+  constructor(
+    private datePipe: DatePipe,
+    private router: Router
+  ) { }
 
   @Output() actionTriggered = new EventEmitter<{ action: string; row: any }>();
+
+  isUserRoute: boolean = false;
+
+  ngOnInit() {
+    this.checkUserRoute();
+    this.router.events.subscribe(() => {
+      this.checkUserRoute();
+    });
+  }
+
+  private checkUserRoute() {
+    const url = this.router.url;
+    this.isUserRoute = /^\/user\/\d+$/.test(url) || /^\/items\/\d+$/.test(url) || /^\/offers\/\d+$/.test(url);
+  }
 
   actionClicked(action: any, row: any) {
     action.callback(row);

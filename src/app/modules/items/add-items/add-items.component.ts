@@ -45,7 +45,7 @@ export class AddItemsComponent {
       name: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]],
       categoryId: ['', Validators.required],
-      taxValue: [''],
+      taxValue: ['',Validators.required],
       itemType: [1, Validators.required],
       status: [1, Validators.required],
       branchIds: this.fb.control([], Validators.required),

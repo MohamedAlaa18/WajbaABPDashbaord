@@ -1,5 +1,3 @@
-import type { OrderType } from '../../enums/order-type.enum';
-import type { PaymentMethod } from '../../enums/payment-method.enum';
 
 export interface CreateOrderDto {
   orderItemDto: OrderItemDto[];
