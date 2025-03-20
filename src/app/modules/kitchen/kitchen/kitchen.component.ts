@@ -16,10 +16,49 @@ export class KitchenComponent implements OnInit {
   currentOrders = 'active';
   currentDate = new Date(); // To display the current date/time
 
+  activeOrders = [
+    {
+      orderNumber: 124,
+      orderType: 'Dine In',
+      items: [
+        { name: 'Pizza Chicken BBQ (Medium)', notes: 'Without green olive', completed: false },
+        { name: 'Buffalo Burger (Single)', notes: 'Extra Bacon', completed: false }
+      ]
+    },
+    {
+      orderNumber: 125,
+      orderType: 'Delivery',
+      items: [
+        { name: 'Pizza Chicken BBQ (Medium)', notes: 'Without green olive', completed: false },
+        { name: 'Buffalo Burger (Single)', notes: 'Extra Bacon', completed: false }
+      ]
+    },
+    {
+      orderNumber: 127,
+      orderType: 'Drive Thru',
+      items: [
+        { name: 'Pizza Chicken BBQ (Medium)', notes: 'Without green olive', completed: false },
+        { name: 'Buffalo Burger (Single)', notes: 'Extra Bacon', completed: false }
+      ]
+    }
+  ];
+
+  finishedOrders = [
+    {
+      orderNumber: 126,
+      orderType: 'Takeaway',
+      items: [
+        { name: 'Pasta Alfredo', notes: 'Extra cheese', completed: true },
+        { name: 'Caesar Salad', notes: 'No dressing', completed: true }
+      ]
+    }
+  ];
+
+
   constructor(private orderService: OrderService) { }
 
   ngOnInit(): void {
-    this.loadKitchenOrders();
+    // this.loadKitchenOrders();
   }
 
   loadKitchenOrders(): void {

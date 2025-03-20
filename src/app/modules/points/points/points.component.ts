@@ -12,6 +12,7 @@ import { UpdateCoupondto } from '@proxy/dtos/coupon-contract';
 import { ItemService } from '@proxy/controllers';
 import { AddPointsComponent } from '../add-points/add-points.component';
 import { GetItemInput, ItemDto } from '@proxy/dtos/items-dtos';
+import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 
 @Component({
   selector: 'app-points',
@@ -83,6 +84,7 @@ export class PointsComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private itemService: ItemService,
+    private afterActionService: AfterActionService,
   ) { }
 
   ngOnInit(): void {
@@ -108,8 +110,8 @@ export class PointsComponent implements OnInit {
     this.itemService.getList(input).subscribe({
       next: (response) => {
         console.log(response);
-        this.items = response.data.items;
-        this.totalPages = Math.ceil(response.data.totalCount / 10); // Update total pages
+        this.items = response.data.items.filter(item => item.points !== 0);
+        this.totalPages = Math.ceil(this.items.length / 10); // Update total pages
 
         this.tableData = this.items.map(item => ({
           name: item.name,
@@ -172,10 +174,11 @@ export class PointsComponent implements OnInit {
   }
 
   deletePoints(id: number): void {
-    this.itemService.delete(id).subscribe({
+    this.itemService.deletePointsFromItemByInput(id).subscribe({
       next: () => {
-        this.items = this.items.filter((item) => item.id !== id);
+        // this.items = this.items.filter((item) => item.id !== id);
         this.modalService.dismissAll(); // Close all modals
+        this.afterActionService.reloadCurrentRoute();
       },
       error: (err) => {
         console.error('Error deleting points:', err);

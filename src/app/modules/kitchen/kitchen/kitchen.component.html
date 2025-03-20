@@ -1,28 +1,34 @@
-<section>
-  <div class="header w-100 flex items-center justify-between px-4 py-2 mb-3">
-    <div class="text-white text-sm font-semibold">
+<section class="container-fluid">
+  <!-- Header Section -->
+  <div
+    class="header w-100 flex flex-column flex-md-row items-center justify-content-between px-3 px-md-4 py-2 mb-2 mb-md-3">
+    <!-- Date -->
+    <div class="text-white text-sm font-semibold mb-2 mb-md-0 text-center text-md-start">
       {{ currentDate | date: 'EEE MMM d yyyy HH:mm:ss' }}
     </div>
-    <div class="status-tabs bg-white flex rounded-md shadow p-1 rounded-0">
-      <button class="tab px-4 py-1 font-semibold text-red-600 relative"
+
+    <!-- Status Tabs -->
+    <div class="status-tabs bg-white flex rounded-md shadow-sm p-1">
+      <button class="tab px-3 px-md-4 py-1 font-semibold text-red-600 relative"
         [ngClass]="{ 'active-tab': currentOrders === 'active' }" (click)="currentOrders = 'active'">
-        <!-- Active ({{ activeOrders.length }}) -->
+        Active ({{ activeOrders.length }})
       </button>
-      <button class="tab px-4 py-1 font-semibold text-gray-800"
+      <button class="tab px-3 px-md-4 py-1 font-semibold text-gray-800"
         [ngClass]="{ 'active-tab': currentOrders === 'finished' }" (click)="currentOrders = 'finished'">
-        <!-- Finished ({{ finishedOrders.length }}) -->
+        Finished ({{ finishedOrders.length }})
       </button>
     </div>
   </div>
 
-  <div class="container p-0">
-    <div class="row" *ngIf="currentOrders === 'active'">
-      <div class="col-md-4" *ngFor="let order of activeOrders">
+  <!-- Content Section -->
+  <div class="p-0">
+    <div class="row g-2 g-md-3" *ngIf="currentOrders === 'active'">
+      <div class="col-12 col-sm-6 col-md-5 col-lg-4" *ngFor="let order of activeOrders">
         <app-kitchen-card [order]="order"></app-kitchen-card>
       </div>
     </div>
-    <div class="row" *ngIf="currentOrders === 'finished'">
-      <div class="col-md-4" *ngFor="let order of finishedOrders">
+    <div class="row g-2 g-md-3" *ngIf="currentOrders === 'finished'">
+      <div class="col-12 col-sm-6 col-md-5 col-lg-4" *ngFor="let order of finishedOrders">
         <app-kitchen-card [order]="order" [isDone]="true"></app-kitchen-card>
       </div>
     </div>

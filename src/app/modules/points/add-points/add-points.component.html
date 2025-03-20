@@ -11,15 +11,11 @@
       <div class="row">
         <div class="mb-3 col-md-6">
           <label for="itemId" class="form-label">Item <span class="text-danger">*</span></label>
-          <select id="itemId" formControlName="itemId" class="form-select bg-white">
-            <option value="" disabled>--</option>
-            <option *ngFor="let item of items" [value]="item.id">{{item.name}}</option>
-          </select>
-          <div
-            *ngIf="pointsForm.get('item')?.invalid && (pointsForm.get('item')?.touched || pointsForm.get('item')?.dirty)"
-            class="text-danger">
-            <ng-container *ngIf="pointsForm.get('item')?.errors?.['required']">Item is
-              required.</ng-container>
+          <ng-select [items]="items" bindLabel="name" bindValue="id" [searchable]="true" placeholder="Select an item"
+            class="custom" formControlName="itemId">
+          </ng-select>
+          <div *ngIf="pointsForm.get('itemId')?.touched && pointsForm.get('itemId')?.invalid" class="text-danger">
+            <small>Item is required.</small>
           </div>
         </div>
 
@@ -29,11 +25,12 @@
           <div
             *ngIf="pointsForm.get('points')?.invalid && (pointsForm.get('points')?.touched || pointsForm.get('points')?.dirty)"
             class="text-danger">
-            <ng-container *ngIf="offerForm.get('points')?.errors?.['required']">Quantity of points is
-              required.</ng-container>
-            <ng-container *ngIf="offerForm.get('points')?.errors?.['min']">Quantity of points must be a
-              positive
-              number.</ng-container>
+            <small *ngIf="pointsForm.get('points')?.errors?.['required']">
+              Quantity of points is required.
+            </small>
+            <small *ngIf="pointsForm.get('points')?.errors?.['min']">Quantity of points must be a
+              positive number.
+            </small>
           </div>
         </div>
       </div>

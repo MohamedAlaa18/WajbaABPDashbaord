@@ -13,6 +13,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 export class KitchenCardComponent implements OnInit, OnDestroy {
   @Input() order: any;
   @Input() isDone: boolean = false;
+
   status: string = 'Pending';
   buttonText: string = 'Start';
   formattedTime: string = '00:00';
