@@ -3,18 +3,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemService } from '@proxy/controllers';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
-import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { PopularItemsService } from '@proxy/controllers/popular-items.service';
-import { ItemDto } from '@proxy/dtos/items-dtos';
+import { GetItemInput, ItemDto } from '@proxy/dtos/items-dtos';
 import { CreatePopularitem, Popularitemdto, UpdatePopularItemdto } from '@proxy/dtos/popular-itemstoday';
 import { Base64Service } from 'src/app/services/base64/base64.service';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { priceComparisonValidator } from 'src/app/validators/priceComparisonValidator';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-add-popular-today',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, IconsComponent],
+  imports: [ReactiveFormsModule, CommonModule, IconsComponent, NgSelectModule],
   templateUrl: './add-popular-today.component.html',
   styleUrls: ['./add-popular-today.component.scss'],
 })
@@ -40,8 +40,8 @@ export class AddPopularTodayComponent {
       {
         id: [null],
         itemId: ['', Validators.required],
-        prePrice: ['', [Validators.pattern('^[0-9]*$')]],
-        currentPrice: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+        prePrice: ['', [Validators.min(0)]],
+        currentPrice: ['', [Validators.required, Validators.min(0)]],
         description: ['', Validators.required],
         image: [''],
       },
@@ -60,10 +60,13 @@ export class AddPopularTodayComponent {
   }
 
   loadItems(): void {
-    const defaultInput: PagedAndSortedResultRequestDto = {
+    const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch'));
+
+    const defaultInput: GetItemInput = {
       sorting: '',
       skipCount: 0,
-      maxResultCount: 10,
+      maxResultCount: undefined,
+      branchId: selectedBranch.id,
     };
 
     this.itemService.getList(defaultInput).subscribe({

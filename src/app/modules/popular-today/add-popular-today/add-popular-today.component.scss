@@ -30,3 +30,23 @@ select {
 select.form-select option:checked {
   background-color: var(--red-color) !important;
 }
+
+::ng-deep .ng-select .ng-select-container {
+  color: #333;
+  border: 1px solid #e7e9ec !important;
+  height: 40px !important;
+  border-radius: 0.5rem !important;
+}
+
+::ng-deep .ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+  box-shadow: none !important;
+}
+
+::ng-deep .ng-option.ng-option-selected,
+.ng-option.ng-option-selected.ng-option-marked {
+  background-color: #FEEEEE !important;
+}
+
+::ng-deep .ng-select .ng-select-container {
+  color: #A1A1A1 !important;
+}

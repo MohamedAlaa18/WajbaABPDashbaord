@@ -1,11 +1,11 @@
-import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { ItemAddonService, ItemService, ItemVariationService } from '@proxy/controllers';
-import { CreateItemAddonDto, ItemAddonDto, UpdateItemAddonDto } from '@proxy/dtos/item-addon-contract';
+import { ItemAddonDto } from '@proxy/dtos/item-addon-contract';
 import { UpdateItemVariationDto } from '@proxy/dtos/item-variation-contract';
-import { UpdateItemDTO } from '@proxy/dtos/items-dtos';
+import { GetItemInput, UpdateItemDTO } from '@proxy/dtos/items-dtos';
 import { Observable } from 'rxjs';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { IconsComponent } from 'src/app/shared/icons/icons.component';
@@ -13,11 +13,11 @@ import { IconsComponent } from 'src/app/shared/icons/icons.component';
 @Component({
   selector: 'app-add-ons',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, IconsComponent],
+  imports: [ReactiveFormsModule, CommonModule, IconsComponent, NgSelectModule],
   templateUrl: './add-ons.component.html',
   styleUrl: './add-ons.component.scss'
 })
-export class AddOnsComponent {
+export class AddOnsComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Input() addon: ItemAddonDto;
   @Input() itemId: number;
@@ -65,10 +65,13 @@ export class AddOnsComponent {
   }
 
   loadItems(): void {
-    const defaultInput: PagedAndSortedResultRequestDto = {
+    const selectedBranch = JSON.parse(localStorage.getItem('selectedBranch'));
+
+    const defaultInput: GetItemInput = {
       sorting: '',
-      skipCount: 0,
-      maxResultCount: 10
+      // skipCount: 0,
+      maxResultCount: undefined,
+      branchId: selectedBranch.id,
     };
 
     this.itemService.getList(defaultInput).subscribe(
@@ -83,7 +86,7 @@ export class AddOnsComponent {
 
   loadVariationsAddonDropdown(itemId: number): void {
     if (itemId) {
-      this.itemVariationService.getListByItemAttributeId(itemId).subscribe(
+      this.itemVariationService.getVariationsByItemId(itemId).subscribe(
         (response) => {
           console.log('Response:', response);
           this.variationsAddonDropdown = response.data || [];

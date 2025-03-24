@@ -11,13 +11,9 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label for="option" class="form-label">Addon items</label>
-          <select id="option" formControlName="option" class="form-select bg-white"
-            (change)="onAddonSelectionChange($event)">
-            <option value="" disabled>--</option>
-            <option *ngFor="let item of items" [value]="item.id">
-              {{ item.name }}
-            </option>
-          </select>
+          <ng-select [items]="items" bindLabel="name" bindValue="id" [searchable]="true" placeholder="Select an item"
+            class="custom" formControlName="option">
+          </ng-select>
           <div
             *ngIf="addonForm.get('option')?.invalid && (addonForm.get('option')?.touched || addonForm.get('option')?.dirty)"
             class="text-danger">
