@@ -7,8 +7,7 @@ import { BranchDto, GetBranchInput, UpdateBranchDto } from '@proxy/dtos/branch-c
 import { GetUserListDto, WajbaUserDto } from '@proxy/dtos/wajba-users-contract';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
 import { CreateOrderDto } from '@proxy/dtos/order-contract';
-
-
+import { SnackbarService } from 'src/app/services/Snackbar/snackbar.service';
 
 @Component({
   selector: 'app-pos-right-side',
@@ -46,6 +45,7 @@ export class PosRightSideComponent implements OnInit {
     private branchService: BranchService,
     private datePipe: DatePipe,
     private afterActionService: AfterActionService,
+    private snackbarService: SnackbarService
   ) {
     this.form = this.fb.group({
       customer: [null],
@@ -383,6 +383,7 @@ export class PosRightSideComponent implements OnInit {
         this.form.reset();
         this.clearCart();
         this.afterActionService.reloadCurrentRoute();
+        this.snackbarService.showMessage('Your order has been added successfully');
       },
       error: (error) => {
         console.error('Error placing order:', error);

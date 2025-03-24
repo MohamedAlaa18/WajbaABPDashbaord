@@ -5,6 +5,7 @@ import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.c
 import { NotificationService } from '@proxy/controllers';
 import { CreateNotificationDto, GetNotificationInput } from '@proxy/dtos/notification-contract';
 import { Base64Service } from 'src/app/services/base64/base64.service';
+import { SnackbarService } from 'src/app/services/Snackbar/snackbar.service';
 
 @Component({
   selector: 'app-notification',
@@ -22,6 +23,7 @@ export class NotificationComponent implements OnInit {
     private fb: FormBuilder,
     private notificationService: NotificationService,
     private base64Service: Base64Service,
+    private snackbarService: SnackbarService
   ) {
     // Initialize form with keys matching the API response
     this.notificationForm = this.fb.group({
@@ -121,6 +123,7 @@ export class NotificationComponent implements OnInit {
           this.notificationService.update(updateNotificationDto).subscribe(
             (response) => {
               console.log('Notification updated successfully:', response);
+              this.snackbarService.showMessage('Your data has been updated successfully');
             },
             (error) => {
               console.error('Error updating notification:', error);

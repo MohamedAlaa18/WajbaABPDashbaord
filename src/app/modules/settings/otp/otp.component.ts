@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { OTPService } from '@proxy/controllers';
 import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.component";
 import { UpdateOtpDto } from '@proxy/dtos/otpcontract';
+import { SnackbarService } from 'src/app/services/Snackbar/snackbar.service';
 
 @Component({
   selector: 'app-otp',
@@ -12,7 +13,7 @@ import { UpdateOtpDto } from '@proxy/dtos/otpcontract';
   templateUrl: './otp.component.html',
   styleUrl: './otp.component.scss'
 })
-export class OTPComponent implements OnInit{
+export class OTPComponent implements OnInit {
   otpForm: FormGroup;
 
   // Define arrays for dynamic options
@@ -27,7 +28,8 @@ export class OTPComponent implements OnInit{
 
   constructor(
     private fb: FormBuilder,
-    private otpService: OTPService
+    private otpService: OTPService,
+    private snackbarService: SnackbarService
   ) {
     this.otpForm = this.fb.group({
       type: ['', Validators.required],
@@ -59,11 +61,12 @@ export class OTPComponent implements OnInit{
   onSubmit() {
     if (this.otpForm.valid) {
       let formValue = this.otpForm.value as UpdateOtpDto;
-console.log(formValue)
+      console.log(formValue)
       // Call the OTP service to send the data
       this.otpService.update(formValue).subscribe({
         next: (response) => {
           console.log('OTP sent successfully:', response);
+          this.snackbarService.showMessage('Your data has been updated successfully');
           // this.otpForm.reset();
         },
         error: (error) => {

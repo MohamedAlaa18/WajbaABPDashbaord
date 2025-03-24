@@ -7,6 +7,7 @@ import { TimeSlotsModalComponent } from 'src/app/shared/time-slots-modal/time-sl
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { UpdateOrderSetupDto } from '@proxy/dtos/order-setup-contract';
+import { SnackbarService } from 'src/app/services/Snackbar/snackbar.service';
 
 @Component({
   selector: 'app-order-setup',
@@ -26,7 +27,8 @@ export class OrderSetupComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private orderSetupService: OrderSetupService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private snackbarService: SnackbarService
   ) {
     this.orderForm = this.fb.group({
       foodPreparationTime: [null, [Validators.required]],
@@ -130,6 +132,7 @@ export class OrderSetupComponent implements OnInit {
       // Call the update method from the service
       this.orderSetupService.update(formValue).subscribe(response => {
         console.log('Order setup updated successfully', response);
+        this.snackbarService.showMessage('Your data has been updated successfully');
       }, error => {
         console.error('Error updating order setup', error);
       });

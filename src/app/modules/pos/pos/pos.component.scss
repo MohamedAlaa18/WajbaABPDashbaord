@@ -1,7 +1,26 @@
+:host {
+  display: block;
+  transition: margin-left 0.3s ease;
+}
+
+.section-container {
+  max-width: 100%;
+  transition: max-width 0.3s ease;
+}
+
+.sidebar-open {
+  max-width: calc(100% - 312px);
+}
+
 @media (min-width: 768px) {
   .col-md-5-5 {
     flex: 0 0 auto;
     width: 45%;
-    margin-right: 5%;
+    // max-width: 600px;
+    // margin-right: 5%;
   }
+  // .col-md-6 {
+  //   width: 45%;
+  //   max-width: 600px;
+  // }
 }

@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TimeSlotsModalComponent } from "../../../shared/time-slots-modal/time-slots-modal.component";
 import { TimeSlotService } from '@proxy/controllers';
 import { TimeSlotUpdateDetailDto, UpdateTimeSlotDto } from '@proxy/dtos/time-slots-contract';
+import { SnackbarService } from 'src/app/services/Snackbar/snackbar.service';
 
 @Component({
   selector: 'app-time-slots',
@@ -29,6 +30,7 @@ export class TimeSlotsComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private timeSlotService: TimeSlotService,
+    private snackbarService: SnackbarService
   ) { }
 
   ngOnInit(): void {
@@ -65,7 +67,8 @@ export class TimeSlotsComponent implements OnInit {
 
     this.timeSlotService.updateByUpdateTimeSlotDtos(updateTimeSlotDtos).subscribe((response: any) => {
       if (response.success) {
-        console.log('Time slots saved successfully!',response);
+        console.log('Time slots saved successfully!', response);
+        this.snackbarService.showMessage('Your data has been updated successfully');
       } else {
         console.log('Failed to save time slots!');
       }

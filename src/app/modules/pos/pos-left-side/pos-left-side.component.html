@@ -11,7 +11,7 @@
   </form>
 
   <!-- Meal items scrollable list -->
-  <div class="overflow-auto categories-container d-flex gap-3 mt-4 max-w-xl" *ngIf="categories"
+  <div class="overflow-auto categories-container d-flex gap-3 mt-4" *ngIf="categories"
     (scroll)="onScroll($event)">
     <!-- 'All' category button -->
     <button (click)="selectCategory(0)" class="btn rounded-4 bg-white transition category-button"

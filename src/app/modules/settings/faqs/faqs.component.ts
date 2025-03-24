@@ -8,6 +8,7 @@ import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { ConfirmDeleteModalComponent } from 'src/app/shared/confirm-delete-modal/confirm-delete-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AfterActionService } from 'src/app/services/after-action/after-action-service.service';
+import { SnackbarService } from 'src/app/services/Snackbar/snackbar.service';
 
 @Component({
   selector: 'app-faqs',
@@ -26,6 +27,7 @@ export class FAQsComponent implements OnInit {
     private faqsService: FaqService,
     private modalService: NgbModal,
     private afterActionService: AfterActionService,
+    private snackbarService: SnackbarService
   ) {
     this.questionAnswerForm = this.fb.group({
       questions: this.fb.array([])
@@ -108,6 +110,7 @@ export class FAQsComponent implements OnInit {
           this.faqsService.update(payload).subscribe(
             response => {
               console.log(`FAQ updated successfully:`, response);
+              this.snackbarService.showMessage('Your data has been updated successfully');
             },
             error => {
               console.error('Error updating FAQ:', error);

@@ -33,9 +33,14 @@ export class MessagesComponent implements OnInit {
 
   loadUsers(): void {
     const defaultInput: GetUserListDto = {
+      fullName: this.searchQuery,
+      type: undefined,
+      email: undefined,
+      phone: undefined,
+      role: undefined,
+      status: undefined,
       skipCount: 0,
       maxResultCount: undefined,
-      fullName: this.searchQuery,
     };
 
     this.wajbaUserService.getWajbaUserByInput(defaultInput).subscribe({

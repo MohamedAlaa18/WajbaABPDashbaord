@@ -5,6 +5,7 @@ import { SendingEmailService } from '@proxy/controllers';
 import { SettingsSidebarComponent } from '../settings-sidebar/settings-sidebar.component';
 import { CreateSiteDto } from '@proxy/dtos/sites-contact';
 import { CreateUpdateSendingEmailDto } from '@proxy/dtos/email-contract';
+import { SnackbarService } from 'src/app/services/Snackbar/snackbar.service';
 
 @Component({
   selector: 'app-email',
@@ -19,6 +20,7 @@ export class EmailComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private sendingEmailService: SendingEmailService,
+    private snackbarService: SnackbarService
   ) {
     this.siteForm = this.fb.group({
       host: ['', Validators.required],
@@ -62,6 +64,7 @@ export class EmailComponent implements OnInit {
       this.sendingEmailService.update(formValue as CreateUpdateSendingEmailDto).subscribe({
         next: (response) => {
           console.log('Update successful!', response);
+          this.snackbarService.showMessage('Your data has been updated successfully');
         },
         error: (error) => {
           console.error('Update error:', error);

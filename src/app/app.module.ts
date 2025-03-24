@@ -22,6 +22,7 @@ import { ThemeLeptonXModule } from '@abp/ng.theme.lepton-x';
 import { SideMenuLayoutModule } from '@abp/ng.theme.lepton-x/layouts';
 import { AccountLayoutModule } from '@abp/ng.theme.lepton-x/account';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SnackbarComponent } from "./shared/snackbar/snackbar.component";
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ThemeLeptonXModule.forRoot(),
     SideMenuLayoutModule.forRoot(),
     AccountLayoutModule.forRoot(),
-  ],
+    SnackbarComponent
+],
   declarations: [AppComponent],
   providers: [
     APP_ROUTE_PROVIDER,

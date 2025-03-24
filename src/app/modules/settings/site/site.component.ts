@@ -6,6 +6,7 @@ import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.c
 import { GetBranchInput } from '@proxy/dtos/branch-contract';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { CreateSiteDto } from '@proxy/dtos/sites-contact';
+import { SnackbarService } from 'src/app/services/Snackbar/snackbar.service';
 
 @Component({
   selector: 'app-site',
@@ -27,7 +28,8 @@ export class SiteComponent implements OnInit {
     private siteService: SiteService,
     private branchService: BranchService,
     private languageService: LanguageService,
-    private currenciesService: CurrenciesService
+    private currenciesService: CurrenciesService,
+    private snackbarService: SnackbarService
   ) {
     // Initialize the form with default values and validators
     this.siteForm = this.fb.group({
@@ -149,6 +151,7 @@ export class SiteComponent implements OnInit {
       this.siteService.update(formValue).subscribe({
         next: (response) => {
           console.log('Form submitted successfully!', response);
+          this.snackbarService.showMessage('Your data has been updated successfully');
         },
         error: (error) => {
           console.error('Form submission error:', error);

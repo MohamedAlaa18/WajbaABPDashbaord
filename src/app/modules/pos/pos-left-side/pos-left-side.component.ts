@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './pos-left-side.component.html',
   styleUrl: './pos-left-side.component.scss'
 })
-export class PosLeftSideComponent implements OnInit{
+export class PosLeftSideComponent implements OnInit {
   categories: UpdateCategory[] = [];
   items: ItemDto[] = [];
   selectedCategoryId: number | undefined = undefined;
@@ -73,49 +73,61 @@ export class PosLeftSideComponent implements OnInit{
   // Handle scroll to update selected page index based on position
   @HostListener('wheel', ['$event'])
   onScroll(event: WheelEvent): void {
-    const scrollContainer = document.querySelector('.categories-container');
-    const categories = Array.from(document.querySelectorAll('.category-button'));
+    const scrollContainer = document.querySelector('.categories-container') as HTMLElement;
+    const categories = Array.from(document.querySelectorAll('.category-button')) as HTMLElement[];
 
-    if (scrollContainer) {
-      const containerRect = scrollContainer.getBoundingClientRect();
-      const containerWidth = containerRect.width;
-      const containerLeft = containerRect.left;
+    if (!scrollContainer || categories.length === 0) return;
 
-      // Define zones within the container
-      const leftThird = containerLeft + containerWidth * 0.33;
-      const rightThird = containerLeft + containerWidth * 0.66;
+    const containerRect = scrollContainer.getBoundingClientRect();
+    const containerWidth = scrollContainer.scrollWidth;
+    const containerLeft = containerRect.left;
+    const containerRight = containerRect.right;
+    const containerScrollLeft = scrollContainer.scrollLeft;
+    const containerVisibleWidth = scrollContainer.clientWidth;
 
-      let closestCategoryIndex = 0;
-      let minDistance = Infinity;
+    // Define zones within the container
+    const leftZone = containerScrollLeft;
+    const rightZone = containerScrollLeft + containerVisibleWidth;
+    const middleZone = containerScrollLeft + containerVisibleWidth / 2;
 
-      categories.forEach((category, index) => {
-        const categoryRect = category.getBoundingClientRect();
-        const categoryCenterX = categoryRect.left + categoryRect.width / 2;
+    let closestCategoryIndex = 0;
+    let minDistance = Infinity;
 
-        // Determine which zone the category is in
-        let zonePosition;
-        if (categoryCenterX < leftThird) {
-          zonePosition = 'left';
-        } else if (categoryCenterX > rightThird) {
-          zonePosition = 'right';
-        } else {
-          zonePosition = 'center';
-        }
+    categories.forEach((category, index) => {
+      const categoryRect = category.getBoundingClientRect();
+      const categoryCenterX = categoryRect.left + categoryRect.width / 2;
 
-        // Calculate distance from the container's center
-        const distanceFromCenter = Math.abs(categoryCenterX - (containerLeft + containerWidth / 2));
+      // Determine which zone the category is in
+      let zonePosition: 'left' | 'center' | 'right';
+      if (categoryCenterX < containerLeft + containerVisibleWidth * 0.33) {
+        zonePosition = 'left';
+      } else if (categoryCenterX > containerRight - containerVisibleWidth * 0.33) {
+        zonePosition = 'right';
+      } else {
+        zonePosition = 'center';
+      }
 
-        // Update closest category if this one is closer to the center
-        if (distanceFromCenter < minDistance) {
-          minDistance = distanceFromCenter;
-          closestCategoryIndex = index;
-        }
-      });
+      // Calculate distance from the center of the container
+      const distanceFromCenter = Math.abs(categoryCenterX - middleZone);
 
-      // Update selected page index
-      this.selectedPageIndex = Math.max(0, closestCategoryIndex - 1)
-      // console.log(this.selectedPageIndex);
+      // Update the closest category index
+      if (distanceFromCenter < minDistance) {
+        minDistance = distanceFromCenter;
+        closestCategoryIndex = index;
+      }
+    });
+
+    // Determine the page index based on the closest category position
+    if (closestCategoryIndex === 0) {
+      this.selectedPageIndex = 0; // Left (Beginning)
+    } else if (closestCategoryIndex === categories.length - 1) {
+      this.selectedPageIndex = this.pageCount - 1; // Right (End)
+    } else {
+      this.selectedPageIndex = Math.round((closestCategoryIndex / categories.length) * (this.pageCount - 1)); // Middle
     }
+
+    // Ensure the page index is within bounds
+    this.selectedPageIndex = Math.max(0, Math.min(this.selectedPageIndex, this.pageCount - 1));
   }
 
   selectPage(index: number): void {

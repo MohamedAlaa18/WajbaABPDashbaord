@@ -4,6 +4,7 @@ import { SettingsSidebarComponent } from "../settings-sidebar/settings-sidebar.c
 import { CommonModule } from '@angular/common';
 import { CompanyService } from '@proxy/controllers';
 import { UpdateCompanyDto } from '@proxy/dtos/company-contact';
+import { SnackbarService } from 'src/app/services/Snackbar/snackbar.service';
 
 export function urlValidator(control: AbstractControl): ValidationErrors | null {
   const urlRegex = /^(https?|ftp)?(:\/\/)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+.*$/;
@@ -22,7 +23,8 @@ export class CompanyComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private snackbarService: SnackbarService
   ) {
     this.companyForm = this.fb.group({
       id: [this.companyId],
@@ -76,6 +78,7 @@ export class CompanyComponent implements OnInit {
       this.companyService.update(input).subscribe({
         next: (response) => {
           console.log('Company updated successfully:', response);
+          this.snackbarService.showMessage('Your data has been updated successfully');
         },
         error: (err) => {
           console.error('Error updating company:', err);
